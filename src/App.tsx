@@ -69,7 +69,6 @@ function App() {
         <InfoPanel info={info}></InfoPanel>
       </div>
 
-      {/* <SkillTree nodesUpdated={handleSkillsUpdated}></SkillTree> */}
       <div className="card">
         <CharacterSheet dragon={dragon}></CharacterSheet>
       </div>
