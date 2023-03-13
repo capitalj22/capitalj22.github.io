@@ -9,7 +9,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "predeploy": "tsc && vite build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d vite build"
   },
   "dependencies": {
     "@types/lodash-es": "^4.17.6",
