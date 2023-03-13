@@ -1,7 +1,7 @@
 export interface SkillNode {
   id: string;
   name: string;
-  description: string;
+  description?: string;
   requires?: string;
   colors?: {
     active?: number;

@@ -152,7 +152,7 @@ export function runGraphPixi(
 
     const boundPress = onPress.bind(node);
     let { name, description } = node;
-    let relatedAbilities = [];
+    let relatedAbilities: any[] = [];
     if (node.providedAbilities) {
       const ability1 = find(ABILITIES, { id: node.providedAbilities[0].id });
       relatedAbilities.push(ability1);

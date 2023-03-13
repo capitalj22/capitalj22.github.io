@@ -21,7 +21,7 @@ const trees = reduce(
         ...n,
         colors: tree.colors,
       }))
-    ),
+    ) as any,
   []
 );
 
