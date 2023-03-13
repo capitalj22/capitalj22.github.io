@@ -47,6 +47,7 @@ export const NECRO_TREE: Tree = {
     {
       name: "Knitting Power",
       id: "knitting-power",
+      description: "Increases the HP healed by fleshknitting abilities by 1",
       points: 3,
       requires: "knit-flesh",
       providedAbilities: [

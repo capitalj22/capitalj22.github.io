@@ -1,8 +1,5 @@
-import { filter, find, map } from "lodash-es";
-import React from "react";
-import { useState } from "react";
+import { find, map } from "lodash-es";
 import { ABILITIES } from "../../entities/abilities/abilities";
-import { SkillNode } from "../../entities/skilltree/node.entity";
 import { AbilityCard } from "../characterSheet/abilityCard/abilityCard";
 import "./infoPanel.scss";
 

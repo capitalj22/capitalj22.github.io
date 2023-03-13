@@ -1,0 +1,15 @@
+.sidebar-right {
+  position: absolute;
+  height: 100%;
+  top: 0;
+  right: 0;
+  max-width: 40rem;
+  background: #5c5c5c3d;
+  display: flex;
+
+  .sidebar-right-panel {
+    min-width: 24rem;
+    background-color: #151518a8;
+    padding: 1rem;
+  }
+}

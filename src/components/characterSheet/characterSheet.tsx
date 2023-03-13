@@ -10,7 +10,9 @@ function CharacterSheet(props: { dragon: any }) {
     <div className="character-sheet">
       <h2>Character Sheet</h2>
       <div className="stats">
-        <div className="statLine">Skill Points Spent: {props.dragon.pointsInvested}</div>
+        <div className="statLine">
+          Skill Points Spent: {props.dragon.pointsInvested}
+        </div>
         <div className="statLine">Armor: {props.dragon.armor}</div>
         <div className="statLine">HP: {props.dragon.hp}</div>
         <div className="title">Abilities</div>
