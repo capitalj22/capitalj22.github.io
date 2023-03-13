@@ -1,0 +1,29 @@
+.ability-card {
+  .title {
+    font-weight: bold;
+    font-size: 18px;
+    padding-bottom: 1rem;
+  }
+
+  .tags {
+    font-size: 12px;
+
+    .tag {
+      background: #242323;
+      padding: 0 0.25rem;
+      border-radius: 5px;
+    }
+  }
+
+  font-size: 14px;
+  display: flex;
+  max-width: 20rem;
+  flex-direction: column;
+  text-align: left;
+  background: #121213;
+  color: white;
+  padding: 1rem;
+  padding-top: 0;
+  border-radius: 3px;
+  box-shadow: -1px 1px 1px 2px #1a1a1ab3;
+}

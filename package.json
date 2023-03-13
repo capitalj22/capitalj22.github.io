@@ -1,0 +1,36 @@
+{
+  "name": "dragon-rider-skills",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "homepage": "https://capitalj22.github.io/dragon-skills",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "predeploy": "tsc && vite build",
+    "deploy": "gh-pages -d build"
+  },
+  "dependencies": {
+    "@types/lodash-es": "^4.17.6",
+    "@types/pixi.js": "^5.0.0",
+    "d3": "^7.8.2",
+    "gh-pages": "^5.0.0",
+    "lodash-es": "^4.17.21",
+    "pixi-viewport": "^5.0.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.27",
+    "@types/react-dom": "^18.0.10",
+    "@vitejs/plugin-react": "^3.1.0",
+    "eslint": "^8.36.0",
+    "eslint-config-react-app": "^7.0.1",
+    "pixi.js": "^7.1.4",
+    "rxjs": "^7.8.0",
+    "sass": "^1.59.2",
+    "typescript": "^4.9.3",
+    "vite": "^4.1.0"
+  }
+}
