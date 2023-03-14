@@ -1,7 +1,6 @@
 import * as d3 from "d3";
 import * as PIXI from "pixi.js";
 import { Viewport } from "pixi-viewport";
-import styles from "./pixi.module.css";
 import { Subject } from "rxjs";
 import { find, map, each, some, filter, times, isFunction } from "lodash-es";
 import { SkillNode } from "../../entities/skilltree/node.entity";
@@ -73,6 +72,9 @@ export function runGraphPixi(
       })),
     });
 
+    infoUpdated$.next({
+      node: { ...node, committed: nodeMeta.committed[node.id] },
+    });
     redrawNodes();
     redrawLinks();
   }
@@ -175,7 +177,7 @@ export function runGraphPixi(
         node,
       });
       infoUpdated$.next({
-        node,
+        node: { ...node, committed: nodeMeta.committed[node.id] },
       });
     });
 
@@ -199,13 +201,19 @@ export function runGraphPixi(
 
   redrawNodes();
 
+  function toPixiColor(color): number {
+    if (typeof color === "string") {
+      return parseInt(color.replace(`#`, ""), 16);
+    } else return 0;
+  }
+
   function getNodeColor(node) {
     if (!isNodeAvailable(node, nodeMeta)) {
-      return node.colors.unavailable;
+      return toPixiColor(node.colors.unavailable);
     } else if (isNodeSelected(node, nodeMeta)) {
-      return node.colors.selected;
+      return toPixiColor(node.colors.selected);
     } else {
-      return node.colors.inactive;
+      return toPixiColor(node.colors.inactive);
     }
   }
 
@@ -226,8 +234,8 @@ export function runGraphPixi(
       if (target.id) {
         lineColor =
           isNodeSelected(target, nodeMeta) && isNodeSelected(source, nodeMeta)
-            ? source.colors?.selected
-            : source.colors?.inactive;
+            ? toPixiColor(source.colors?.selected)
+            : toPixiColor(source.colors?.inactive);
 
         lineWidth =
           isNodeSelected(target, nodeMeta) && isNodeSelected(source, nodeMeta)

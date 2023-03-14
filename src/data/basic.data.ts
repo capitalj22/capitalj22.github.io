@@ -3,9 +3,9 @@ import { Tree } from "./trees";
 export const BASIC_TREE: Tree = {
   prefix: "Attack",
   colors: {
-    unavailable: 0x111111,
-    inactive: 0x333333,
-    selected: 0xdddddd,
+    unavailable: "#121212",
+    inactive: "#232323",
+    selected: "#d2d2d2",
   },
   nodes: [
     {

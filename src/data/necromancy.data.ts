@@ -3,9 +3,9 @@ import { Tree } from "./trees";
 export const NECRO_TREE: Tree = {
   prefix: "Necromancy",
   colors: {
-    inactive: 0xf1baf5,
-    unavailable: 0x6f4a78,
-    selected: 0xb830d9,
+    unavailable: "0x6f4a78",
+    inactive: "#715580",
+    selected: "#900fd4",
   },
   nodes: [
     {

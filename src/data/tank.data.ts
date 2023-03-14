@@ -3,9 +3,9 @@ import { Tree } from "./trees";
 export const TANK_TREE: Tree = {
   prefix: "Attack",
   colors: {
-    unavailable: 0xb5c8e6,
-    inactive: 0x5f7ead,
-    selected: 0x0b449c,
+    unavailable: "#434469",
+    inactive: "#5556a3",
+    selected: "#174be8",
   },
   nodes: [
     {

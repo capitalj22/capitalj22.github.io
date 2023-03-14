@@ -3,14 +3,14 @@ import { Tree } from "./trees";
 export const ATTACK_TREE: Tree = {
   prefix: "Attack",
   colors: {
-    unavailable: 0x292425,
-    inactive: 0x612f39,
-    selected: 0xbd1939,
+    unavailable: "#573f3d",
+    inactive: "#852119",
+    selected: "#de1f10",
   },
   nodes: [
     {
       id: "attack-1",
-      requires: 'dragon',
+      requires: "dragon",
       cost: 1,
       name: "Attack 1",
       description:
