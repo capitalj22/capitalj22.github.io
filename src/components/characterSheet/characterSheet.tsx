@@ -1,29 +1,35 @@
 import { filter, groupBy } from "lodash-es";
+import { useEffect, useState } from "react";
 import { Accordion } from "../layout/accordion/accordion";
 import { AbilityCard } from "./abilityCard/abilityCard";
 import "./characterSheet.scss";
 import { StatLine } from "./statLine/statLine";
 
-function CharacterSheet(props: { dragon: any }) {
-  const knownAbilities = groupBy(
-    filter(props.dragon.abilities, (ability) => {
-      return !ability.replaced && ability.learned;
-    }),
-    "type"
-  );
+function CharacterSheet({ dragon }) {
+  const [knownAbilities, setKnownAbilities] = useState({});
 
-  console.log(knownAbilities);
+  useEffect(() => {
+    setKnownAbilities(
+      groupBy(
+        filter(dragon.abilities, (ability) => {
+          return !ability.replaced && ability.learned;
+        }),
+        "type"
+      )
+    );
+  }, [dragon]);
+
   return (
     <div className="character-sheet">
       <h2>Character Sheet</h2>
       <div className="stats">
         <div className="statLine">
-          Skill Points Spent: {props.dragon.pointsInvested}
+          Skill Points Spent: {dragon.pointsInvested}
         </div>
 
-        <StatLine label="Armor" value={props.dragon.armor}></StatLine>
-        <StatLine label="HP" value={props.dragon.hp}></StatLine>
-        <StatLine label="Movement" value={props.dragon.movement}></StatLine>
+        <StatLine label="Armor" value={dragon.armor}></StatLine>
+        <StatLine label="HP" value={dragon.hp}></StatLine>
+        <StatLine label="Movement" value={dragon.movement}></StatLine>
 
         <div className="title">Abilities</div>
         <div className="abilities">

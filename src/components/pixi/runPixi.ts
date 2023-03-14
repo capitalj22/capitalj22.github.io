@@ -2,7 +2,7 @@ import * as d3 from "d3";
 import * as PIXI from "pixi.js";
 import { Viewport } from "pixi-viewport";
 import { Subject } from "rxjs";
-import { find, map, each, times } from "lodash-es";
+import { find, map, each, times, isNumber } from "lodash-es";
 import { SkillNode } from "../../entities/skilltree/node.entity";
 import {
   isNodeAvailable,
@@ -46,9 +46,9 @@ export function runGraphPixi(
 
     each(nodes, (node) => {
       nodeMeta.selected[node.id] = build[node.id] === true;
-      nodeMeta.committed[node.id] = isFinite(build[node.id])
+      nodeMeta.committed[node.id] = isNumber(build[node.id])
         ? build[node.id]
-        : null;
+        : false;
     });
 
     each(nodes, (node) => {
@@ -111,6 +111,7 @@ export function runGraphPixi(
       nodeMeta,
       e.nativeEvent.shiftKey
     );
+
 
     nodesUpdated$.next({
       nodes: map(nodes, (n) => ({

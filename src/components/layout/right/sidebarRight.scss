@@ -8,7 +8,7 @@
   z-index: 2;
 
   display: flex;
-  background-color: rgb(26 26 28 / 93%);
+  background-color: rgb(26 26 28 / 97%);
   box-shadow: -2px -2px 11px 0px #00000030;
   border-left: 1px solid #1c1c1c;
 
@@ -19,7 +19,13 @@
     height: auto;
 
     &.expanded {
-      height: 100%;
+      .right-menu {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        height: auto;
+        top: unset;
+      }
     }
   }
 
@@ -34,7 +40,7 @@
 
     @media only screen and (max-width: 600px) {
       width: 100vw;
-      margin-right: -4rem;
+      // margin-right: -4rem;
       height: 100vh;
       overflow-y: auto;
     }
