@@ -1,9 +1,16 @@
 {
   "dragon": true,
-  "attack-1": true,
   "necromancy": true,
   "necrotic-armor": true,
   "knit-flesh": true,
   "greater-knitting": true,
-  "knitting-power": 3
+  "knitting-power": 3,
+  "attack-1": true,
+  "attack-1-dmg": true,
+  "push-1": true,
+  "armor-1": true,
+  "armor-2": true,
+  "armor-3": true,
+  "hp-1": true,
+  "hp-2": true
 }

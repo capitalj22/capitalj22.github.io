@@ -39,36 +39,49 @@ export function runGraphPixi(
   const nodes = map(nodesData, (node) => ({
     ...node,
   }));
-
+  const links: any[] = [];
   let nodeMeta = {
     selected: {},
     committed: {},
     available: {},
   };
 
-  console.log(build);
+  function newBuild() {
+    nodeMeta = {
+      selected: {},
+      committed: {},
+      available: {},
+    };
 
-  each(nodes, (node) => {
-    nodeMeta.selected[node.id] = build[node.id] === true;
-    nodeMeta.committed[node.id] = isFinite(build[node.id])
-      ? build[node.id]
-      : null;
-  });
+    each(nodes, (node) => {
+      nodeMeta.selected[node.id] = build[node.id] === true;
+      nodeMeta.committed[node.id] = isFinite(build[node.id])
+        ? build[node.id]
+        : null;
+    });
 
-  const links: any[] = [];
+    each(nodes, (node) => {
+      if (node.requires) {
+        const target = find(nodes, { id: node.requires });
+        nodeMeta.available[node.id] =
+          !node.requires || isNodeSelected(target, nodeMeta);
 
-  each(nodes, (node) => {
-    if (node.requires) {
-      const target = find(nodes, { id: node.requires });
-      nodeMeta.available[node.id] =
-        !node.requires || isNodeSelected(target, nodeMeta);
+        links.push({ source: node.id, target: target.id });
+      } else {
+        nodeMeta.available[node.id] = true;
+      }
+    });
 
-      links.push({ source: node.id, target: target.id });
-    } else {
-      nodeMeta.available[node.id] = true;
-    }
-  });
+    nodesUpdated$.next({
+      nodes: map(nodes, (n) => ({
+        ...n,
+        selected: isNodeSelected(n, nodeMeta),
+        committed: nodeMeta.committed[n.id],
+      })),
+    });
+  }
 
+  newBuild();
   const containerRect = container.getBoundingClientRect();
   const height = containerRect.height;
   const width = containerRect.width;

@@ -10,7 +10,8 @@ import { BASIC_TREE } from "./data/basic.data";
 import { InfoPanel } from "./components/infoPanel/infoPanel";
 import { TANK_TREE } from "./data/tank.data";
 import { SidebarRight } from "./components/layout/sidebarRight";
-import build from "./data/example-builds/build.json";
+import buildData from "./data/example-builds/build.json";
+import { CodePanel } from "./components/codePanel/codePanel";
 
 const trees = reduce(
   [BASIC_TREE, NECRO_TREE, ATTACK_TREE, TANK_TREE],
@@ -30,6 +31,7 @@ function App() {
   const [tooltip, setTooltip] = useState({ show: false });
   const [info, setInfo] = useState({ show: false });
   const [rightPage, setRightPage] = useState("sheet");
+  const [build, setBuild] = useState(buildData);
 
   const tooltipUpdated = (event) => {
     setTooltip(event);
@@ -47,6 +49,9 @@ function App() {
   const handleItemSelected = (page) => {
     setRightPage(page);
   };
+  const handleImportAttempted = (text) => {
+    setBuild(JSON.parse(text));
+  };
   const infoUpdated = (event) => {
     setInfo(event);
   };
@@ -57,6 +62,13 @@ function App() {
     rightMenuPage = <CharacterSheet dragon={dragon}></CharacterSheet>;
   } else if (rightPage === "info") {
     rightMenuPage = <InfoPanel info={info}></InfoPanel>;
+  } else if (rightPage === "code") {
+    rightMenuPage = (
+      <CodePanel
+        dragon={dragon}
+        importAttempted={handleImportAttempted}
+      ></CodePanel>
+    );
   }
 
   return (

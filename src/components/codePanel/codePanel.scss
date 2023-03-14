@@ -1,0 +1,27 @@
+.code-panel {
+  button {
+    background: #476dc8;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .title {
+    font-size: 18px;
+    font-weight: bold;
+    padding: 0.5rem 0;
+  }
+
+  .import {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+  .export {
+    margin-top: 3rem;
+
+    button {
+      width: 100%;
+    }
+  }
+}

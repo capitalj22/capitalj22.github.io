@@ -9,6 +9,7 @@ export const newDragonFromNodes = (selectedNodes: SkillNode[]) => {
     armor: 2,
     abilities: {},
     pointsInvested: 0,
+    exportableBuild: {},
   };
 
   const modifyStat = (stat: string, modifier: number) => {
@@ -64,8 +65,10 @@ export const newDragonFromNodes = (selectedNodes: SkillNode[]) => {
 
   each(selectedNodes, (node: SkillNode) => {
     if (node.points) {
+      baseDragon.exportableBuild[node.id] = node.committed || 0;
       baseDragon.pointsInvested += node.committed || 0;
     } else {
+      baseDragon.exportableBuild[node.id] = true;
       baseDragon.pointsInvested += node.cost || 1;
     }
     if (node.providedStats) {

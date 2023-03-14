@@ -30,6 +30,7 @@ export function PixiGraph({
       infoUpdated(data);
     },
   });
+  
   React.useEffect(() => {
     let destroyFn;
 
@@ -46,7 +47,7 @@ export function PixiGraph({
     }
 
     return destroyFn;
-  }, [trees]);
+  }, [trees, buildData]);
 
   return <div ref={containerRef} className={styles.container} />;
 }
