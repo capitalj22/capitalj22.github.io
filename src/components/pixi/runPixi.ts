@@ -80,6 +80,31 @@ export function runGraphPixi(
   container.innerHTML = "";
 
   function onPress(e, node: any) {
+    // simulation
+    //   .nodes(nodes)
+    //   .force(
+    //     "link",
+    //     d3
+    //       .forceLink(links)
+    //       .strength((d) => (isNodeSelected(d.target, nodeMeta) ? 0.1 : 0.9))
+    //       .id((d) => {
+    //         return d.id;
+    //       })
+    //       .distance((d) => (isNodeSelected(d.source, nodeMeta) ? 60 : 10))
+    //   )
+    //   .force("charge", d3.forceManyBody().strength(-500)) // This adds repulsion (if it's negative) between nodes.
+    //   // .force("center", d3.forceCenter(width / 4, height / 4))
+    //   .force(
+    //     "collision",
+    //     d3
+    //       .forceCollide()
+    //       // .radius((d) => (d.cost || 0) * 10)
+    //       .iterations(12)
+    //   )
+    //   .velocityDecay(0.94);
+
+    // simulation.alpha(0.1).restart();
+
     nodeMeta = selectNodeAndReturnnewMeta(
       node,
       nodes,
@@ -149,20 +174,23 @@ export function runGraphPixi(
     .force(
       "link",
       d3
-        .forceLink(links) // This force provides links between nodes
-        .id((d) => d.id) // This sets the node id accessor to the specified function. If not specified, will default to the index of a node.
-        .distance(70)
+        .forceLink(links)
+        .strength((d) => (isNodeSelected(d.target, nodeMeta) ? 0.8 : 0.7))
+        .id((d) => {
+          return (d as any).id;
+        })
+        .distance((d) => (isNodeSelected(d.source, nodeMeta) ? 10 : 20))
     )
-    .force("charge", d3.forceManyBody().strength(-200)) // This adds repulsion (if it's negative) between nodes.
+    .force("charge", d3.forceManyBody().strength(-600)) // This adds repulsion (if it's negative) between nodes.
     .force("center", d3.forceCenter(width / 4, height / 4))
     .force(
       "collision",
       d3
         .forceCollide()
-        .radius((d) => d.radius)
-        .iterations(2)
+        .radius((d) => (d as any).radius)
+        .iterations(12)
     )
-    .velocityDecay(0.4);
+    .velocityDecay(0.6);
 
   /*
    Implementation
