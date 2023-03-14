@@ -5,9 +5,10 @@ import { Subject } from "rxjs";
 
 export function PixiGraph({
   trees,
+  buildData,
   nodeSelectionUpdated,
   tooltipUpdated,
-  infoUpdated
+  infoUpdated,
 }) {
   const containerRef = React.useRef(null);
   const nodesUpdated$ = new Subject();
@@ -36,6 +37,7 @@ export function PixiGraph({
       const { destroy } = runGraphPixi(
         containerRef.current,
         trees,
+        buildData,
         nodesUpdated$,
         tooltipUpdated$,
         infoUpdated$

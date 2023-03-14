@@ -2,7 +2,16 @@ import * as d3 from "d3";
 import * as PIXI from "pixi.js";
 import { Viewport } from "pixi-viewport";
 import { Subject } from "rxjs";
-import { find, map, each, some, filter, times, isFunction } from "lodash-es";
+import {
+  find,
+  map,
+  each,
+  some,
+  filter,
+  times,
+  isFunction,
+  includes,
+} from "lodash-es";
 import { SkillNode } from "../../entities/skilltree/node.entity";
 import {
   isNodeAvailable,
@@ -21,6 +30,7 @@ export interface INode extends SkillNode {
 export function runGraphPixi(
   container,
   nodesData,
+  build = {},
   nodesUpdated$: Subject<any>,
   tooltipUpdated$: Subject<any>,
   infoUpdated$: Subject<any>
@@ -36,8 +46,13 @@ export function runGraphPixi(
     available: {},
   };
 
+  console.log(build);
+
   each(nodes, (node) => {
-    nodeMeta.available[node.id] = !node.requires;
+    nodeMeta.selected[node.id] = build[node.id] === true;
+    nodeMeta.committed[node.id] = isFinite(build[node.id])
+      ? build[node.id]
+      : null;
   });
 
   const links: any[] = [];
@@ -45,8 +60,12 @@ export function runGraphPixi(
   each(nodes, (node) => {
     if (node.requires) {
       const target = find(nodes, { id: node.requires });
+      nodeMeta.available[node.id] =
+        !node.requires || isNodeSelected(target, nodeMeta);
 
       links.push({ source: node.id, target: target.id });
+    } else {
+      nodeMeta.available[node.id] = true;
     }
   });
 

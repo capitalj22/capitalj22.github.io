@@ -10,6 +10,7 @@ import { BASIC_TREE } from "./data/basic.data";
 import { InfoPanel } from "./components/infoPanel/infoPanel";
 import { TANK_TREE } from "./data/tank.data";
 import { SidebarRight } from "./components/layout/sidebarRight";
+import build from "./data/example-builds/build.json";
 
 const trees = reduce(
   [BASIC_TREE, NECRO_TREE, ATTACK_TREE, TANK_TREE],
@@ -64,6 +65,7 @@ function App() {
       <div className="skill-panel">
         <PixiGraph
           trees={trees}
+          buildData={build}
           nodeSelectionUpdated={nodeSelectionUpdated}
           tooltipUpdated={tooltipUpdated}
           infoUpdated={infoUpdated}
