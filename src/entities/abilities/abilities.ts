@@ -15,6 +15,7 @@ export interface Ability {
     id: string;
     modifier: number | "points";
   };
+  tags?: string[]
 }
 
 export const ABILITIES: Ability[] = [
