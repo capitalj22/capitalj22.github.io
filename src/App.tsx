@@ -14,6 +14,7 @@ import { FLYING_TREE } from "./data/trees/flying.tree";
 import { ATTACK_TREE } from "./data/trees/attack.tree";
 import { ARMOR_TREE } from "./data/trees/armor.tree";
 import { BASIC_MAGIC_TREE } from "./data/trees/magic/basic-magic.tree";
+import { HOLY_TREE } from "./data/trees/magic/holy.tree";
 
 const trees = reduce(
   [
@@ -23,6 +24,7 @@ const trees = reduce(
     ATTACK_TREE,
     ARMOR_TREE,
     BASIC_MAGIC_TREE,
+    HOLY_TREE
   ],
   (nodes, tree) =>
     concat(

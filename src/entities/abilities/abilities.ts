@@ -1,3 +1,5 @@
+import { HOLY_ABILITIES } from "./holy.abilities";
+
 export interface Ability {
   id: string;
   name: string;
@@ -16,6 +18,7 @@ export interface Ability {
 }
 
 export const ABILITIES: Ability[] = [
+  ...HOLY_ABILITIES,
   {
     id: "flying",
     name: "Flying",
@@ -30,10 +33,6 @@ export const ABILITIES: Ability[] = [
         params.dmg ? `+${params.dmg}` : " "
       }and do that much damage.`,
     type: "action",
-    damage: {
-      base: "1d6",
-      modifiers: 0,
-    },
   },
   {
     id: "multi-attack",
@@ -44,10 +43,6 @@ export const ABILITIES: Ability[] = [
       }.\nSecond Attack: 1d6${params.dmg2 ? `+${params.dmg2}` : " "} `,
     type: "action",
     replaces: "basic-attack",
-    damage: {
-      base: "1d6",
-      modifiers: 0,
-    },
   },
   {
     id: "spellcasting",
@@ -57,7 +52,7 @@ export const ABILITIES: Ability[] = [
     ) => `You can now cast spells and cantrips. Casting spells and cantrips take action to cast and require 1 spell slot of the coresponding school of magic. 
     Cantrips barrage does not cost a spell slot. 
     
-    Range: ${params.range || 1}
+    Range: ${params.range ? params.range + 1 : 1}
     Contentration Bonus: ${params.concentration || 0}`,
     type: "passive",
   },
