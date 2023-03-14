@@ -2,16 +2,7 @@ import * as d3 from "d3";
 import * as PIXI from "pixi.js";
 import { Viewport } from "pixi-viewport";
 import { Subject } from "rxjs";
-import {
-  find,
-  map,
-  each,
-  some,
-  filter,
-  times,
-  isFunction,
-  includes,
-} from "lodash-es";
+import { find, map, each, times } from "lodash-es";
 import { SkillNode } from "../../entities/skilltree/node.entity";
 import {
   isNodeAvailable,
@@ -116,6 +107,9 @@ export function runGraphPixi(
     height,
     antialias: true,
     autoDensity: true,
+    resizeTo: window,
+    backgroundColor: "#141416",
+    backgroundAlpha: 1,
     // resolution: 1,
   });
 
@@ -134,13 +128,13 @@ export function runGraphPixi(
 
   app.stage.addChild(viewport);
   // const sprite = viewport.addChild(PIXI.Sprite.from("./dragonbg.jpg"));
-  const sprite = viewport.addChild(new PIXI.Sprite(PIXI.Texture.WHITE));
-  sprite.width = width * 4;
-  sprite.height = height * 4;
-  sprite.tint = 0x12121f;
-  sprite.alpha = 0.7;
-  // sprite.scale = new PIXI.Point(4, 4);
-  sprite.position.set(-1000, -1000);
+  // const sprite = viewport.addChild(new PIXI.Sprite(PIXI.Texture.WHITE));
+  // sprite.width = width * 4;
+  // sprite.height = height * 4;
+  // sprite.tint = 0x12121f;
+  // sprite.alpha = 0.7;
+  // // sprite.scale = new PIXI.Point(4, 4);
+  // sprite.position.set(-1000, -1000);
 
   // activate plugins
   viewport
@@ -192,7 +186,30 @@ export function runGraphPixi(
       relatedAbilities.push(ability1);
     }
 
+    let touching = false;
+
     node.gfx = new PIXI.Graphics();
+
+    node.gfx
+      // events for click
+      .on("touchstart", (e) => {
+        touching = true;
+        infoUpdated$.next({
+          node: { ...node, committed: nodeMeta.committed[node.id] },
+        });
+
+        setTimeout(() => {
+          if (touching) {
+            onPress(e, node);
+          }
+        }, 100);
+      });
+
+    node.gfx
+      // events for click
+      .on("touchend", (e) => {
+        touching = false;
+      });
 
     node.gfx
       // events for click

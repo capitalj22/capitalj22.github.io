@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { runGraphPixi } from "./runPixi";
 import styles from "./pixi.module.css";
 import { Subject } from "rxjs";
@@ -30,7 +30,7 @@ export function PixiGraph({
       infoUpdated(data);
     },
   });
-  
+
   React.useEffect(() => {
     let destroyFn;
 
