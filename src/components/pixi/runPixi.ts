@@ -301,8 +301,10 @@ export function runGraphPixi(
 
   function redrawNodes() {
     nodes.forEach((node: INode) => {
+      const selected = isNodeSelected(node, nodeMeta);
+      const available = isNodeAvailable(node, nodeMeta);
+      node.gfx.clear();
       let cost = node.cost || 1;
-      let size = 6 + cost * 2;
 
       node.gfx.cursor = isNodeAvailable(node, nodeMeta) ? "pointer" : "default";
 
@@ -324,11 +326,12 @@ export function runGraphPixi(
 
         node.gfx.hitArea = new PIXI.Rectangle(-10, -6, width, 16);
       } else {
+        let size = selected ? cost * 2 + 6 : cost * 2 + 2;
         node.gfx.beginFill(getNodeColor(node));
 
         node.gfx.drawCircle(0, 0, size);
 
-        node.gfx.hitArea = new PIXI.Circle(0, 0, size);
+        node.gfx.hitArea = new PIXI.Circle(0, 0, size + 10);
         node.gfx.endFill();
       }
 

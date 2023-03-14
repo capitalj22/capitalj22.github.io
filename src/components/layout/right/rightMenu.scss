@@ -1,0 +1,10 @@
+.right-menu {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 4rem;
+
+  @media only screen and (max-width: 600px) {
+    justify-content: flex-end;
+  }
+}

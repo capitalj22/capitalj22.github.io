@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { BookOpen, Camera } from "react-feather";
 import { RightMenu } from "./rightMenu";
 
 import "./sidebarRight.scss";

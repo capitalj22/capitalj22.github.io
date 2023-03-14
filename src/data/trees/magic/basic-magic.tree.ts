@@ -3,9 +3,9 @@ import { Tree } from "../trees";
 export const BASIC_MAGIC_TREE: Tree = {
   prefix: "Magic",
   colors: {
-    unavailable: "#121212",
-    inactive: "#232323",
-    selected: "#d2d2d2",
+    unavailable: "#65748f",
+    inactive: "#495d82",
+    selected: "#7391c9",
   },
   nodes: [
     {

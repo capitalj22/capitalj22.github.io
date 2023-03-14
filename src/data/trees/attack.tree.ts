@@ -3,9 +3,9 @@ import { Tree } from "./trees";
 export const ATTACK_TREE: Tree = {
   prefix: "Flying",
   colors: {
-    unavailable: "#52465e",
-    inactive: "#7d6299",
-    selected: "#ac5cff",
+    unavailable: "#87645c",
+    inactive: "#875246",
+    selected: "#d44b2c",
   },
   nodes: [
     {

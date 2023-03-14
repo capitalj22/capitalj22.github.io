@@ -1,7 +1,7 @@
 .ability-card {
   .title {
     font-weight: bold;
-    font-size: 18px;
+    font-size: 1.5em;
     padding-bottom: 1rem;
   }
 
@@ -19,15 +19,21 @@
     white-space: pre-line;
   }
 
-  font-size: 14px;
+  font-size: 0.8em;
   display: flex;
   max-width: 20rem;
   flex-direction: column;
   text-align: left;
-  background: #121213;
+  background: #141415;
   color: white;
   padding: 1rem;
   padding-top: 0;
-  border-radius: 3px;
-  box-shadow: -1px 1px 1px 2px #1a1a1ab3;
+  border-radius: 7px;
+  box-shadow: -1px 1px 4px 2px rgba(11, 11, 11, 0.7);
+  border: 0.5px solid #1a1a1a;
+
+  @media only screen and (max-width: 600px) {
+    font-size: 0.75rem;
+    padding: 1em;
+  }
 }

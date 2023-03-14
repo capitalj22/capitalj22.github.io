@@ -16,30 +16,34 @@ export function InfoPanel({ info }) {
   }, [info]);
 
   const cost = info.node?.points ? (
-    <span className="cost">
-      &#91;{info.node?.committed}/{info.node?.points}&#93;
+    <span className="cost" style={{ color: nodeColor }}>
+      {info.node?.committed}/{info.node?.points}
     </span>
   ) : (
-    <span className="cost">[{info.node?.cost}]</span>
+    <span className="cost" style={{ color: nodeColor }}>
+      {info.node?.cost}pt
+    </span>
   );
 
-  return (
-    <div className="info-panel">
-      <div className="title">
-        {" "}
-        {cost} {info.node?.name}
+  if (info.node) {
+    return (
+      <div className="info-panel">
+        {cost}
+        <div className="title">{info.node?.name}</div>
+
+        <div className="divider" style={{ backgroundColor: nodeColor }}></div>
+        <div className="description">{info.node?.description}</div>
+        {relatedAbilities.length > 0 && (
+          <div className="abilities">
+            <div className="title">Related Abilities:</div>
+            {Object.keys(relatedAbilities).map((key) => (
+              <AbilityCard ability={relatedAbilities[key]}></AbilityCard>
+            ))}
+          </div>
+        )}
       </div>
-
-      <div className="divider" style={{ backgroundColor: nodeColor }}></div>
-      <div className="description">{info.node?.description}</div>
-      {relatedAbilities.length > 0 && (
-        <div className="abilities">
-          <div className="title">Related Abilities:</div>
-          {Object.keys(relatedAbilities).map((key) => (
-            <AbilityCard ability={relatedAbilities[key]}></AbilityCard>
-          ))}
-        </div>
-      )}
-    </div>
-  );
+    );
+  } else {
+    return <div className="info-panel"></div>;
+  }
 }

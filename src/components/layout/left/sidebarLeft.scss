@@ -1,0 +1,39 @@
+.sidebar-left {
+  position: absolute;
+  top: 0;
+  left: 0;
+  max-width: 40rem;
+  background: transparent;
+  color: #fff;
+  display: flex;
+
+  @media only screen and (max-width: 600px) {
+    height: auto;
+    background: transparent;
+  }
+
+  .sidebar-left-panel {
+    padding: 2rem;
+    padding-left: 4rem;
+    padding-top: 2rem;
+    z-index: 1;
+    margin-left: -3rem;
+    position: relative;
+
+    overflow-y: auto;
+    background-color: rgb(13, 13, 13);
+    @media only screen and (min-width: 600px) {
+      min-width: 24rem;
+    }
+
+    @media only screen and (max-width: 600px) {
+      width: 100vw;
+      height: 40vh;
+
+      overflow-y: auto;
+
+      background-color: #212124da;
+      border-bottom: 1px solid white;
+    }
+  }
+}

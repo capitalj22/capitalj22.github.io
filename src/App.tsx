@@ -5,7 +5,6 @@ import { PixiGraph } from "./components/pixi/pixi";
 import { filter, reduce, concat, map } from "lodash-es";
 import { newDragonFromNodes } from "./entities/actor/dragon.entity";
 import { InfoPanel } from "./components/infoPanel/infoPanel";
-import { SidebarRight } from "./components/layout/sidebarRight";
 import buildData from "./data/example-builds/build.json";
 import { CodePanel } from "./components/codePanel/codePanel";
 import { BASIC_TREE } from "./data/trees/basic.tree";
@@ -15,6 +14,8 @@ import { ATTACK_TREE } from "./data/trees/attack.tree";
 import { ARMOR_TREE } from "./data/trees/armor.tree";
 import { BASIC_MAGIC_TREE } from "./data/trees/magic/basic-magic.tree";
 import { HOLY_TREE } from "./data/trees/magic/holy.tree";
+import { SidebarRight } from "./components/layout/right/sidebarRight";
+import { SidebarLeft } from "./components/layout/left/sidebarLeft";
 
 const trees = reduce(
   [
@@ -24,7 +25,7 @@ const trees = reduce(
     ATTACK_TREE,
     ARMOR_TREE,
     BASIC_MAGIC_TREE,
-    HOLY_TREE
+    HOLY_TREE,
   ],
   (nodes, tree) =>
     concat(
@@ -42,6 +43,7 @@ function App() {
   const [tooltip, setTooltip] = useState({ show: false });
   const [info, setInfo] = useState({ show: false });
   const [rightPage, setRightPage] = useState("sheet");
+  const [leftPage, setLeftPage] = useState("info");
   const [build, setBuild] = useState(buildData);
 
   const tooltipUpdated = (event) => {
@@ -57,17 +59,24 @@ function App() {
     setDragon((dragon) => newDragonFromNodes(selectedNodes));
   };
 
-  const handleItemSelected = (page) => {
+  const handleLeftItemSelected = (page) => {
+    setLeftPage(page);
+  };
+
+  const handleRightItemSelected = (page) => {
     setRightPage(page);
   };
+
   const handleImportAttempted = (text) => {
     setBuild(JSON.parse(text));
   };
+
   const infoUpdated = (event) => {
     setInfo(event);
   };
 
   let rightMenuPage;
+  let leftMenuPage;
 
   if (rightPage === "sheet") {
     rightMenuPage = <CharacterSheet dragon={dragon}></CharacterSheet>;
@@ -80,6 +89,10 @@ function App() {
         importAttempted={handleImportAttempted}
       ></CodePanel>
     );
+  }
+
+  if (leftPage === "info") {
+    leftMenuPage = <InfoPanel info={info}></InfoPanel>;
   }
 
   return (
@@ -95,8 +108,10 @@ function App() {
         ></PixiGraph>
         <div className="infoPanel"></div>
       </div>
-
-      <SidebarRight itemSelected={handleItemSelected}>
+      <SidebarLeft itemSelected={handleLeftItemSelected}>
+        {leftMenuPage}
+      </SidebarLeft>
+      <SidebarRight itemSelected={handleRightItemSelected}>
         {rightMenuPage}
       </SidebarRight>
     </div>

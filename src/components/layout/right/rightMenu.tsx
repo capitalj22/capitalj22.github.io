@@ -9,9 +9,9 @@ export function RightMenu({ itemSelected }) {
 
   return (
     <div className="right-menu">
-      <button type="button" onClick={handleInfoSelected}>
+      {/* <button type="button" onClick={handleInfoSelected}>
         <Info />
-      </button>
+      </button> */}
       <button type="button" onClick={handleSheetSelected}>
         <BookOpen />
       </button>

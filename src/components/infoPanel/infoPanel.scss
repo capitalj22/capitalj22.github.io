@@ -1,14 +1,23 @@
 .info-panel {
+  text-align: left;
   .cost {
-    padding-right: 1rem;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding-right: 0.5rem;
+    font-size: 1.5em;
   }
 
   .title {
-    font-size: 24px;
-    padding: 1rem 0;
+    font-size: 1.5em;
+    padding: 0.5em 0;
     font-weight: bold;
   }
 
+  .description {
+    padding: 1rem 0;
+    font-style: italic;
+  }
   .divider {
     height: 2px;
     width: 80%;
@@ -20,7 +29,11 @@
       font-size: 18px;
     }
     display: flex;
-    gap: 1rem;
+    gap: 1em;
     flex-direction: column;
+  }
+
+  @media only screen and (max-width: 600px) {
+    font-size: 0.75rem;
   }
 }
