@@ -4,11 +4,17 @@ import { RightMenu } from "./rightMenu";
 
 import "./sidebarRight.scss";
 
-export function SidebarRight({ children }) {
+export function SidebarRight({ children, itemSelected }) {
   const [expanded, setExpanded] = useState(false);
+  const [selectedPage, setSelectedPage] = useState(null);
 
-  const handleItemSelected = (event) => {
-    setExpanded(!expanded);
+  const handleItemSelected = (event, page) => {
+    if (page === selectedPage || !expanded) {
+      setExpanded(!expanded);
+    }
+    setSelectedPage(page);
+
+    itemSelected(page);
   };
 
   if (!expanded) {

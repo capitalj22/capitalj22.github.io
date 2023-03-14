@@ -1,13 +1,17 @@
-import { BookOpen } from "react-feather";
+import { BookOpen, Info } from "react-feather";
 
-import "./sidebarRight.scss";
+import "./rightMenu.scss";
 
 export function RightMenu({ itemSelected }) {
-  const handleItemSelected = (event) => itemSelected(event);
+  const handleSheetSelected = (event) => itemSelected(event, "sheet");
+  const handleInfoSelected = (event) => itemSelected(event, "info");
 
   return (
     <div className="right-menu">
-      <button type="button" onClick={handleItemSelected}>
+      <button type="button" onClick={handleInfoSelected}>
+        <Info />
+      </button>
+      <button type="button" onClick={handleSheetSelected}>
         <BookOpen />
       </button>
     </div>

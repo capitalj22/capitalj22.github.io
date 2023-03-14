@@ -7,8 +7,22 @@
   background: #5c5c5c3d;
   display: flex;
 
+  @media only screen and (max-width: 600px) {
+    height: auto;
+    background: transparent;
+  }
+
   .sidebar-right-panel {
-    min-width: 24rem;
+    @media only screen and (min-width: 600px) {
+      min-width: 24rem;
+    }
+
+    @media only screen and (max-width: 600px) {
+      width: calc(100vw - 6rem);
+      height: 30vh;
+      overflow-y: auto;
+    }
+
     background-color: #151518a8;
     padding: 1rem;
   }

@@ -28,6 +28,7 @@ function App() {
   const [dragon, setDragon] = useState({ armor: 0, hp: 0 });
   const [tooltip, setTooltip] = useState({ show: false });
   const [info, setInfo] = useState({ show: false });
+  const [rightPage, setRightPage] = useState("sheet");
 
   const tooltipUpdated = (event) => {
     setTooltip(event);
@@ -42,9 +43,21 @@ function App() {
     setDragon((dragon) => newDragonFromNodes(selectedNodes));
   };
 
+  const handleItemSelected = (page) => {
+    setRightPage(page);
+  };
   const infoUpdated = (event) => {
     setInfo(event);
   };
+
+  let rightMenuPage;
+
+  if (rightPage === "sheet") {
+    rightMenuPage = <CharacterSheet dragon={dragon}></CharacterSheet>;
+  } else if (rightPage === "info") {
+    rightMenuPage = <InfoPanel info={info}></InfoPanel>;
+  }
+
   return (
     <div className="App">
       {/* <NodeTooltip tooltip={tooltip}></NodeTooltip> */}
@@ -55,11 +68,11 @@ function App() {
           tooltipUpdated={tooltipUpdated}
           infoUpdated={infoUpdated}
         ></PixiGraph>
-        <InfoPanel info={info}></InfoPanel>
+        <div className="infoPanel"></div>
       </div>
 
-      <SidebarRight>
-        <CharacterSheet dragon={dragon}></CharacterSheet>
+      <SidebarRight itemSelected={handleItemSelected}>
+        {rightMenuPage}
       </SidebarRight>
     </div>
   );
