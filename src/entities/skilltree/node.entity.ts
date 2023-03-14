@@ -19,6 +19,7 @@ export interface SkillNode {
   }>;
   providedStats?: Array<{
     id: string;
-    modifier: number;
+    modifier?: number;
+    set?: number;
   }>;
 }

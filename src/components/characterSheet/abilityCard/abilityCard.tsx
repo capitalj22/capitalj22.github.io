@@ -1,5 +1,6 @@
 import { filter, isFunction } from "lodash-es";
 import { Ability } from "../../../entities/abilities/abilities";
+import { StatTag } from "../statTag/statTag";
 import "./abilityCard.scss";
 
 export function AbilityCard(props: { ability: Ability }) {
@@ -8,11 +9,19 @@ export function AbilityCard(props: { ability: Ability }) {
     : props.ability.description;
   return (
     <div className="ability-card">
-      <div className="title">{props.ability.name}</div>
-      <div className="tags">
-        <span className="tag">{props.ability.type}</span>
+      <div className="top">
+        <div className="title">{props.ability.name}</div>
+
+        <p className="description">{description}</p>
       </div>
-      <p className="description">{description}</p>
+      <div className="bottom">
+        <div className="tags">
+          <StatTag label={props.ability.type}></StatTag>
+          {props.ability.tags?.map((tag) => (
+            <StatTag label={tag}></StatTag>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

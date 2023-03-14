@@ -12,8 +12,12 @@ export const newDragonFromNodes = (selectedNodes: SkillNode[]) => {
     exportableBuild: {},
   };
 
-  const modifyStat = (stat: string, modifier: number) => {
-    baseDragon[stat] += modifier;
+  const modifyStat = (stat: string, modifier?: number, set?: number) => {
+    if (!isUndefined(set)) {
+      baseDragon[stat] = set;
+    } else {
+      baseDragon[stat] += modifier;
+    }
   };
 
   const registerAbility = (id: string, gain?) => {
@@ -73,7 +77,7 @@ export const newDragonFromNodes = (selectedNodes: SkillNode[]) => {
     }
     if (node.providedStats) {
       each(node.providedStats, (stat) => {
-        modifyStat(stat.id, stat.modifier);
+        modifyStat(stat.id, stat.modifier, stat.set);
       });
     }
 

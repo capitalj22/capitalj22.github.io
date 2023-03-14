@@ -9,16 +9,20 @@ export const HOLY_ABILITIES: Ability[] = [
         params.dmg ? params.dmg + 3 : 3
       } damage`,
     type: "bonus action",
+    tags: ["holy"],
   },
   {
     id: "guiding-bolt",
     name: "Guiding Bolt",
     description: (params) =>
-      `As an action you hit an enemy with a blast of light, dealing 1 nonabsorbable damage. Next round, allies have +${
+      `As an action you hit an enemy with a blast of light, dealing ${
+        params.dmg ? params.dmg + 1 : 1
+      } nonabsorbable damage. Next round, allies have +${
         params.hit ? params.hit + 1 : 1
       } on all attacks/cantrip strikes against this target. Target must be within spell range.`,
 
     type: "action",
+    tags: ["holy"],
   },
   {
     id: "death-ward",
@@ -26,7 +30,7 @@ export const HOLY_ABILITIES: Ability[] = [
     description: (params) =>
       `As an action, place a ward against death on a unit. If that unit is reduced to 0 HP it instead goes to 2 HP. When this happens the spell is used up and you lose concentration on it. Target must be within spell range.`,
     type: "action",
-    tags: ["concentration"],
+    tags: ["concentration", "holy"],
   },
   {
     id: "restoration",
@@ -34,6 +38,7 @@ export const HOLY_ABILITIES: Ability[] = [
     description: (params) =>
       `As an action, you heal a unit 3 HP within spell range.`,
     type: "action",
+    tags: ["holy"],
   },
   {
     id: "turn-undead",
@@ -41,6 +46,7 @@ export const HOLY_ABILITIES: Ability[] = [
     description: (params) =>
       `As an action, you deal 1 damage to adjacent undead units and force them on their turn to move at least 1 hex away from you and get no closer for 1 round.`,
     type: "action",
+    tags: ["holy"],
   },
   {
     id: "bless",
@@ -48,6 +54,7 @@ export const HOLY_ABILITIES: Ability[] = [
     description: (params) =>
       `As an action, buff up an ally within range, granting them +1 on their first attack/cantrip strike of their turn. Does not require concentraion. Target must be in spell range when cast.`,
     type: "action",
+    tags: ["holy"],
   },
   {
     id: "spirit-guardians",
@@ -55,6 +62,6 @@ export const HOLY_ABILITIES: Ability[] = [
     description: (params) =>
       `As an action, call upon spirtual guardians to protect you. You gain 1 AC and adjacent enemies take 1 unabsorbable damage at the start of your turn.`,
     type: "action",
-    tags: ["concentration"],
+    tags: ["concentration", "holy"],
   },
 ];

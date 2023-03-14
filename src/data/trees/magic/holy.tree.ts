@@ -30,7 +30,10 @@ export const HOLY_TREE: Tree = {
       cost: 1,
       name: "Holy Power",
       description: "Increases the damage of Smite and Guiding Bolt by 1",
-      providedAbilities: [{ id: "smite", modifiers: { dmg: 1 } }],
+      providedAbilities: [
+        { id: "smite", modifiers: { dmg: 1 } },
+        { id: "guiding-bolt", modifiers: { dmg: 1 } },
+      ],
     },
     {
       id: "advanced-guiding-bolt",

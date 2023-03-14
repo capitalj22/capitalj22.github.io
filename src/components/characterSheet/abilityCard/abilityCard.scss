@@ -1,4 +1,7 @@
 .ability-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   .title {
     font-weight: bold;
     font-size: 1.5em;
@@ -6,20 +9,15 @@
   }
 
   .tags {
-    font-size: 12px;
-
-    .tag {
-      background: #242323;
-      padding: 0 0.25rem;
-      border-radius: 5px;
-    }
+    display: flex;
+    gap: 0.5rem;
   }
 
   .description {
     white-space: pre-line;
   }
 
-  font-size: 0.8em;
+  font-size: 1rem;
   display: flex;
   max-width: 20rem;
   flex-direction: column;

@@ -1,10 +1,12 @@
+import { ARMOR_TREE } from "../../data/trees/armor.tree";
+import { DEFENSE_ABILITIES } from "./defense.abilities";
 import { HOLY_ABILITIES } from "./holy.abilities";
 
 export interface Ability {
   id: string;
   name: string;
   description?: string | ((params: any) => string);
-  type: "action" | "bonus action" | "passive";
+  type: "action" | "bonus action" | "passive" | "reaction";
   damage?: {
     base: "1d6" | "1d8";
     modifiers: number;
@@ -15,16 +17,23 @@ export interface Ability {
     id: string;
     modifier: number | "points";
   };
-  tags?: string[]
+  tags?: string[];
 }
 
 export const ABILITIES: Ability[] = [
   ...HOLY_ABILITIES,
+  ...DEFENSE_ABILITIES,
   {
     id: "flying",
     name: "Flying",
     description: "You can fly. Great job!",
     type: "passive",
+  },
+  {
+    id: "defend",
+    name: "Defend",
+    description: "Idk, ask Ed",
+    type: "action",
   },
   {
     id: "basic-attack",
@@ -88,5 +97,13 @@ export const ABILITIES: Ability[] = [
       } HP to all undead units within 2 hexes (100m area)`,
     type: "action",
     replaces: "greater-knitting",
+  },
+  {
+    id: "reactive-armor",
+    name: "Reactive Armor",
+    description: (params) => {
+      return `When an enemy attacks you, gain 1 AC. Lose 1 AC at the start of each turn.`;
+    },
+    type: "passive",
   },
 ];
