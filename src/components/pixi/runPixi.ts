@@ -179,7 +179,7 @@ export function runGraphPixi(
         .id((d) => {
           return (d as any).id;
         })
-        .distance((d) => (isNodeSelected(d.source, nodeMeta) ? 10 : 20))
+        .distance((d) => (isNodeSelected(d.source, nodeMeta) ? 20 : 30))
     )
     .force("charge", d3.forceManyBody().strength(-600)) // This adds repulsion (if it's negative) between nodes.
     .force("center", d3.forceCenter(width / 4, height / 4))

@@ -1,11 +1,18 @@
-import { filter } from "lodash-es";
+import { filter, groupBy } from "lodash-es";
+import { Accordion } from "../layout/accordion/accordion";
 import { AbilityCard } from "./abilityCard/abilityCard";
 import "./characterSheet.scss";
+import { StatLine } from "./statLine/statLine";
 
 function CharacterSheet(props: { dragon: any }) {
-  const knownAbilities = filter(props.dragon.abilities, (ability) => {
-    return !ability.replaced && ability.learned;
-  });
+  const knownAbilities = groupBy(
+    filter(props.dragon.abilities, (ability) => {
+      return !ability.replaced && ability.learned;
+    }),
+    "type"
+  );
+
+  console.log(knownAbilities);
   return (
     <div className="character-sheet">
       <h2>Character Sheet</h2>
@@ -14,24 +21,21 @@ function CharacterSheet(props: { dragon: any }) {
           Skill Points Spent: {props.dragon.pointsInvested}
         </div>
 
-        <div className="statLine">
-          <span className="label">Armor:</span>{" "}
-          <span>{props.dragon.armor}</span>
-        </div>
-        <div className="statLine">
-          <span className="label">HP:</span>{" "}
-          <span>{props.dragon.hp}</span>
-        </div>
-        <div className="statLine">
-          <span className="label">Movement per Turn:</span>{" "}
-          <span>{props.dragon.movement}</span>
-        </div>
+        <StatLine label="Armor" value={props.dragon.armor}></StatLine>
+        <StatLine label="HP" value={props.dragon.hp}></StatLine>
+        <StatLine label="Movement" value={props.dragon.movement}></StatLine>
 
         <div className="title">Abilities</div>
         <div className="abilities">
           {knownAbilities &&
             Object.keys(knownAbilities).map((key) => (
-              <AbilityCard ability={knownAbilities[key]}></AbilityCard>
+              <Accordion startOpen={true} name={key}>
+                <div className="ability-cards">
+                  {knownAbilities[key].map((ability) => (
+                    <AbilityCard ability={ability}></AbilityCard>
+                  ))}
+                </div>
+              </Accordion>
             ))}
         </div>
       </div>

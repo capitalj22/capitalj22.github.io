@@ -1,0 +1,14 @@
+.accordion {
+  .accordion-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    font-weight: 300;
+    font-size: 1.25rem;
+  }
+
+  &.open > .accordion-button {
+    background-color: #535bf2;
+  }
+}
