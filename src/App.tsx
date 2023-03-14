@@ -87,6 +87,8 @@ function App() {
         importAttempted={handleImportAttempted}
       ></CodePanel>
     );
+  } else if (rightPage === "help") {
+    rightMenuPage = <div>This page will have reference material</div>;
   }
 
   if (leftPage === "info") {
