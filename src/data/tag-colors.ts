@@ -4,4 +4,5 @@ export const TAG_COLORS = {
   "bonus action": "#e1b1da",
   passive: "#e4dad0",
   concentration: "#6d89ab",
+  defense: "#cd8150",
 };

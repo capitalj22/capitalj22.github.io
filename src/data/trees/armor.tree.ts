@@ -114,5 +114,21 @@ export const ARMOR_TREE: Tree = {
       description: "Makes it easier to deflect magic attacks.",
       providedAbilities: [{ id: "deflect", modifiers: { lowerRange: -1 } }],
     },
+    {
+      id: "guardian-1",
+      requires: "defend-1",
+      cost: 1,
+      name: "Guardian",
+      description: "Grants the Guardian ability",
+      providedAbilities: [{ id: "guardian", gain: true }],
+    },
+    {
+      id: "guardian-2",
+      requires: "guardian-1",
+      cost: 1,
+      name: "Guardian+",
+      description: "Allows you guard an additional attack",
+      providedAbilities: [{ id: "guardian", modifiers: { attacks: 1 } }],
+    },
   ],
 };
