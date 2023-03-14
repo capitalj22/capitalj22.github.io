@@ -1,20 +1,29 @@
 import { useState } from "react";
 import "./App.scss";
 import CharacterSheet from "./components/characterSheet/characterSheet";
-import { NECRO_TREE } from "./data/necromancy.data";
 import { PixiGraph } from "./components/pixi/pixi";
 import { filter, reduce, concat, map } from "lodash-es";
-import { ATTACK_TREE } from "./data/attack.data";
 import { newDragonFromNodes } from "./entities/actor/dragon.entity";
-import { BASIC_TREE } from "./data/basic.data";
 import { InfoPanel } from "./components/infoPanel/infoPanel";
-import { TANK_TREE } from "./data/tank.data";
 import { SidebarRight } from "./components/layout/sidebarRight";
 import buildData from "./data/example-builds/build.json";
 import { CodePanel } from "./components/codePanel/codePanel";
+import { BASIC_TREE } from "./data/trees/basic.tree";
+import { MOVEMENT_TREE } from "./data/trees/movement.tree";
+import { FLYING_TREE } from "./data/trees/flying.tree";
+import { ATTACK_TREE } from "./data/trees/attack.tree";
+import { ARMOR_TREE } from "./data/trees/armor.tree";
+import { BASIC_MAGIC_TREE } from "./data/trees/magic/basic-magic.tree";
 
 const trees = reduce(
-  [BASIC_TREE, NECRO_TREE, ATTACK_TREE, TANK_TREE],
+  [
+    BASIC_TREE,
+    MOVEMENT_TREE,
+    FLYING_TREE,
+    ATTACK_TREE,
+    ARMOR_TREE,
+    BASIC_MAGIC_TREE,
+  ],
   (nodes, tree) =>
     concat(
       nodes,

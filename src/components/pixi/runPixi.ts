@@ -154,7 +154,7 @@ export function runGraphPixi(
         .distance(70)
     )
     .force("charge", d3.forceManyBody().strength(-200)) // This adds repulsion (if it's negative) between nodes.
-    .force("center", d3.forceCenter(width, height))
+    .force("center", d3.forceCenter(width / 4, height / 4))
     .force(
       "collision",
       d3

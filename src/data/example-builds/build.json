@@ -1,16 +1,1 @@
-{
-  "dragon": true,
-  "necromancy": true,
-  "necrotic-armor": true,
-  "knit-flesh": true,
-  "greater-knitting": true,
-  "knitting-power": 3,
-  "attack-1": true,
-  "attack-1-dmg": true,
-  "push-1": true,
-  "armor-1": true,
-  "armor-2": true,
-  "armor-3": true,
-  "hp-1": true,
-  "hp-2": true
-}
+{"basic":true,"movement-1":true,"movement-2":true,"movement-3":true,"movement-4":true,"flying":true,"attack-1":true,"attack-1-dmg":true,"attack-2":true,"attack-2-dmg":true}

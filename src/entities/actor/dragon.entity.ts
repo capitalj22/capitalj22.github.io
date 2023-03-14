@@ -4,9 +4,9 @@ import { ABILITIES, Ability } from "../abilities/abilities";
 
 export const newDragonFromNodes = (selectedNodes: SkillNode[]) => {
   const baseDragon = {
-    movement: 5,
-    hp: 10,
-    armor: 2,
+    movement: 0,
+    hp: 0,
+    armor: 0,
     abilities: {},
     pointsInvested: 0,
     exportableBuild: {},

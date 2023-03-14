@@ -1,4 +1,4 @@
-import { Tree } from "./trees/trees";
+import { Tree } from "./trees";
 
 export const BASIC_TREE: Tree = {
   prefix: "Attack",
@@ -16,7 +16,17 @@ export const BASIC_TREE: Tree = {
       providedStats: [
         { id: "hp", modifier: 5 },
         { id: "armor", modifier: 2 },
-        { id: "movement", modifier: 2 },
+      ],
+    },
+    {
+      id: "basic-magic",
+      requires: "basic",
+      cost: 1,
+      name: "Spellcasting",
+      description: "Grants your unit the ability to cast spells",
+      providedAbilities: [
+        { id: "cantrip-barrage", gain: true },
+        { id: "spellcasting", gain: true },
       ],
     },
   ],

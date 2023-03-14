@@ -25,8 +25,10 @@ export const ABILITIES: Ability[] = [
   {
     id: "basic-attack",
     name: "Basic Attack",
-    description:
-      "You make 1 melee attack against an adjacent enemy. Roll 1d6 and do that much damage. Attacks are declared in terms of the hex attacking from. (so you can split multiple attacks)",
+    description: (params) =>
+      `You make 1 melee attack against an adjacent enemy. Roll 1d6${
+        params.dmg ? `+${params.dmg}` : " "
+      }and do that much damage.`,
     type: "action",
     damage: {
       base: "1d6",
@@ -34,16 +36,37 @@ export const ABILITIES: Ability[] = [
     },
   },
   {
-    id: "brutal-attack",
-    name: "Brutal Attack",
-    description:
-      "You make 1 melee attack against an adjacent enemy. Roll 1d6 and do that much damage. Attacks are declared in terms of the hex attacking from. (so you can split multiple attacks)",
+    id: "multi-attack",
+    name: "Multi Attack",
+    description: (params) =>
+      `You make 1 melee attack against an adjacent enemy.\n\nFirst Attack: 1d6${
+        params.dmg1 ? `+${params.dmg1}` : " "
+      }.\nSecond Attack: 1d6${params.dmg2 ? `+${params.dmg2}` : " "} `,
     type: "action",
+    replaces: "basic-attack",
     damage: {
       base: "1d6",
       modifiers: 0,
     },
-    replaces: "basic-attack",
+  },
+  {
+    id: "spellcasting",
+    name: "Spellcasting",
+    description: (
+      params
+    ) => `You can now cast spells and cantrips. Casting spells and cantrips take action to cast and require 1 spell slot of the coresponding school of magic. 
+    Cantrips barrage does not cost a spell slot. 
+    
+    Range: ${params.range || 1}
+    Contentration Bonus: ${params.concentration || 0}`,
+    type: "passive",
+  },
+  {
+    id: "cantrip-barrage",
+    name: "Cantrip Barrage",
+    description:
+      "As an action deal 1d6 damage to an enemy within spell range (spell range is adjacent unless you have Magic Range(s)).",
+    type: "action",
   },
   {
     id: "knit-flesh",
