@@ -80,8 +80,6 @@ function App() {
 
   if (rightPage === "sheet") {
     rightMenuPage = <CharacterSheet dragon={dragon}></CharacterSheet>;
-  } else if (rightPage === "info") {
-    rightMenuPage = <InfoPanel info={info}></InfoPanel>;
   } else if (rightPage === "code") {
     rightMenuPage = (
       <CodePanel

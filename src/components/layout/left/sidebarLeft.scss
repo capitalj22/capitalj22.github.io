@@ -6,6 +6,12 @@
   background: transparent;
   color: #fff;
   display: flex;
+  backdrop-filter: blur(2px);
+
+  background-color: rgba(26, 26, 28, 0.93);
+  box-shadow: -2px -2px 11px 0px rgb(0 0 0 / 19%);
+  border-radius: 0 0 6px 0;
+  border: 1px solid #1c1c1c;
 
   @media only screen and (max-width: 600px) {
     height: auto;
@@ -21,19 +27,18 @@
     position: relative;
 
     overflow-y: auto;
-    background-color: rgb(13, 13, 13);
+    background-color: rgb(8 8 8 / 88%);
     @media only screen and (min-width: 600px) {
       min-width: 24rem;
     }
 
     @media only screen and (max-width: 600px) {
       width: 100vw;
-      height: 40vh;
+      max-height: 40vh;
 
       overflow-y: auto;
 
-      background-color: #212124da;
-      border-bottom: 1px solid white;
+      border-bottom: 2px solid #363636;
     }
   }
 }

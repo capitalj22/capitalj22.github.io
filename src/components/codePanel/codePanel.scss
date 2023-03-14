@@ -5,6 +5,20 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color: transparent;
+    color: rgb(198, 163, 255);
+    border: 2px solid rgb(198, 163, 255);
+    border-radius: 7px;
+
+    &.attached {
+      border-radius: 0 0 7px 7px;
+    }
+
+    transition: background-position 1s ease-out;
+    &:hover {
+      background-position: 100px;
+      background-blend-mode: multiply;
+    }
   }
   .title {
     font-size: 18px;
@@ -18,10 +32,14 @@
     flex-direction: column;
   }
   .export {
-    margin-top: 3rem;
+    margin-top: 2rem;
 
     button {
       width: 100%;
     }
+  }
+
+  textarea {
+    background-color: rgb(20 20 20);
   }
 }

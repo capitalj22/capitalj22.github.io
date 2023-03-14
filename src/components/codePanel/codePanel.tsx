@@ -27,11 +27,12 @@ export function CodePanel({ dragon, importAttempted }) {
     <div className="code-panel">
       <div className="import">
         <textarea
+          spellCheck={false}
           rows={8}
           onChange={handleValueChanged}
           placeholder="Paste exported build here"
         ></textarea>
-        <button onClick={handleImportClicked}>
+        <button className="attached" onClick={handleImportClicked}>
           Import Build <Download />
         </button>
       </div>

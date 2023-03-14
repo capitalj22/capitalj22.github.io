@@ -24,7 +24,7 @@ export function SidebarRight({ children, itemSelected }) {
     );
   } else
     return (
-      <div className="sidebar-right">
+      <div className="sidebar-right expanded">
         <div className="sidebar-right-panel">{children}</div>
         <RightMenu itemSelected={handleItemSelected}></RightMenu>
       </div>
