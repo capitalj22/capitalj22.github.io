@@ -14,7 +14,7 @@
   border-radius: 0 0 6px 0;
   border: 1px solid #1c1c1c;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 800px) {
     height: auto;
     background: transparent;
   }
@@ -30,11 +30,17 @@
 
     overflow-y: auto;
     background-color: rgb(8 8 8 / 88%);
-    @media only screen and (min-width: 600px) {
+
+    
+    @media only screen and (min-width: 800px) {
       min-width: 24rem;
     }
 
-    @media only screen and (max-width: 600px) {
+    @media only screen and (min-width: 1200px) {
+      width: 30rem;
+    }
+
+    @media only screen and (max-width: 800px) {
       width: 100vw;
       max-height: 40vh;
 

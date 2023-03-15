@@ -43,6 +43,7 @@ function App() {
   const [tooltip, setTooltip] = useState({ show: false });
   const [info, setInfo] = useState({ show: false });
   const [rightPage, setRightPage] = useState("sheet");
+  const [rightMenuTitle, setRightMenuTitle] = useState("");
   const [leftPage, setLeftPage] = useState("info");
   const [build, setBuild] = useState(buildData);
 
@@ -65,6 +66,16 @@ function App() {
 
   const handleRightItemSelected = (page) => {
     setRightPage(page);
+    switch (page) {
+      case "sheet":
+        setRightMenuTitle("Character Sheet");
+        break;
+      case "code":
+        setRightMenuTitle("Import/Export");
+        break;
+      case "help":
+        setRightMenuTitle("Reference");
+    }
   };
 
   const handleImportAttempted = (text) => {
@@ -88,7 +99,13 @@ function App() {
       ></CodePanel>
     );
   } else if (rightPage === "help") {
-    rightMenuPage = <div>This page will have reference material</div>;
+    rightMenuPage = (
+      <div>
+        <h2>Mobile Controls</h2>
+        <div>Short Tap: View Info</div>
+        <div>Long Tap: Select Skill</div>
+      </div>
+    );
   }
 
   if (leftPage === "info") {
@@ -111,7 +128,10 @@ function App() {
       <SidebarLeft itemSelected={handleLeftItemSelected}>
         {leftMenuPage}
       </SidebarLeft>
-      <SidebarRight itemSelected={handleRightItemSelected}>
+      <SidebarRight
+        itemSelected={handleRightItemSelected}
+        title={rightMenuTitle}
+      >
         {rightMenuPage}
       </SidebarRight>
     </div>

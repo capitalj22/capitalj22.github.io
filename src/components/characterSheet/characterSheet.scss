@@ -1,5 +1,5 @@
 .character-sheet {
-  width: 40rem;
+  // width: 40rem;
 
   @media only screen and (max-width: 800px) {
     width: auto;
@@ -19,10 +19,12 @@
   }
 
   .ability-cards {
+    width: 100%;
     padding: 2rem 0;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-auto-columns: minmax(auto, 1fr) 3fr;
     gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
 
     @media only screen and (max-width: 800px) {
       grid-template-columns: repeat(1, 1fr);

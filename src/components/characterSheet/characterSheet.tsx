@@ -21,7 +21,6 @@ function CharacterSheet({ dragon }) {
 
   return (
     <div className="character-sheet">
-      <h2>Character Sheet</h2>
       <div className="stats">
         <div className="statLine">
           Skill Points Spent: {dragon.pointsInvested}
