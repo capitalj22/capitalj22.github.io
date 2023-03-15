@@ -80,30 +80,7 @@ export function runGraphPixi(
   container.innerHTML = "";
 
   function onPress(e, node: any) {
-    // simulation
-    //   .nodes(nodes)
-    //   .force(
-    //     "link",
-    //     d3
-    //       .forceLink(links)
-    //       .strength((d) => (isNodeSelected(d.target, nodeMeta) ? 0.1 : 0.9))
-    //       .id((d) => {
-    //         return d.id;
-    //       })
-    //       .distance((d) => (isNodeSelected(d.source, nodeMeta) ? 60 : 10))
-    //   )
-    //   .force("charge", d3.forceManyBody().strength(-500)) // This adds repulsion (if it's negative) between nodes.
-    //   // .force("center", d3.forceCenter(width / 4, height / 4))
-    //   .force(
-    //     "collision",
-    //     d3
-    //       .forceCollide()
-    //       // .radius((d) => (d.cost || 0) * 10)
-    //       .iterations(12)
-    //   )
-    //   .velocityDecay(0.94);
-
-    // simulation.alpha(0.1).restart();
+    const selection = isNodeSelected(node, nodeMeta);
 
     nodeMeta = selectNodeAndReturnnewMeta(
       node,
@@ -111,7 +88,6 @@ export function runGraphPixi(
       nodeMeta,
       e.nativeEvent.shiftKey
     );
-
 
     nodesUpdated$.next({
       nodes: map(nodes, (n) => ({
@@ -124,7 +100,10 @@ export function runGraphPixi(
     infoUpdated$.next({
       node: { ...node, committed: nodeMeta.committed[node.id] },
     });
-    redrawNodes();
+
+    const selectionChanged = isNodeSelected(node, nodeMeta) !== selection;
+
+    redrawNodes(selectionChanged ? node.id : null);
     redrawLinks();
   }
 
@@ -192,10 +171,6 @@ export function runGraphPixi(
         .iterations(12)
     )
     .velocityDecay(0.6);
-
-  /*
-   Implementation
-   */
 
   let visualLinks = new PIXI.Graphics();
   viewport.addChild(visualLinks);
@@ -328,7 +303,7 @@ export function runGraphPixi(
     visualLinks.endFill();
   }
 
-  function redrawNodes() {
+  function redrawNodes(targetNodeId?: string) {
     nodes.forEach((node: INode) => {
       const selected = isNodeSelected(node, nodeMeta);
       const available = isNodeAvailable(node, nodeMeta);
@@ -337,31 +312,60 @@ export function runGraphPixi(
 
       node.gfx.cursor = isNodeAvailable(node, nodeMeta) ? "pointer" : "default";
 
-      if (node.points) {
-        let committed = nodeMeta.committed[node.id] || 0;
-        const width = node.points * 14;
+      if (!targetNodeId || node.id !== targetNodeId || node.points) {
+        if (node.points) {
+          let committed = nodeMeta.committed[node.id] || 0;
+          const width = node.points * 14;
 
-        node.gfx.clear();
-        node.gfx.beginFill(getNodeColor(node));
-        node.gfx.drawShape(new PIXI.RoundedRectangle(-12, -6, width, 16, 4));
-        node.gfx.endFill();
+          node.gfx.clear();
+          node.gfx.beginFill(getNodeColor(node));
+          node.gfx.drawShape(new PIXI.RoundedRectangle(-12, -6, width, 16, 4));
+          node.gfx.endFill();
 
-        node.gfx.beginFill(0xffffff);
+          node.gfx.beginFill(0xffffff);
 
-        times(committed, (i) => {
-          node.gfx.drawCircle(-4 + i * 12, 2, 4);
-        });
-        node.gfx.endFill();
+          times(committed, (i) => {
+            node.gfx.drawCircle(-4 + i * 12, 2, 4);
+          });
+          node.gfx.endFill();
 
-        node.gfx.hitArea = new PIXI.Rectangle(-10, -6, width, 16);
-      } else {
-        let size = selected ? cost * 2 + 6 : cost * 2 + 2;
-        node.gfx.beginFill(getNodeColor(node));
+          node.gfx.hitArea = new PIXI.Rectangle(-10, -6, width, 16);
+        } else {
+          let size = selected ? cost * 2 + 6 : cost * 2 + 2;
+          node.gfx.beginFill(getNodeColor(node));
 
-        node.gfx.drawCircle(0, 0, size);
+          node.gfx.drawCircle(0, 0, size);
 
-        node.gfx.hitArea = new PIXI.Circle(0, 0, size + 10);
-        node.gfx.endFill();
+          node.gfx.hitArea = new PIXI.Circle(0, 0, size + 10);
+          node.gfx.endFill();
+        }
+      } else if (node.id === targetNodeId) {
+        const node = find(nodes, { id: targetNodeId });
+        let targetSize = selected ? cost * 2 + 6 : cost * 2 + 2;
+        let size = !selected ? cost * 2 + 6 : cost * 2 + 2;
+        let iteration = 0;
+        const animation = setInterval(() => {
+          iteration++;
+          if (!selected) {
+            size -= iteration * 0.4;
+          } else {
+            size += iteration * 0.4;
+          }
+          node.gfx.clear();
+          node.gfx.beginFill(getNodeColor(node));
+
+          node.gfx.drawCircle(0, 0, size);
+
+          node.gfx.endFill();
+
+          if (selected) {
+            if (size >= targetSize) {
+              clearInterval(animation);
+            }
+          } else if (size <= targetSize) {
+            clearInterval(animation);
+          }
+        }, 5);
       }
 
       node.gfx.interactive = true;
