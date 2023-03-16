@@ -1,4 +1,5 @@
 import { DEFENSE_ABILITIES } from "./defense.abilities";
+import { FLYING_ABILITIES } from "./flying.abilities";
 import { HOLY_ABILITIES } from "./holy.abilities";
 import { NECRO_ABILITIES } from "./necro.abilities";
 
@@ -24,12 +25,8 @@ export const ABILITIES: Ability[] = [
   ...HOLY_ABILITIES,
   ...DEFENSE_ABILITIES,
   ...NECRO_ABILITIES,
-  {
-    id: "flying",
-    name: "Flying",
-    description: "You can fly. Great job!",
-    type: "passive",
-  },
+  ...FLYING_ABILITIES,
+
   {
     id: "defend",
     name: "Defend",

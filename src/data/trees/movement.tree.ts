@@ -11,7 +11,7 @@ export const MOVEMENT_TREE: Tree = {
     {
       id: "movement-1",
       requires: "basic",
-      levels: 4,
+      levels: 8,
       cost: 1,
       name: "Movement",
       description: "Allows you to move one additional hex per turn",
