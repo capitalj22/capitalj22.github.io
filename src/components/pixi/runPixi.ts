@@ -124,7 +124,7 @@ export function runGraphPixi(
     // resolution: 1,
   });
 
-  PIXI.Assets.load(
+  (PIXI.loadWebFont as any).load(
     "https://fonts.googleapis.com/css2?family=Inter:wght@100;400;500;700&display=swap"
   );
 
@@ -196,11 +196,19 @@ export function runGraphPixi(
           "link",
           d3
             .forceLink(links)
-            .strength((d) => (isNodeSelected(d.target, nodeMeta) ? forces.f2 * 0.025 : forces.f2 * 0.01))
+            .strength((d) =>
+              isNodeSelected(d.target, nodeMeta)
+                ? forces.f2 * 0.025
+                : forces.f2 * 0.01
+            )
             .id((d) => {
               return (d as any).id;
             })
-            .distance((d) => (isNodeSelected(d.source, nodeMeta) ? forces.f1 + 5 : forces.f1 + 10))
+            .distance((d) =>
+              isNodeSelected(d.source, nodeMeta)
+                ? forces.f1 + 5
+                : forces.f1 + 10
+            )
         )
         .force("charge", d3.forceManyBody().strength(-(forces.f3 * 6))) // This adds repulsion (if it's negative) between nodes.
         .force("center", d3.forceCenter(width / 4, height / 4))
@@ -213,7 +221,7 @@ export function runGraphPixi(
         )
         .velocityDecay(forces.f4 * 0.01);
 
-        simulation.alpha(1).restart();
+      simulation.alpha(1).restart();
     },
   });
 
