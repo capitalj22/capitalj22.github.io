@@ -9,7 +9,7 @@ export const TANK_TREE: Tree = {
   },
   nodes: [
     // {
-    //   id: "armor-1",
+    //   id: "armor",
     //   requires: "dragon",
     //   cost: 1,
     //   name: "Thick Hide",
@@ -18,7 +18,7 @@ export const TANK_TREE: Tree = {
     // },
     // {
     //   id: "armor-2",
-    //   requires: "armor-1",
+    //   requires: "armor",
     //   cost: 2,
     //   name: "Thicker Hide",
     //   description: "Adds 1 Armor",

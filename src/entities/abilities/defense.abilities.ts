@@ -28,5 +28,22 @@ export const DEFENSE_ABILITIES: Ability[] = [
       return `When an enemy attacks you, gain 1 AC. Lose 1 AC at the start of each turn.`;
     },
     type: "passive",
+    tags: ["defense"],
+  },
+  {
+    id: "attentive",
+    name: "Attentive",
+    type: "movement",
+    description: "This unit always musters",
+    tags: ["defense"],
+  },
+  {
+    id: "alert",
+    name: "Alert",
+    type: "movement",
+    description:
+      "This unit always musters and can muster 1 adjacent unit (during movement).",
+    replaces: "attentive",
+    tags: ["defense"],
   },
 ];

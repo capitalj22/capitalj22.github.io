@@ -8,7 +8,7 @@ export interface Ability {
   id: string;
   name: string;
   description?: string | ((params: any) => string);
-  type: "action" | "bonus action" | "passive" | "reaction";
+  type: "action" | "bonus action" | "passive" | "reaction" | "movement";
   damage?: {
     base: "1d6" | "1d8";
     modifiers: number;
@@ -21,13 +21,6 @@ export interface Ability {
   };
   tags?: string[];
 }
-
-export const ABILITY_TYPES = {
-  ACTION: "action",
-  BONUS_ACTION: "bonus action",
-  PASSIVE: "passive",
-  REACTION: "reaction",
-};
 
 export const ABILITIES: Ability[] = [
   ...HOLY_ABILITIES,

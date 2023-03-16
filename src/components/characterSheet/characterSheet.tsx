@@ -1,23 +1,64 @@
-import { filter, groupBy } from "lodash-es";
+import {
+  clone,
+  cloneDeep,
+  each,
+  filter,
+  groupBy,
+  intersection,
+  intersectionWith,
+  map,
+  uniq,
+} from "lodash-es";
 import { useEffect, useState } from "react";
 import { Accordion } from "../layout/accordion/accordion";
 import { AbilityCard } from "./abilityCard/abilityCard";
 import "./characterSheet.scss";
 import { StatLine } from "./statLine/statLine";
+import { TagFilters } from "./tagFilters/tagFilters";
 
+function getKnownAbilities(dragon) {
+  return groupBy(
+    filter(dragon.abilities, (ability) => {
+      return !ability.replaced && ability.learned;
+    }),
+    "type"
+  );
+}
 function CharacterSheet({ dragon }) {
   const [knownAbilities, setKnownAbilities] = useState({});
+  const [abilityFilters, setAbilityFilters] = useState({});
+  const [abilityTags, setAbilityTags] = useState({});
 
   useEffect(() => {
-    setKnownAbilities(
-      groupBy(
-        filter(dragon.abilities, (ability) => {
-          return !ability.replaced && ability.learned;
-        }),
-        "type"
-      )
-    );
+    const abilities = getKnownAbilities(dragon);
+
+    let abilityTagsTemp = {};
+    each(Object.keys(abilities), (type) => {
+      let tags: string[] = [];
+      each(abilities[type], (ability) => {
+        if (ability.tags) {
+          tags = uniq([...tags, ...ability.tags]);
+        }
+      });
+      abilityTagsTemp[type] = tags;
+    });
+    setKnownAbilities(abilities);
+    setAbilityTags(abilityTagsTemp);
   }, [dragon]);
+
+  const handleSelectedTagsChanged = (tags, key) => {
+    let tempAbilities = getKnownAbilities(dragon);
+
+    if (tags.length) {
+      tempAbilities[key] = filter(
+        tempAbilities[key],
+        (ability) => ability.tags && intersection(ability.tags, tags).length
+      );
+    }
+
+    setKnownAbilities(tempAbilities);
+    console.log(tempAbilities);
+  };
 
   return (
     <div className="character-sheet">
@@ -32,10 +73,16 @@ function CharacterSheet({ dragon }) {
         <StatLine label="Movement" value={dragon.movement}></StatLine>
       </div>
       <div className="abilities">
-      <div className="title">Abilities</div>
+        <div className="title">Abilities</div>
         {knownAbilities &&
           Object.keys(knownAbilities).map((key) => (
-            <Accordion startOpen={true} name={key}>
+            <Accordion startOpen={false} name={key}>
+              {abilityTags[key].length ? <div className="filter-panel">
+                <TagFilters
+                  tags={abilityTags[key]}
+                  selectedTagsChanged={(e) => handleSelectedTagsChanged(e, key)}
+                ></TagFilters>
+              </div> : ''}
               <div className="ability-cards">
                 {knownAbilities[key].map((ability) => (
                   <AbilityCard ability={ability}></AbilityCard>

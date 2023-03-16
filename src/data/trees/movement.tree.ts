@@ -45,12 +45,12 @@ export const MOVEMENT_TREE: Tree = {
     },
     {
       id: "advanced-dash",
-      requires: "dash",
+      requires: "charge",
       cost: 1,
       levels: 2,
       name: "Dash+",
       description: "Increases the movement of Dash by 2",
-      providedAbilities: [{ id: "dash", modifiers: 2 }],
+      providedAbilities: [{ id: "dash", modifiers: { movement: 2 } }],
     },
     {
       id: "dash-expert",
@@ -59,6 +59,31 @@ export const MOVEMENT_TREE: Tree = {
       name: "Dash Expert",
       description: "Grants the Dash Expert ability",
       providedAbilities: [{ id: "dash-expert", gain: true }],
+    },
+    {
+      id: "charge",
+      requires: "dash",
+      cost: 1,
+      name: "Charge",
+      description: "Grants the Charge ability",
+      providedAbilities: [{ id: "charge", gain: true }],
+    },
+    {
+      id: "breakthrough",
+      requires: "charge",
+      cost: 1,
+      name: "Breakthrough",
+      description:
+        "Grants you the ability to continue moving through units after a charge.",
+      providedAbilities: [{ id: "charge", modifiers: { breakthrough: true } }],
+    },
+    {
+      id: "advanced-charge",
+      requires: "charge",
+      cost: 1,
+      name: "Charge+",
+      description: "Increases the movement of Charge by 2",
+      providedAbilities: [{ id: "charge", modifiers: { dmg: 1 } }],
     },
   ],
 };

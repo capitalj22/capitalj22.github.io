@@ -14,9 +14,14 @@
     }
   }
 
+  .filter-panel {
+    padding: 2rem;
+    background: #161616;
+    border-bottom: 1px solid #2e2e2e;
+    box-shadow: inset -2px -3px 15px 1px #1212129e;
+  }
+
   .abilities {
-    display: flex;
-    flex-direction: column;
     padding-bottom: 5rem;
 
     .title {
