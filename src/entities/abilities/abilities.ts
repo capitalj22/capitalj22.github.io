@@ -26,7 +26,6 @@ export const ABILITIES: Ability[] = [
   ...DEFENSE_ABILITIES,
   ...NECRO_ABILITIES,
   ...FLYING_ABILITIES,
-
   {
     id: "defend",
     name: "Defend",
@@ -69,5 +68,20 @@ export const ABILITIES: Ability[] = [
     name: "Cantrip Barrage",
     description: "Deal 1d6 damage to an enemy.",
     type: "action",
+  },
+  {
+    id: "versatile",
+    name: "Versatile",
+    description: (params) =>
+      `You can choose to take actions prior to movement.`,
+    type: "passive",
+  },
+  {
+    id: "extra-versatile",
+    name: "Extra Versatile",
+    description: (params) =>
+      `You can choose to take actions before or after each unit of movement.`,
+    type: "passive",
+    replaces: "versatile",
   },
 ];
