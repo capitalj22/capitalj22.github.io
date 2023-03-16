@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "react-feather";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+} from "react-feather";
 import { RightMenu } from "./rightMenu";
 
 import "./sidebarRight.scss";
@@ -41,10 +46,11 @@ export function SidebarRight({ children, itemSelected, title }) {
               : "sidebar-right-panel partial"
           }
         >
-          <div className="sidebar-right-panel-heading">
-            <button onClick={handleExpandPressed} className="expander">
-              {icon}
-            </button>
+          <div
+            onClick={handleExpandPressed}
+            className="sidebar-right-panel-heading"
+          >
+            <button className="expander">{icon}</button>
             {title}
           </div>
           <div className="sidebar-right-panel-content">{children}</div>

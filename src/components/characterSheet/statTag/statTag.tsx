@@ -1,13 +1,25 @@
 import { useEffect } from "react";
-import { TAG_COLORS } from "../../../data/tag-colors";
+import { TAGS, TAG_COLORS } from "../../../data/tag-colors";
 import "./statTag.scss";
 
-export function StatTag({ label }) {
-  let style = { borderColor: TAG_COLORS[label] };
+function getStyle(tag): React.CSSProperties {
+  let style: React.CSSProperties = {};
 
-  useEffect(() => {
-    style = { borderColor: TAG_COLORS[label] };
-  }, [label]);
+  const tagStyle = TAGS[tag];
+  style = { borderColor: TAG_COLORS[tag] };
+  if (tagStyle?.emphasis === 1) {
+    style.borderColor = 'transparent';
+    style.backgroundColor = tagStyle.color;
+    style.color = tagStyle.textColor;
+    style.fontWeight = 600;
+    style.borderRadius = 12;
+  }
+  return style;
+}
+export function StatTag({ label }) {
+  let style = getStyle(label);
+
+  useEffect(() => {}, [label]);
 
   return (
     <span className="stat-tag" style={style}>

@@ -1,11 +1,13 @@
 .stat-line {
-  font-size: 1.25em;
+  font-size: 1.2em;
 
   .label {
-    font-weight: bold;
+    font-weight: 400;
+    color: #fff;
   }
 
   .value {
-    color: #535bf2;
+    color: #898ff5;
+    font-weight: 700;
   }
 }

@@ -1,19 +1,24 @@
 .ability-card {
+  padding: 2rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  .title {
-    font-weight: bold;
+
+  .card-title {
+    font-weight: 700;
     font-size: 1.5em;
     padding-bottom: 1rem;
+    padding-top: 0.5rem;
   }
 
   .tags {
     display: flex;
     gap: 0.5rem;
+    flex-wrap: wrap;
   }
 
   .description {
+    color: #c5c5c5;
     white-space: pre-line;
   }
 
@@ -22,13 +27,17 @@
   max-width: 20rem;
   flex-direction: column;
   text-align: left;
-  background: #141415;
+  background: #111112;
   color: white;
   padding: 1rem;
   padding-top: 0;
   border-radius: 7px;
-  box-shadow: -1px 1px 4px 2px rgba(11, 11, 11, 0.7);
-  border: 0.5px solid #1a1a1a;
+  box-shadow: 1px 2px 20px 0px rgba(11, 11, 11, 0.7);
+  border: 0.5px solid #505050;
+
+  background: linear-gradient(45deg, #39393c 0%, #292930 100%),
+    radial-gradient(at top center, #46464680 0%, rgba(0, 0, 0, 0.4) 120%)
+      #989898;
 
   @media only screen and (max-width: 800px) {
     font-size: 0.75rem;

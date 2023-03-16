@@ -1,26 +1,42 @@
 .character-sheet {
-  // width: 40rem;
-
   @media only screen and (max-width: 800px) {
     width: auto;
   }
 
-  h2 {
-    margin-top: 0;
-  }
   overflow-y: auto;
   text-align: left;
 
+  .stats {
+    padding: 2rem;
+
+    .title {
+      padding-bottom: 2rem;
+    }
+  }
+
   .abilities {
     display: flex;
-    gap: 1rem;
     flex-direction: column;
     padding-bottom: 5rem;
+
+    .title {
+      padding: 2rem;
+    }
+
+    .container {
+      background: linear-gradient(45deg, #1b1b1c 0%, #1a1a1c 100%),
+        radial-gradient(
+            at top center,
+            rgb(76 76 76 / 49%) 0%,
+            rgba(0, 0, 0, 0.4) 120%
+          )
+          #989898;
+    }
   }
 
   .ability-cards {
     width: 100%;
-    padding: 2rem 0;
+    padding: 2rem;
     display: grid;
     grid-auto-columns: minmax(auto, 1fr) 3fr;
     gap: 1rem;
@@ -32,8 +48,7 @@
   }
 
   .title {
-    font-size: 18px;
-    font-weight: bold;
-    padding: 1rem 0;
+    font-size: 2em;
+    font-weight: 300;
   }
 }

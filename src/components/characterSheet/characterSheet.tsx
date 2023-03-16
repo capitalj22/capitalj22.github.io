@@ -22,27 +22,27 @@ function CharacterSheet({ dragon }) {
   return (
     <div className="character-sheet">
       <div className="stats">
-        <div className="statLine">
-          Skill Points Spent: {dragon.pointsInvested}
-        </div>
-
+        <div className="title">Stats</div>
+        <StatLine
+          label=" Skill Points Spent"
+          value={dragon.pointsInvested}
+        ></StatLine>
         <StatLine label="Armor" value={dragon.armor}></StatLine>
         <StatLine label="HP" value={dragon.hp}></StatLine>
         <StatLine label="Movement" value={dragon.movement}></StatLine>
-
-        <div className="title">Abilities</div>
-        <div className="abilities">
-          {knownAbilities &&
-            Object.keys(knownAbilities).map((key) => (
-              <Accordion startOpen={true} name={key}>
-                <div className="ability-cards">
-                  {knownAbilities[key].map((ability) => (
-                    <AbilityCard ability={ability}></AbilityCard>
-                  ))}
-                </div>
-              </Accordion>
-            ))}
-        </div>
+      </div>
+      <div className="abilities">
+      <div className="title">Abilities</div>
+        {knownAbilities &&
+          Object.keys(knownAbilities).map((key) => (
+            <Accordion startOpen={true} name={key}>
+              <div className="ability-cards">
+                {knownAbilities[key].map((ability) => (
+                  <AbilityCard ability={ability}></AbilityCard>
+                ))}
+              </div>
+            </Accordion>
+          ))}
       </div>
     </div>
   );

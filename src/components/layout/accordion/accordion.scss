@@ -1,14 +1,32 @@
 .accordion {
   .accordion-button {
+    color: var(--themeColorText);
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    font-weight: 300;
+    font-weight: 400;
     font-size: 1.25rem;
+    background: -webkit-linear-gradient(
+      270deg,
+      hsl(0deg 0% 6.3% / 35%) 72%,
+      #0f0f14 100%
+    );
+    border-bottom: 1px solid #424242;
+
+    svg {
+      color: #fff;
+    }
   }
 
   &.open > .accordion-button {
-    background-color: #535bf2;
+    background: linear-gradient(45deg, #7878ff 0%, #898ff5 100%),
+      radial-gradient(
+          at top center,
+          rgba(70, 70, 70, 0.5019607843) 0%,
+          rgba(0, 0, 0, 0.4) 120%
+        )
+        #989898;
+    color: #fff;
   }
 }

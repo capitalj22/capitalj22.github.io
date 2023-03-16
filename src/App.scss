@@ -1,3 +1,11 @@
+:root {
+  --themeColor: #535bf2;
+  --themeColorMod: #4148db;
+  --themeColorText: #898ff5;
+  --panelColor: rgba(26, 26, 28);
+  --panelBorder: 1px solid #292929;
+}
+
 #root {
   box-sizing: border-box;
   max-width: 100%;
@@ -10,4 +18,16 @@
 
 .skill-panel {
   position: relative;
+}
+
+::-webkit-scrollbar {
+  width: 9px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgba(155, 155, 155, 0.5);
+  border-radius: 20px;
+  border: transparent;
 }

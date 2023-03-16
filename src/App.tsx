@@ -45,6 +45,7 @@ function App() {
   const [rightPage, setRightPage] = useState("sheet");
   const [rightMenuTitle, setRightMenuTitle] = useState("");
   const [leftPage, setLeftPage] = useState("info");
+  const [leftMenuExpanded, setLeftMenuExpanded] = useState(false);
   const [build, setBuild] = useState(buildData);
 
   const tooltipUpdated = (event) => {
@@ -84,6 +85,10 @@ function App() {
 
   const infoUpdated = (event) => {
     setInfo(event);
+    setLeftMenuExpanded(true);
+    if (!event.node) {
+      setLeftMenuExpanded(false);
+    }
   };
 
   let rightMenuPage;
@@ -125,7 +130,10 @@ function App() {
         ></PixiGraph>
         <div className="infoPanel"></div>
       </div>
-      <SidebarLeft itemSelected={handleLeftItemSelected}>
+      <SidebarLeft
+        itemSelected={handleLeftItemSelected}
+        expanded={leftMenuExpanded}
+      >
         {leftMenuPage}
       </SidebarLeft>
       <SidebarRight

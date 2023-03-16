@@ -1,6 +1,6 @@
-import { ARMOR_TREE } from "../../data/trees/armor.tree";
 import { DEFENSE_ABILITIES } from "./defense.abilities";
 import { HOLY_ABILITIES } from "./holy.abilities";
+import { NECRO_ABILITIES } from "./necro.abilities";
 
 export interface Ability {
   id: string;
@@ -23,6 +23,7 @@ export interface Ability {
 export const ABILITIES: Ability[] = [
   ...HOLY_ABILITIES,
   ...DEFENSE_ABILITIES,
+  ...NECRO_ABILITIES,
   {
     id: "flying",
     name: "Flying",
@@ -69,41 +70,7 @@ export const ABILITIES: Ability[] = [
   {
     id: "cantrip-barrage",
     name: "Cantrip Barrage",
-    description:
-      "As an action deal 1d6 damage to an enemy within spell range (spell range is adjacent unless you have Magic Range(s)).",
+    description: "Deal 1d6 damage to an enemy.",
     type: "action",
-  },
-  {
-    id: "knit-flesh",
-    name: "Knit Flesh",
-    description: (params) =>
-      `Restore ${1 + (params.hp || 0)} HP to an adjacent undead unit`,
-    type: "action",
-  },
-  {
-    id: "greater-knitting",
-    name: "Greater Knitting",
-    description: (params) =>
-      `Restore ${1 + (params.hp || 0)} HP to all adjacent undead units`,
-    type: "action",
-    replaces: "knit-flesh",
-  },
-  {
-    id: "mass-knitting",
-    name: "Mass Knitting",
-    description: (params) =>
-      `Restore ${
-        1 + (params.hp || 0)
-      } HP to all undead units within 2 hexes (100m area)`,
-    type: "action",
-    replaces: "greater-knitting",
-  },
-  {
-    id: "reactive-armor",
-    name: "Reactive Armor",
-    description: (params) => {
-      return `When an enemy attacks you, gain 1 AC. Lose 1 AC at the start of each turn.`;
-    },
-    type: "passive",
   },
 ];

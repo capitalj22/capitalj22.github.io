@@ -21,4 +21,12 @@ export const DEFENSE_ABILITIES: Ability[] = [
     },
     tags: ["defense"],
   },
+  {
+    id: "reactive-armor",
+    name: "Reactive Armor",
+    description: (params) => {
+      return `When an enemy attacks you, gain 1 AC. Lose 1 AC at the start of each turn.`;
+    },
+    type: "passive",
+  },
 ];

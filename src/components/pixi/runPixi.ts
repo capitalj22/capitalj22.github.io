@@ -26,7 +26,7 @@ export function runGraphPixi(
   tooltipUpdated$: Subject<any>,
   infoUpdated$: Subject<any>
 ) {
-  // const links = linksData.map((d) => Object.assign({}, d));
+  let clickingOnNode = false;
   const nodes = map(nodesData, (node) => ({
     ...node,
   }));
@@ -80,13 +80,14 @@ export function runGraphPixi(
   container.innerHTML = "";
 
   function onPress(e, node: any) {
+    clickingOnNode = true;
     const selection = isNodeSelected(node, nodeMeta);
 
     nodeMeta = selectNodeAndReturnnewMeta(
       node,
       nodes,
       nodeMeta,
-      e.nativeEvent.shiftKey
+      e.nativeEvent.shiftKeyclickingOnNode
     );
 
     nodesUpdated$.next({
@@ -105,6 +106,10 @@ export function runGraphPixi(
 
     redrawNodes(selectionChanged ? node.id : null);
     redrawLinks();
+
+    setTimeout(() => {
+      clickingOnNode = false;
+    });
   }
 
   const app = new PIXI.Application({
@@ -113,10 +118,14 @@ export function runGraphPixi(
     antialias: true,
     autoDensity: true,
     resizeTo: window,
-    backgroundColor: "#141416",
+    backgroundColor: "#0a0a0f",
     backgroundAlpha: 1,
     // resolution: 1,
   });
+
+  PIXI.Assets.load(
+    "https://fonts.googleapis.com/css2?family=Inter:wght@100;400;500;700&display=swap"
+  );
 
   container.appendChild(app.view);
 
@@ -140,6 +149,12 @@ export function runGraphPixi(
   // sprite.alpha = 0.7;
   // // sprite.scale = new PIXI.Point(4, 4);
   // sprite.position.set(-1000, -1000);
+
+  viewport.on("click", () => {
+    if (!clickingOnNode) {
+      infoUpdated$.next({});
+    }
+  });
 
   // activate plugins
   viewport
@@ -242,7 +257,7 @@ export function runGraphPixi(
     });
 
     const text = new PIXI.Text(name, {
-      fontFamily: "Arial",
+      fontFamily: "Inter",
       fontSize: 12,
       fill: "#fff",
       align: "center",

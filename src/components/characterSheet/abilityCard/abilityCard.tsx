@@ -10,7 +10,7 @@ export function AbilityCard(props: { ability: Ability }) {
   return (
     <div className="ability-card">
       <div className="top">
-        <div className="title">{props.ability.name}</div>
+        <div className="card-title">{props.ability.name}</div>
 
         <p className="description">{description}</p>
       </div>
