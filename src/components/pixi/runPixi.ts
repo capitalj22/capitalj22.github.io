@@ -123,9 +123,9 @@ export function runGraphPixi(
     // resolution: 1,
   });
 
-  // (PIXI.loadWebFont as any).load(
-  //   "https://fonts.googleapis.com/css2?family=Inter:wght@100;400;500;700&display=swap"
-  // );
+  (PIXI.loadWebFont as any).load(
+    "https://fonts.googleapis.com/css2?family=Inter:wght@100;400;500;700&display=swap"
+  );
 
   container.appendChild(app.view);
 
