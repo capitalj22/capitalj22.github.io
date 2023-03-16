@@ -1,3 +1,4 @@
+import { AQUAUTIC_ABILITIES } from "./aquatic.abilities";
 import { DEFENSE_ABILITIES } from "./defense.abilities";
 import { FLYING_ABILITIES } from "./flying.abilities";
 import { HOLY_ABILITIES } from "./holy.abilities";
@@ -28,6 +29,7 @@ export const ABILITIES: Ability[] = [
   ...NECRO_ABILITIES,
   ...FLYING_ABILITIES,
   ...MOVEMENT_ABILITIES,
+  ...AQUAUTIC_ABILITIES,
   {
     id: "defend",
     name: "Defend",
@@ -64,12 +66,14 @@ export const ABILITIES: Ability[] = [
     Range: ${params.range ? params.range + 1 : 1}
     Contentration Bonus: ${params.concentration || 0}`,
     type: "passive",
+    tags: ["magic"],
   },
   {
     id: "cantrip-barrage",
     name: "Cantrip Barrage",
     description: "Deal 1d6 damage to an enemy.",
     type: "action",
+    tags: ["magic"],
   },
   {
     id: "versatile",

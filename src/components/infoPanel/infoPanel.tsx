@@ -59,7 +59,7 @@ export function InfoPanel({ info }) {
             </span>
           </div>
         ) : null}
-        <div className="description">{info.node?.description}</div>
+        <div className="info-description">{info.node?.description}</div>
         {relatedAbilities.length > 0 && (
           <div className="abilities">
             <div className="title">Related Abilities:</div>

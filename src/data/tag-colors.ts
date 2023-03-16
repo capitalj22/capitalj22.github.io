@@ -12,4 +12,6 @@ export const TAGS = {
   defense: { color: "#cd8150" },
   reaction: { emphasis: 1, color: "#add", textColor: "#222" },
   movement: { emphasis: 1, color: "rgb(249, 244, 172)", textColor: "#222" },
+  aquatic: { color: "#1a72f5" },
+  magic: { color: "#7391c9" },
 };

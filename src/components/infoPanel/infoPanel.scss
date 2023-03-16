@@ -48,10 +48,13 @@
     }
   }
 
-  .description {
+  .info-description {
     padding: 1rem 0;
-    font-style: italic;
+    font-weight: 300;
+    font-size: 1.5em;
+    color: #ddd;
   }
+  
   .divider {
     height: 2px;
     width: 80%;

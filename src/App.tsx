@@ -18,27 +18,9 @@ import { SidebarRight } from "./components/layout/right/sidebarRight";
 import { SidebarLeft } from "./components/layout/left/sidebarLeft";
 import ReactSlider from "react-slider";
 import { SettingsPanel } from "./components/settingsPanel/settingsPanel";
+import { TREES } from "./data/trees/trees";
 
-const trees = reduce(
-  [
-    BASIC_TREE,
-    MOVEMENT_TREE,
-    FLYING_TREE,
-    ATTACK_TREE,
-    ARMOR_TREE,
-    BASIC_MAGIC_TREE,
-    HOLY_TREE,
-  ],
-  (nodes, tree) =>
-    concat(
-      nodes,
-      map(tree.nodes, (n) => ({
-        ...n,
-        colors: tree.colors,
-      }))
-    ) as any,
-  []
-);
+
 
 function App() {
   const [dragon, setDragon] = useState({ armor: 0, hp: 0 });
@@ -135,7 +117,7 @@ function App() {
       {/* <NodeTooltip tooltip={tooltip}></NodeTooltip> */}
       <div className="skill-panel">
         <PixiGraph
-          trees={trees}
+          trees={TREES}
           buildData={build}
           force={force}
           nodeSelectionUpdated={nodeSelectionUpdated}

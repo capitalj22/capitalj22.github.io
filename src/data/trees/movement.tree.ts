@@ -55,6 +55,7 @@ export const MOVEMENT_TREE: Tree = {
     {
       id: "dash-expert",
       requires: "advanced-dash",
+      levelsRequired: 2,
       cost: 1,
       name: "Dash Expert",
       description: "Grants the Dash Expert ability",

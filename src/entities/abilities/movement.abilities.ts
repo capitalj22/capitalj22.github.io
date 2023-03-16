@@ -13,7 +13,8 @@ export const MOVEMENT_ABILITIES: Ability[] = [
     name: "Dash Expert",
     type: "passive",
     description: (params) =>
-      `Once per turn when you would go to attack, you can choose to move instead.`,
+      `Once per turn, you can replace any one of your attacks with movement up to your speed.`,
+    tags: ["movement"],
   },
   {
     id: "charge",
@@ -25,7 +26,7 @@ export const MOVEMENT_ABILITIES: Ability[] = [
       } damage on first melee attack. The movement for the rest of the turn becomes 0. ${
         params.breakthrough
           ? "\n\nIf after a charge, this unit still has remaining movement, it can use that movement to continue on its charge-line through enemy units."
-          : ''
+          : ""
       }`,
   },
 ];
