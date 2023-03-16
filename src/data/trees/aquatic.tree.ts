@@ -26,5 +26,37 @@ export const AQUATIC_TREE: Tree = {
       description: "Increases potential water speed by 3.",
       providedAbilities: [{ id: "swimming", modifiers: { movement: 3 } }],
     },
+    {
+      id: "ferry",
+      cost: 1,
+      requires: "advanced-swimming",
+      name: "Ferry",
+      description: "Grants the Ferry ability",
+      providedAbilities: [{ id: "ferry", gain: true }],
+    },
+    {
+      id: "diving",
+      cost: 2,
+      requires: "advanced-swimming",
+      name: "Diving",
+      description: "Grants the Diving ability",
+      providedAbilities: [{ id: "diving", gain: true }],
+    },
+    {
+      id: "submarine-transportation",
+      cost: 1,
+      requires: "diving",
+      name: "Submarine Transportation",
+      description: "Grants the Submarine Transportation ability",
+      providedAbilities: [{ id: "submarine-transportation", gain: true }],
+    },
+    {
+      id: "attack-from-the-deep",
+      cost: 2,
+      requires: "diving",
+      name: "Attack From The Deep",
+      description: "Grants the Attack From The Deep ability",
+      providedAbilities: [{ id: "attack-from-the-deep", gain: true }],
+    }
   ],
 };
