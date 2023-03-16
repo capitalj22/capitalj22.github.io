@@ -44,6 +44,6 @@ export function InfoPanel({ info }) {
       </div>
     );
   } else {
-    return <div className="info-panel"></div>;
+    return <div className="info-panel">Select a Node</div>;
   }
 }

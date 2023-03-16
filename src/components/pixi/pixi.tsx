@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import { runGraphPixi } from "./runPixi";
 import styles from "./pixi.module.css";
 import { Subject } from "rxjs";
+const forceUpdated$ = new Subject();
 
 export function PixiGraph({
   trees,
   buildData,
+  force,
   nodeSelectionUpdated,
   tooltipUpdated,
   infoUpdated,
@@ -31,6 +33,10 @@ export function PixiGraph({
     },
   });
 
+  useEffect(() => {
+    forceUpdated$.next(force);
+  }, [force]);
+
   React.useEffect(() => {
     let destroyFn;
 
@@ -41,7 +47,8 @@ export function PixiGraph({
         buildData,
         nodesUpdated$,
         tooltipUpdated$,
-        infoUpdated$
+        infoUpdated$,
+        forceUpdated$
       );
       destroyFn = destroy;
     }

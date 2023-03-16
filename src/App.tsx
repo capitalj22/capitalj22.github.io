@@ -16,6 +16,8 @@ import { BASIC_MAGIC_TREE } from "./data/trees/magic/basic-magic.tree";
 import { HOLY_TREE } from "./data/trees/magic/holy.tree";
 import { SidebarRight } from "./components/layout/right/sidebarRight";
 import { SidebarLeft } from "./components/layout/left/sidebarLeft";
+import ReactSlider from "react-slider";
+import { SettingsPanel } from "./components/settingsPanel/settingsPanel";
 
 const trees = reduce(
   [
@@ -47,6 +49,7 @@ function App() {
   const [leftPage, setLeftPage] = useState("info");
   const [leftMenuExpanded, setLeftMenuExpanded] = useState(false);
   const [build, setBuild] = useState(buildData);
+  const [force, setForce] = useState(null);
 
   const tooltipUpdated = (event) => {
     setTooltip(event);
@@ -91,6 +94,10 @@ function App() {
     }
   };
 
+  const handleForceUpdated = (event) => {
+    setForce(event);
+  };
+
   let rightMenuPage;
   let leftMenuPage;
 
@@ -115,6 +122,12 @@ function App() {
 
   if (leftPage === "info") {
     leftMenuPage = <InfoPanel info={info}></InfoPanel>;
+  } else if (leftPage === "settings") {
+    leftMenuPage = (
+      <div>
+        <SettingsPanel forceUpdated={handleForceUpdated}></SettingsPanel>
+      </div>
+    );
   }
 
   return (
@@ -124,6 +137,7 @@ function App() {
         <PixiGraph
           trees={trees}
           buildData={build}
+          force={force}
           nodeSelectionUpdated={nodeSelectionUpdated}
           tooltipUpdated={tooltipUpdated}
           infoUpdated={infoUpdated}
