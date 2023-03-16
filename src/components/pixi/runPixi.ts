@@ -137,24 +137,10 @@ export function runGraphPixi(
     worldHeight: height * 4,
     passiveWheel: false,
 
-    events: app.renderer.plugins.interaction, // the interaction module is important for wheel to work properly when renderer.view is placed or scaled
+    events: app.renderer.plugins.interaction,
   });
 
   app.stage.addChild(viewport);
-  // const sprite = viewport.addChild(PIXI.Sprite.from("./dragonbg.jpg"));
-  // const sprite = viewport.addChild(new PIXI.Sprite(PIXI.Texture.WHITE));
-  // sprite.width = width * 4;
-  // sprite.height = height * 4;
-  // sprite.tint = 0x12121f;
-  // sprite.alpha = 0.7;
-  // // sprite.scale = new PIXI.Point(4, 4);
-  // sprite.position.set(-1000, -1000);
-
-  // viewport.on("click", () => {
-  //   if (!clickingOnNode) {
-  //     infoUpdated$.next({});
-  //   }
-  // });
 
   // activate plugins
   viewport
@@ -250,13 +236,7 @@ export function runGraphPixi(
       // events for click
       .on("touchstart", (e) => {
         touching = true;
-        infoUpdated$.next({
-          node: {
-            ...node,
-            acquired: nodeMeta.acquired[node.id],
-            selected: nodeMeta.selected[node.id],
-          },
-        });
+        updateInfo(node, nodeMeta, nodes, infoUpdated$);
 
         setTimeout(() => {
           if (touching) {
@@ -277,7 +257,6 @@ export function runGraphPixi(
 
     viewport.addChild(node.gfx);
 
-    // show tooltip when mouse is over node
     node.gfx.on("mouseover", (mouseData) => {
       tooltipUpdated$.next({
         show: true,
@@ -286,13 +265,6 @@ export function runGraphPixi(
         node,
       });
       updateInfo(node, nodeMeta, nodes, infoUpdated$);
-    });
-
-    // make circle half-transparent when mouse leaves
-    node.gfx.on("mouseout", () => {
-      tooltipUpdated$.next({
-        show: false,
-      });
     });
 
     const text = new PIXI.Text(name, {
@@ -420,7 +392,6 @@ export function runGraphPixi(
       }
 
       node.gfx.interactive = true;
-      // node.gfx.buttonMode = isNodeAvailable(node, nodeMeta);
     });
   }
 

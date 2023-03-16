@@ -1,6 +1,7 @@
 import { DEFENSE_ABILITIES } from "./defense.abilities";
 import { FLYING_ABILITIES } from "./flying.abilities";
 import { HOLY_ABILITIES } from "./holy.abilities";
+import { MOVEMENT_ABILITIES } from "./movement.abilities";
 import { NECRO_ABILITIES } from "./necro.abilities";
 
 export interface Ability {
@@ -21,11 +22,19 @@ export interface Ability {
   tags?: string[];
 }
 
+export const ABILITY_TYPES = {
+  ACTION: "action",
+  BONUS_ACTION: "bonus action",
+  PASSIVE: "passive",
+  REACTION: "reaction",
+};
+
 export const ABILITIES: Ability[] = [
   ...HOLY_ABILITIES,
   ...DEFENSE_ABILITIES,
   ...NECRO_ABILITIES,
   ...FLYING_ABILITIES,
+  ...MOVEMENT_ABILITIES,
   {
     id: "defend",
     name: "Defend",

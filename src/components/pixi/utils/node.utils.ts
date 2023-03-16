@@ -52,12 +52,13 @@ export const updateNodesAfterDeselection = (nodes, selectedNode, nodeMeta) => {
           if (levelsRequired > nodeMeta.acquired[selectedNode.id]) {
             nodeMeta.selected[dep.id] = false;
             nodeMeta.acquired[dep.id] = 0;
+            turnOffDependentNodes(dep);
           }
         } else {
           nodeMeta.selected[dep.id] = false;
           nodeMeta.acquired[dep.id] = 0;
+          turnOffDependentNodes(dep);
         }
-        turnOffDependentNodes(dep);
       });
     }
   };

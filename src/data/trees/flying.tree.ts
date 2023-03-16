@@ -10,7 +10,7 @@ export const FLYING_TREE: Tree = {
   nodes: [
     {
       id: "flying",
-      requires: "movement-1",
+      requires: "speed",
       levelsRequired: 4,
       cost: 1,
       name: "Flying",
