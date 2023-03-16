@@ -1,5 +1,4 @@
 .sidebar-left {
-  position: absolute;
   top: 0;
   left: 0;
   max-width: 40rem;
@@ -15,8 +14,10 @@
   border-radius: 0 0 6px 0;
 
   @media only screen and (max-width: 800px) {
+    position: absolute;
     height: auto;
     background: transparent;
+    max-width: unset;
   }
 
   .sidebar-left-panel {

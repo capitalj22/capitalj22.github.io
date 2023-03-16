@@ -19,6 +19,10 @@ export interface INode extends SkillNode {
   gfx: GNode<INode>;
 }
 
+(PIXI.loadWebFont as any).load(
+  "https://fonts.googleapis.com/css2?family=Inter:wght@100;400;500;700&display=swap"
+);
+
 export function runGraphPixi(
   container,
   nodesData,
@@ -122,10 +126,6 @@ export function runGraphPixi(
     backgroundAlpha: 1,
     // resolution: 1,
   });
-
-  (PIXI.loadWebFont as any).load(
-    "https://fonts.googleapis.com/css2?family=Inter:wght@100;400;500;700&display=swap"
-  );
 
   container.appendChild(app.view);
 

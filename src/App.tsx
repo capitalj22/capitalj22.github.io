@@ -11,6 +11,7 @@ import { SidebarRight } from "./components/layout/right/sidebarRight";
 import { SidebarLeft } from "./components/layout/left/sidebarLeft";
 import { SettingsPanel } from "./components/settingsPanel/settingsPanel";
 import { TREES } from "./data/trees/trees";
+import { PointCounter } from "./components/misc/pointCounter";
 
 function getBuild() {
   const localBuild = localStorage.getItem("dragon-build");
@@ -123,6 +124,23 @@ function App() {
   return (
     <div className="App">
       {/* <NodeTooltip tooltip={tooltip}></NodeTooltip> */}
+      <div className="appLeft">
+        <SidebarLeft
+          itemSelected={handleLeftItemSelected}
+          expanded={leftMenuExpanded}
+        >
+          {leftMenuPage}
+        </SidebarLeft>
+        <PointCounter pointsSpent={dragon.pointsInvested}></PointCounter>
+      </div>
+      <div className="appRight">
+        <SidebarRight
+          itemSelected={handleRightItemSelected}
+          title={rightMenuTitle}
+        >
+          {rightMenuPage}
+        </SidebarRight>
+      </div>
       <div className="skill-panel">
         <PixiGraph
           trees={TREES}
@@ -134,18 +152,6 @@ function App() {
         ></PixiGraph>
         <div className="infoPanel"></div>
       </div>
-      <SidebarLeft
-        itemSelected={handleLeftItemSelected}
-        expanded={leftMenuExpanded}
-      >
-        {leftMenuPage}
-      </SidebarLeft>
-      <SidebarRight
-        itemSelected={handleRightItemSelected}
-        title={rightMenuTitle}
-      >
-        {rightMenuPage}
-      </SidebarRight>
     </div>
   );
 }
