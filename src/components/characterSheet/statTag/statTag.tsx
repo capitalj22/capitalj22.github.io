@@ -4,6 +4,12 @@ import { Check } from "react-feather";
 import { TAGS } from "../../../data/tag-colors";
 import "./statTag.scss";
 
+interface Props {
+  label: string;
+  clicked?: (event: string) => void;
+  selected?: boolean;
+}
+
 function getStyle(tag, clicked, selected?): React.CSSProperties {
   let style: React.CSSProperties = {};
 
@@ -30,11 +36,13 @@ function getStyle(tag, clicked, selected?): React.CSSProperties {
 
   return style;
 }
-export function StatTag({ label, clicked, selected }) {
+export function StatTag({ label, clicked, selected }: Props) {
   let style = getStyle(label, clicked, selected);
 
   const handleClicked = (event) => {
-    clicked(label);
+    if (isFunction(clicked)) {
+      clicked(label);
+    }
   };
   useEffect(() => {}, [label]);
 
