@@ -175,38 +175,40 @@ export function runGraphPixi(
 
   forceUpdated$.subscribe({
     next: (forces) => {
-      simulation
-        .nodes(nodes)
-        .force(
-          "link",
-          d3
-            .forceLink(links)
-            .strength((d) =>
-              isNodeSelected(d.target, nodeMeta)
-                ? forces.f2 * 0.025
-                : forces.f2 * 0.01
-            )
-            .id((d) => {
-              return (d as any).id;
-            })
-            .distance((d) =>
-              isNodeSelected(d.source, nodeMeta)
-                ? forces.f1 + 5
-                : forces.f1 + 10
-            )
-        )
-        .force("charge", d3.forceManyBody().strength(-(forces.f3 * 6))) // This adds repulsion (if it's negative) between nodes.
-        .force("center", d3.forceCenter(width / 4, height / 4))
-        .force(
-          "collision",
-          d3
-            .forceCollide()
-            .radius((d) => forces.f3)
-            .iterations(12)
-        )
-        .velocityDecay(forces.f4 * 0.01);
+      if (forces) {
+        simulation
+          .nodes(nodes)
+          .force(
+            "link",
+            d3
+              .forceLink(links)
+              .strength((d) =>
+                isNodeSelected(d.target, nodeMeta)
+                  ? forces.f2 * 0.025
+                  : forces.f2 * 0.01
+              )
+              .id((d) => {
+                return (d as any).id;
+              })
+              .distance((d) =>
+                isNodeSelected(d.source, nodeMeta)
+                  ? forces.f1 + 5
+                  : forces.f1 + 10
+              )
+          )
+          .force("charge", d3.forceManyBody().strength(-(forces.f3 * 6))) // This adds repulsion (if it's negative) between nodes.
+          .force("center", d3.forceCenter(width / 4, height / 4))
+          .force(
+            "collision",
+            d3
+              .forceCollide()
+              .radius((d) => forces.f3)
+              .iterations(12)
+          )
+          .velocityDecay(forces.f4 * 0.01);
 
-      simulation.alpha(1).restart();
+        simulation.alpha(1).restart();
+      }
     },
   });
 

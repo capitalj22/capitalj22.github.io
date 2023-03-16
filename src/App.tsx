@@ -1,37 +1,45 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.scss";
 import CharacterSheet from "./components/characterSheet/characterSheet";
 import { PixiGraph } from "./components/pixi/pixi";
-import { filter, reduce, concat, map } from "lodash-es";
+import { filter, reduce, concat, map, isUndefined } from "lodash-es";
 import { newDragonFromNodes } from "./entities/actor/dragon.entity";
 import { InfoPanel } from "./components/infoPanel/infoPanel";
 import buildData from "./data/example-builds/build.json";
 import { CodePanel } from "./components/codePanel/codePanel";
-import { BASIC_TREE } from "./data/trees/basic.tree";
-import { MOVEMENT_TREE } from "./data/trees/movement.tree";
-import { FLYING_TREE } from "./data/trees/flying.tree";
-import { ATTACK_TREE } from "./data/trees/attack.tree";
-import { ARMOR_TREE } from "./data/trees/armor.tree";
-import { BASIC_MAGIC_TREE } from "./data/trees/magic/basic-magic.tree";
-import { HOLY_TREE } from "./data/trees/magic/holy.tree";
 import { SidebarRight } from "./components/layout/right/sidebarRight";
 import { SidebarLeft } from "./components/layout/left/sidebarLeft";
-import ReactSlider from "react-slider";
 import { SettingsPanel } from "./components/settingsPanel/settingsPanel";
 import { TREES } from "./data/trees/trees";
 
+function getBuild() {
+  const localBuild = localStorage.getItem("dragon-build");
+  if (localBuild) {
+    return JSON.parse(localBuild);
+  } else {
+    return {};
+  }
+}
 
+function saveBuild(build) {
+  localStorage.setItem("dragon-build", JSON.stringify(build));
+  // localStorage.removeItem("dragon-build");
+}
 
 function App() {
-  const [dragon, setDragon] = useState({ armor: 0, hp: 0 });
+  const [dragon, setDragon] = useState({ armor: 0, hp: 0 } as any);
   const [tooltip, setTooltip] = useState({ show: false });
   const [info, setInfo] = useState({ show: false });
   const [rightPage, setRightPage] = useState("sheet");
   const [rightMenuTitle, setRightMenuTitle] = useState("");
   const [leftPage, setLeftPage] = useState("info");
   const [leftMenuExpanded, setLeftMenuExpanded] = useState(false);
-  const [build, setBuild] = useState(buildData);
+  const [build, setBuild] = useState(() => getBuild());
   const [force, setForce] = useState(null);
+
+  useEffect(() => {
+    saveBuild(dragon.exportableBuild);
+  }, [dragon]);
 
   const tooltipUpdated = (event) => {
     setTooltip(event);
