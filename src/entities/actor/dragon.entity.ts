@@ -1,6 +1,6 @@
 import { SkillNode } from "../skilltree/node.entity";
-import { clone, each, find, isUndefined } from "lodash-es";
-import { ABILITIES, Ability } from "../abilities/abilities";
+import { clone, each, find, isUndefined, times } from "lodash-es";
+import { ABILITIES } from "../abilities/abilities";
 
 export const newDragonFromNodes = (selectedNodes: SkillNode[]) => {
   const baseDragon = {
@@ -12,11 +12,23 @@ export const newDragonFromNodes = (selectedNodes: SkillNode[]) => {
     exportableBuild: {},
   };
 
-  const modifyStat = (stat: string, modifier?: number, set?: number) => {
+  const modifyStat = (
+    node: SkillNode,
+    stat: string,
+    modifier?: number,
+    set?: number
+  ) => {
     if (!isUndefined(set)) {
       baseDragon[stat] = set;
     } else {
-      baseDragon[stat] += modifier;
+      if (node.levels) {
+        const acquired = node.acquired || 0;
+        modifier = modifier || 0;
+
+        baseDragon[stat] += modifier * acquired;
+      } else {
+        baseDragon[stat] += modifier;
+      }
     }
   };
 
@@ -54,8 +66,10 @@ export const newDragonFromNodes = (selectedNodes: SkillNode[]) => {
       each(Object.keys(modifiers), (key) => {
         let modifier = modifiers[key];
 
-        if (modifier === "points") {
-          modifier = node.committed;
+        if (modifier === "levels") {
+          modifier = node.acquired;
+        } else if (node.levels) {
+          modifier = node.acquired * modifier;
         }
 
         if (isUndefined(baseDragon.abilities[id].modifiers[key])) {
@@ -68,16 +82,27 @@ export const newDragonFromNodes = (selectedNodes: SkillNode[]) => {
   };
 
   each(selectedNodes, (node: SkillNode) => {
-    if (node.points) {
-      baseDragon.exportableBuild[node.id] = node.committed || 0;
-      baseDragon.pointsInvested += node.committed || 0;
+    if (node.levels) {
+      const acquired = node.acquired || 0;
+      baseDragon.exportableBuild[node.id] = node.acquired || 0;
+      if (node.levelCost) {
+        if (Array.isArray(node.levelCost)) {
+          times(acquired, (i) => {
+            baseDragon.pointsInvested += (node.levelCost as number[])[i];
+          });
+        } else {
+          baseDragon.pointsInvested += acquired * node.levelCost;
+        }
+      } else {
+        baseDragon.pointsInvested += node.acquired || 0;
+      }
     } else {
       baseDragon.exportableBuild[node.id] = true;
       baseDragon.pointsInvested += node.cost || 1;
     }
     if (node.providedStats) {
       each(node.providedStats, (stat) => {
-        modifyStat(stat.id, stat.modifier, stat.set);
+        modifyStat(node, stat.id, stat.modifier, stat.set);
       });
     }
 

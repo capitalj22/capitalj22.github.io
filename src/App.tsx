@@ -58,7 +58,7 @@ function App() {
   const nodeSelectionUpdated = (event) => {
     const selectedNodes = filter(
       event.nodes,
-      (node) => node.selected || node.committed
+      (node) => node.selected || node.acquired
     );
 
     setDragon((dragon) => newDragonFromNodes(selectedNodes));

@@ -15,7 +15,7 @@ export interface Ability {
   learned?: boolean;
   modifiers?: {
     id: string;
-    modifier: number | "points";
+    modifier: number | "levels";
   };
   tags?: string[];
 }

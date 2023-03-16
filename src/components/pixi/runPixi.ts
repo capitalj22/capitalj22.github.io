@@ -7,7 +7,8 @@ import { SkillNode } from "../../entities/skilltree/node.entity";
 import {
   isNodeAvailable,
   isNodeSelected,
-  selectNodeAndReturnnewMeta,
+  acquiredselectNodeAndReturnNewMeta,
+  updateInfo,
 } from "./utils/node.utils";
 import { ABILITIES } from "../../entities/abilities/abilities";
 
@@ -31,23 +32,24 @@ export function runGraphPixi(
   const nodes = map(nodesData, (node) => ({
     ...node,
   }));
+
   const links: any[] = [];
   let nodeMeta = {
     selected: {},
-    committed: {},
+    acquired: {},
     available: {},
   };
 
   function newBuild() {
     nodeMeta = {
       selected: {},
-      committed: {},
+      acquired: {},
       available: {},
     };
 
     each(nodes, (node) => {
       nodeMeta.selected[node.id] = build[node.id] === true;
-      nodeMeta.committed[node.id] = isNumber(build[node.id])
+      nodeMeta.acquired[node.id] = isNumber(build[node.id])
         ? build[node.id]
         : false;
     });
@@ -68,7 +70,7 @@ export function runGraphPixi(
       nodes: map(nodes, (n) => ({
         ...n,
         selected: isNodeSelected(n, nodeMeta),
-        committed: nodeMeta.committed[n.id],
+        acquired: nodeMeta.acquired[n.id],
       })),
     });
   }
@@ -81,27 +83,24 @@ export function runGraphPixi(
   container.innerHTML = "";
 
   function onPress(e, node: any) {
-    clickingOnNode = true;
     const selection = isNodeSelected(node, nodeMeta);
 
-    nodeMeta = selectNodeAndReturnnewMeta(
+    nodeMeta = acquiredselectNodeAndReturnNewMeta(
       node,
       nodes,
       nodeMeta,
-      e.nativeEvent.shiftKeyclickingOnNode
+      e.nativeEvent.shiftKey
     );
 
     nodesUpdated$.next({
       nodes: map(nodes, (n) => ({
         ...n,
         selected: isNodeSelected(n, nodeMeta),
-        committed: nodeMeta.committed[n.id],
+        acquired: nodeMeta.acquired[n.id],
       })),
     });
 
-    infoUpdated$.next({
-      node: { ...node, committed: nodeMeta.committed[node.id] },
-    });
+    updateInfo(node, nodeMeta, nodes, infoUpdated$);
 
     const selectionChanged = isNodeSelected(node, nodeMeta) !== selection;
 
@@ -124,9 +123,9 @@ export function runGraphPixi(
     // resolution: 1,
   });
 
-  (PIXI.loadWebFont as any).load(
-    "https://fonts.googleapis.com/css2?family=Inter:wght@100;400;500;700&display=swap"
-  );
+  // (PIXI.loadWebFont as any).load(
+  //   "https://fonts.googleapis.com/css2?family=Inter:wght@100;400;500;700&display=swap"
+  // );
 
   container.appendChild(app.view);
 
@@ -151,11 +150,11 @@ export function runGraphPixi(
   // // sprite.scale = new PIXI.Point(4, 4);
   // sprite.position.set(-1000, -1000);
 
-  viewport.on("click", () => {
-    if (!clickingOnNode) {
-      infoUpdated$.next({});
-    }
-  });
+  // viewport.on("click", () => {
+  //   if (!clickingOnNode) {
+  //     infoUpdated$.next({});
+  //   }
+  // });
 
   // activate plugins
   viewport
@@ -252,7 +251,11 @@ export function runGraphPixi(
       .on("touchstart", (e) => {
         touching = true;
         infoUpdated$.next({
-          node: { ...node, committed: nodeMeta.committed[node.id] },
+          node: {
+            ...node,
+            acquired: nodeMeta.acquired[node.id],
+            selected: nodeMeta.selected[node.id],
+          },
         });
 
         setTimeout(() => {
@@ -282,9 +285,7 @@ export function runGraphPixi(
         y: mouseData.data.originalEvent.pageY,
         node,
       });
-      infoUpdated$.next({
-        node: { ...node, committed: nodeMeta.committed[node.id] },
-      });
+      updateInfo(node, nodeMeta, nodes, infoUpdated$);
     });
 
     // make circle half-transparent when mouse leaves
@@ -338,10 +339,7 @@ export function runGraphPixi(
       let lineWidth = 1;
 
       if (target.id) {
-        lineColor =
-          isNodeSelected(target, nodeMeta) && isNodeSelected(source, nodeMeta)
-            ? toPixiColor(source.colors?.selected)
-            : toPixiColor(source.colors?.inactive);
+        lineColor = getNodeColor(source);
 
         lineWidth =
           isNodeSelected(target, nodeMeta) && isNodeSelected(source, nodeMeta)
@@ -365,10 +363,10 @@ export function runGraphPixi(
 
       node.gfx.cursor = isNodeAvailable(node, nodeMeta) ? "pointer" : "default";
 
-      if (!targetNodeId || node.id !== targetNodeId || node.points) {
-        if (node.points) {
-          let committed = nodeMeta.committed[node.id] || 0;
-          const width = node.points * 14;
+      if (!targetNodeId || node.id !== targetNodeId || node.levels) {
+        if (node.levels) {
+          const width = node.levels * 14;
+          const levelsAcquired = nodeMeta.acquired[node.id];
 
           node.gfx.clear();
           node.gfx.beginFill(getNodeColor(node));
@@ -377,7 +375,7 @@ export function runGraphPixi(
 
           node.gfx.beginFill(0xffffff);
 
-          times(committed, (i) => {
+          times(levelsAcquired, (i) => {
             node.gfx.drawCircle(-4 + i * 12, 2, 4);
           });
           node.gfx.endFill();

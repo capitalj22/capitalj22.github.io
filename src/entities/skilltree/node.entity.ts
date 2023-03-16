@@ -3,13 +3,16 @@ export interface SkillNode {
   name: string;
   description?: string;
   requires?: string;
+  levelsRequired?: number;
   colors?: {
     active?: number;
     inactive?: number;
     unavailable?: number;
   };
-  points?: number;
-  committed?: number;
+  levels?: number;
+  levelCost?: number | number[];
+  levelsAcquired?: number;
+  acquired?: number;
   cost?: number;
   providedAbilities?: Array<{
     id: string;

@@ -1,4 +1,4 @@
-import { find, map } from "lodash-es";
+import { find, map, times } from "lodash-es";
 import React from "react";
 import { ABILITIES } from "../../entities/abilities/abilities";
 import { AbilityCard } from "../characterSheet/abilityCard/abilityCard";
@@ -15,13 +15,29 @@ export function InfoPanel({ info }) {
     nodeColor = info.node?.colors?.selected;
   }, [info]);
 
-  const cost = info.node?.points ? (
-    <span className="cost" style={{ color: nodeColor }}>
-      {info.node?.committed}/{info.node?.points}
+  const cost = info.node?.levels ? (
+    <span className="cost">
+      {times(info.node?.levels, (index) => (
+        <span
+          className="level-points"
+          style={{
+            background: info.node.acquired > index ? nodeColor : "#666",
+          }}
+        >
+          {info.node?.levelCost?.length
+            ? info.node.levelCost[index]
+            : info.node.levelCost}
+        </span>
+      ))}
     </span>
   ) : (
-    <span className="cost" style={{ color: nodeColor }}>
-      {info.node?.cost}pt
+    <span className="cost">
+      <span
+        className="level-points"
+        style={{ background: info.node?.selected ? nodeColor : "#666" }}
+      >
+        {info.node?.cost > 1 ? info.node?.cost : ""}
+      </span>
     </span>
   );
 
@@ -32,6 +48,17 @@ export function InfoPanel({ info }) {
         <div className="title">{info.node?.name}</div>
 
         <div className="divider" style={{ backgroundColor: nodeColor }}></div>
+        {!info.node.available ? (
+          <div className="requires">
+            Requires{" "}
+            <span className="skill">
+              {info.node.requiredName}{" "}
+              {info.node.levelsRequired ? (
+                <span>({info.node.levelsRequired})</span>
+              ) : null}
+            </span>
+          </div>
+        ) : null}
         <div className="description">{info.node?.description}</div>
         {relatedAbilities.length > 0 && (
           <div className="abilities">
