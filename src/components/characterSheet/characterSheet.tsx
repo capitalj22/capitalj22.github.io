@@ -7,6 +7,7 @@ import {
   intersection,
   intersectionWith,
   map,
+  sortBy,
   uniq,
 } from "lodash-es";
 import { useEffect, useState } from "react";
@@ -26,7 +27,6 @@ function getKnownAbilities(dragon) {
 }
 function CharacterSheet({ dragon }) {
   const [knownAbilities, setKnownAbilities] = useState({});
-  const [abilityFilters, setAbilityFilters] = useState({});
   const [abilityTags, setAbilityTags] = useState({});
 
   useEffect(() => {
@@ -40,7 +40,7 @@ function CharacterSheet({ dragon }) {
           tags = uniq([...tags, ...ability.tags]);
         }
       });
-      abilityTagsTemp[type] = tags;
+      abilityTagsTemp[type] = sortBy(tags);
     });
     setKnownAbilities(abilities);
     setAbilityTags(abilityTagsTemp);
@@ -57,7 +57,6 @@ function CharacterSheet({ dragon }) {
     }
 
     setKnownAbilities(tempAbilities);
-    console.log(tempAbilities);
   };
 
   return (
@@ -75,14 +74,20 @@ function CharacterSheet({ dragon }) {
       <div className="abilities">
         <div className="title">Abilities</div>
         {knownAbilities &&
-          Object.keys(knownAbilities).map((key) => (
+          sortBy(Object.keys(knownAbilities)).map((key) => (
             <Accordion startOpen={false} name={key}>
-              {abilityTags[key].length ? <div className="filter-panel">
-                <TagFilters
-                  tags={abilityTags[key]}
-                  selectedTagsChanged={(e) => handleSelectedTagsChanged(e, key)}
-                ></TagFilters>
-              </div> : ''}
+              {abilityTags[key].length ? (
+                <div className="filter-panel">
+                  <TagFilters
+                    tags={abilityTags[key]}
+                    selectedTagsChanged={(e) =>
+                      handleSelectedTagsChanged(e, key)
+                    }
+                  ></TagFilters>
+                </div>
+              ) : (
+                ""
+              )}
               <div className="ability-cards">
                 {knownAbilities[key].map((ability) => (
                   <AbilityCard ability={ability}></AbilityCard>

@@ -35,7 +35,7 @@
     padding-top: 0;
 
     @media only screen and (min-width: 800px) {
-      min-width: 30rem;
+      width: 28rem;
 
       &.full {
         width: calc(100vw - 4rem);
@@ -47,6 +47,14 @@
       // margin-right: -4rem;
       height: 100vh;
       overflow-y: auto;
+    }
+
+    @media only screen and (min-width: 2000px) {
+      min-width: 48rem;
+
+      &.full {
+        width: calc(100vw - 4rem);
+      }
     }
 
     .sidebar-right-panel-heading {
