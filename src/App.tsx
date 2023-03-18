@@ -14,17 +14,20 @@ import { LeftPanel } from "./components/panels/left/leftPanel";
 
 function getBuild() {
   const localBuild = localStorage.getItem("dragon-build");
-  // if (localBuild) {
-  //   return JSON.parse(localBuild);
-  // } else {
-  //   return {};
-  // }
+  let myBuild;
+  if (localBuild) {
+    try {
+      myBuild = JSON.parse(localBuild);
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
-  return {};
+  return myBuild || {};
 }
 
 export interface IGraphEvent {
-  event: "forcesUpdated" | "modeChanged" | "nodeAdded";
+  event: "forcesUpdated" | "modeChanged" | "nodeAdded" | "nodeEdited";
   data: any;
 }
 

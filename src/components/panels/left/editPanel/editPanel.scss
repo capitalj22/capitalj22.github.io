@@ -1,77 +1,92 @@
-.info-panel {
-  text-align: left;
-  color: #fff;
+.form-control {
+  input,
+  textarea {
+    font-family: var(--fontFamily);
+    background-color: transparent;
+    border: none;
 
-  .cost {
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding-right: 0.5rem;
-    font-size: 1.5em;
-    display: flex;
-    gap: 0.5rem;
-    align-content: center;
-    justify-content: center;
-    padding: 1rem;
-
-    .level-points {
-      color: var(--panelColor);
-      display: inline-flex;
-      font-weight: 600;
-      align-items: center;
-      justify-content: center;
-      width: 1.5rem;
-      height: 1.5rem;
-      border-radius: 100%;
-      font-size: 14px;
+    &:focus {
+      background-color: #5b5b5b4f;
     }
   }
+}
 
-  .title {
+.edit-panel {
+  text-align: left;
+
+  .name input {
     font-size: 1.5em;
     padding: 0.5em 0;
     font-weight: bold;
   }
 
-  .requires {
-    padding: 0.5rem 2rem;
-    background-color: #151515;
-    font-style: italic;
-    border-radius: 6px;
-    margin: 1rem 0;
-    margin-top: 2rem;
-    width: 100%;
-    font-weight: 300;
-    color: #ff7575;
-
-    .skill {
-      font-weight: 400;
-    }
+  .id input {
+    margin: 0.5em 0;
+    font-size: 1em;
+    padding: 0.5em 0;
+    font-weight: 200;
   }
 
-  .info-description {
+  .description textarea {
     padding: 1rem 0;
     font-weight: 300;
     font-size: 1.5em;
     color: #ddd;
   }
-  
+
   .divider {
     height: 2px;
     width: 80%;
     margin-bottom: 0.5rem;
   }
+}
 
-  .abilities {
-    .title {
-      font-size: 18px;
-    }
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  button {
+    background: #476dc8;
+    width: 100%;
     display: flex;
-    gap: 1em;
-    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: transparent;
+    color: rgb(198, 163, 255);
+    border: 2px solid rgb(198, 163, 255);
+    border-radius: 7px;
+  }
+}
+
+.cost-panel div {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding-right: 0.5rem;
+  font-size: 1.5em;
+  display: flex;
+  gap: 0.5rem;
+  align-content: center;
+  justify-content: center;
+  padding: 1rem;
+
+  .level-points {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 100%;
+
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--panelColor);
+    border: none;
+    background: transparent;
   }
 
-  @media only screen and (max-width: 800px) {
-    font-size: 0.75rem;
+  button {
+    padding: 0;
   }
 }

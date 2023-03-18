@@ -41,7 +41,7 @@ export function runGraphPixi(
   infoUpdated$: Subject<any>,
   graphEvents: Subject<IGraphEvent>
 ) {
-  graphEvents.subscribe({
+  let graphSub = graphEvents.subscribe({
     next: (e) => {
       switch (e.event) {
         case "forcesUpdated":
@@ -52,6 +52,9 @@ export function runGraphPixi(
           break;
         case "nodeAdded":
           addNode(e.data.node);
+          break;
+        case "nodeEdited":
+          editNode(e.data.id, e.data.node);
           break;
       }
     },
@@ -68,8 +71,9 @@ export function runGraphPixi(
   let visualLinks;
   let links;
   let width, height;
-  let viewport;
+  let viewport: Viewport;
   let mode = "build";
+  let currentlyEditing;
 
   function newBuild() {
     nodeMeta = {
@@ -106,18 +110,52 @@ export function runGraphPixi(
     });
   }
 
+  function editNode(nodeId, newNode) {
+    let node = find(nodes, { id: nodeId }) as INode;
+    node.name = newNode.name;
+    node.id = newNode.id;
+    node.description = newNode.description;
+    node.levels = newNode.levels;
+    node.cost = newNode.cost;
+    node.levelCost = newNode.levelCost;
+
+    node?.gfx.removeChildren();
+    const text = new PIXI.Text(newNode.name, {
+      fontFamily: "Inter",
+      fontSize: 12,
+      fill: "#fff",
+      align: "center",
+    });
+    text.anchor.set(0.5, -0.75);
+    text.resolution = 12;
+    node?.gfx.addChild(text);
+
+    nodes = map(nodes, (n) => {
+      if (n.id === nodeId) {
+        return node;
+      } else {
+        let fixedNode = n;
+
+        if (n.requires === nodeId) {
+          fixedNode.requires = node.id;
+        }
+
+        return fixedNode;
+      }
+    });
+
+    redrawNodes();
+    redrawLinks();
+    updateForces({ f1: 25, f2: 25, f3: 25, f4: 25 });
+    updateInfo(node, nodeMeta, nodes, infoUpdated$);
+  }
+
   function addNode(newNode: INode) {
     let node = {
       ...newNode,
       name: "test",
       colors: find(nodes, { id: newNode.requires })?.colors,
     };
-
-    let initialColor = 0xd3d3d3;
-
-    if (isNodeAvailable(node, nodeMeta)) {
-      initialColor = 0xf2f2f2;
-    }
 
     const boundPress = onPress.bind(node);
     let { name } = node;
@@ -135,7 +173,7 @@ export function runGraphPixi(
       // events for click
       .on("touchstart", (e) => {
         touching = true;
-        updateInfo(node, nodeMeta, nodes, infoUpdated$);
+        // updateInfo(node, nodeMeta, nodes, infoUpdated$);
 
         setTimeout(() => {
           if (touching) {
@@ -157,13 +195,8 @@ export function runGraphPixi(
     viewport.addChild(node.gfx);
 
     node.gfx.on("mouseover", (mouseData) => {
-      tooltipUpdated$.next({
-        show: true,
-        x: mouseData.data.originalEvent.pageX,
-        y: mouseData.data.originalEvent.pageY,
-        node,
-      });
       if (mode === "build") {
+        currentlyEditing = node.id;
         updateInfo(node, nodeMeta, nodes, infoUpdated$);
       }
     });
@@ -180,16 +213,22 @@ export function runGraphPixi(
 
     nodes = [...nodes, node];
     links.push({ source: node, target: find(nodes, { id: node.requires }) });
+    currentlyEditing = node.id;
     redrawNodes();
     redrawLinks();
     updateForces({ f1: 25, f2: 25, f3: 25, f4: 25 });
+    updateInfo(node, nodeMeta, nodes, infoUpdated$);
   }
 
   function changeMode(newMode: string) {
     let oldMode = mode;
 
     mode = newMode;
+
     if (oldMode !== newMode) {
+      if (mode === "build") {
+        // currentlyEditing = null;
+      }
       redrawNodes();
       redrawLinks();
     }
@@ -221,7 +260,9 @@ export function runGraphPixi(
       redrawNodes(selectionChanged ? node.id : null);
       redrawLinks();
     } else if (mode === "edit") {
+      currentlyEditing = node.id;
       updateInfo(node, nodeMeta, nodes, infoUpdated$);
+      redrawNodes();
     }
   }
 
@@ -300,6 +341,8 @@ export function runGraphPixi(
 
   function redrawNodes(targetNodeId?: string) {
     nodes.forEach((node: INode) => {
+      const isEditing = currentlyEditing === node.id;
+
       const selected = isNodeSelected(node, nodeMeta);
       const available = isNodeAvailable(node, nodeMeta);
       node.gfx.clear();
@@ -314,11 +357,19 @@ export function runGraphPixi(
       }
 
       if (!targetNodeId || node.id !== targetNodeId || node.levels) {
-        if (node.levels) {
+        if (node.levels && node.levels > 1) {
           const width = node.levels * 14;
           const levelsAcquired = nodeMeta.acquired[node.id];
 
-          node.gfx.clear();
+          if (isEditing && mode === "edit") {
+            console.log("draw white thing");
+            node.gfx.beginFill(0xffffff);
+            node.gfx.drawShape(
+              new PIXI.RoundedRectangle(-14, -8, width + 4, 20, 6)
+            );
+            node.gfx.endFill();
+          }
+
           node.gfx.beginFill(
             getNodeColor(node, nodeMeta, mode === "edit" ? "selected" : null)
           );
@@ -341,6 +392,12 @@ export function runGraphPixi(
             size = selected ? cost * 2 + 6 : cost * 2 + 2;
           }
 
+          if (isEditing && mode === "edit") {
+            node.gfx.beginFill(0xffffff);
+            node.gfx.drawCircle(0, 0, size + 2);
+            node.gfx.endFill();
+          }
+
           node.gfx.beginFill(
             getNodeColor(node, nodeMeta, mode === "edit" ? "selected" : null)
           );
@@ -355,8 +412,10 @@ export function runGraphPixi(
         let targetSize = selected ? cost * 2 + 6 : cost * 2 + 2;
         let size = !selected ? cost * 2 + 6 : cost * 2 + 2;
         let iteration = 0;
+
         const animation = setInterval(() => {
           iteration++;
+          console.log(iteration);
           if (!selected) {
             size -= iteration * 0.4;
           } else {
@@ -364,9 +423,8 @@ export function runGraphPixi(
           }
 
           node?.gfx.clear();
-          node?.gfx.beginFill(
-            getNodeColor(node, nodeMeta, mode === "edit" ? "selected" : null)
-          );
+
+          node?.gfx.beginFill(getNodeColor(node, nodeMeta));
 
           node?.gfx.drawCircle(0, 0, size);
 
@@ -433,8 +491,6 @@ export function runGraphPixi(
       .wheel()
       .decelerate()
       .clampZoom({ minWidth: width / 4, minHeight: height / 4 });
-
-    console.log(links);
 
     simulation = d3
       .forceSimulation(nodes as SimulationNodeDatum[])
@@ -512,12 +568,6 @@ export function runGraphPixi(
       viewport.addChild(node.gfx);
 
       node.gfx.on("mouseover", (mouseData) => {
-        tooltipUpdated$.next({
-          show: true,
-          x: mouseData.data.originalEvent.pageX,
-          y: mouseData.data.originalEvent.pageY,
-          node,
-        });
         if (mode === "build") {
           updateInfo(node, nodeMeta, nodes, infoUpdated$);
         }
@@ -557,7 +607,7 @@ export function runGraphPixi(
         node.gfx.clear();
       });
       visualLinks.clear();
-      // graphEvents.unsubscribe();
+      graphSub.unsubscribe();
     },
   };
 }
