@@ -2,13 +2,11 @@ import React, { useEffect, useState } from "react";
 import { runGraphPixi } from "./runPixi";
 import styles from "./pixi.module.css";
 import { Subject } from "rxjs";
-const forceUpdated$ = new Subject();
 
 export function PixiGraph({
   trees,
   buildData,
   nodeSelectionUpdated,
-  tooltipUpdated,
   infoUpdated,
   graphEvents,
 }) {
@@ -29,12 +27,6 @@ export function PixiGraph({
     },
   });
 
-  tooltipUpdated$.subscribe({
-    next: (data) => {
-      tooltipUpdated(data);
-    },
-  });
-
   infoUpdated$.subscribe({
     next: (data) => {
       infoUpdated(data);
@@ -50,7 +42,6 @@ export function PixiGraph({
         trees,
         buildData,
         nodesUpdated$,
-        tooltipUpdated$,
         infoUpdated$,
         graphEvents
       );

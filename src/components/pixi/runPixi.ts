@@ -37,7 +37,6 @@ export function runGraphPixi(
   nodesData,
   build = {},
   nodesUpdated$: Subject<any>,
-  tooltipUpdated$: Subject<any>,
   infoUpdated$: Subject<any>,
   graphEvents: Subject<IGraphEvent>
 ) {
