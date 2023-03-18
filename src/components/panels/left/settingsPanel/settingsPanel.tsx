@@ -1,12 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReactSlider from "react-slider";
 import "./settingsPanel.scss";
 
-export function SettingsPanel({ forceUpdated }) {
+function updateForces(forces, setForces) {}
+
+export function SettingsPanel({ graphEvents$ }) {
   const [force1, setForce1] = useState(50);
   const [force2, setForce2] = useState(50);
   const [force3, setForce3] = useState(50);
   const [force4, setForce4] = useState(50);
+  const [forces, setForces] = useState({});
+
+  useEffect(() => {}, [forces]);
 
   const handle1Updated = (event) => {
     setForce1(event);
@@ -25,13 +30,19 @@ export function SettingsPanel({ forceUpdated }) {
     updateForces();
   };
 
-  const updateForces = () =>
-    forceUpdated({
-      f1: force1,
-      f2: force2,
-      f3: force3,
-      f4: force4,
+  const updateForces = () => {
+    graphEvents$.next({
+      event: "forcesUpdated",
+      data: {
+        forces: {
+          f1: force1,
+          f2: force2,
+          f3: force3,
+          f4: force4,
+        },
+      },
     });
+  };
 
   return (
     <div>

@@ -43,7 +43,6 @@ export function runGraphPixi(
 ) {
   graphEvents.subscribe({
     next: (e) => {
-      console.log(e);
       switch (e.event) {
         case "forcesUpdated":
           updateForces(e.data.forces);
@@ -110,34 +109,36 @@ export function runGraphPixi(
       redrawNodes();
       redrawLinks();
     }
-
-    console.log(mode);
   }
 
   function onPress(e, node: any) {
-    const selection = isNodeSelected(node, nodeMeta);
+    if (mode === "build") {
+      const selection = isNodeSelected(node, nodeMeta);
 
-    nodeMeta = acquiredselectNodeAndReturnNewMeta(
-      node,
-      nodes,
-      nodeMeta,
-      e.nativeEvent.shiftKey
-    );
+      nodeMeta = acquiredselectNodeAndReturnNewMeta(
+        node,
+        nodes,
+        nodeMeta,
+        e.nativeEvent.shiftKey
+      );
 
-    nodesUpdated$.next({
-      nodes: map(nodes, (n) => ({
-        ...n,
-        selected: isNodeSelected(n, nodeMeta),
-        acquired: nodeMeta.acquired[n.id],
-      })),
-    });
+      nodesUpdated$.next({
+        nodes: map(nodes, (n) => ({
+          ...n,
+          selected: isNodeSelected(n, nodeMeta),
+          acquired: nodeMeta.acquired[n.id],
+        })),
+      });
 
-    updateInfo(node, nodeMeta, nodes, infoUpdated$);
+      updateInfo(node, nodeMeta, nodes, infoUpdated$);
 
-    const selectionChanged = isNodeSelected(node, nodeMeta) !== selection;
+      const selectionChanged = isNodeSelected(node, nodeMeta) !== selection;
 
-    redrawNodes(selectionChanged ? node.id : null);
-    redrawLinks();
+      redrawNodes(selectionChanged ? node.id : null);
+      redrawLinks();
+    } else if (mode === "edit") {
+      updateInfo(node, nodeMeta, nodes, infoUpdated$);
+    }
   }
 
   function updateForces(forces) {
@@ -175,6 +176,8 @@ export function runGraphPixi(
 
       simulation.alpha(1).restart();
     }
+    redrawLinks();
+    redrawNodes();
   }
 
   function redrawLinks() {
@@ -218,7 +221,13 @@ export function runGraphPixi(
       node.gfx.clear();
       let cost = node.cost || 1;
 
-      node.gfx.cursor = isNodeAvailable(node, nodeMeta) ? "pointer" : "default";
+      if (mode === "build") {
+        node.gfx.cursor = isNodeAvailable(node, nodeMeta)
+          ? "pointer"
+          : "default";
+      } else {
+        node.gfx.cursor = "pointer";
+      }
 
       if (!targetNodeId || node.id !== targetNodeId || node.levels) {
         if (node.levels) {
@@ -302,8 +311,8 @@ export function runGraphPixi(
 
     newBuild();
     const containerRect = container.getBoundingClientRect();
-    const height = containerRect.height;
-    const width = containerRect.width;
+    height = containerRect.height;
+    width = containerRect.width;
 
     container.innerHTML = "";
 
@@ -423,7 +432,9 @@ export function runGraphPixi(
           y: mouseData.data.originalEvent.pageY,
           node,
         });
-        updateInfo(node, nodeMeta, nodes, infoUpdated$);
+        if (mode === "build") {
+          updateInfo(node, nodeMeta, nodes, infoUpdated$);
+        }
       });
 
       const text = new PIXI.Text(name, {
@@ -460,6 +471,7 @@ export function runGraphPixi(
         node.gfx.clear();
       });
       visualLinks.clear();
+      // graphEvents.unsubscribe();
     },
   };
 }

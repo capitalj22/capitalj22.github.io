@@ -1,32 +1,30 @@
 import { find, map, times } from "lodash-es";
 import React from "react";
-import { ABILITIES } from "../../entities/abilities/abilities";
-import { AbilityCard } from "../characterSheet/abilityCard/abilityCard";
+import { ABILITIES } from "../../../../entities/abilities/abilities";
+import { AbilityCard } from "../../../characterSheet/abilityCard/abilityCard";
 import "./infoPanel.scss";
 
-export function InfoPanel({ info }) {
-  const relatedAbilities = map(info.node?.providedAbilities, (ability) => {
+export function InfoPanel({ node }) {
+  const relatedAbilities = map(node?.providedAbilities, (ability) => {
     return { ...find(ABILITIES, { id: ability.id }), modifiers: {} };
   });
 
-  let nodeColor = info.node?.colors?.selected;
+  let nodeColor = node?.colors?.selected;
 
   React.useEffect(() => {
-    nodeColor = info.node?.colors?.selected;
-  }, [info]);
+    nodeColor = node?.colors?.selected;
+  }, [node]);
 
-  const cost = info.node?.levels ? (
+  const cost = node?.levels ? (
     <span className="cost">
-      {times(info.node?.levels, (index) => (
+      {times(node?.levels, (index) => (
         <span
           className="level-points"
           style={{
-            background: info.node.acquired > index ? nodeColor : "#666",
+            background: node.acquired > index ? nodeColor : "#666",
           }}
         >
-          {info.node?.levelCost?.length
-            ? info.node.levelCost[index]
-            : info.node.levelCost}
+          {node?.levelCost?.length ? node.levelCost[index] : node.levelCost}
         </span>
       ))}
     </span>
@@ -34,32 +32,32 @@ export function InfoPanel({ info }) {
     <span className="cost">
       <span
         className="level-points"
-        style={{ background: info.node?.selected ? nodeColor : "#666" }}
+        style={{ background: node?.selected ? nodeColor : "#666" }}
       >
-        {info.node?.cost > 1 ? info.node?.cost : ""}
+        {node?.cost > 1 ? node?.cost : ""}
       </span>
     </span>
   );
 
-  if (info.node) {
+  if (node) {
     return (
       <div className="info-panel">
         {cost}
-        <div className="title">{info.node?.name}</div>
+        <div className="title">{node?.name}</div>
 
         <div className="divider" style={{ backgroundColor: nodeColor }}></div>
-        {!info.node.available ? (
+        {!node.available ? (
           <div className="requires">
             Requires{" "}
             <span className="skill">
-              {info.node.requiredName}{" "}
-              {info.node.levelsRequired ? (
-                <span>({info.node.levelsRequired})</span>
+              {node.requiredName}{" "}
+              {node.levelsRequired ? (
+                <span>({node.levelsRequired})</span>
               ) : null}
             </span>
           </div>
         ) : null}
-        <div className="info-description">{info.node?.description}</div>
+        <div className="info-description">{node?.description}</div>
         {relatedAbilities.length > 0 && (
           <div className="abilities">
             <div className="title">Related Abilities:</div>

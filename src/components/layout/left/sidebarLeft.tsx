@@ -5,12 +5,10 @@ import "./sidebarLeft.scss";
 
 export function SidebarLeft({ children, itemSelected, expanded }) {
   const [menuExpanded, setMenuExpanded] = useState(true);
-  const [menuPropped, setMenuPropped] = useState(false);
   const [selectedPage, setSelectedPage] = useState(null);
 
   const handleItemSelected = (event, page) => {
     if (page === selectedPage || !menuExpanded) {
-      // setMenuPropped(!menuPropped);
       setMenuExpanded(!menuExpanded);
     }
 

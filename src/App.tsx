@@ -4,22 +4,23 @@ import CharacterSheet from "./components/characterSheet/characterSheet";
 import { PixiGraph } from "./components/pixi/pixi";
 import { filter } from "lodash-es";
 import { newDragonFromNodes } from "./entities/actor/dragon.entity";
-import { InfoPanel } from "./components/infoPanel/infoPanel";
 import { CodePanel } from "./components/codePanel/codePanel";
 import { SidebarRight } from "./components/layout/right/sidebarRight";
-import { SidebarLeft } from "./components/layout/left/sidebarLeft";
-import { SettingsPanel } from "./components/settingsPanel/settingsPanel";
+
 import { TREES } from "./data/trees/trees";
 import { PointCounter } from "./components/misc/pointCounter";
 import { Subject } from "rxjs";
+import { LeftPanel } from "./components/panels/left/leftPanel";
 
 function getBuild() {
   const localBuild = localStorage.getItem("dragon-build");
-  if (localBuild) {
-    return JSON.parse(localBuild);
-  } else {
-    return {};
-  }
+  // if (localBuild) {
+  //   return JSON.parse(localBuild);
+  // } else {
+  //   return {};
+  // }
+
+  return {};
 }
 
 export interface IGraphEvent {
@@ -38,14 +39,11 @@ function App() {
   const [dragon, setDragon] = useState({ armor: 0, hp: 0 } as any);
   const [tooltip, setTooltip] = useState({ show: false });
   const [info, setInfo] = useState({ show: false });
+  const [selectedNode, setSelectedNode] = useState({});
   const [rightMenuTitle, setRightMenuTitle] = useState("");
   const [rightMenuTemplate, setRightMenuTemplate] = useState(
     <CharacterSheet dragon={dragon}></CharacterSheet>
   );
-  const [leftPageTemplate, setLeftPageTemplate] = useState(
-    <InfoPanel info={info}></InfoPanel>
-  );
-  const [leftMenuExpanded, setLeftMenuExpanded] = useState(false);
   const [build, setBuild] = useState(() => getBuild());
 
   useEffect(() => {
@@ -63,29 +61,6 @@ function App() {
     );
 
     setDragon((dragon) => newDragonFromNodes(selectedNodes));
-  };
-
-  const handleLeftItemSelected = (page) => {
-    switch (page) {
-      case "info":
-        graphEvents$.next({ event: "modeChanged", data: { mode: "build" } });
-        setLeftPageTemplate(<InfoPanel info={info}></InfoPanel>);
-        break;
-      case "settings":
-        graphEvents$.next({ event: "modeChanged", data: { mode: "build" } });
-        setLeftPageTemplate(
-          <div>
-            <SettingsPanel forceUpdated={handleForceUpdated}></SettingsPanel>
-          </div>
-        );
-        break;
-      case "edit":
-        graphEvents$.next({ event: "modeChanged", data: { mode: "edit" } });
-        setLeftPageTemplate(<div>Edit!</div>);
-        break;
-      default:
-        break;
-    }
   };
 
   const handleRightItemSelected = (page) => {
@@ -122,31 +97,18 @@ function App() {
 
   const infoUpdated = (event) => {
     setInfo(event);
-    setLeftMenuExpanded(true);
-    if (!event.node) {
-      setLeftMenuExpanded(false);
-    }
-  };
-
-  const handleForceUpdated = (event) => {
-    graphEvents$.next({
-      event: "forcesUpdated",
-      data: {
-        forces: event,
-      },
-    });
+    setSelectedNode(event.node);
   };
 
   return (
     <div className="App">
       {/* <NodeTooltip tooltip={tooltip}></NodeTooltip> */}
       <div className="appLeft">
-        <SidebarLeft
-          itemSelected={handleLeftItemSelected}
-          expanded={leftMenuExpanded}
-        >
-          {leftPageTemplate}
-        </SidebarLeft>
+        <LeftPanel
+          build={dragon}
+          selectedNode={selectedNode}
+          graphEvents$={graphEvents$}
+        ></LeftPanel>
         <PointCounter pointsSpent={dragon.pointsInvested}></PointCounter>
       </div>
       <div className="appRight">
