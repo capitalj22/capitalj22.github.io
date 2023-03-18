@@ -33,7 +33,11 @@ export function LeftPanel({ build, selectedNode, graphEvents$ }) {
       ) : (
         ""
       )}
-      {selectedItem === "edit" ? <EditPanel node={selectedNode} /> : ""}
+      {selectedItem === "edit" ? (
+        <EditPanel node={selectedNode} graphEvents={graphEvents$} />
+      ) : (
+        ""
+      )}
     </SidebarLeft>
   );
 }

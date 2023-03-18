@@ -49,6 +49,10 @@ export function runGraphPixi(
           break;
         case "modeChanged":
           changeMode(e.data.mode);
+          break;
+        case "nodeAdded":
+          addNode(e.data.node);
+          break;
       }
     },
   });
@@ -64,6 +68,7 @@ export function runGraphPixi(
   let visualLinks;
   let links;
   let width, height;
+  let viewport;
   let mode = "build";
 
   function newBuild() {
@@ -99,6 +104,85 @@ export function runGraphPixi(
         acquired: nodeMeta.acquired[n.id],
       })),
     });
+  }
+
+  function addNode(newNode: INode) {
+    let node = {
+      ...newNode,
+      name: "test",
+      colors: find(nodes, { id: newNode.requires })?.colors,
+    };
+
+    let initialColor = 0xd3d3d3;
+
+    if (isNodeAvailable(node, nodeMeta)) {
+      initialColor = 0xf2f2f2;
+    }
+
+    const boundPress = onPress.bind(node);
+    let { name } = node;
+    let relatedAbilities: any[] = [];
+    if (node.providedAbilities) {
+      const ability1 = find(ABILITIES, { id: node.providedAbilities[0].id });
+      relatedAbilities.push(ability1);
+    }
+
+    let touching = false;
+
+    node.gfx = new PIXI.Graphics();
+
+    node.gfx
+      // events for click
+      .on("touchstart", (e) => {
+        touching = true;
+        updateInfo(node, nodeMeta, nodes, infoUpdated$);
+
+        setTimeout(() => {
+          if (touching) {
+            onPress(e, node);
+          }
+        }, 100);
+      });
+
+    node.gfx
+      // events for click
+      .on("touchend", (e) => {
+        touching = false;
+      });
+
+    node.gfx
+      // events for click
+      .on("click", (e) => boundPress(e, node));
+
+    viewport.addChild(node.gfx);
+
+    node.gfx.on("mouseover", (mouseData) => {
+      tooltipUpdated$.next({
+        show: true,
+        x: mouseData.data.originalEvent.pageX,
+        y: mouseData.data.originalEvent.pageY,
+        node,
+      });
+      if (mode === "build") {
+        updateInfo(node, nodeMeta, nodes, infoUpdated$);
+      }
+    });
+
+    const text = new PIXI.Text(name, {
+      fontFamily: "Inter",
+      fontSize: 12,
+      fill: "#fff",
+      align: "center",
+    });
+    text.anchor.set(0.5, -0.75);
+    text.resolution = 12;
+    node.gfx.addChild(text);
+
+    nodes = [...nodes, node];
+    links.push({ source: node, target: find(nodes, { id: node.requires }) });
+    redrawNodes();
+    redrawLinks();
+    updateForces({ f1: 25, f2: 25, f3: 25, f4: 25 });
   }
 
   function changeMode(newMode: string) {
@@ -190,7 +274,7 @@ export function runGraphPixi(
     visualLinks.alpha = 0.8;
 
     links.forEach((link) => {
-      let { source, target, number } = link;
+      let { source, target } = link;
       let lineColor = 0x9b9ea3;
       let lineWidth = 1;
 
@@ -330,7 +414,7 @@ export function runGraphPixi(
     container.appendChild(app.view);
 
     // create viewport
-    const viewport = new Viewport({
+    viewport = new Viewport({
       screenWidth: width,
       screenHeight: height,
       worldWidth: width * 4,
@@ -349,6 +433,8 @@ export function runGraphPixi(
       .wheel()
       .decelerate()
       .clampZoom({ minWidth: width / 4, minHeight: height / 4 });
+
+    console.log(links);
 
     simulation = d3
       .forceSimulation(nodes as SimulationNodeDatum[])
@@ -389,7 +475,7 @@ export function runGraphPixi(
       }
 
       const boundPress = onPress.bind(node);
-      let { name, description } = node;
+      let { name } = node;
       let relatedAbilities: any[] = [];
       if (node.providedAbilities) {
         const ability1 = find(ABILITIES, { id: node.providedAbilities[0].id });

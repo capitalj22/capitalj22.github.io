@@ -24,7 +24,7 @@ function getBuild() {
 }
 
 export interface IGraphEvent {
-  event: "forcesUpdated" | "modeChanged";
+  event: "forcesUpdated" | "modeChanged" | "nodeAdded";
   data: any;
 }
 

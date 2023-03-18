@@ -1,19 +1,32 @@
 import { find, map, times } from "lodash-es";
 import React from "react";
+import { PlusSquare } from "react-feather";
 import { ABILITIES } from "../../../../entities/abilities/abilities";
 import { AbilityCard } from "../../../characterSheet/abilityCard/abilityCard";
 import "./editPanel.scss";
 
-export function EditPanel({ node }) {
+export function EditPanel({ node, graphEvents }) {
   const relatedAbilities = map(node?.providedAbilities, (ability) => {
     return { ...find(ABILITIES, { id: ability.id }), modifiers: {} };
   });
+
+  const handleAddButtonPressed = (event) => {
+    graphEvents.next({
+      event: "nodeAdded",
+      data: {
+        node: {
+          requires: node.id,
+          id: Math.random().toString()
+        },
+      },
+    });
+  };
 
   let nodeColor = node?.colors?.selected;
 
   React.useEffect(() => {
     nodeColor = node?.colors?.selected;
-  }, [node]); 
+  }, [node]);
 
   const cost = node?.levels ? (
     <span className="cost">
@@ -24,9 +37,7 @@ export function EditPanel({ node }) {
             background: node.acquired > index ? nodeColor : "#666",
           }}
         >
-          {node?.levelCost?.length
-            ? node.levelCost[index]
-            : node.levelCost}
+          {node?.levelCost?.length ? node.levelCost[index] : node.levelCost}
         </span>
       ))}
     </span>
@@ -68,6 +79,11 @@ export function EditPanel({ node }) {
             ))}
           </div>
         )} */}
+
+        <button onClick={handleAddButtonPressed}>
+          <PlusSquare />
+          Add New Skill
+        </button>
       </div>
     );
   } else {
