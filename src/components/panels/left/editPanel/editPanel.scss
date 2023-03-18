@@ -39,6 +39,31 @@
     width: 80%;
     margin-bottom: 0.5rem;
   }
+
+  .requires {
+    padding: 0.5rem 2rem;
+    background-color: #151515;
+    font-style: italic;
+    border-radius: 6px;
+    margin: 1rem 0;
+    margin-top: 2rem;
+    width: 100%;
+    color: #ff7575;
+
+    .skill {
+      font-weight: 400;
+    }
+
+    input {
+      max-width: 4rem;
+      font-size: 1em;
+      font-weight: 300;
+      color: #ff7575;
+      font-weight: bold;
+      border: none;
+      background-color: transparent;
+    }
+  }
 }
 
 .buttons {

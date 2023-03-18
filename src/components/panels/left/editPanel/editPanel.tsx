@@ -29,20 +29,25 @@ export function EditPanel({ node, graphEvents }) {
   const [levelCost, setLevelCost] = useState(
     convertLevelCost(node.levelCost, node.levels, node.cost)
   );
+  const [levelsRequired, setLevelRequired] = useState(node.levelsRequired || 0);
 
-  const handleIdUpdated = (event) => {
+  const IdUpdated = (event) => {
     setId(event.target.value);
   };
 
-  const handleNameUpdated = (event) => {
+  const NameUpdated = (event) => {
     setName(event.target.value);
   };
 
-  const handleDescriptionUpdated = (event) => {
+  const DescriptionUpdated = (event) => {
     setDescription(event.target.value);
   };
 
-  const handleAddButtonPressed = (event) => {
+  const levelsRequiredUpdated = (event) => {
+    setLevelRequired(event.target.value);
+  };
+
+  const AddButtonPressed = (event) => {
     graphEvents.next({
       event: "nodeAdded",
       data: {
@@ -54,7 +59,7 @@ export function EditPanel({ node, graphEvents }) {
     });
   };
 
-  const handleSavePressed = (event) => {
+  const SavePressed = (event) => {
     const newNode = {
       id: id,
       name: name,
@@ -66,6 +71,10 @@ export function EditPanel({ node, graphEvents }) {
     } else {
       newNode.levels = levels;
       newNode.levelCost = levelCost;
+    }
+
+    if (levelsRequired > 1) {
+      newNode.levelsRequired = levelsRequired;
     }
 
     graphEvents.next({
@@ -141,6 +150,7 @@ export function EditPanel({ node, graphEvents }) {
     setDescription(node.description);
     setLevels(node.levels || 1);
     setLevelCost(convertLevelCost(node.levelCost, node.levels, node.cost));
+    setLevelRequired(node.levelsRequired || 1);
   }, [node]);
 
   if (node) {
@@ -148,38 +158,43 @@ export function EditPanel({ node, graphEvents }) {
       <div className="edit-panel">
         <div className="cost-panel">{costTemplate}</div>
         <div className="form-control name">
-          <input
-            type="text"
-            onChange={handleNameUpdated}
-            value={name || ""}
-          ></input>
+          <input type="text" onChange={NameUpdated} value={name || ""}></input>
         </div>
 
         <div className="form-control id">
-          <input
-            type="text"
-            onChange={handleIdUpdated}
-            value={id || ""}
-          ></input>
+          <input type="text" onChange={IdUpdated} value={id || ""}></input>
         </div>
 
         <div className="divider" style={{ backgroundColor: nodeColor }}></div>
 
+        <div className="requires">
+          Requires{" "}
+          <span className="skill">
+            {node.requiredName}{" "}
+            <input
+              min={1}
+              type="number"
+              value={levelsRequired}
+              onChange={levelsRequiredUpdated}
+            ></input>
+          </span>
+        </div>
+
         <div className="form-control description">
           <textarea
             rows={4}
-            onChange={handleDescriptionUpdated}
+            onChange={DescriptionUpdated}
             value={description || ""}
           ></textarea>
         </div>
 
         <div className="buttons">
-          <button onClick={handleSavePressed}>
+          <button onClick={SavePressed}>
             <Save />
             Update Node
           </button>
 
-          <button onClick={handleAddButtonPressed}>
+          <button onClick={AddButtonPressed}>
             <PlusSquare />
             Add Child Node
           </button>

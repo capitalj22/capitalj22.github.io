@@ -118,6 +118,7 @@ export function runGraphPixi(
     node.levels = newNode.levels;
     node.cost = newNode.cost;
     node.levelCost = newNode.levelCost;
+    node.levelsRequired = newNode.levelsRequired;
 
     if (
       nodeMeta.acquired[nodeId] &&
