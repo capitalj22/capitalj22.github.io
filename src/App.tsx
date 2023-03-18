@@ -2,16 +2,16 @@ import { useEffect, useState } from "react";
 import "./App.scss";
 import CharacterSheet from "./components/characterSheet/characterSheet";
 import { PixiGraph } from "./components/pixi/pixi";
-import { filter, reduce, concat, map, isUndefined } from "lodash-es";
+import { filter } from "lodash-es";
 import { newDragonFromNodes } from "./entities/actor/dragon.entity";
 import { InfoPanel } from "./components/infoPanel/infoPanel";
-import buildData from "./data/example-builds/build.json";
 import { CodePanel } from "./components/codePanel/codePanel";
 import { SidebarRight } from "./components/layout/right/sidebarRight";
 import { SidebarLeft } from "./components/layout/left/sidebarLeft";
 import { SettingsPanel } from "./components/settingsPanel/settingsPanel";
 import { TREES } from "./data/trees/trees";
 import { PointCounter } from "./components/misc/pointCounter";
+import { Subject } from "rxjs";
 
 function getBuild() {
   const localBuild = localStorage.getItem("dragon-build");
@@ -21,6 +21,13 @@ function getBuild() {
     return {};
   }
 }
+
+export interface IGraphEvent {
+  event: string;
+  data: any;
+}
+
+const graphEvents$ = new Subject<IGraphEvent>();
 
 function saveBuild(build) {
   localStorage.setItem("dragon-build", JSON.stringify(build));
@@ -86,7 +93,12 @@ function App() {
   };
 
   const handleForceUpdated = (event) => {
-    setForce(event);
+    graphEvents$.next({
+      event: "forcesUpdated",
+      data: {
+        forces: event,
+      },
+    });
   };
 
   let rightMenuPage;
@@ -145,10 +157,10 @@ function App() {
         <PixiGraph
           trees={TREES}
           buildData={build}
-          force={force}
           nodeSelectionUpdated={nodeSelectionUpdated}
           tooltipUpdated={tooltipUpdated}
           infoUpdated={infoUpdated}
+          graphEvents={graphEvents$}
         ></PixiGraph>
         <div className="infoPanel"></div>
       </div>

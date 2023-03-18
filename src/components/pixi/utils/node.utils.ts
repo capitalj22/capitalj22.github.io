@@ -1,7 +1,7 @@
 import { each, filter, find } from "lodash-es";
-import { INode } from "../runPixi";
+import { d3Node, INode } from "../runPixi";
 
-export const isNodeSelected = (node: INode, nodeMeta) => {
+export const isNodeSelected = (node: d3Node, nodeMeta) => {
   if (node.levels) {
     return nodeMeta.acquired[node.id] > 0;
   } else {
@@ -96,4 +96,19 @@ export const updateInfo = (node, nodeMeta, nodes, infoUpdated$) => {
       requiredName: find(nodes, { id: node.requires })?.name,
     },
   });
+};
+export const toPixiColor = (color): number => {
+  if (typeof color === "string") {
+    return parseInt(color.replace(`#`, ""), 16);
+  } else return 0;
+};
+
+export const getNodeColor = (node, nodeMeta) => {
+  if (!isNodeAvailable(node, nodeMeta)) {
+    return toPixiColor(node.colors.unavailable);
+  } else if (isNodeSelected(node, nodeMeta)) {
+    return toPixiColor(node.colors.selected);
+  } else {
+    return toPixiColor(node.colors.inactive);
+  }
 };

@@ -7,35 +7,39 @@ const forceUpdated$ = new Subject();
 export function PixiGraph({
   trees,
   buildData,
-  force,
   nodeSelectionUpdated,
   tooltipUpdated,
   infoUpdated,
+  graphEvents,
 }) {
   const containerRef = React.useRef(null);
   const nodesUpdated$ = new Subject();
   const tooltipUpdated$ = new Subject();
   const infoUpdated$ = new Subject();
 
+  graphEvents.subscribe({
+    next: (e) => {
+      console.log("graph component", e);
+    },
+  });
+
   nodesUpdated$.subscribe({
     next: (data) => {
       nodeSelectionUpdated(data);
     },
   });
+
   tooltipUpdated$.subscribe({
     next: (data) => {
       tooltipUpdated(data);
     },
   });
+  
   infoUpdated$.subscribe({
     next: (data) => {
       infoUpdated(data);
     },
   });
-
-  useEffect(() => {
-    forceUpdated$.next(force);
-  }, [force]);
 
   React.useEffect(() => {
     let destroyFn;
@@ -48,7 +52,7 @@ export function PixiGraph({
         nodesUpdated$,
         tooltipUpdated$,
         infoUpdated$,
-        forceUpdated$
+        graphEvents
       );
       destroyFn = destroy;
     }
