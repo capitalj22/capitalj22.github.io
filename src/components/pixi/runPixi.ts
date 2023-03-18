@@ -119,6 +119,13 @@ export function runGraphPixi(
     node.cost = newNode.cost;
     node.levelCost = newNode.levelCost;
 
+    if (
+      nodeMeta.acquired[nodeId] &&
+      nodeMeta.acquired[nodeId] > newNode.levels
+    ) {
+      nodeMeta.acquired[nodeId] = newNode.levels;
+    }
+
     node?.gfx.removeChildren();
     const text = new PIXI.Text(newNode.name, {
       fontFamily: "Inter",

@@ -2,15 +2,16 @@ import { clone, find, map, times } from "lodash-es";
 import React, { useState } from "react";
 import { MinusSquare, PlusSquare, Save } from "react-feather";
 import { ABILITIES } from "../../../../entities/abilities/abilities";
-import { AbilityCard } from "../../../characterSheet/abilityCard/abilityCard";
 import "./editPanel.scss";
 
-function convertLevelCost(levelCost, cost) {
-  if (levelCost) {
-    if (levelCost.length) {
+function convertLevelCost(levelCost, levels, cost) {
+  if (levels) {
+    if (levelCost?.length) {
       return levelCost;
     } else {
-      return [levelCost];
+      const lvlArray: number[] = [];
+      times(levels, () => lvlArray.push(levelCost || 1));
+      return lvlArray;
     }
   } else {
     return [cost];
@@ -26,7 +27,7 @@ export function EditPanel({ node, graphEvents }) {
   const [description, setDescription] = useState(node.description);
   const [levels, setLevels] = useState(node.levels);
   const [levelCost, setLevelCost] = useState(
-    convertLevelCost(node.levelCost, node.cost)
+    convertLevelCost(node.levelCost, node.levels, node.cost)
   );
 
   const handleIdUpdated = (event) => {
@@ -139,7 +140,7 @@ export function EditPanel({ node, graphEvents }) {
     setName(node.name);
     setDescription(node.description);
     setLevels(node.levels || 1);
-    setLevelCost(convertLevelCost(node.levelCost, node.cost));
+    setLevelCost(convertLevelCost(node.levelCost, node.levels, node.cost));
   }, [node]);
 
   if (node) {
