@@ -23,7 +23,7 @@ function getBuild() {
 }
 
 export interface IGraphEvent {
-  event: string;
+  event: "forcesUpdated" | "modeChanged";
   data: any;
 }
 
@@ -38,12 +38,15 @@ function App() {
   const [dragon, setDragon] = useState({ armor: 0, hp: 0 } as any);
   const [tooltip, setTooltip] = useState({ show: false });
   const [info, setInfo] = useState({ show: false });
-  const [rightPage, setRightPage] = useState("sheet");
   const [rightMenuTitle, setRightMenuTitle] = useState("");
-  const [leftPage, setLeftPage] = useState("info");
+  const [rightMenuTemplate, setRightMenuTemplate] = useState(
+    <CharacterSheet dragon={dragon}></CharacterSheet>
+  );
+  const [leftPageTemplate, setLeftPageTemplate] = useState(
+    <InfoPanel info={info}></InfoPanel>
+  );
   const [leftMenuExpanded, setLeftMenuExpanded] = useState(false);
   const [build, setBuild] = useState(() => getBuild());
-  const [force, setForce] = useState(null);
 
   useEffect(() => {
     saveBuild(dragon.exportableBuild);
@@ -63,19 +66,52 @@ function App() {
   };
 
   const handleLeftItemSelected = (page) => {
-    setLeftPage(page);
+    switch (page) {
+      case "info":
+        graphEvents$.next({ event: "modeChanged", data: { mode: "build" } });
+        setLeftPageTemplate(<InfoPanel info={info}></InfoPanel>);
+        break;
+      case "settings":
+        graphEvents$.next({ event: "modeChanged", data: { mode: "build" } });
+        setLeftPageTemplate(
+          <div>
+            <SettingsPanel forceUpdated={handleForceUpdated}></SettingsPanel>
+          </div>
+        );
+        break;
+      case "edit":
+        graphEvents$.next({ event: "modeChanged", data: { mode: "edit" } });
+        setLeftPageTemplate(<div>Edit!</div>);
+        break;
+      default:
+        break;
+    }
   };
 
   const handleRightItemSelected = (page) => {
-    setRightPage(page);
     switch (page) {
       case "sheet":
+        setRightMenuTemplate(<CharacterSheet dragon={dragon}></CharacterSheet>);
         setRightMenuTitle("Character Sheet");
         break;
       case "code":
+        setRightMenuTemplate(
+          <CodePanel
+            dragon={dragon}
+            importAttempted={handleImportAttempted}
+          ></CodePanel>
+        );
+
         setRightMenuTitle("Import/Export");
         break;
       case "help":
+        setRightMenuTemplate(
+          <div>
+            <h2>Mobile Controls</h2>
+            <div>Short Tap: View Info</div>
+            <div>Long Tap: Select Skill</div>
+          </div>
+        );
         setRightMenuTitle("Reference");
     }
   };
@@ -101,38 +137,6 @@ function App() {
     });
   };
 
-  let rightMenuPage;
-  let leftMenuPage;
-
-  if (rightPage === "sheet") {
-    rightMenuPage = <CharacterSheet dragon={dragon}></CharacterSheet>;
-  } else if (rightPage === "code") {
-    rightMenuPage = (
-      <CodePanel
-        dragon={dragon}
-        importAttempted={handleImportAttempted}
-      ></CodePanel>
-    );
-  } else if (rightPage === "help") {
-    rightMenuPage = (
-      <div>
-        <h2>Mobile Controls</h2>
-        <div>Short Tap: View Info</div>
-        <div>Long Tap: Select Skill</div>
-      </div>
-    );
-  }
-
-  if (leftPage === "info") {
-    leftMenuPage = <InfoPanel info={info}></InfoPanel>;
-  } else if (leftPage === "settings") {
-    leftMenuPage = (
-      <div>
-        <SettingsPanel forceUpdated={handleForceUpdated}></SettingsPanel>
-      </div>
-    );
-  }
-
   return (
     <div className="App">
       {/* <NodeTooltip tooltip={tooltip}></NodeTooltip> */}
@@ -141,7 +145,7 @@ function App() {
           itemSelected={handleLeftItemSelected}
           expanded={leftMenuExpanded}
         >
-          {leftMenuPage}
+          {leftPageTemplate}
         </SidebarLeft>
         <PointCounter pointsSpent={dragon.pointsInvested}></PointCounter>
       </div>
@@ -150,7 +154,7 @@ function App() {
           itemSelected={handleRightItemSelected}
           title={rightMenuTitle}
         >
-          {rightMenuPage}
+          {rightMenuTemplate}
         </SidebarRight>
       </div>
       <div className="skill-panel">

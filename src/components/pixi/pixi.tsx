@@ -19,7 +19,7 @@ export function PixiGraph({
 
   graphEvents.subscribe({
     next: (e) => {
-      console.log("graph component", e);
+      // console.log("graph component", e);
     },
   });
 
@@ -34,7 +34,7 @@ export function PixiGraph({
       tooltipUpdated(data);
     },
   });
-  
+
   infoUpdated$.subscribe({
     next: (data) => {
       infoUpdated(data);

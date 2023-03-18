@@ -43,8 +43,13 @@ export function runGraphPixi(
 ) {
   graphEvents.subscribe({
     next: (e) => {
-      if (e.event === "forcesUpdated") {
-        updateForces(e.data.forces);
+      console.log(e);
+      switch (e.event) {
+        case "forcesUpdated":
+          updateForces(e.data.forces);
+          break;
+        case "modeChanged":
+          changeMode(e.data.mode);
       }
     },
   });
@@ -60,6 +65,7 @@ export function runGraphPixi(
   let visualLinks;
   let links;
   let width, height;
+  let mode = "build";
 
   function newBuild() {
     nodeMeta = {
@@ -94,6 +100,18 @@ export function runGraphPixi(
         acquired: nodeMeta.acquired[n.id],
       })),
     });
+  }
+
+  function changeMode(newMode: string) {
+    let oldMode = mode;
+
+    mode = newMode;
+    if (oldMode !== newMode) {
+      redrawNodes();
+      redrawLinks();
+    }
+
+    console.log(mode);
   }
 
   function onPress(e, node: any) {
@@ -174,7 +192,11 @@ export function runGraphPixi(
       let lineWidth = 1;
 
       if (target.id) {
-        lineColor = getNodeColor(source, nodeMeta);
+        lineColor = getNodeColor(
+          source,
+          nodeMeta,
+          mode === "edit" ? "selected" : null
+        );
 
         lineWidth =
           isNodeSelected(target, nodeMeta) && isNodeSelected(source, nodeMeta)
@@ -204,7 +226,9 @@ export function runGraphPixi(
           const levelsAcquired = nodeMeta.acquired[node.id];
 
           node.gfx.clear();
-          node.gfx.beginFill(getNodeColor(node, nodeMeta));
+          node.gfx.beginFill(
+            getNodeColor(node, nodeMeta, mode === "edit" ? "selected" : null)
+          );
           node.gfx.drawShape(new PIXI.RoundedRectangle(-12, -6, width, 16, 4));
           node.gfx.endFill();
 
@@ -217,8 +241,16 @@ export function runGraphPixi(
 
           node.gfx.hitArea = new PIXI.Rectangle(-10, -6, width, 16);
         } else {
-          let size = selected ? cost * 2 + 6 : cost * 2 + 2;
-          node.gfx.beginFill(getNodeColor(node, nodeMeta));
+          let size;
+          if (mode === "edit") {
+            size = 8;
+          } else {
+            size = selected ? cost * 2 + 6 : cost * 2 + 2;
+          }
+
+          node.gfx.beginFill(
+            getNodeColor(node, nodeMeta, mode === "edit" ? "selected" : null)
+          );
 
           node.gfx.drawCircle(0, 0, size);
 
@@ -239,7 +271,9 @@ export function runGraphPixi(
           }
 
           node?.gfx.clear();
-          node?.gfx.beginFill(getNodeColor(node, nodeMeta));
+          node?.gfx.beginFill(
+            getNodeColor(node, nodeMeta, mode === "edit" ? "selected" : null)
+          );
 
           node?.gfx.drawCircle(0, 0, size);
 

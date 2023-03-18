@@ -16,7 +16,6 @@ export function TagFilters({ tags, selectedTagsChanged }) {
 
   useEffect(() => {
     selectedTagsChanged(selectedTags);
-    console.log(selectedTags);
   }, [selectedTags]);
 
   if (tags) {

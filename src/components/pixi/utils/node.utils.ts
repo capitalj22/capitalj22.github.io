@@ -103,7 +103,11 @@ export const toPixiColor = (color): number => {
   } else return 0;
 };
 
-export const getNodeColor = (node, nodeMeta) => {
+export const getNodeColor = (node, nodeMeta, override?) => {
+  if (override) {
+    return toPixiColor(node.colors[override]);
+  }
+
   if (!isNodeAvailable(node, nodeMeta)) {
     return toPixiColor(node.colors.unavailable);
   } else if (isNodeSelected(node, nodeMeta)) {
