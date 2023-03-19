@@ -119,6 +119,9 @@ export function runGraphPixi(
     node.levelCost = newNode.levelCost;
     node.levelsRequired = newNode.levelsRequired;
     node.providedStats = newNode.providedStats;
+    node.providedAbilities = newNode.providedAbilities;
+
+    console.log(node.providedAbilities)
 
     if (
       nodeMeta.acquired[nodeId] &&

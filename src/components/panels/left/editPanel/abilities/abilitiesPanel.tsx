@@ -82,8 +82,17 @@ export function AbilitiesPanel({
     setAbilities(newAbilities);
   };
 
+  const grantChanged = (event, index) => {
+    console.log(event);
+    const newAbilities = clone(abilities);
+    newAbilities[index].gain = !newAbilities[index].gain;
+
+    providedAbilitiesChanged(newAbilities);
+  };
+
   useEffect(() => {
     setAbilities(() => providedAbilities);
+    console.log(abilities);
   }, [providedAbilities]);
 
   return (
@@ -125,7 +134,11 @@ export function AbilitiesPanel({
                   <div className="grant">
                     <label>
                       Grant
-                      <input type="checkbox"></input>
+                      <input
+                        type="checkbox"
+                        checked={ability.gain}
+                        onChange={(e) => grantChanged(e, index)}
+                      ></input>
                     </label>
                   </div>
                   {find(ABILITIES, { id: ability?.id })?.params ? (

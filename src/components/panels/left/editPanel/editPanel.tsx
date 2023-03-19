@@ -81,7 +81,7 @@ export function EditPanel({ node, graphEvents }) {
     } as any;
 
     if (levels === 1) {
-      if (levelCost.length) {
+      if (levelCost?.length) {
         newNode.cost = levelCost[0];
       } else {
         newNode.cost = 1;
@@ -97,6 +97,10 @@ export function EditPanel({ node, graphEvents }) {
 
     if (providedStats.length) {
       newNode.providedStats = providedStats;
+    }
+
+    if (providedAbilities.length) {
+      newNode.providedAbilities = providedAbilities;
     }
 
     graphEvents.next({
@@ -119,8 +123,6 @@ export function EditPanel({ node, graphEvents }) {
   const costChanged = (event) => {
     setLevelCost(event.levelCost);
     setLevels(event.levels);
-
-    console.log(event);
   };
 
   React.useEffect(() => {
