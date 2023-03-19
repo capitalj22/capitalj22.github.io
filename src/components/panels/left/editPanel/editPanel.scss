@@ -85,39 +85,6 @@
   }
 }
 
-.cost-panel div {
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding-right: 0.5rem;
-  font-size: 1.5em;
-  display: flex;
-  gap: 0.5rem;
-  align-content: center;
-  justify-content: center;
-  padding: 1rem;
-
-  .level-points {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 1.5rem;
-    height: 1.5rem;
-    border-radius: 100%;
-
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--panelColor);
-    border: none;
-    background: transparent;
-  }
-
-  button {
-    padding: 0;
-    background-color: transparent;
-  }
-}
-
 .select {
   color: #222 !important;
 }

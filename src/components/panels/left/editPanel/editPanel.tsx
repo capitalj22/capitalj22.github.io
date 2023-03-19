@@ -1,24 +1,10 @@
-import { clone, find, map, times } from "lodash-es";
+import { map } from "lodash-es";
 import React, { useState } from "react";
-import { MinusSquare, PlusSquare, Save } from "react-feather";
-import { ABILITIES } from "../../../../entities/abilities/abilities";
+import { PlusSquare, Save } from "react-feather";
 import { AbilitiesPanel } from "./abilities/abilitiesPanel";
+import { CostPanel } from "./costPanel/costPanel";
 import "./editPanel.scss";
 import { StatsPanel } from "./stats/statsPanel";
-
-function convertLevelCost(levelCost, levels, cost) {
-  if (levels) {
-    if (levelCost?.length) {
-      return levelCost;
-    } else {
-      const lvlArray: number[] = [];
-      times(levels, () => lvlArray.push(levelCost || 1));
-      return lvlArray;
-    }
-  } else {
-    return [cost || 1];
-  }
-}
 
 const statOptions = [
   { value: "hp", label: "HP" },
@@ -27,7 +13,6 @@ const statOptions = [
 ];
 
 function formatProvidedAbilities(providedAbilities) {
-  console.log('format provided abilities');
   return map(providedAbilities, (ability) => {
     let modifiers: any[] = [];
 
@@ -37,8 +22,6 @@ function formatProvidedAbilities(providedAbilities) {
         modifier: ability.modifiers[key],
       }));
     }
-
-    console.log(modifiers);
 
     return {
       ...ability,
@@ -52,14 +35,15 @@ export function EditPanel({ node, graphEvents }) {
   const [name, setName] = useState(node.name);
   const [description, setDescription] = useState(node.description);
   const [levels, setLevels] = useState(node.levels);
-  const [levelCost, setLevelCost] = useState(
-    convertLevelCost(node.levelCost, node.levels, node.cost)
-  );
+  const [levelCost, setLevelCost] = useState(node.levelCost);
+  const [cost, setCost] = useState(node.cost);
   const [levelsRequired, setLevelRequired] = useState(node.levelsRequired || 0);
   const [providedStats, setProvidedStats] = useState(node.providedStats || []);
   const [providedAbilities, setProvidedAbilities] = useState(
     formatProvidedAbilities(node.providedAbilities || [])
   );
+
+  let nodeColor = node?.colors?.selected;
 
   const IdUpdated = (event) => {
     setId(event.target.value);
@@ -97,7 +81,11 @@ export function EditPanel({ node, graphEvents }) {
     } as any;
 
     if (levels === 1) {
-      newNode.cost = levelCost[0];
+      if (levelCost.length) {
+        newNode.cost = levelCost[0];
+      } else {
+        newNode.cost = 1;
+      }
     } else {
       newNode.levels = levels;
       newNode.levelCost = levelCost;
@@ -120,64 +108,6 @@ export function EditPanel({ node, graphEvents }) {
     });
   };
 
-  const costPlusClicked = (event) => {
-    setLevels(levels + 1);
-
-    if (levelCost.length) {
-      setLevelCost([...levelCost, 1]);
-    }
-  };
-
-  const costMinusClicked = (event) => {
-    if (levels > 1) {
-      setLevels(levels - 1);
-
-      if (levelCost.length) {
-        const newCost = levelCost.slice(0, levelCost.length - 1);
-        setLevelCost(newCost);
-      }
-    }
-  };
-
-  const onWheel = (event, index?) => {
-    if (event.deltaY < 0) {
-      let newCost = clone(levelCost);
-      newCost[index] += 1;
-
-      setLevelCost(newCost);
-    } else if (levelCost[index] > 1) {
-      let newCost = clone(levelCost);
-      newCost[index] -= 1;
-
-      setLevelCost(newCost);
-    }
-  };
-
-  let nodeColor = node?.colors?.selected;
-
-  let costTemplate = (
-    <div>
-      <button onClick={costMinusClicked}>
-        <MinusSquare />
-      </button>
-      {times(levels, (index) => (
-        <span
-          onWheel={(e) => onWheel(e, index)}
-          className="level-points"
-          style={{
-            background: nodeColor,
-          }}
-        >
-          {levelCost.length ? levelCost[index] : levelCost}
-        </span>
-      ))}
-
-      <button onClick={costPlusClicked}>
-        <PlusSquare />
-      </button>
-    </div>
-  );
-
   const providedStatsChanged = (event) => {
     setProvidedStats(event);
   };
@@ -186,13 +116,21 @@ export function EditPanel({ node, graphEvents }) {
     setProvidedAbilities(event);
   };
 
+  const costChanged = (event) => {
+    setLevelCost(event.levelCost);
+    setLevels(event.levels);
+
+    console.log(event);
+  };
+
   React.useEffect(() => {
     nodeColor = node?.colors?.selected;
     setId(node.id);
     setName(node.name);
     setDescription(node.description);
     setLevels(node.levels || 1);
-    setLevelCost(convertLevelCost(node.levelCost, node.levels, node.cost));
+    setLevelCost(node.levelCost);
+    setCost(node.cost);
     setLevelRequired(node.levelsRequired || 1);
     setProvidedStats(node.providedStats || []);
     setProvidedAbilities(formatProvidedAbilities(node.providedAbilities || []));
@@ -201,7 +139,13 @@ export function EditPanel({ node, graphEvents }) {
   if (node) {
     return (
       <div className="edit-panel">
-        <div className="cost-panel">{costTemplate}</div>
+        <CostPanel
+          levels={levels}
+          levelCost={levelCost}
+          cost={cost}
+          color={nodeColor}
+          levelsChanged={costChanged}
+        />
         <div className="form-control name">
           <input type="text" onChange={NameUpdated} value={name || ""}></input>
         </div>
