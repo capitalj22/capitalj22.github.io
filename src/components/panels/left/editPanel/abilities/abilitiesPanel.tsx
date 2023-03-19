@@ -27,6 +27,10 @@ function getModifierOptions(abilityId) {
   }
 }
 
+function getOption(abilityId) {
+  return find(abilityOptions, { value: abilityId });
+}
+
 function getAvailableOptions(providedAbilities) {
   const usedAbilities = map(providedAbilities, (stat) => stat.id);
 
@@ -49,9 +53,10 @@ export function AbilitiesPanel({
 }) {
   const [abilities, setAbilities] = useState(providedAbilities);
 
-  const statIdChanged = (event, index) => {
+  const abilityChanged = (event, index) => {
     const newAbilities = clone(abilities);
     newAbilities[index].id = event.value;
+    newAbilities[index].modifiers = [];
 
     providedAbilitiesChanged(newAbilities);
   };
@@ -78,7 +83,7 @@ export function AbilitiesPanel({
   };
 
   useEffect(() => {
-    setAbilities(providedAbilities);
+    setAbilities(() => providedAbilities);
   }, [providedAbilities]);
 
   return (
@@ -98,8 +103,9 @@ export function AbilitiesPanel({
                     menu: () => "select-menu",
                   }}
                   options={getAvailableOptions(abilities)}
-                  onChange={(e) => statIdChanged(e, index)}
-                  defaultValue={find(abilityOptions, { value: ability.id })}
+                  onChange={(e) => abilityChanged(e, index)}
+                  defaultValue={getOption(ability.id)}
+                  value={getOption(ability.id)}
                 ></Select>
               </div>
 
@@ -122,13 +128,18 @@ export function AbilitiesPanel({
                       <input type="checkbox"></input>
                     </label>
                   </div>
-                  <StatsPanel
-                    providedStats={ability.modifiers}
-                    providedStatsChanged={(e) =>
-                      handleModifiersChanged(e, index)
-                    }
-                    options={getModifierOptions(ability.id)}
-                  ></StatsPanel>
+                  {find(ABILITIES, { id: ability?.id })?.params ? (
+                    <StatsPanel
+                      providedStats={ability.modifiers}
+                      providedStatsChanged={(e) =>
+                        handleModifiersChanged(e, index)
+                      }
+                      options={getModifierOptions(ability.id)}
+                      name="Modifier"
+                    ></StatsPanel>
+                  ) : (
+                    ""
+                  )}
                 </div>
               ) : (
                 ""

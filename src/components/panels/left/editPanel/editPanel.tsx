@@ -237,6 +237,7 @@ export function EditPanel({ node, graphEvents }) {
           providedStats={providedStats}
           providedStatsChanged={providedStatsChanged}
           options={statOptions}
+          name="Stat"
         ></StatsPanel>
         <AbilitiesPanel
           providedAbilities={providedAbilities}

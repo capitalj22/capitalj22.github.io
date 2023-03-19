@@ -9,7 +9,12 @@ function getAvailableOptions(providedStats, options) {
   return filter(options, (options) => !includes(usedStats, options.value));
 }
 
-export function StatsPanel({ providedStats, providedStatsChanged, options }) {
+export function StatsPanel({
+  providedStats,
+  providedStatsChanged,
+  options,
+  name,
+}) {
   const statIdChanged = (event, index) => {
     const newStats = clone(providedStats);
     newStats[index].id = event.value;
@@ -40,7 +45,7 @@ export function StatsPanel({ providedStats, providedStatsChanged, options }) {
 
   return (
     <div className="stats">
-      <div className="stats-title">Stats:</div>
+      <div className="stats-title">{name}s:</div>
       {providedStats?.length
         ? map(providedStats, (stat, index) => (
             <div className="stat-edit-line">
@@ -67,7 +72,7 @@ export function StatsPanel({ providedStats, providedStatsChanged, options }) {
                 // })}
                 options={getAvailableOptions(providedStats, options)}
                 onChange={(e) => statIdChanged(e, index)}
-                defaultValue={find(options, { value: stat.id })}
+                value={find(options, { value: stat.id })}
               ></Select>
               <input
                 type="number"
@@ -79,7 +84,7 @@ export function StatsPanel({ providedStats, providedStatsChanged, options }) {
         : ""}
       <div className="add-button">
         <button onClick={addbuttonClicked}>
-          Add Stat
+          Add {name}
           <PlusSquare />
         </button>
       </div>
