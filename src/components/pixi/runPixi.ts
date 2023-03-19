@@ -2,7 +2,7 @@ import * as d3 from "d3";
 import * as PIXI from "pixi.js";
 import { Viewport } from "pixi-viewport";
 import { Subject } from "rxjs";
-import { find, map, each, times, isNumber } from "lodash-es";
+import { find, map, each, times, isNumber, filter } from "lodash-es";
 import { SkillNode } from "../../entities/skilltree/node.entity";
 import {
   isNodeAvailable,
@@ -10,6 +10,7 @@ import {
   acquiredselectNodeAndReturnNewMeta,
   updateInfo,
   getNodeColor,
+  updateNodes,
 } from "./utils/node.utils";
 import { ABILITIES } from "../../entities/abilities/abilities";
 import { IGraphEvent } from "../../App";
@@ -44,13 +45,17 @@ export function runGraphPixi(
     next: (e) => {
       switch (e.event) {
         case "forcesUpdated":
-          updateForces(e.data.forces);
+          forces = e.data.forces;
+          updateForces();
           break;
         case "modeChanged":
           changeMode(e.data.mode);
           break;
         case "nodeAdded":
           addNode(e.data.node);
+          break;
+        case "nodeDeleted":
+          deleteNode(e.data.id);
           break;
         case "nodeEdited":
           editNode(e.data.id, e.data.node);
@@ -73,6 +78,13 @@ export function runGraphPixi(
   let viewport: Viewport;
   let mode = "build";
   let currentlyEditing;
+
+  let forces = {
+    f1: 20,
+    f2: 25,
+    f3: 20,
+    f4: 20,
+  };
 
   function newBuild() {
     nodeMeta = {
@@ -107,6 +119,45 @@ export function runGraphPixi(
         acquired: nodeMeta.acquired[n.id],
       })),
     });
+  }
+
+  function deleteNode(id: string) {
+    if (id === "basic") {
+      return;
+    }
+    const node = find(nodes, { id });
+    node?.gfx.removeChildren();
+    node?.gfx.clear();
+    nodes = map(
+      filter(nodes, (n) => n.id !== id),
+      (n) => {
+        let requires = n.requires;
+        if (n.requires === id) {
+          requires = node?.requires;
+        }
+
+        return {
+          ...n,
+          requires,
+        };
+      }
+    );
+
+    links = filter(
+      map(nodes, (n) => ({
+        source: n,
+        target: find(nodes, { id: n?.requires }),
+      })),
+      "target"
+    );
+
+    const newNode = find(nodes, { id: node?.requires });
+
+    currentlyEditing = newNode?.id;
+    updateInfo(newNode, nodeMeta, nodes, infoUpdated$);
+    redrawNodes();
+    redrawLinks();
+    updateNodes(nodes, graphEvents);
   }
 
   function editNode(nodeId, newNode) {
@@ -155,7 +206,7 @@ export function runGraphPixi(
 
     redrawNodes();
     redrawLinks();
-    updateForces({ f1: 25, f2: 25, f3: 25, f4: 25 });
+    updateForces();
     updateInfo(node, nodeMeta, nodes, infoUpdated$);
     nodesUpdated$.next({
       nodes: map(nodes, (n) => ({
@@ -164,24 +215,8 @@ export function runGraphPixi(
         acquired: nodeMeta.acquired[n.id],
       })),
     });
-    graphEvents.next({
-      event: "nodesChanged",
-      data: {
-        nodes: map(nodes, (n) => ({
-          colors: n.colors,
-          id: n.id,
-          requires: n.requires,
-          name: n.name,
-          description: n.description,
-          cost: n.cost,
-          levels: n.levels,
-          levelCost: n.levelCost,
-          levelsRequired: n.levelsRequired,
-          providedStats: n.providedStats,
-          providedAbilities: n.providedAbilities,
-        })),
-      },
-    });
+
+    updateNodes(nodes, graphEvents);
   }
 
   function addNode(newNode: INode) {
@@ -247,11 +282,10 @@ export function runGraphPixi(
 
     nodes = [...nodes, node];
     links.push({ source: node, target: find(nodes, { id: node.requires }) });
-    currentlyEditing = node.id;
     redrawNodes();
     redrawLinks();
-    updateForces({ f1: 25, f2: 25, f3: 25, f4: 25 });
-    // updateInfo(node, nodeMeta, nodes, infoUpdated$);
+    updateForces();
+    updateNodes(nodes, graphEvents);
   }
 
   function changeMode(newMode: string) {
@@ -300,7 +334,7 @@ export function runGraphPixi(
     }
   }
 
-  function updateForces(forces) {
+  function updateForces() {
     if (forces) {
       simulation
         .nodes(nodes as d3Node[])

@@ -82,6 +82,16 @@
     color: rgb(198, 163, 255);
     border: 2px solid rgb(198, 163, 255);
     border-radius: 7px;
+
+    &.green {
+      color: var(--successColor);
+      border-color: var(--successColor);
+    }
+
+    &.red {
+      border-color: var(--dangerColor);
+      color: var(--dangerColor);
+    }
   }
 }
 

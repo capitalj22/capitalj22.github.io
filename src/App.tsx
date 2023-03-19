@@ -42,6 +42,7 @@ export interface IGraphEvent {
     | "forcesUpdated"
     | "modeChanged"
     | "nodeAdded"
+    | "nodeDeleted"
     | "nodeEdited"
     | "nodesChanged";
   data: any;

@@ -1,4 +1,4 @@
-import { each, filter, find } from "lodash-es";
+import { each, filter, find, map } from "lodash-es";
 import { d3Node, INode } from "../runPixi";
 
 export const isNodeSelected = (node: d3Node, nodeMeta) => {
@@ -115,4 +115,25 @@ export const getNodeColor = (node, nodeMeta, override?) => {
   } else {
     return toPixiColor(node.colors.inactive);
   }
+};
+
+export const updateNodes = (nodes, graphEvents) => {
+  graphEvents.next({
+    event: "nodesChanged",
+    data: {
+      nodes: map(nodes, (n) => ({
+        colors: n.colors,
+        id: n.id,
+        requires: n.requires,
+        name: n.name,
+        description: n.description,
+        cost: n.cost,
+        levels: n.levels,
+        levelCost: n.levelCost,
+        levelsRequired: n.levelsRequired,
+        providedStats: n.providedStats,
+        providedAbilities: n.providedAbilities,
+      })),
+    },
+  });
 };

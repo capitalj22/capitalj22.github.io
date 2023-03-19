@@ -1,6 +1,5 @@
-import { map } from "lodash-es";
 import React, { useState } from "react";
-import { PlusSquare, Save } from "react-feather";
+import { PlusSquare, Save, Trash2 } from "react-feather";
 import { AbilitiesPanel } from "./abilities/abilitiesPanel";
 import { CostPanel } from "./costPanel/costPanel";
 import "./editPanel.scss";
@@ -12,24 +11,6 @@ const statOptions = [
   { value: "movement", label: "Movement" },
 ];
 
-function formatProvidedAbilities(providedAbilities) {
-  return map(providedAbilities, (ability) => {
-    let modifiers: any[] = [];
-
-    // if (ability.modifiers) {
-    //   modifiers = map(Object.keys(ability.modifiers), (key) => ({
-    //     id: key,
-    //     modifier: ability.modifiers[key],
-    //   }));
-    // }
-
-    return {
-      ...ability,
-      // modifiers,
-    };
-  });
-}
-
 export function EditPanel({ node, graphEvents }) {
   const [id, setId] = useState(node.id);
   const [name, setName] = useState(node.name);
@@ -40,7 +21,7 @@ export function EditPanel({ node, graphEvents }) {
   const [levelsRequired, setLevelRequired] = useState(node.levelsRequired || 0);
   const [providedStats, setProvidedStats] = useState(node.providedStats || []);
   const [providedAbilities, setProvidedAbilities] = useState(
-    formatProvidedAbilities(node.providedAbilities || [])
+    node.providedAbilities || []
   );
 
   let nodeColor = node?.colors?.selected;
@@ -71,6 +52,10 @@ export function EditPanel({ node, graphEvents }) {
         },
       },
     });
+  };
+
+  const deletePressed = (event) => {
+    graphEvents.next({ event: "nodeDeleted", data: { id: id } });
   };
 
   const SavePressed = (event) => {
@@ -135,7 +120,7 @@ export function EditPanel({ node, graphEvents }) {
     setCost(node.cost);
     setLevelRequired(node.levelsRequired || 1);
     setProvidedStats(node.providedStats || []);
-    setProvidedAbilities(formatProvidedAbilities(node.providedAbilities || []));
+    setProvidedAbilities(node.providedAbilities || []);
   }, [node]);
 
   if (node) {
@@ -191,9 +176,13 @@ export function EditPanel({ node, graphEvents }) {
         ></AbilitiesPanel>
 
         <div className="buttons">
-          <button onClick={SavePressed}>
+          <button className="green" onClick={SavePressed}>
             <Save />
-            Update Node
+            Save Node
+          </button>
+          <button onClick={deletePressed} className="red">
+            <Trash2 />
+            Delete Node
           </button>
 
           <button onClick={AddButtonPressed}>

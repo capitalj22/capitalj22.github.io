@@ -50,7 +50,7 @@ export function PixiGraph({
     }
 
     return destroyFn;
-  }, [trees, buildData]);
+  }, [buildData]);
 
   return <div ref={containerRef} className={styles.container} />;
 }
