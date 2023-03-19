@@ -23,8 +23,8 @@ export const ATTACK_TREE: Tree = {
       name: "Attack+",
       description: "Increases the damage of your first attack by 1",
       providedAbilities: [
-        { id: "basic-attack", modifiers: { dmg: 1 } },
-        { id: "multi-attack", modifiers: { dmg1: 1 } },
+        { id: "basic-attack", modifiers: [{ id: "dmg", modifier: 1 }] },
+        { id: "multi-attack", modifiers: [{ id: "dmg1", modifier: 1 }] },
       ],
     },
     {
@@ -41,7 +41,7 @@ export const ATTACK_TREE: Tree = {
       cost: 1,
       name: "MultiAttack+",
       description: "Increases the damage of your second attack by 1",
-      providedAbilities: [{ id: "multi-attack", modifiers: { dmg2: 1 } }],
+      providedAbilities: [{ id: "multi-attack", modifiers: [{ id: "dmg2", modifier: 1 }] }],
     },
   ],
 };

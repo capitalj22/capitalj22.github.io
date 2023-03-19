@@ -1,4 +1,4 @@
-import { clone, each, find } from "lodash-es";
+import { clone, each, find, isFunction } from "lodash-es";
 import { useEffect, useState } from "react";
 import { Ability } from "../../../entities/abilities/abilities";
 import { StatTag } from "../statTag/statTag";
@@ -8,6 +8,18 @@ function applyParamsToDescription(description, params) {
   let editedDescription = description;
   each(Object.keys(params), (key) => {
     let value = params[key];
+
+    if (params[key]) {
+      editedDescription = editedDescription.replace(
+        new RegExp(`\{\\b${key}\\b\}([^*]+)\\\{\/\\b${key}\\b\}`),
+        "$1"
+      );
+    } else {
+      editedDescription = editedDescription.replace(
+        new RegExp(`\{\\b${key}\\b\}([^*]+)\\\{\/\\b${key}\\b\}`),
+        ""
+      );
+    }
 
     editedDescription = editedDescription.replace(
       new RegExp("%" + key + "%", "g"),
@@ -31,6 +43,12 @@ function getDescription(ability, isPlayerAbility, modifiers) {
 
   if (ability.params) {
     description = applyParamsToDescription(ability.description, params);
+  } else {
+    if (isFunction(ability.description)) {
+      description = ability.description({});
+    } else {
+      description = ability.description;
+    }
   }
 
   return description;

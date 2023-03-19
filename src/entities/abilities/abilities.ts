@@ -40,21 +40,25 @@ export const ABILITIES: Ability[] = [
   {
     id: "basic-attack",
     name: "Basic Attack",
-    description: (params) =>
-      `You make 1 melee attack against an adjacent enemy. Roll 1d6${
-        params.dmg ? `+${params.dmg}` : " "
-      }and do that much damage.`,
+    description: `You make 1 melee attack against an adjacent enemy. Roll 1d6{dmg}+%dmg%{/dmg} and do that much damage.`,
     type: "action",
+    params: {
+      dmg: 0,
+    },
   },
   {
     id: "multi-attack",
     name: "Multi Attack",
-    description: (params) =>
-      `You make 1 melee attack against an adjacent enemy.\n\nFirst Attack: 1d6${
-        params.dmg1 ? `+${params.dmg1}` : " "
-      }.\nSecond Attack: 1d6${params.dmg2 ? `+${params.dmg2}` : " "} `,
+    description: `You make 1 melee attack against an adjacent enemy.
+      
+      First Attack: 1d6{dmg1}+%dmg1%{/dmg1}  
+      Second Attack: 1d6{dmg2}+%dmg2%{/dmg2} `,
     type: "action",
     replaces: "basic-attack",
+    params: {
+      dmg1: 0,
+      dmg2: 0,
+    },
   },
   {
     id: "spellcasting",
