@@ -73,7 +73,7 @@ export const updateAvailability = (nodes, nodeMeta) => {
     if (node.requires) {
       const requiredNode = find(nodes, { id: node.requires });
       if (requiredNode.levels) {
-        const levelsRequired = node.levelsRequired || node.levels;
+        const levelsRequired = node.levelsRequired || requiredNode.levels;
         const levelsAcquired = nodeMeta.acquired[requiredNode.id];
 
         nodeMeta.available[node.id] = levelsAcquired >= levelsRequired;

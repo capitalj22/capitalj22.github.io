@@ -14,23 +14,25 @@ export function PixiGraph({
   const nodesUpdated$ = new Subject();
   const infoUpdated$ = new Subject();
 
-  graphEvents.subscribe({
-    next: (e) => {
-      // console.log("graph component", e);
-    },
-  });
+  useEffect(() => {
+    graphEvents.subscribe({
+      next: (e) => {
+        // console.log("graph component", e);
+      },
+    });
 
-  nodesUpdated$.subscribe({
-    next: (data) => {
-      nodeSelectionUpdated(data);
-    },
-  });
+    nodesUpdated$.subscribe({
+      next: (data) => {
+        nodeSelectionUpdated(data);
+      },
+    });
 
-  infoUpdated$.subscribe({
-    next: (data) => {
-      infoUpdated(data);
-    },
-  });
+    infoUpdated$.subscribe({
+      next: (data) => {
+        infoUpdated(data);
+      },
+    });
+  }, []);
 
   React.useEffect(() => {
     let destroyFn;

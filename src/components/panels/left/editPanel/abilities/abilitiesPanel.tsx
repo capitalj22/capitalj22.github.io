@@ -7,6 +7,7 @@ import {
   Ability,
 } from "../../../../../entities/abilities/abilities";
 import { AbilityCard } from "../../../../characterSheet/abilityCard/abilityCard";
+import { Accordion } from "../../../../layout/accordion/accordion";
 import { StatsPanel } from "../stats/statsPanel";
 import "./abilitiesPanel.scss";
 
@@ -130,11 +131,13 @@ export function AbilitiesPanel({
 
               {ability.id ? (
                 <div className="ability-options">
-                  <AbilityCard
-                    ability={find(ABILITIES, { id: ability?.id }) as Ability}
-                    modifiers={formatModifiersForCard(ability.modifiers)}
-                    isPlayerAbility={false}
-                  ></AbilityCard>
+                  <Accordion name="..." startOpen={false}>
+                    <AbilityCard
+                      ability={find(ABILITIES, { id: ability?.id }) as Ability}
+                      modifiers={formatModifiersForCard(ability.modifiers)}
+                      isPlayerAbility={false}
+                    ></AbilityCard>
+                  </Accordion>
                   <div className="grant">
                     <label>
                       Grant

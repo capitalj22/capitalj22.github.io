@@ -28,7 +28,6 @@ export function CostPanel({ levels, levelCost, cost, color, levelsChanged }) {
   );
 
   useEffect(() => {
-    console.log(cost);
     setLevels(levels || 1);
     setLevelCost(convertLevelCost(levelCost, levels, cost));
   }, [levels, levelCost, cost]);

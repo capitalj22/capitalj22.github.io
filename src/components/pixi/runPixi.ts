@@ -164,6 +164,24 @@ export function runGraphPixi(
         acquired: nodeMeta.acquired[n.id],
       })),
     });
+    graphEvents.next({
+      event: "nodesChanged",
+      data: {
+        nodes: map(nodes, (n) => ({
+          colors: n.colors,
+          id: n.id,
+          requires: n.requires,
+          name: n.name,
+          description: n.description,
+          cost: n.cost,
+          levels: n.levels,
+          levelCost: n.levelCost,
+          levelsRequired: n.levelsRequired,
+          providedStats: n.providedStats,
+          providedAbilities: n.providedAbilities,
+        })),
+      },
+    });
   }
 
   function addNode(newNode: INode) {

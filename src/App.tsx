@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import "./App.scss";
-import CharacterSheet from "./components/characterSheet/characterSheet";
 import { PixiGraph } from "./components/pixi/pixi";
 import { filter } from "lodash-es";
 import { newDragonFromNodes } from "./entities/actor/dragon.entity";
@@ -24,8 +23,27 @@ function getBuild() {
   return myBuild || {};
 }
 
+function getNodes() {
+  const localBuild = localStorage.getItem("dragon-nodes");
+  let myBuild;
+  if (localBuild) {
+    try {
+      myBuild = JSON.parse(localBuild);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  return myBuild || {};
+}
+
 export interface IGraphEvent {
-  event: "forcesUpdated" | "modeChanged" | "nodeAdded" | "nodeEdited";
+  event:
+    | "forcesUpdated"
+    | "modeChanged"
+    | "nodeAdded"
+    | "nodeEdited"
+    | "nodesChanged";
   data: any;
 }
 
@@ -36,15 +54,35 @@ function saveBuild(build) {
   // localStorage.removeItem("dragon-build");
 }
 
+function saveNodes(nodes) {
+  localStorage.setItem("dragon-nodes", JSON.stringify(nodes));
+  // localStorage.removeItem("dragon-nodes");
+}
+
 function App() {
   const [dragon, setDragon] = useState({ armor: 0, hp: 0 } as any);
   const [selectedNode, setSelectedNode] = useState({});
+  const [nodes, setNodes] = useState(() => getNodes());
 
   const [build, setBuild] = useState(() => getBuild());
 
   useEffect(() => {
     saveBuild(dragon.exportableBuild);
   }, [dragon]);
+
+  useEffect(() => {
+    saveNodes(nodes);
+  }, [nodes]);
+
+  useEffect(() => {
+    graphEvents$.subscribe({
+      next: (event) => {
+        if (event.event === "nodesChanged") {
+          setNodes(event.data.nodes);
+        }
+      },
+    });
+  }, []);
 
   const nodeSelectionUpdated = (event) => {
     const selectedNodes = filter(
@@ -81,7 +119,7 @@ function App() {
       </div>
       <div className="skill-panel">
         <PixiGraph
-          trees={TREES}
+          trees={nodes}
           buildData={build}
           nodeSelectionUpdated={nodeSelectionUpdated}
           infoUpdated={infoUpdated}
