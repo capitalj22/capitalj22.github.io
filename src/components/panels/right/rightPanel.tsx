@@ -2,8 +2,9 @@ import { useState } from "react";
 import CharacterSheet from "../../characterSheet/characterSheet";
 import { CodePanel } from "../../codePanel/codePanel";
 import { SidebarRight } from "../../layout/right/sidebarRight";
+import { AbilityEditor } from "./abilityEditor/abilityEditor";
 
-export function RightPanel({ build, importAttempted }) {
+export function RightPanel({ build, importAttempted, abilities }) {
   const [selectedItem, setSelectedItem] = useState("info");
   const [menuTitle, setMenuTitle] = useState("info");
 
@@ -20,12 +21,19 @@ export function RightPanel({ build, importAttempted }) {
       case "help":
         setMenuTitle("Help");
         break;
+      case "list":
+        setMenuTitle("Edit Abilities");
+        break;
       default:
         break;
     }
   };
 
   const handleImportAttempted = (item) => {
+    //
+  };
+
+  const handleAbilitiesChanged = (event) => {
     //
   };
 
@@ -41,6 +49,14 @@ export function RightPanel({ build, importAttempted }) {
           dragon={build}
           importAttempted={handleImportAttempted}
         ></CodePanel>
+      ) : (
+        ""
+      )}
+      {selectedItem === "list" ? (
+        <AbilityEditor
+          abilities={abilities}
+          abilitiesChanged={handleAbilitiesChanged}
+        ></AbilityEditor>
       ) : (
         ""
       )}

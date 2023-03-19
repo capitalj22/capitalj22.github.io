@@ -1,5 +1,6 @@
 import { clone, each, find, isFunction } from "lodash-es";
 import { useEffect, useState } from "react";
+import { ChevronDown, ChevronUp, Edit } from "react-feather";
 import { Ability } from "../../../entities/abilities/abilities";
 import { StatTag } from "../statTag/statTag";
 import "./abilityCard.scss";
@@ -58,11 +59,20 @@ type Props = {
   ability: Ability;
   isPlayerAbility?: boolean;
   modifiers?: any;
+  startOpen?: boolean;
+  editable?: boolean;
 };
-export function AbilityCard({ ability, isPlayerAbility, modifiers }: Props) {
+export function AbilityCard({
+  ability,
+  isPlayerAbility,
+  modifiers,
+  startOpen = true,
+  editable = false,
+}: Props) {
   const [description, setDescription] = useState(
     getDescription(ability, isPlayerAbility, modifiers)
   );
+  const [expanded, setExpanded] = useState(startOpen);
 
   useEffect(() => {
     setDescription(getDescription(ability, isPlayerAbility, modifiers));
@@ -70,19 +80,34 @@ export function AbilityCard({ ability, isPlayerAbility, modifiers }: Props) {
 
   return (
     <div className="ability-card">
-      <div className="top">
-        <div className="card-title">{ability.name}</div>
-
-        <p className="description">{description}</p>
+      <div className="name">
+        {editable && (
+          <button className="edit">
+            <Edit />
+          </button>
+        )}
+        <button className="card-title" onClick={() => setExpanded(!expanded)}>
+          <div>{ability.name}</div>
+          <div>{expanded ? <ChevronUp /> : <ChevronDown />}</div>
+        </button>
       </div>
-      <div className="bottom">
-        <div className="tags">
-          <StatTag label={ability.type}></StatTag>
-          {ability.tags?.map((tag) => (
-            <StatTag label={tag}></StatTag>
-          ))}
+      {expanded ? (
+        <div className="collapsible-content">
+          <div className="top">
+            <p className="description">{description}</p>
+          </div>
+          <div className="bottom">
+            <div className="tags">
+              <StatTag label={ability.type}></StatTag>
+              {ability.tags?.map((tag) => (
+                <StatTag label={tag}></StatTag>
+              ))}
+            </div>
+          </div>
         </div>
-      </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 }

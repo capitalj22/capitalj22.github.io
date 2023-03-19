@@ -8,6 +8,7 @@ import { PointCounter } from "./components/misc/pointCounter";
 import { Subject } from "rxjs";
 import { LeftPanel } from "./components/panels/left/leftPanel";
 import { RightPanel } from "./components/panels/right/rightPanel";
+import { ABILITIES } from "./entities/abilities/abilities";
 
 function getBuild() {
   const localBuild = localStorage.getItem("dragon-build");
@@ -64,6 +65,7 @@ function App() {
   const [dragon, setDragon] = useState({ armor: 0, hp: 0 } as any);
   const [selectedNode, setSelectedNode] = useState({});
   const [nodes, setNodes] = useState(() => getNodes());
+  const [abilities, setabilities] = useState(ABILITIES);
 
   const [build, setBuild] = useState(() => getBuild());
 
@@ -114,13 +116,14 @@ function App() {
       </div>
       <div className="appRight">
         <RightPanel
+          abilities={abilities}
           build={dragon}
           importAttempted={handleImportAttempted}
         ></RightPanel>
       </div>
       <div className="skill-panel">
         <PixiGraph
-          trees={nodes}
+          trees={TREES}
           buildData={build}
           nodeSelectionUpdated={nodeSelectionUpdated}
           infoUpdated={infoUpdated}

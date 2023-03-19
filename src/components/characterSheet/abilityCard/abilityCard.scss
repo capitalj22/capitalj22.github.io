@@ -4,17 +4,38 @@
   flex-direction: column;
   justify-content: space-between;
 
-  .card-title {
-    font-weight: 700;
-    font-size: 1.5em;
-    padding-bottom: 1rem;
-    padding-top: 0.5rem;
+  .name {
+    display: flex;
+    align-items: center;
+    button {
+      background-color: transparent;
+    }
+    button.edit {
+      color: #aaa;
+      padding: 0.5rem;
+      margin-left: -1rem;
+      margin-right: 1rem;
+    }
+    .card-title {
+      text-align: left;
+      width: 100%;
+      background-color: transparent;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: 700;
+      font-size: 1.5em;
+      padding-bottom: 1rem;
+      padding-top: 0.5rem;
+    }
   }
 
   .tags {
     display: flex;
     gap: 0.5rem;
     flex-wrap: wrap;
+    padding-bottom: 1rem;
   }
 
   .description {
@@ -29,8 +50,7 @@
   text-align: left;
   background: #111112;
   color: white;
-  padding: 1rem;
-  padding-top: 0;
+  padding: 0 1rem;
   border-radius: 7px;
   box-shadow: 1px 2px 20px 0px rgba(11, 11, 11, 0.7);
   border: 0.5px solid #505050;
