@@ -16,16 +16,16 @@ function formatProvidedAbilities(providedAbilities) {
   return map(providedAbilities, (ability) => {
     let modifiers: any[] = [];
 
-    if (ability.modifiers) {
-      modifiers = map(Object.keys(ability.modifiers), (key) => ({
-        id: key,
-        modifier: ability.modifiers[key],
-      }));
-    }
+    // if (ability.modifiers) {
+    //   modifiers = map(Object.keys(ability.modifiers), (key) => ({
+    //     id: key,
+    //     modifier: ability.modifiers[key],
+    //   }));
+    // }
 
     return {
       ...ability,
-      modifiers,
+      // modifiers,
     };
   });
 }

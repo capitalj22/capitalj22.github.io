@@ -79,11 +79,10 @@ export function AbilitiesPanel({
     const newAbilities = clone(abilities);
     newAbilities[index].modifiers = event;
 
-    setAbilities(newAbilities);
+    providedAbilitiesChanged(newAbilities);
   };
 
   const grantChanged = (event, index) => {
-    console.log(event);
     const newAbilities = clone(abilities);
     newAbilities[index].gain = !newAbilities[index].gain;
 
@@ -92,7 +91,6 @@ export function AbilitiesPanel({
 
   useEffect(() => {
     setAbilities(() => providedAbilities);
-    console.log(abilities);
   }, [providedAbilities]);
 
   return (

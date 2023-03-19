@@ -121,8 +121,6 @@ export function runGraphPixi(
     node.providedStats = newNode.providedStats;
     node.providedAbilities = newNode.providedAbilities;
 
-    console.log(node.providedAbilities)
-
     if (
       nodeMeta.acquired[nodeId] &&
       nodeMeta.acquired[nodeId] > newNode.levels

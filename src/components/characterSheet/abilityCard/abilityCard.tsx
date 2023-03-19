@@ -1,20 +1,14 @@
-import { each, filter, find, isFunction } from "lodash-es";
+import { each, find } from "lodash-es";
 import { useEffect, useState } from "react";
 import { Ability } from "../../../entities/abilities/abilities";
 import { StatTag } from "../statTag/statTag";
 import "./abilityCard.scss";
 
-function applyParamsToDescription(description, params, modifiers) {
+function applyParamsToDescription(description, params) {
   let editedDescription = description;
   each(Object.keys(params), (key) => {
-    let value;
-    let modifier = find(modifiers, { id: key });
+    let value = params[key];
 
-    if (modifier) {
-      value = params[key] + modifier.modifier;
-    } else {
-      value = params[key];
-    }
     editedDescription = editedDescription.replace(
       new RegExp("%" + key + "%", "g"),
       value
@@ -26,23 +20,31 @@ function applyParamsToDescription(description, params, modifiers) {
 
 function getDescription(ability, isPlayerAbility, modifiers) {
   let description;
+  let params = ability.params;
+  console.log(modifiers);
+  console.log(ability);
+  // if (params && modifiers) {
+  //   each(Object.keys(params), (key) => {
+  //     if (modifiers[key]) {
+  //       params[key] = params[key] + modifiers[key].modifier;
+  //     }
+  //   });
+  // }
+
+  // console.log(params);
 
   if (ability.params) {
-    description = applyParamsToDescription(
-      ability.description,
-      ability.params,
-      modifiers
-    );
+    description = applyParamsToDescription(ability.description, params);
   }
-  // if (isPlayerAbility) {
-  //   description = isFunction(ability.description)
-  //     ? ability.description(ability.modifiers as any)
-  //     : ability.description;
-  // } else {
-  //   description = isFunction(ability.description)
-  //     ? ability.description({})
-  //     : ability.description;
-  // }
+  if (isPlayerAbility) {
+    // description = isFunction(ability.description)
+    //   ? ability.description(ability.modifiers as any)
+    //   : ability.description;
+  } else {
+    // description = isFunction(ability.description)
+    //   ? ability.description({})
+    //   : ability.description;
+  }
 
   return description;
 }

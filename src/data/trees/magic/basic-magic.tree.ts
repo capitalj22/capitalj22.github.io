@@ -14,7 +14,9 @@ export const BASIC_MAGIC_TREE: Tree = {
       levels: 3,
       name: "Spell Range",
       description: "Increases the range of your magic.",
-      providedAbilities: [{ id: "spellcasting", modifiers: { range: 1 } }],
+      providedAbilities: [
+        { id: "spellcasting", modifiers: [{ id: "range", modifier: 1 }] },
+      ],
     },
     {
       id: "concentration-1",
@@ -23,7 +25,10 @@ export const BASIC_MAGIC_TREE: Tree = {
       name: "Concentration+",
       description: "Add +1 to concentration checks.",
       providedAbilities: [
-        { id: "spellcasting", modifiers: { concentration: 1 } },
+        {
+          id: "spellcasting",
+          modifiers: [{ id: "concentration", modifier: 1 }],
+        },
       ],
     },
   ],

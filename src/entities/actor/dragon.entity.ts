@@ -63,20 +63,17 @@ export const newDragonFromNodes = (selectedNodes: SkillNode[]) => {
     }
 
     if (modifiers) {
-      each(Object.keys(modifiers), (key) => {
-        let modifier = modifiers[key];
-
-        if (modifier === "levels") {
-          modifier = node.acquired;
-        } else if (node.levels) {
-          modifier = node.acquired * modifier;
+      each(modifiers, (modifier: { id: string; modifier: number }) => {
+        let val = modifier.modifier;
+        if (node.levels) {
+          val = node.acquired * modifier.modifier;
         }
 
-        if (isUndefined(baseDragon.abilities[id].modifiers[key])) {
-          baseDragon.abilities[id].modifiers[key] = 0;
+        if (isUndefined(baseDragon.abilities[id].modifiers[modifier.id])) {
+          baseDragon.abilities[id].modifiers[modifier.id] = 0;
         }
 
-        baseDragon.abilities[id].modifiers[key] += modifier;
+        baseDragon.abilities[id].modifiers[modifier.id] += val;
       });
     }
   };
@@ -102,7 +99,6 @@ export const newDragonFromNodes = (selectedNodes: SkillNode[]) => {
     }
     if (node.providedStats) {
       each(node.providedStats, (stat) => {
-        // console.log(node);
         modifyStat(node, stat.id, stat.modifier, stat.set);
       });
     }
