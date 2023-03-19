@@ -26,12 +26,28 @@ const statOptions = [
   { value: "movement", label: "Movement" },
 ];
 
+function formatProvidedAbilities(providedAbilities) {
+  console.log('format provided abilities');
+  return map(providedAbilities, (ability) => {
+    let modifiers: any[] = [];
+
+    if (ability.modifiers) {
+      modifiers = map(Object.keys(ability.modifiers), (key) => ({
+        id: key,
+        modifier: ability.modifiers[key],
+      }));
+    }
+
+    console.log(modifiers);
+
+    return {
+      ...ability,
+      modifiers,
+    };
+  });
+}
 
 export function EditPanel({ node, graphEvents }) {
-  const relatedAbilities = map(node?.providedAbilities, (ability) => {
-    return { ...find(ABILITIES, { id: ability.id }), modifiers: {} };
-  });
-
   const [id, setId] = useState(node.id);
   const [name, setName] = useState(node.name);
   const [description, setDescription] = useState(node.description);
@@ -42,7 +58,7 @@ export function EditPanel({ node, graphEvents }) {
   const [levelsRequired, setLevelRequired] = useState(node.levelsRequired || 0);
   const [providedStats, setProvidedStats] = useState(node.providedStats || []);
   const [providedAbilities, setProvidedAbilities] = useState(
-    node.providedAbilities || []
+    formatProvidedAbilities(node.providedAbilities || [])
   );
 
   const IdUpdated = (event) => {
@@ -179,7 +195,7 @@ export function EditPanel({ node, graphEvents }) {
     setLevelCost(convertLevelCost(node.levelCost, node.levels, node.cost));
     setLevelRequired(node.levelsRequired || 1);
     setProvidedStats(node.providedStats || []);
-    setProvidedAbilities(node.providedAbilities || []);
+    setProvidedAbilities(formatProvidedAbilities(node.providedAbilities || []));
   }, [node]);
 
   if (node) {

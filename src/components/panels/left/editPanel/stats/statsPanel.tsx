@@ -1,5 +1,5 @@
 import { clone, filter, find, includes, map } from "lodash-es";
-import { Plus, PlusSquare, XCircle } from "react-feather";
+import { PlusSquare, XCircle } from "react-feather";
 import Select from "react-select";
 import "./statsPanel.scss";
 
@@ -19,7 +19,7 @@ export function StatsPanel({ providedStats, providedStatsChanged, options }) {
 
   const statModifierChanged = (event, index) => {
     const newStats = clone(providedStats);
-    newStats[index].modifier = event.target.value;
+    newStats[index].modifier = parseInt(event.target.value, 10);
 
     providedStatsChanged(newStats);
   };

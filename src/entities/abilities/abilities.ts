@@ -59,18 +59,16 @@ export const ABILITIES: Ability[] = [
   {
     id: "spellcasting",
     name: "Spellcasting",
-    description: (
-      params
-    ) => `You can now cast spells and cantrips. Casting spells and cantrips take action to cast and require 1 spell slot of the coresponding school of magic. 
+    description: `You can now cast spells and cantrips. Casting spells and cantrips take action to cast and require 1 spell slot of the coresponding school of magic. 
     Cantrips barrage does not cost a spell slot. 
     
-    Range: ${params.range ? params.range + 1 : 1}
-    Contentration Bonus: ${params.concentration || 0}`,
+    Range: %range%
+    Contentration Bonus: %concentration%`,
     type: "passive",
     tags: ["magic"],
     params: {
       range: 1,
-      concentation: 1,
+      concentration: 1,
     },
   },
   {

@@ -23,7 +23,7 @@ export const BASIC_MAGIC_TREE: Tree = {
       name: "Concentration+",
       description: "Add +1 to concentration checks.",
       providedAbilities: [
-        { id: "spellcasting", modifiers: { concentration: "levels" } },
+        { id: "spellcasting", modifiers: { concentration: 1 } },
       ],
     },
   ],

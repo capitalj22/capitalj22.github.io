@@ -40,28 +40,18 @@ function getAvailableOptions(providedAbilities) {
 }
 
 function formatAbilities(providedAbilities) {
-  return map(providedAbilities, (ability) => {
-    return { ...ability, modifiers: [] };
-  });
+  //
 }
 
 export function AbilitiesPanel({
   providedAbilities,
   providedAbilitiesChanged,
 }) {
-  const [abilities, setAbilities] = useState(
-    formatAbilities(providedAbilities)
-  );
+  const [abilities, setAbilities] = useState(providedAbilities);
+
   const statIdChanged = (event, index) => {
     const newAbilities = clone(abilities);
     newAbilities[index].id = event.value;
-
-    providedAbilitiesChanged(newAbilities);
-  };
-
-  const statModifierChanged = (event, index) => {
-    const newAbilities = clone(abilities);
-    newAbilities[index].modifier = event.target.value;
 
     providedAbilitiesChanged(newAbilities);
   };
@@ -88,7 +78,7 @@ export function AbilitiesPanel({
   };
 
   useEffect(() => {
-    setAbilities(formatAbilities(providedAbilities));
+    setAbilities(providedAbilities);
   }, [providedAbilities]);
 
   return (
@@ -123,6 +113,7 @@ export function AbilitiesPanel({
                 <div className="ability-options">
                   <AbilityCard
                     ability={find(ABILITIES, { id: ability?.id }) as Ability}
+                    modifiers={ability.modifiers}
                     isPlayerAbility={false}
                   ></AbilityCard>
                   <div className="grant">

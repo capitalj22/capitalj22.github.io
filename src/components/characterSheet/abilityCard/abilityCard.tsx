@@ -1,21 +1,48 @@
-import { filter, isFunction } from "lodash-es";
-import { useState } from "react";
+import { each, filter, find, isFunction } from "lodash-es";
+import { useEffect, useState } from "react";
 import { Ability } from "../../../entities/abilities/abilities";
 import { StatTag } from "../statTag/statTag";
 import "./abilityCard.scss";
 
-function getDescription(ability, isPlayerAbility) {
+function applyParamsToDescription(description, params, modifiers) {
+  let editedDescription = description;
+  each(Object.keys(params), (key) => {
+    let value;
+    let modifier = find(modifiers, { id: key });
+
+    if (modifier) {
+      value = params[key] + modifier.modifier;
+    } else {
+      value = params[key];
+    }
+    editedDescription = editedDescription.replace(
+      new RegExp("%" + key + "%", "g"),
+      value
+    );
+  });
+
+  return editedDescription;
+}
+
+function getDescription(ability, isPlayerAbility, modifiers) {
   let description;
 
-  if (isPlayerAbility) {
-    description = isFunction(ability.description)
-      ? ability.description(ability.modifiers as any)
-      : ability.description;
-  } else {
-    description = isFunction(ability.description)
-      ? ability.description({})
-      : ability.description;
+  if (ability.params) {
+    description = applyParamsToDescription(
+      ability.description,
+      ability.params,
+      modifiers
+    );
   }
+  // if (isPlayerAbility) {
+  //   description = isFunction(ability.description)
+  //     ? ability.description(ability.modifiers as any)
+  //     : ability.description;
+  // } else {
+  //   description = isFunction(ability.description)
+  //     ? ability.description({})
+  //     : ability.description;
+  // }
 
   return description;
 }
@@ -23,11 +50,16 @@ function getDescription(ability, isPlayerAbility) {
 type Props = {
   ability: Ability;
   isPlayerAbility?: boolean;
+  modifiers?: any;
 };
-export function AbilityCard({ ability, isPlayerAbility }: Props) {
+export function AbilityCard({ ability, isPlayerAbility, modifiers }: Props) {
   const [description, setDescription] = useState(
-    getDescription(ability, isPlayerAbility)
+    getDescription(ability, isPlayerAbility, modifiers)
   );
+
+  useEffect(() => {
+    setDescription(getDescription(ability, isPlayerAbility, modifiers));
+  }, [ability, modifiers]);
 
   return (
     <div className="ability-card">
