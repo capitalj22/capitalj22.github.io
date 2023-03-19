@@ -3,20 +3,13 @@ import { Plus, PlusSquare, XCircle } from "react-feather";
 import Select from "react-select";
 import "./statsPanel.scss";
 
-const statOptions = [
-  { value: "hp", label: "HP" },
-  { value: "armor", label: "Armor" },
-  { value: "movement", label: "Movement" },
-];
-
-function getAvailableOptions(providedStats) {
+function getAvailableOptions(providedStats, options) {
   const usedStats = map(providedStats, (stat) => stat.id);
 
-  return filter(statOptions, (options) => !includes(usedStats, options.value));
+  return filter(options, (options) => !includes(usedStats, options.value));
 }
 
-export function StatsPanel({ providedStats, providedStatsChanged }) {
-  console.log(providedStats);
+export function StatsPanel({ providedStats, providedStatsChanged, options }) {
   const statIdChanged = (event, index) => {
     const newStats = clone(providedStats);
     newStats[index].id = event.value;
@@ -72,9 +65,9 @@ export function StatsPanel({ providedStats, providedStatsChanged }) {
                 //     color: "black",
                 //   },
                 // })}
-                options={getAvailableOptions(providedStats)}
+                options={getAvailableOptions(providedStats, options)}
                 onChange={(e) => statIdChanged(e, index)}
-                defaultValue={find(statOptions, { value: stat.id })}
+                defaultValue={find(options, { value: stat.id })}
               ></Select>
               <input
                 type="number"

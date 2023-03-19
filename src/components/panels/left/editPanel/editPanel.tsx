@@ -2,6 +2,7 @@ import { clone, find, map, times } from "lodash-es";
 import React, { useState } from "react";
 import { MinusSquare, PlusSquare, Save } from "react-feather";
 import { ABILITIES } from "../../../../entities/abilities/abilities";
+import { AbilitiesPanel } from "./abilities/abilitiesPanel";
 import "./editPanel.scss";
 import { StatsPanel } from "./stats/statsPanel";
 
@@ -19,6 +20,13 @@ function convertLevelCost(levelCost, levels, cost) {
   }
 }
 
+const statOptions = [
+  { value: "hp", label: "HP" },
+  { value: "armor", label: "Armor" },
+  { value: "movement", label: "Movement" },
+];
+
+
 export function EditPanel({ node, graphEvents }) {
   const relatedAbilities = map(node?.providedAbilities, (ability) => {
     return { ...find(ABILITIES, { id: ability.id }), modifiers: {} };
@@ -33,6 +41,9 @@ export function EditPanel({ node, graphEvents }) {
   );
   const [levelsRequired, setLevelRequired] = useState(node.levelsRequired || 0);
   const [providedStats, setProvidedStats] = useState(node.providedStats || []);
+  const [providedAbilities, setProvidedAbilities] = useState(
+    node.providedAbilities || []
+  );
 
   const IdUpdated = (event) => {
     setId(event.target.value);
@@ -155,6 +166,10 @@ export function EditPanel({ node, graphEvents }) {
     setProvidedStats(event);
   };
 
+  const providedAbilitiesChanged = (event) => {
+    setProvidedAbilities(event);
+  };
+
   React.useEffect(() => {
     nodeColor = node?.colors?.selected;
     setId(node.id);
@@ -164,6 +179,7 @@ export function EditPanel({ node, graphEvents }) {
     setLevelCost(convertLevelCost(node.levelCost, node.levels, node.cost));
     setLevelRequired(node.levelsRequired || 1);
     setProvidedStats(node.providedStats || []);
+    setProvidedAbilities(node.providedAbilities || []);
   }, [node]);
 
   if (node) {
@@ -201,50 +217,16 @@ export function EditPanel({ node, graphEvents }) {
           ></textarea>
         </div>
 
-        {/* <div className="stats">
-          <div>Stats:</div>
-          {providedStats?.length
-            ? map(providedStats, (stat, index) => (
-                <div className="stat-edit-line">
-                  <Select
-                    classNames={{
-                      control: () => "select",
-                      singleValue: () => "single-value",
-                      menu: () => "select-menu",
-                    }}
-                    // theme={(theme) => ({
-                    //   ...theme,
-                    //   colors: {
-                    //     ...theme.colors,
-                    //     text: "#3599B8",
-                    //     font: "#3599B8",
-                    //     primary25: "#3599B8",
-                    //     primary: "#3599B8",
-                    //     neutral80: "black",
-                    //     color: "black",
-                    //   },
-                    // })}
-                    options={statOptions}
-                    onChange={(e) => statIdChanged(e, index)}
-                    defaultValue={find(statOptions, { value: stat.id })}
-                  ></Select>
-                  <input
-                    type="number"
-                    value={stat?.modifier}
-                    onChange={(e) => statModifierChanged(e, index)}
-                  ></input>
-                </div>
-              ))
-            : ""}
-        </div> */}
-
         <StatsPanel
           providedStats={providedStats}
           providedStatsChanged={providedStatsChanged}
+          options={statOptions}
         ></StatsPanel>
-        <div className="abilities">
-          <div>Abilities:</div>
-        </div>
+        <AbilitiesPanel
+          providedAbilities={providedAbilities}
+          providedAbilitiesChanged={providedAbilitiesChanged}
+        ></AbilitiesPanel>
+
         <div className="buttons">
           <button onClick={SavePressed}>
             <Save />

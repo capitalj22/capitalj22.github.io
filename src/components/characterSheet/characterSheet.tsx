@@ -90,7 +90,7 @@ function CharacterSheet({ dragon }) {
               )}
               <div className="ability-cards">
                 {knownAbilities[key].map((ability) => (
-                  <AbilityCard ability={ability}></AbilityCard>
+                  <AbilityCard ability={ability} isPlayerAbility={true}></AbilityCard>
                 ))}
               </div>
             </Accordion>

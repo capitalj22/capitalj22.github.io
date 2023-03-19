@@ -2,7 +2,7 @@ import * as d3 from "d3";
 import * as PIXI from "pixi.js";
 import { Viewport } from "pixi-viewport";
 import { Subject } from "rxjs";
-import { find, map, each, times, isNumber, update } from "lodash-es";
+import { find, map, each, times, isNumber } from "lodash-es";
 import { SkillNode } from "../../entities/skilltree/node.entity";
 import {
   isNodeAvailable,
@@ -13,7 +13,7 @@ import {
 } from "./utils/node.utils";
 import { ABILITIES } from "../../entities/abilities/abilities";
 import { IGraphEvent } from "../../App";
-import { SimulationLinkDatum, SimulationNodeDatum } from "d3";
+import { SimulationNodeDatum } from "d3";
 
 export interface GNode<T> extends PIXI.Graphics {
   node?: T;
@@ -232,7 +232,7 @@ export function runGraphPixi(
     redrawNodes();
     redrawLinks();
     updateForces({ f1: 25, f2: 25, f3: 25, f4: 25 });
-    updateInfo(node, nodeMeta, nodes, infoUpdated$);
+    // updateInfo(node, nodeMeta, nodes, infoUpdated$);
   }
 
   function changeMode(newMode: string) {

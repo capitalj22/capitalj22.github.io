@@ -21,6 +21,7 @@ export interface Ability {
     modifier: number | "levels";
   };
   tags?: string[];
+  params?: any;
 }
 
 export const ABILITIES: Ability[] = [
@@ -67,6 +68,10 @@ export const ABILITIES: Ability[] = [
     Contentration Bonus: ${params.concentration || 0}`,
     type: "passive",
     tags: ["magic"],
+    params: {
+      range: 1,
+      concentation: 1,
+    },
   },
   {
     id: "cantrip-barrage",
