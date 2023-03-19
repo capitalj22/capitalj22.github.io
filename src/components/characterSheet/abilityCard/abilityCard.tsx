@@ -1,4 +1,4 @@
-import { each, find } from "lodash-es";
+import { clone, each, find } from "lodash-es";
 import { useEffect, useState } from "react";
 import { Ability } from "../../../entities/abilities/abilities";
 import { StatTag } from "../statTag/statTag";
@@ -20,16 +20,15 @@ function applyParamsToDescription(description, params) {
 
 function getDescription(ability, isPlayerAbility, modifiers) {
   let description;
-  let params = ability.params;
-  console.log(modifiers);
-  console.log(ability);
-  // if (params && modifiers) {
-  //   each(Object.keys(params), (key) => {
-  //     if (modifiers[key]) {
-  //       params[key] = params[key] + modifiers[key].modifier;
-  //     }
-  //   });
-  // }
+  let params = clone(ability.params);
+
+  if (params && modifiers) {
+    each(Object.keys(params), (key) => {
+      if (modifiers[key]) {
+        params[key] = params[key] + modifiers[key];
+      }
+    });
+  }
 
   // console.log(params);
 
