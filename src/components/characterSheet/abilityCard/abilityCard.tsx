@@ -21,7 +21,6 @@ function applyParamsToDescription(description, params) {
 function getDescription(ability, isPlayerAbility, modifiers) {
   let description;
   let params = clone(ability.params);
-
   if (params && modifiers) {
     each(Object.keys(params), (key) => {
       if (modifiers[key]) {
@@ -30,19 +29,8 @@ function getDescription(ability, isPlayerAbility, modifiers) {
     });
   }
 
-  // console.log(params);
-
   if (ability.params) {
     description = applyParamsToDescription(ability.description, params);
-  }
-  if (isPlayerAbility) {
-    // description = isFunction(ability.description)
-    //   ? ability.description(ability.modifiers as any)
-    //   : ability.description;
-  } else {
-    // description = isFunction(ability.description)
-    //   ? ability.description({})
-    //   : ability.description;
   }
 
   return description;

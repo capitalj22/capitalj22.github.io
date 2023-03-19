@@ -1,4 +1,4 @@
-import { clone, filter, find, includes, map, sortBy } from "lodash-es";
+import { clone, each, filter, find, includes, map, sortBy } from "lodash-es";
 import { useEffect, useState } from "react";
 import { PlusSquare, XCircle } from "react-feather";
 import Select from "react-select";
@@ -43,8 +43,14 @@ function getAvailableOptions(providedAbilities) {
   );
 }
 
-function formatAbilities(providedAbilities) {
-  //
+function formatModifiersForCard(rawModifiers) {
+  let modifiers = {};
+
+  each(rawModifiers, (m) => {
+    modifiers[m.id] = m.modifier;
+  });
+
+  return modifiers;
 }
 
 export function AbilitiesPanel({
@@ -126,7 +132,7 @@ export function AbilitiesPanel({
                 <div className="ability-options">
                   <AbilityCard
                     ability={find(ABILITIES, { id: ability?.id }) as Ability}
-                    modifiers={ability.modifiers}
+                    modifiers={formatModifiersForCard(ability.modifiers)}
                     isPlayerAbility={false}
                   ></AbilityCard>
                   <div className="grant">

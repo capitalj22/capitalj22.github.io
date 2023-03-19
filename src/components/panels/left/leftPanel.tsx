@@ -27,7 +27,11 @@ export function LeftPanel({ build, selectedNode, graphEvents$ }) {
 
   return (
     <SidebarLeft itemSelected={handleItemSelected} expanded={handleExpanded}>
-      {selectedItem === "info" ? <InfoPanel node={selectedNode} /> : ""}
+      {selectedItem === "info" ? (
+        <InfoPanel node={selectedNode} build={build} />
+      ) : (
+        ""
+      )}
       {selectedItem === "settings" ? (
         <SettingsPanel graphEvents$={graphEvents$} />
       ) : (

@@ -4,7 +4,7 @@ import { ABILITIES } from "../../../../entities/abilities/abilities";
 import { AbilityCard } from "../../../characterSheet/abilityCard/abilityCard";
 import "./infoPanel.scss";
 
-export function InfoPanel({ node }) {
+export function InfoPanel({ node, build }) {
   const relatedAbilities = map(node?.providedAbilities, (ability) => {
     return { ...find(ABILITIES, { id: ability.id }), modifiers: {} };
   });
@@ -62,7 +62,12 @@ export function InfoPanel({ node }) {
           <div className="abilities">
             <div className="title">Related Abilities:</div>
             {Object.keys(relatedAbilities).map((key) => (
-              <AbilityCard ability={relatedAbilities[key]}></AbilityCard>
+              <AbilityCard
+                ability={relatedAbilities[key]}
+                modifiers={
+                  build?.abilities[relatedAbilities[key]?.id]?.modifiers
+                }
+              ></AbilityCard>
             ))}
           </div>
         )}
