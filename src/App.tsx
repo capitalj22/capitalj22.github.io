@@ -46,8 +46,6 @@ function App() {
     saveBuild(dragon.exportableBuild);
   }, [dragon]);
 
-
-
   const nodeSelectionUpdated = (event) => {
     const selectedNodes = filter(
       event.nodes,
@@ -89,7 +87,6 @@ function App() {
           infoUpdated={infoUpdated}
           graphEvents={graphEvents$}
         ></PixiGraph>
-        <div className="infoPanel"></div>
       </div>
     </div>
   );

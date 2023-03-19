@@ -118,6 +118,7 @@ export function runGraphPixi(
     node.cost = newNode.cost;
     node.levelCost = newNode.levelCost;
     node.levelsRequired = newNode.levelsRequired;
+    node.providedStats = newNode.providedStats;
 
     if (
       nodeMeta.acquired[nodeId] &&
@@ -155,6 +156,13 @@ export function runGraphPixi(
     redrawLinks();
     updateForces({ f1: 25, f2: 25, f3: 25, f4: 25 });
     updateInfo(node, nodeMeta, nodes, infoUpdated$);
+    nodesUpdated$.next({
+      nodes: map(nodes, (n) => ({
+        ...n,
+        selected: isNodeSelected(n, nodeMeta),
+        acquired: nodeMeta.acquired[n.id],
+      })),
+    });
   }
 
   function addNode(newNode: INode) {
@@ -369,7 +377,6 @@ export function runGraphPixi(
           const levelsAcquired = nodeMeta.acquired[node.id];
 
           if (isEditing && mode === "edit") {
-            console.log("draw white thing");
             node.gfx.beginFill(0xffffff);
             node.gfx.drawShape(
               new PIXI.RoundedRectangle(-14, -8, width + 4, 20, 6)
@@ -422,7 +429,6 @@ export function runGraphPixi(
 
         const animation = setInterval(() => {
           iteration++;
-          console.log(iteration);
           if (!selected) {
             size -= iteration * 0.4;
           } else {
@@ -471,7 +477,7 @@ export function runGraphPixi(
       antialias: true,
       autoDensity: true,
       resizeTo: window,
-      backgroundColor: "#0a0a0f",
+      backgroundColor: "#13131a",
       backgroundAlpha: 1,
       // resolution: 1,
     });

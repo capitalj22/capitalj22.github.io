@@ -12,7 +12,6 @@ export function PixiGraph({
 }) {
   const containerRef = React.useRef(null);
   const nodesUpdated$ = new Subject();
-  const tooltipUpdated$ = new Subject();
   const infoUpdated$ = new Subject();
 
   graphEvents.subscribe({

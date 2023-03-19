@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { MinusSquare, PlusSquare, Save } from "react-feather";
 import { ABILITIES } from "../../../../entities/abilities/abilities";
 import "./editPanel.scss";
+import { StatsPanel } from "./stats/statsPanel";
 
 function convertLevelCost(levelCost, levels, cost) {
   if (levels) {
@@ -14,9 +15,10 @@ function convertLevelCost(levelCost, levels, cost) {
       return lvlArray;
     }
   } else {
-    return [cost];
+    return [cost || 1];
   }
 }
+
 export function EditPanel({ node, graphEvents }) {
   const relatedAbilities = map(node?.providedAbilities, (ability) => {
     return { ...find(ABILITIES, { id: ability.id }), modifiers: {} };
@@ -30,6 +32,7 @@ export function EditPanel({ node, graphEvents }) {
     convertLevelCost(node.levelCost, node.levels, node.cost)
   );
   const [levelsRequired, setLevelRequired] = useState(node.levelsRequired || 0);
+  const [providedStats, setProvidedStats] = useState(node.providedStats || []);
 
   const IdUpdated = (event) => {
     setId(event.target.value);
@@ -77,6 +80,10 @@ export function EditPanel({ node, graphEvents }) {
       newNode.levelsRequired = levelsRequired;
     }
 
+    if (providedStats.length) {
+      newNode.providedStats = providedStats;
+    }
+
     graphEvents.next({
       event: "nodeEdited",
       data: {
@@ -120,6 +127,7 @@ export function EditPanel({ node, graphEvents }) {
   };
 
   let nodeColor = node?.colors?.selected;
+
   let costTemplate = (
     <div>
       <button onClick={costMinusClicked}>
@@ -143,6 +151,10 @@ export function EditPanel({ node, graphEvents }) {
     </div>
   );
 
+  const providedStatsChanged = (event) => {
+    setProvidedStats(event);
+  };
+
   React.useEffect(() => {
     nodeColor = node?.colors?.selected;
     setId(node.id);
@@ -151,6 +163,7 @@ export function EditPanel({ node, graphEvents }) {
     setLevels(node.levels || 1);
     setLevelCost(convertLevelCost(node.levelCost, node.levels, node.cost));
     setLevelRequired(node.levelsRequired || 1);
+    setProvidedStats(node.providedStats || []);
   }, [node]);
 
   if (node) {
@@ -188,6 +201,50 @@ export function EditPanel({ node, graphEvents }) {
           ></textarea>
         </div>
 
+        {/* <div className="stats">
+          <div>Stats:</div>
+          {providedStats?.length
+            ? map(providedStats, (stat, index) => (
+                <div className="stat-edit-line">
+                  <Select
+                    classNames={{
+                      control: () => "select",
+                      singleValue: () => "single-value",
+                      menu: () => "select-menu",
+                    }}
+                    // theme={(theme) => ({
+                    //   ...theme,
+                    //   colors: {
+                    //     ...theme.colors,
+                    //     text: "#3599B8",
+                    //     font: "#3599B8",
+                    //     primary25: "#3599B8",
+                    //     primary: "#3599B8",
+                    //     neutral80: "black",
+                    //     color: "black",
+                    //   },
+                    // })}
+                    options={statOptions}
+                    onChange={(e) => statIdChanged(e, index)}
+                    defaultValue={find(statOptions, { value: stat.id })}
+                  ></Select>
+                  <input
+                    type="number"
+                    value={stat?.modifier}
+                    onChange={(e) => statModifierChanged(e, index)}
+                  ></input>
+                </div>
+              ))
+            : ""}
+        </div> */}
+
+        <StatsPanel
+          providedStats={providedStats}
+          providedStatsChanged={providedStatsChanged}
+        ></StatsPanel>
+        <div className="abilities">
+          <div>Abilities:</div>
+        </div>
         <div className="buttons">
           <button onClick={SavePressed}>
             <Save />

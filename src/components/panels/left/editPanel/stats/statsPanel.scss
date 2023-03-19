@@ -1,0 +1,48 @@
+.stats {
+  .stats-title {
+    font-weight: 300;
+    font-size: 1.5em;
+  }
+
+  margin: 1rem 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  .stat-edit-line {
+    background: #151515;
+    border-radius: 8px;
+    padding: 1rem;
+
+    button {
+      background: transparent;
+      padding: 0.25rem;
+    }
+    > div {
+      width: 12rem;
+    }
+
+    input {
+      font-size: 1em;
+      font-weight: bold;
+      width: 4rem;
+      background-color: transparent;
+      border: none;
+    }
+    color: #222;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .add-button {
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--themeColor);
+      border-radius: 8px;
+      width: 100%;
+    }
+  }
+}

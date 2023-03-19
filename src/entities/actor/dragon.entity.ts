@@ -102,6 +102,7 @@ export const newDragonFromNodes = (selectedNodes: SkillNode[]) => {
     }
     if (node.providedStats) {
       each(node.providedStats, (stat) => {
+        // console.log(node);
         modifyStat(node, stat.id, stat.modifier, stat.set);
       });
     }
