@@ -8,7 +8,7 @@ import { NECRO_ABILITIES } from "./necro.abilities";
 export interface Ability {
   id: string;
   name: string;
-  description?: string | ((params: any) => string);
+  description?: string;
   type: "action" | "bonus action" | "passive" | "reaction" | "movement";
   damage?: {
     base: "1d6" | "1d8";
@@ -85,15 +85,13 @@ export const ABILITIES: Ability[] = [
   {
     id: "versatile",
     name: "Versatile",
-    description: (params) =>
-      `You can choose to take actions prior to movement.`,
+    description: `You can choose to take actions prior to movement.`,
     type: "passive",
   },
   {
     id: "extra-versatile",
     name: "Extra Versatile",
-    description: (params) =>
-      `You can choose to take actions before or after each unit of movement.`,
+    description: `You can choose to take actions before or after each unit of movement.`,
     type: "passive",
     replaces: "versatile",
   },

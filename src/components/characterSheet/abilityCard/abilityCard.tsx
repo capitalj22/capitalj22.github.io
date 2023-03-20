@@ -4,6 +4,7 @@ import { ChevronDown, ChevronUp, Edit } from "react-feather";
 import { Ability } from "../../../entities/abilities/abilities";
 import { StatTag } from "../statTag/statTag";
 import "./abilityCard.scss";
+import { EditableAbilityCard } from "./editableAbilityCard";
 
 function applyParamsToDescription(description, params) {
   let editedDescription = description;
@@ -73,41 +74,51 @@ export function AbilityCard({
     getDescription(ability, isPlayerAbility, modifiers)
   );
   const [expanded, setExpanded] = useState(startOpen);
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     setDescription(getDescription(ability, isPlayerAbility, modifiers));
   }, [ability, modifiers]);
 
-  return (
-    <div className="ability-card">
-      <div className="name">
-        {editable && (
-          <button className="edit">
-            <Edit />
+  if (isEditing) {
+    return (
+      <EditableAbilityCard
+        ability={ability}
+        editingCanceled={() => setIsEditing(false)}
+      />
+    );
+  } else {
+    return (
+      <div className="ability-card">
+        <div className="name">
+          {editable && (
+            <button className="edit" onClick={() => setIsEditing(!isEditing)}>
+              <Edit />
+            </button>
+          )}
+          <button className="card-title" onClick={() => setExpanded(!expanded)}>
+            <div>{ability.name}</div>
+            <div>{expanded ? <ChevronUp /> : <ChevronDown />}</div>
           </button>
-        )}
-        <button className="card-title" onClick={() => setExpanded(!expanded)}>
-          <div>{ability.name}</div>
-          <div>{expanded ? <ChevronUp /> : <ChevronDown />}</div>
-        </button>
-      </div>
-      {expanded ? (
-        <div className="collapsible-content">
-          <div className="top">
-            <p className="description">{description}</p>
-          </div>
-          <div className="bottom">
-            <div className="tags">
-              <StatTag label={ability.type}></StatTag>
-              {ability.tags?.map((tag) => (
-                <StatTag label={tag}></StatTag>
-              ))}
+        </div>
+        {expanded ? (
+          <div className="collapsible-content">
+            <div className="top">
+              <p className="description">{description}</p>
+            </div>
+            <div className="bottom">
+              <div className="tags">
+                <StatTag label={ability.type}></StatTag>
+                {ability.tags?.map((tag) => (
+                  <StatTag label={tag}></StatTag>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-      ) : (
-        ""
-      )}
-    </div>
-  );
+        ) : (
+          ""
+        )}
+      </div>
+    );
+  }
 }
