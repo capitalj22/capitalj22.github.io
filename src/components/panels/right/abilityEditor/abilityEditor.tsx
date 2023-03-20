@@ -16,6 +16,7 @@ export function AbilityEditor({ abilities, abilitiesChanged }) {
     });
 
     setAbilities(newAbilities);
+    abilitiesChanged(newAbilities);
   };
 
   const addButtonPressed = () => {

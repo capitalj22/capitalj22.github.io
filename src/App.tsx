@@ -65,7 +65,7 @@ function App() {
   const [dragon, setDragon] = useState({ armor: 0, hp: 0 } as any);
   const [selectedNode, setSelectedNode] = useState({});
   const [nodes, setNodes] = useState(() => getNodes());
-  const [abilities, setabilities] = useState(ABILITIES);
+  const [abilities, setAbilities] = useState(ABILITIES);
 
   const [build, setBuild] = useState(() => getBuild());
 
@@ -108,6 +108,7 @@ function App() {
     <div className="App">
       <div className="appLeft">
         <LeftPanel
+          abilities={abilities}
           build={dragon}
           selectedNode={selectedNode}
           graphEvents$={graphEvents$}
@@ -116,9 +117,10 @@ function App() {
       </div>
       <div className="appRight">
         <RightPanel
-          abilities={abilities}
+          abilities={ABILITIES}
           build={dragon}
           importAttempted={handleImportAttempted}
+          abilitiesChanged={(e) => setAbilities(e)}
         ></RightPanel>
       </div>
       <div className="skill-panel">

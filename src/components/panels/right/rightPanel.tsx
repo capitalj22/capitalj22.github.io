@@ -4,7 +4,12 @@ import { CodePanel } from "../../codePanel/codePanel";
 import { SidebarRight } from "../../layout/right/sidebarRight";
 import { AbilityEditor } from "./abilityEditor/abilityEditor";
 
-export function RightPanel({ build, importAttempted, abilities }) {
+export function RightPanel({
+  build,
+  importAttempted,
+  abilities,
+  abilitiesChanged,
+}) {
   const [selectedItem, setSelectedItem] = useState("info");
   const [menuTitle, setMenuTitle] = useState("info");
 
@@ -34,7 +39,7 @@ export function RightPanel({ build, importAttempted, abilities }) {
   };
 
   const handleAbilitiesChanged = (event) => {
-    //
+    abilitiesChanged(event);
   };
 
   return (

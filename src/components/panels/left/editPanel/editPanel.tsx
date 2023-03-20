@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PlusSquare, Save, Trash2 } from "react-feather";
 import { AbilitiesPanel } from "./abilities/abilitiesPanel";
 import { CostPanel } from "./costPanel/costPanel";
@@ -11,7 +11,7 @@ const statOptions = [
   { value: "movement", label: "Movement" },
 ];
 
-export function EditPanel({ node, graphEvents }) {
+export function EditPanel({ node, graphEvents, abilities }) {
   const [id, setId] = useState(node.id);
   const [name, setName] = useState(node.name);
   const [description, setDescription] = useState(node.description);
@@ -23,6 +23,11 @@ export function EditPanel({ node, graphEvents }) {
   const [providedAbilities, setProvidedAbilities] = useState(
     node.providedAbilities || []
   );
+  const [_abilities, setAbilities] = useState(abilities);
+
+  useEffect(() => {
+    setAbilities(abilities);
+  }, [abilities]);
 
   let nodeColor = node?.colors?.selected;
 
@@ -171,6 +176,7 @@ export function EditPanel({ node, graphEvents }) {
           name="Stat"
         ></StatsPanel>
         <AbilitiesPanel
+          allAbilities={_abilities}
           providedAbilities={providedAbilities}
           providedAbilitiesChanged={providedAbilitiesChanged}
         ></AbilitiesPanel>

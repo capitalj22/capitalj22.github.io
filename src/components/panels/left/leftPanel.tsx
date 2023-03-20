@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { InfoPanel } from "./infoPanel/infoPanel";
 import { SidebarLeft } from "../../layout/left/sidebarLeft";
 import { SettingsPanel } from "./settingsPanel/settingsPanel";
 import { EditPanel } from "./editPanel/editPanel";
 
-export function LeftPanel({ build, selectedNode, graphEvents$ }) {
+export function LeftPanel({ build, selectedNode, graphEvents$, abilities }) {
+  const [_abilities, setAbilities] = useState(abilities);
   const [selectedItem, setSelectedItem] = useState("info");
   const handleItemSelected = (item) => {
     setSelectedItem(item);
@@ -23,6 +24,11 @@ export function LeftPanel({ build, selectedNode, graphEvents$ }) {
         break;
     }
   };
+
+  useEffect(() => {
+    setAbilities(abilities);
+  }, [abilities]);
+
   const handleExpanded = (event) => {};
 
   return (
@@ -38,7 +44,11 @@ export function LeftPanel({ build, selectedNode, graphEvents$ }) {
         ""
       )}
       {selectedItem === "edit" ? (
-        <EditPanel node={selectedNode} graphEvents={graphEvents$} />
+        <EditPanel
+          node={selectedNode}
+          graphEvents={graphEvents$}
+          abilities={_abilities}
+        />
       ) : (
         ""
       )}

@@ -11,12 +11,13 @@ import { Accordion } from "../../../../layout/accordion/accordion";
 import { StatsPanel } from "../stats/statsPanel";
 import "./abilitiesPanel.scss";
 
-const abilityOptions = map(ABILITIES, (ability) => {
-  return { value: ability.id, label: ability.name };
-});
+const abilityOptions = (allAbilities) =>
+  map(allAbilities, (ability) => {
+    return { value: ability.id, label: ability.name };
+  });
 
-function getModifierOptions(abilityId) {
-  const ability = find(ABILITIES, { id: abilityId });
+function getModifierOptions(abilityId, allAbilities) {
+  const ability = find(allAbilities, { id: abilityId });
 
   if (ability?.params) {
     return map(Object.keys(ability.params), (param) => ({
@@ -28,17 +29,17 @@ function getModifierOptions(abilityId) {
   }
 }
 
-function getOption(abilityId) {
-  return find(abilityOptions, { value: abilityId });
+function getOption(abilityId, allAbilities) {
+  return find(abilityOptions(allAbilities), { value: abilityId });
 }
 
-function getAvailableOptions(providedAbilities) {
+function getAvailableOptions(providedAbilities, allAbilities) {
   const usedAbilities = map(providedAbilities, (stat) => stat.id);
 
   return sortBy(
     filter(
-      abilityOptions,
-      (options) => !includes(usedAbilities, options.value)
+      abilityOptions(allAbilities),
+      (option) => !includes(usedAbilities, (option as any).value)
     ),
     "label"
   );
@@ -55,10 +56,16 @@ function formatModifiersForCard(rawModifiers) {
 }
 
 export function AbilitiesPanel({
+  allAbilities,
   providedAbilities,
   providedAbilitiesChanged,
 }) {
   const [abilities, setAbilities] = useState(providedAbilities);
+  const [abilityPool, setAbilityPool] = useState(allAbilities);
+
+  useEffect(() => {
+    setAbilityPool(allAbilities);
+  }, [allAbilities]);
 
   const abilityChanged = (event, index) => {
     const newAbilities = clone(abilities);
@@ -116,10 +123,10 @@ export function AbilitiesPanel({
                     singleValue: () => "single-value",
                     menu: () => "select-menu",
                   }}
-                  options={getAvailableOptions(abilities)}
+                  options={getAvailableOptions(abilities, abilityPool)}
                   onChange={(e) => abilityChanged(e, index)}
-                  defaultValue={getOption(ability.id)}
-                  value={getOption(ability.id)}
+                  defaultValue={getOption(ability.id, abilityPool)}
+                  value={getOption(ability.id, abilityPool)}
                 ></Select>
               </div>
 
@@ -133,7 +140,9 @@ export function AbilitiesPanel({
                 <div className="ability-options">
                   <Accordion name="..." startOpen={false}>
                     <AbilityCard
-                      ability={find(ABILITIES, { id: ability?.id }) as Ability}
+                      ability={
+                        find(allAbilities, { id: ability?.id }) as Ability
+                      }
                       modifiers={formatModifiersForCard(ability.modifiers)}
                       isPlayerAbility={false}
                     ></AbilityCard>
@@ -154,7 +163,7 @@ export function AbilitiesPanel({
                       providedStatsChanged={(e) =>
                         handleModifiersChanged(e, index)
                       }
-                      options={getModifierOptions(ability.id)}
+                      options={getModifierOptions(ability.id, allAbilities)}
                       name="Modifier"
                     ></StatsPanel>
                   ) : (
