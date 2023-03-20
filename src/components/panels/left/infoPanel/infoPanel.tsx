@@ -1,12 +1,11 @@
 import { find, map, times } from "lodash-es";
 import React from "react";
-import { ABILITIES } from "../../../../entities/abilities/abilities";
 import { AbilityCard } from "../../../characterSheet/abilityCard/abilityCard";
 import "./infoPanel.scss";
 
-export function InfoPanel({ node, build }) {
+export function InfoPanel({ node, build, abilities }) {
   const relatedAbilities = map(node?.providedAbilities, (ability) => {
-    return { ...find(ABILITIES, { id: ability.id }), modifiers: {} };
+    return { ...find(abilities, { id: ability.id }), modifiers: {} };
   });
 
   let nodeColor = node?.colors?.selected;

@@ -1,8 +1,7 @@
 import { SkillNode } from "../skilltree/node.entity";
 import { clone, each, find, isUndefined, times } from "lodash-es";
-import { ABILITIES } from "../abilities/abilities";
 
-export const newDragonFromNodes = (selectedNodes: SkillNode[]) => {
+export const newDragonFromNodes = (selectedNodes: SkillNode[], abilities) => {
   const baseDragon = {
     movement: 0,
     hp: 0,
@@ -33,10 +32,12 @@ export const newDragonFromNodes = (selectedNodes: SkillNode[]) => {
   };
 
   const registerAbility = (id: string, gain?) => {
-    const ability = find(ABILITIES, { id: id });
+    const ability = find(abilities, { id: id });
 
+    console.log(id)
+    console.log(abilities);
     if (isUndefined(baseDragon.abilities[id])) {
-      baseDragon.abilities[id] = clone(ability);
+      baseDragon.abilities[id] = clone(ability) || {};
       baseDragon.abilities[id].modifiers = {};
     }
 
@@ -44,7 +45,7 @@ export const newDragonFromNodes = (selectedNodes: SkillNode[]) => {
   };
 
   const replaceAbiltiy = (id) => {
-    const ability = find(ABILITIES, { id: id });
+    const ability = find(abilities, { id: id });
 
     if (ability) {
       registerAbility(ability.id);
@@ -54,7 +55,7 @@ export const newDragonFromNodes = (selectedNodes: SkillNode[]) => {
   };
 
   const registerOrModifyAbility = (id, gain, modifiers = {}, node) => {
-    const ability = find(ABILITIES, { id: id });
+    const ability = find(abilities, { id: id });
 
     registerAbility(id, gain);
 

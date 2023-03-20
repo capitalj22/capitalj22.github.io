@@ -229,10 +229,11 @@ export function runGraphPixi(
     const boundPress = onPress.bind(node);
     let { name } = node;
     let relatedAbilities: any[] = [];
-    if (node.providedAbilities) {
-      const ability1 = find(ABILITIES, { id: node.providedAbilities[0].id });
-      relatedAbilities.push(ability1);
-    }
+
+    // if (node.providedAbilities) {
+    //   const ability1 = find(ABILITIES, { id: node.providedAbilities[0].id });
+    //   relatedAbilities.push(ability1);
+    // }
 
     let touching = false;
 
@@ -599,10 +600,11 @@ export function runGraphPixi(
       const boundPress = onPress.bind(node);
       let { name } = node;
       let relatedAbilities: any[] = [];
-      if (node.providedAbilities) {
-        const ability1 = find(ABILITIES, { id: node.providedAbilities[0].id });
-        relatedAbilities.push(ability1);
-      }
+
+      // if (node.providedAbilities) {
+      //   const ability1 = find(ABILITIES, { id: node.providedAbilities[0].id });
+      //   relatedAbilities.push(ability1);
+      // }
 
       let touching = false;
 

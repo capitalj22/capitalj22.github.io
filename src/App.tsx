@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./App.scss";
 import { PixiGraph } from "./components/pixi/pixi";
 import { filter } from "lodash-es";
@@ -45,6 +45,7 @@ export interface IGraphEvent {
     | "nodeAdded"
     | "nodeDeleted"
     | "nodeEdited"
+    | "nodeSelectionChanged"
     | "nodesChanged";
   data: any;
 }
@@ -66,6 +67,8 @@ function App() {
   const [selectedNode, setSelectedNode] = useState({});
   const [nodes, setNodes] = useState(() => getNodes());
   const [abilities, setAbilities] = useState(ABILITIES);
+
+  const activeAbilities = useRef(abilities);
 
   const [build, setBuild] = useState(() => getBuild());
 
@@ -92,8 +95,9 @@ function App() {
       event.nodes,
       (node) => node.selected || node.acquired
     );
-
-    setDragon((dragon) => newDragonFromNodes(selectedNodes));
+    setDragon((dragon) =>
+      newDragonFromNodes(selectedNodes, activeAbilities.current)
+    );
   };
 
   const handleImportAttempted = (text) => {
@@ -102,6 +106,12 @@ function App() {
 
   const infoUpdated = (event) => {
     setSelectedNode(event.node);
+  };
+
+  const handleAbilitiesChanged = (event) => {
+    console.log(event);
+    setAbilities(() => [...event]);
+    activeAbilities.current = [...event];
   };
 
   return (
@@ -117,17 +127,17 @@ function App() {
       </div>
       <div className="appRight">
         <RightPanel
-          abilities={ABILITIES}
+          abilities={abilities}
           build={dragon}
           importAttempted={handleImportAttempted}
-          abilitiesChanged={(e) => setAbilities(e)}
+          abilitiesChanged={handleAbilitiesChanged}
         ></RightPanel>
       </div>
       <div className="skill-panel">
         <PixiGraph
-          trees={TREES}
+          trees={nodes}
           buildData={build}
-          nodeSelectionUpdated={nodeSelectionUpdated}
+          nodeSelectionUpdated={(e) => nodeSelectionUpdated(e)}
           infoUpdated={infoUpdated}
           graphEvents={graphEvents$}
         ></PixiGraph>

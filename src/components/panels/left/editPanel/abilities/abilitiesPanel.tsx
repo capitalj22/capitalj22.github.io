@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { PlusSquare, XCircle } from "react-feather";
 import Select from "react-select";
 import {
-  ABILITIES,
   Ability,
 } from "../../../../../entities/abilities/abilities";
 import { AbilityCard } from "../../../../characterSheet/abilityCard/abilityCard";
@@ -157,7 +156,7 @@ export function AbilitiesPanel({
                       ></input>
                     </label>
                   </div>
-                  {find(ABILITIES, { id: ability?.id })?.params ? (
+                  {find(allAbilities, { id: ability?.id })?.params ? (
                     <StatsPanel
                       providedStats={ability.modifiers}
                       providedStatsChanged={(e) =>
