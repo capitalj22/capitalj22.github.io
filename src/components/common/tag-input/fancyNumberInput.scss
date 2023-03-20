@@ -1,0 +1,14 @@
+.fancy-text-input {
+  .hidden-text {
+    position: absolute;
+    opacity: 0;
+    z-index: -100;
+    white-space: pre;
+  }
+
+  input,
+  span {
+    font-size: 1rem;
+    padding: 0.25rem;
+  }
+}

@@ -4,6 +4,7 @@ import { Save, X } from "react-feather";
 import { Ability } from "../../../entities/abilities/abilities";
 import { StatTag } from "../statTag/statTag";
 import "./abilityCard.scss";
+import { AbilityParamEditor } from "./abilityParamEditor";
 import { TagSelect } from "./tagSelect";
 
 function applyParamsToDescription(description, params) {
@@ -65,8 +66,6 @@ type Props = {
 };
 export function EditableAbilityCard({
   ability,
-  isPlayerAbility,
-  modifiers,
   abilityChanged,
   editingCanceled,
 }: Props) {
@@ -79,8 +78,13 @@ export function EditableAbilityCard({
   const handleTagsChanged = (e) => {
     setAbility({ ..._ability, tags: e });
   };
+
   const handleTypeChanged = (e) => {
     setAbility({ ..._ability, type: e });
+  };
+
+  const paramsChanged = (e) => {
+    setAbility({ ..._ability, params: e });
   };
 
   const savePressed = () => {
@@ -133,6 +137,8 @@ export function EditableAbilityCard({
         </div>
         <div className="bottom">
           <div className="tags">
+            <div className="title">Tags</div>
+
             <TagSelect
               tags={_ability.tags}
               type={_ability.type}
@@ -142,7 +148,11 @@ export function EditableAbilityCard({
           </div>
         </div>
       </div>
-      <button onClick={savePressed}>
+      <AbilityParamEditor
+        params={_ability.params}
+        paramsChanged={paramsChanged}
+      />
+      <button className="save-button" onClick={savePressed}>
         Save <Save />
       </button>
     </div>

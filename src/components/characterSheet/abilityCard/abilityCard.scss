@@ -20,20 +20,21 @@
     input {
       text-align: left;
       width: 100%;
-      background-color: transparent;
       padding: 0;
       display: flex;
       align-items: center;
       justify-content: space-between;
       font-weight: 700;
       font-size: 1.5em;
-      padding-bottom: 1rem;
+      margin-bottom: 1rem;
       padding-top: 0.5rem;
     }
   }
 
   .id.form-control input {
     font-size: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #808080;
   }
 
   .tags {
@@ -80,6 +81,11 @@
     margin-right: -0.5rem;
   }
 
+  .title {
+    font-size: 18px;
+    color: #ddd;
+  }
+
   .tag-select {
     color: #222;
     display: flex;
@@ -87,16 +93,22 @@
     gap: 0.5rem;
     flex-wrap: wrap;
 
-    .stat-tag.form-control {
-      input {
-        max-width: 4rem;
-      }
-    }
-
     button {
       padding: 0.1rem 0.25rem;
       border-radius: 8px;
       margin-left: 0.5rem;
+    }
+
+    .add-tag {
+      justify-content: space-between;
+      background: var(--themeColor);
+      display: inline-flex;
+      padding: 0.5rem 1rem;
+      border-radius: 7px;
+      font-size: 14px;
+      align-items: center;
+
+      gap: 1rem;
     }
   }
 }

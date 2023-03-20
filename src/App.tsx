@@ -135,7 +135,7 @@ function App() {
       </div>
       <div className="skill-panel">
         <PixiGraph
-          trees={nodes}
+          trees={TREES}
           buildData={build}
           nodeSelectionUpdated={(e) => nodeSelectionUpdated(e)}
           infoUpdated={infoUpdated}

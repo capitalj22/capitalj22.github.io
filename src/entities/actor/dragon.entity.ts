@@ -34,8 +34,6 @@ export const newDragonFromNodes = (selectedNodes: SkillNode[], abilities) => {
   const registerAbility = (id: string, gain?) => {
     const ability = find(abilities, { id: id });
 
-    console.log(id)
-    console.log(abilities);
     if (isUndefined(baseDragon.abilities[id])) {
       baseDragon.abilities[id] = clone(ability) || {};
       baseDragon.abilities[id].modifiers = {};

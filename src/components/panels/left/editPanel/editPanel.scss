@@ -1,16 +1,3 @@
-.form-control {
-  input,
-  textarea {
-    font-family: var(--fontFamily);
-    background-color: transparent;
-    border: none;
-
-    &:focus {
-      background-color: #5b5b5b4f;
-    }
-  }
-}
-
 .edit-panel {
   text-align: left;
 

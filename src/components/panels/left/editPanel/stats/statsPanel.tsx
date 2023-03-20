@@ -8,13 +8,20 @@ function getAvailableOptions(providedStats, options) {
 
   return filter(options, (options) => !includes(usedStats, options.value));
 }
-
+interface Props {
+  providedStats: Array<{ id: string; modifier: number }>;
+  providedStatsChanged: (
+    providedStats: Array<{ id: string; modifier: number }>
+  ) => void;
+  options: Array<{ value: any; label: any }>;
+  name: string;
+}
 export function StatsPanel({
-  providedStats,
+  providedStats = [],
   providedStatsChanged,
   options,
   name,
-}) {
+}: Props) {
   const statIdChanged = (event, index) => {
     const newStats = clone(providedStats);
     newStats[index].id = event.value;

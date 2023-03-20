@@ -61,3 +61,21 @@
   background-position-y: bottom;
   pointer-events: none;
 }
+
+.form-control {
+  input,
+  textarea {
+    font-family: var(--fontFamily);
+    background-color: transparent;
+    border: none;
+
+    &:focus {
+      outline: 1px solid #ececec27;
+      background-color: rgba(13, 13, 13, 0.31);
+    }
+
+    &:focus-visible {
+      outline: none;
+    }
+  }
+}

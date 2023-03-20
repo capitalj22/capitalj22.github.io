@@ -1,0 +1,23 @@
+.param-editor {
+  .param-line {
+    display: flex;
+    gap: 0.5rem;
+    padding: 1rem 0;
+    input {
+      max-width: 10rem;
+    }
+  }
+  .add-button {
+    width: 100%;
+    justify-content: space-between;
+    background: var(--themeColor);
+    display: inline-flex;
+    padding: 0.5rem 1rem;
+    border-radius: 7px;
+    margin: 1rem 0;
+    font-size: 14px;
+    align-items: center;
+
+    gap: 1rem;
+  }
+}
