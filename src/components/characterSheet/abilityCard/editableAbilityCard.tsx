@@ -1,6 +1,6 @@
 import { clone, each, isFunction } from "lodash-es";
 import { useEffect, useState } from "react";
-import { Save, X } from "react-feather";
+import { Copy, Save, Trash2, X } from "react-feather";
 import { Ability } from "../../../entities/abilities/abilities";
 import { StatTag } from "../statTag/statTag";
 import "./abilityCard.scss";
@@ -59,15 +59,17 @@ function getDescription(ability, isPlayerAbility, modifiers) {
 
 type Props = {
   ability: Ability;
-  isPlayerAbility?: boolean;
-  modifiers?: any;
   abilityChanged?: (ability: Ability) => void;
   editingCanceled?: () => void;
+  abilityRemoved?: (ability: Ability) => void;
+  abilityCopied: (ability: Ability) => void;
 };
 export function EditableAbilityCard({
   ability,
   abilityChanged,
   editingCanceled,
+  abilityRemoved,
+  abilityCopied,
 }: Props) {
   const [_ability, setAbility] = useState(ability);
 
@@ -90,6 +92,18 @@ export function EditableAbilityCard({
   const savePressed = () => {
     if (isFunction(abilityChanged)) {
       abilityChanged({ ability: _ability, id: ability.id });
+    }
+  };
+
+  const deletePressed = () => {
+    if (isFunction(abilityRemoved)) {
+      abilityRemoved(ability.id);
+    }
+  };
+
+  const copyPressed = () => {
+    if (isFunction(abilityCopied)) {
+      abilityCopied({ ability: _ability, id: ability.id });
     }
   };
 
@@ -152,9 +166,17 @@ export function EditableAbilityCard({
         params={_ability.params}
         paramsChanged={paramsChanged}
       />
-      <button className="save-button" onClick={savePressed}>
-        Save <Save />
-      </button>
+      <div className="buttons">
+        <button className="save-button green" onClick={savePressed}>
+          Save <Save />
+        </button>
+        <button className="copy-button" onClick={copyPressed}>
+          Copy <Copy />
+        </button>
+        <button className="delete-button red" onClick={deletePressed}>
+          Delete <Trash2 />
+        </button>
+      </div>
     </div>
   );
 }

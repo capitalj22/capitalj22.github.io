@@ -171,6 +171,7 @@ export function runGraphPixi(
     node.levelsRequired = newNode.levelsRequired;
     node.providedStats = newNode.providedStats;
     node.providedAbilities = newNode.providedAbilities;
+    node.colors = newNode.colors;
 
     if (
       nodeMeta.acquired[nodeId] &&
@@ -220,9 +221,10 @@ export function runGraphPixi(
   }
 
   function addNode(newNode: INode) {
+    const requiredNode = find(nodes, { id: newNode.requires });
     let node = {
       ...newNode,
-      name: "test",
+      name: "New Node",
       colors: find(nodes, { id: newNode.requires })?.colors,
     };
 
@@ -512,9 +514,19 @@ export function runGraphPixi(
   }
 
   function initializeSim() {
-    nodes = map(nodesData, (node) => ({
-      ...node,
-    }));
+    if (nodesData.length) {
+      nodes = map(nodesData, (node) => ({
+        ...node,
+      }));
+    } else {
+      nodes = [
+        {
+          id: "start-here",
+          name: "Start here",
+          colors: { selected: "#fff", unavailable: "#fff", inactive: "#fff" },
+        } as any,
+      ];
+    }
 
     links = [];
 
@@ -673,6 +685,8 @@ export function runGraphPixi(
       simulation.stop();
       nodes.forEach((node) => {
         node.gfx.clear();
+        node.gfx.removeChildren();
+        node.gfx.destroy();
       });
       visualLinks.clear();
       graphSub.unsubscribe();

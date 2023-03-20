@@ -63,7 +63,10 @@ type Props = {
   startOpen?: boolean;
   editable?: boolean;
   abilityEdited?;
+  abilityCopied?;
+  abilityRemoved?;
 };
+
 export function AbilityCard({
   ability,
   isPlayerAbility,
@@ -71,6 +74,8 @@ export function AbilityCard({
   startOpen = true,
   editable = false,
   abilityEdited,
+  abilityCopied,
+  abilityRemoved,
 }: Props) {
   const [description, setDescription] = useState(
     getDescription(ability, isPlayerAbility, modifiers)
@@ -85,6 +90,14 @@ export function AbilityCard({
     setIsEditing(false);
   };
 
+  const handleAbilityCopied = (event) => {
+    abilityCopied(event);
+  };
+  const handleAbilityRemoved = (event) => {
+    setIsEditing(false);
+    abilityRemoved(event);
+  };
+
   useEffect(() => {
     setDescription(getDescription(ability, isPlayerAbility, modifiers));
   }, [ability, modifiers]);
@@ -95,6 +108,8 @@ export function AbilityCard({
         ability={ability}
         abilityChanged={abilityChanged}
         editingCanceled={() => setIsEditing(false)}
+        abilityCopied={handleAbilityCopied}
+        abilityRemoved={handleAbilityRemoved}
       />
     );
   } else {

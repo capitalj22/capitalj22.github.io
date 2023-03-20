@@ -26,16 +26,30 @@ function getBuild() {
 
 function getNodes() {
   const localBuild = localStorage.getItem("dragon-nodes");
-  let myBuild;
+  let myNodes;
   if (localBuild) {
     try {
-      myBuild = JSON.parse(localBuild);
+      myNodes = JSON.parse(localBuild);
     } catch (e) {
       console.log(e);
     }
   }
 
-  return myBuild || {};
+  return myNodes || {};
+}
+
+function getAbilities() {
+  const localAbilities = localStorage.getItem("dragon-abilities");
+  let myAbilities;
+  if (localAbilities) {
+    try {
+      myAbilities = JSON.parse(localAbilities);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  return myAbilities || {};
 }
 
 export interface IGraphEvent {
@@ -62,11 +76,17 @@ function saveNodes(nodes) {
   // localStorage.removeItem("dragon-nodes");
 }
 
+function saveAbilities(nodes) {
+  localStorage.setItem("dragon-abilities", JSON.stringify(nodes));
+  // localStorage.removeItem("dragon-nodes");
+}
+
 function App() {
   const [dragon, setDragon] = useState({ armor: 0, hp: 0 } as any);
   const [selectedNode, setSelectedNode] = useState({});
   const [nodes, setNodes] = useState(() => getNodes());
-  const [abilities, setAbilities] = useState(ABILITIES);
+  // const [abilities, setAbilities] = useState(ABILITIES);
+  const [abilities, setAbilities] = useState(getAbilities());
 
   const activeAbilities = useRef(abilities);
 
@@ -79,6 +99,10 @@ function App() {
   useEffect(() => {
     saveNodes(nodes);
   }, [nodes]);
+
+  useEffect(() => {
+    saveAbilities(abilities);
+  }, [abilities]);
 
   useEffect(() => {
     graphEvents$.subscribe({
@@ -100,8 +124,33 @@ function App() {
     );
   };
 
-  const handleImportAttempted = (text) => {
-    setBuild(JSON.parse(text));
+  const handleImportAttempted = (event) => {
+    if (event.type === "build") {
+      const build = JSON.parse(event.data);
+
+      if (build) {
+        setBuild(JSON.parse(event.data));
+      }
+    } else if (event.type === "trees") {
+      const config = JSON.parse(event.data);
+      setBuild({});
+      if (config) {
+        if (config.nodes) {
+          setNodes(config.nodes);
+        }
+        if (config.abilities) {
+          setAbilities(config.abilities);
+        }
+      }
+    } else if (event.type === "reset") {
+      setNodes([{ id: "start here", name: "Start Here", colors: {} }]);
+      setAbilities([]);
+      setBuild({});
+    } else if (event.type === "default") {
+      setNodes(TREES);
+      setAbilities(ABILITIES);
+      setBuild({});
+    }
   };
 
   const infoUpdated = (event) => {
@@ -129,13 +178,14 @@ function App() {
         <RightPanel
           abilities={abilities}
           build={dragon}
+          nodes={nodes}
           importAttempted={handleImportAttempted}
           abilitiesChanged={handleAbilitiesChanged}
         ></RightPanel>
       </div>
       <div className="skill-panel">
         <PixiGraph
-          trees={TREES}
+          trees={nodes}
           buildData={build}
           nodeSelectionUpdated={(e) => nodeSelectionUpdated(e)}
           infoUpdated={infoUpdated}

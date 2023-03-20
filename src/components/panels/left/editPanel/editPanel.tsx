@@ -4,6 +4,9 @@ import { AbilitiesPanel } from "./abilities/abilitiesPanel";
 import { CostPanel } from "./costPanel/costPanel";
 import "./editPanel.scss";
 import { StatsPanel } from "./stats/statsPanel";
+import { ColorPicker } from "../../../common/color-picker/colorPicker";
+import { SkillNode } from "../../../../entities/skilltree/node.entity";
+import { Ability } from "../../../../entities/abilities/abilities";
 
 const statOptions = [
   { value: "hp", label: "HP" },
@@ -11,7 +14,17 @@ const statOptions = [
   { value: "movement", label: "Movement" },
 ];
 
-export function EditPanel({ node, graphEvents, abilities }) {
+interface Props {
+  node?: SkillNode;
+  graphEvents: any;
+  abilities: Ability[];
+}
+
+export function EditPanel({
+  node = {} as SkillNode,
+  graphEvents,
+  abilities,
+}: Props) {
   const [id, setId] = useState(node.id);
   const [name, setName] = useState(node.name);
   const [description, setDescription] = useState(node.description);
@@ -24,12 +37,11 @@ export function EditPanel({ node, graphEvents, abilities }) {
     node.providedAbilities || []
   );
   const [_abilities, setAbilities] = useState(abilities);
+  const [colors, setColors] = useState(node.colors || {});
 
   useEffect(() => {
     setAbilities(abilities);
   }, [abilities]);
-
-  let nodeColor = node?.colors?.selected;
 
   const IdUpdated = (event) => {
     setId(event.target.value);
@@ -68,11 +80,12 @@ export function EditPanel({ node, graphEvents, abilities }) {
       id: id,
       name: name,
       description: description,
+      colors,
     } as any;
 
     if (levels === 1) {
-      if (levelCost?.length) {
-        newNode.cost = levelCost[0];
+      if ((levelCost as any)?.length) {
+        newNode.cost = (levelCost as any)[0];
       } else {
         newNode.cost = 1;
       }
@@ -115,8 +128,12 @@ export function EditPanel({ node, graphEvents, abilities }) {
     setLevels(event.levels);
   };
 
+  const colorChanged = (event, which) => {
+    setColors({ ...colors, [which]: event });
+  };
+
   React.useEffect(() => {
-    nodeColor = node?.colors?.selected;
+    setColors(node.colors || {});
     setId(node.id);
     setName(node.name);
     setDescription(node.description);
@@ -135,7 +152,7 @@ export function EditPanel({ node, graphEvents, abilities }) {
           levels={levels}
           levelCost={levelCost}
           cost={cost}
-          color={nodeColor}
+          color={colors.selected}
           levelsChanged={costChanged}
         />
         <div className="form-control name">
@@ -146,12 +163,30 @@ export function EditPanel({ node, graphEvents, abilities }) {
           <input type="text" onChange={IdUpdated} value={id || ""}></input>
         </div>
 
-        <div className="divider" style={{ backgroundColor: nodeColor }}></div>
+        <div
+          className="divider"
+          style={{ backgroundColor: colors.selected }}
+        ></div>
+
+        <ColorPicker
+          color={colors.unavailable}
+          colorChanged={(e) => colorChanged(e, "unavailable")}
+        />
+
+        <ColorPicker
+          color={colors.inactive}
+          colorChanged={(e) => colorChanged(e, "inactive")}
+        />
+
+        <ColorPicker
+          color={colors.selected}
+          colorChanged={(e) => colorChanged(e, "selected")}
+        />
 
         <div className="requires">
           Requires{" "}
           <span className="skill">
-            {node.requiredName}{" "}
+            {(node as any).requiredName}{" "}
             <input
               min={1}
               type="number"
@@ -170,7 +205,7 @@ export function EditPanel({ node, graphEvents, abilities }) {
         </div>
 
         <StatsPanel
-          providedStats={providedStats}
+          providedStats={providedStats as any}
           providedStatsChanged={providedStatsChanged}
           options={statOptions}
           name="Stat"

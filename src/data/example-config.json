@@ -1,0 +1,1003 @@
+{
+  "abilities": [
+    {
+      "id": "smite",
+      "name": "Smite",
+      "description": "When an attack hits (does damage to HP), you may spend 1 spell slot to make that attack do +%dmg%\n      damage",
+      "type": "bonus action",
+      "tags": ["holy"],
+      "params": { "dmg": 3 }
+    },
+    {
+      "id": "guiding-bolt",
+      "name": "Guiding Bolt",
+      "description": "You hit an enemy with a blast of light, dealing nonabsorbable damage. Next round, allies have +%roll% on all attacks/cantrip strikes against this target.",
+      "type": "action",
+      "tags": ["holy", "piercing"],
+      "params": { "roll": 1 }
+    },
+    {
+      "id": "death-ward",
+      "name": "Death Ward",
+      "description": "Place a ward against death on a unit. If that unit is reduced to 0 HP it instead goes to 2 HP. When this happens the spell is used up and you lose concentration on it.",
+      "type": "action",
+      "tags": ["concentration", "holy"]
+    },
+    {
+      "id": "restoration",
+      "name": "Restoration",
+      "description": "Heal a unit 3 HP within spell range.",
+      "type": "action",
+      "tags": ["holy"]
+    },
+    {
+      "id": "turn-undead",
+      "name": "Turn Undead",
+      "description": "Deal %dmg% damage to adjacent undead units and force them on their turn to move at least %range% hex away from you and get no closer for %rounds% round.",
+      "type": "action",
+      "tags": ["holy"],
+      "params": { "dmg": 1, "range": 1, "rounds": 1 }
+    },
+    {
+      "id": "bless",
+      "name": "Bless",
+      "description": "Buff up an ally within range, granting them +1 on their first attack/cantrip strike of their turn.",
+      "type": "action",
+      "tags": ["holy"]
+    },
+    {
+      "id": "spirit-guardians",
+      "name": "Spirit Guardians",
+      "description": "Call upon spiritual guardians to protect you. You gain %ac% AC and adjacent enemies take %dmg% unabsorbable damage at the start of your turn.",
+      "type": "action",
+      "tags": ["concentration", "holy", "piercing"],
+      "params": { "dmg": 1, "ac": 1 }
+    },
+    {
+      "id": "guardian",
+      "name": "Guardian",
+      "type": "reaction",
+      "description": "As a reaction, can intercept %attacks% attack(s) going towards an adjacent ally. You now take that attack - also take 1 damage.",
+      "tags": ["defense"]
+    },
+    {
+      "id": "deflect",
+      "name": "Deflect",
+      "type": "reaction",
+      "description": "Block 1 ranged attack that is made at you. Declare before the attack is rolled. For magic attacks, deflect on a roll of %lowerRange% or higher.",
+      "tags": ["defense"]
+    },
+    {
+      "id": "reactive-armor",
+      "name": "Reactive Armor",
+      "description": "When an enemy attacks you, gain 1 AC. Lose 1 AC at the start of each turn.",
+      "type": "passive",
+      "tags": ["defense"]
+    },
+    {
+      "id": "attentive",
+      "name": "Attentive",
+      "type": "movement",
+      "description": "This unit always musters",
+      "tags": ["defense"]
+    },
+    {
+      "id": "alert",
+      "name": "Alert",
+      "type": "movement",
+      "description": "This unit always musters and can muster 1 adjacent unit (during movement).",
+      "replaces": "attentive",
+      "tags": ["defense"]
+    },
+    {
+      "id": "knit-flesh",
+      "name": "Knit Flesh",
+      "description": "Restore %hp% HP to an adjacent undead unit",
+      "type": "action"
+    },
+    {
+      "id": "greater-knitting",
+      "name": "Greater Knitting",
+      "description": "Restore %hp% HP to all adjacent undead units",
+      "type": "action",
+      "replaces": "knit-flesh"
+    },
+    {
+      "id": "mass-knitting",
+      "name": "Mass Knitting",
+      "description": "Restore %hp% HP to all undead units within 2 hexes (100m area)",
+      "type": "action",
+      "replaces": "greater-knitting"
+    },
+    {
+      "id": "flying",
+      "name": "Flying",
+      "description": "This unit can fly. It now can exist on two different battlefield planes. The ground, and the air level 1. It costs 1 hex of movement to move upward but not downward.\n\n    Additionally, you are immune to environmental effects.",
+      "type": "passive",
+      "tags": ["flying"]
+    },
+    {
+      "id": "advanced-flying",
+      "name": "Advanced Flying",
+      "description": "This unit can fly. It now can exist on three different battlefield planes. The ground, and the air level 1, and air level 2, and air level 3. It costs 1 hex of movement to move upward but not downward.\n\n    Additionally, you are immune to environmental effects.",
+      "type": "passive",
+      "tags": ["flying"],
+      "replaces": "flying"
+    },
+    {
+      "id": "death-bomb",
+      "name": "Death Bomb",
+      "type": "action",
+      "description": "This unit can dive bomb and forcefully smash itself into enemy units. This kills this unit. It does 2 damage to a target's HP.",
+      "tags": ["undead", "flying"]
+    },
+    {
+      "id": "swarm",
+      "name": "Swarm",
+      "type": "action",
+      "tags": ["flying"],
+      "description": "Swarm around an adjacent enemy unit, co-existing in their hex, and blocking ranged attacks against targets other than itself. This unit can now move 3 hexes as a reaction to stay with its swarmed unit, any more movement breaks the swarm. In addition it can choose to be hit by ranged attacks that would pass through its hex."
+    },
+    {
+      "id": "strafing-run",
+      "name": "Strafing Run",
+      "type": "passive",
+      "tags": ["flying"],
+      "description": "As part of movement can make a breath attack against up to %targets% target(s) (adjacent to each) that you fly over in a straight line. This costs 1 breath attack use and does half breath damage (but full effect). Costs 1 movement to initiate for each targeted hex."
+    },
+    {
+      "id": "dive-bomb",
+      "name": "Dive Bomb",
+      "type": "passive",
+      "tags": ["flying"],
+      "description": "When this unit moves from a higher elevation to a lower elevation it gains +1 damage for each air level it decends through for its next attack."
+    },
+    {
+      "id": "aerial-combat",
+      "name": "Aerial Combat",
+      "type": "passive",
+      "description": "Gains +1 on attacks made against flying units.",
+      "tags": ["flying"]
+    },
+    {
+      "id": "aerial-evasion",
+      "name": "Aerial Evasion",
+      "type": "passive",
+      "description": "Gains +1 to AC while in the air.",
+      "tags": ["flying", "defense"]
+    },
+    {
+      "id": "dash",
+      "name": "Dash",
+      "type": "action",
+      "description": "Move %movement% hexes."
+    },
+    {
+      "id": "dash-expert",
+      "name": "Dash Expert",
+      "type": "passive",
+      "description": "Once per turn, you can replace any one of your attacks with movement up to your speed.",
+      "tags": ["movement"]
+    },
+    {
+      "id": "charge",
+      "name": "Charge",
+      "type": "movement",
+      "description": "If this unit moves 4 hexes in a straight line before becoming adjacent to an enemy they automatically do +%dmg% damage on first melee attack. The movement for the rest of the turn becomes 0. \n        {breakthrough}\n          If after a charge, this unit still has remaining movement, it can use that movement to continue on its charge-line through enemy units.\n        {/breakthrough}",
+      "params": { "dmg": 1, "breakthrough": 0 }
+    },
+    {
+      "id": "swimming",
+      "name": "Swimming",
+      "description": "If this unit can move up to %movement% hexes in the water. If the unit's speed is less than %movement% it can move up to its speed.",
+      "type": "movement",
+      "tags": ["aquatic"]
+    },
+    {
+      "id": "aquatic-combat",
+      "name": "Aquatic Attack",
+      "description": "Add +1 to any attack made from the water.",
+      "type": "passive",
+      "tags": ["aquatic"]
+    },
+    {
+      "id": "ferry",
+      "name": "Ferry",
+      "description": "This unit can carry other units on water. It takes 1 action to load an ally (action used during movement). No action required to disembark.",
+      "type": "passive",
+      "tags": ["aquatic", "movement"]
+    },
+    {
+      "id": "submarine-transportation",
+      "name": "Submarine Transportation",
+      "description": "This unit can carry other units on water and underwater. It takes 1 action to load an ally (action used during movement). No action required to disembark.",
+      "type": "passive",
+      "tags": ["aquatic", "movement"],
+      "replaces": "ferry"
+    },
+    {
+      "id": "diving",
+      "name": "Diving",
+      "description": "This unit can swim under water. Gain access to a -1 vertical space in water. Gain +3 to AC from units that are ground or above. You get a -2 dice roll on all attacks on units that are at ground or above.",
+      "type": "movement",
+      "tags": ["aquatic"]
+    },
+    {
+      "id": "attack-from-the-deep",
+      "name": "Attack from the Deeps",
+      "description": "Gain +2 damage on attacks made against other targets in the water that are at ground level.",
+      "type": "passive",
+      "tags": ["aquatic"]
+    },
+    {
+      "id": "defend",
+      "name": "Defend",
+      "description": "Idk, ask Ed",
+      "type": "action"
+    },
+    {
+      "id": "basic-attack",
+      "name": "Basic Attack",
+      "description": "You make 1 melee attack against an adjacent enemy. Roll 1d6{dmg}+%dmg%{/dmg} and do that much damage.",
+      "type": "action",
+      "params": { "dmg": 0 }
+    },
+    {
+      "id": "multi-attack",
+      "name": "Multi Attack",
+      "description": "You make 1 melee attack against an adjacent enemy.\n      \n      First Attack: 1d6{dmg1}+%dmg1%{/dmg1}  \n      Second Attack: 1d6{dmg2}+%dmg2%{/dmg2} ",
+      "type": "action",
+      "replaces": "basic-attack",
+      "params": { "dmg1": 0, "dmg2": 0 }
+    },
+    {
+      "id": "spellcasting",
+      "name": "Spellcasting",
+      "description": "You can now cast spells and cantrips. Casting spells and cantrips take action to cast and require 1 spell slot of the coresponding school of magic. \n    Cantrips barrage does not cost a spell slot. \n    \n    Range: %range%\n    Contentration Bonus: %concentration%",
+      "type": "passive",
+      "tags": ["magic"],
+      "params": { "range": 1, "concentration": 1 }
+    },
+    {
+      "id": "cantrip-barrage",
+      "name": "Cantrip Barrage",
+      "description": "Deal 1d6 damage to an enemy.",
+      "type": "action",
+      "tags": ["magic"]
+    },
+    {
+      "id": "versatile",
+      "name": "Versatile",
+      "description": "You can choose to take actions prior to movement.",
+      "type": "passive"
+    },
+    {
+      "id": "extra-versatile",
+      "name": "Extra Versatile",
+      "description": "You can choose to take actions before or after each unit of movement.",
+      "type": "passive",
+      "replaces": "versatile"
+    }
+  ],
+  "nodes": [
+    {
+      "colors": {
+        "unavailable": "#121212",
+        "inactive": "#232323",
+        "selected": "#d2d2d2"
+      },
+      "id": "basic",
+      "name": "Basic",
+      "description": "Congrats! You are a unit.",
+      "cost": 1,
+      "providedStats": [
+        { "id": "hp", "modifier": 5 },
+        { "id": "armor", "modifier": 2 }
+      ]
+    },
+    {
+      "colors": {
+        "unavailable": "#7c97af",
+        "inactive": "#5980c7",
+        "selected": "#3b8be0"
+      },
+      "id": "basic-magic",
+      "requires": "basic",
+      "name": "Spellcasting",
+      "description": "Grants your unit the ability to cast spells",
+      "cost": 1,
+      "providedAbilities": [
+        { "id": "cantrip-barrage", "gain": true },
+        { "id": "spellcasting", "gain": true }
+      ]
+    },
+    {
+      "colors": {
+        "unavailable": "#648264",
+        "inactive": "#3a913b",
+        "selected": "#51db53"
+      },
+      "id": "speed",
+      "requires": "basic",
+      "name": "Speed",
+      "description": "Allows you to move one additional hex per turn",
+      "cost": 1,
+      "levels": 8,
+      "providedStats": [{ "id": "movement", "modifier": 1 }]
+    },
+    {
+      "colors": {
+        "unavailable": "#648264",
+        "inactive": "#3a913b",
+        "selected": "#51db53"
+      },
+      "id": "versatile",
+      "requires": "speed",
+      "name": "Versatile",
+      "description": "Grants the Versatile ability",
+      "cost": 1,
+      "levelsRequired": 4,
+      "providedAbilities": [{ "id": "versatile", "gain": true }]
+    },
+    {
+      "colors": {
+        "unavailable": "#648264",
+        "inactive": "#3a913b",
+        "selected": "#51db53"
+      },
+      "id": "extra-versatile",
+      "requires": "versatile",
+      "name": "Extra Versatile",
+      "description": "Grants the Extra Versatile ability",
+      "cost": 1,
+      "providedAbilities": [{ "id": "extra-versatile", "gain": true }]
+    },
+    {
+      "colors": {
+        "unavailable": "#648264",
+        "inactive": "#3a913b",
+        "selected": "#51db53"
+      },
+      "id": "dash",
+      "requires": "speed",
+      "name": "Dash",
+      "description": "Grants the Dash ability",
+      "cost": 1,
+      "levelsRequired": 2,
+      "providedAbilities": [{ "id": "dash", "gain": true }]
+    },
+    {
+      "colors": {
+        "unavailable": "#648264",
+        "inactive": "#3a913b",
+        "selected": "#51db53"
+      },
+      "id": "advanced-dash",
+      "requires": "charge",
+      "name": "Dash+",
+      "description": "Increases the movement of Dash by 2",
+      "cost": 1,
+      "levels": 2,
+      "providedAbilities": [
+        { "id": "dash", "modifiers": [{ "id": "movement", "modifier": 2 }] }
+      ]
+    },
+    {
+      "colors": {
+        "unavailable": "#648264",
+        "inactive": "#3a913b",
+        "selected": "#51db53"
+      },
+      "id": "dash-expert",
+      "requires": "advanced-dash",
+      "name": "Dash Expert",
+      "description": "Grants the Dash Expert ability",
+      "cost": 1,
+      "levelsRequired": 2,
+      "providedAbilities": [{ "id": "dash-expert", "gain": true }]
+    },
+    {
+      "colors": {
+        "unavailable": "#648264",
+        "inactive": "#3a913b",
+        "selected": "#51db53"
+      },
+      "id": "charge",
+      "requires": "dash",
+      "name": "Charge",
+      "description": "Grants the Charge ability",
+      "cost": 1,
+      "providedAbilities": [{ "id": "charge", "gain": true }]
+    },
+    {
+      "colors": {
+        "unavailable": "#648264",
+        "inactive": "#3a913b",
+        "selected": "#51db53"
+      },
+      "id": "breakthrough",
+      "requires": "charge",
+      "name": "Breakthrough",
+      "description": "Grants you the ability to continue moving through units after a charge.",
+      "cost": 1,
+      "providedAbilities": [
+        {
+          "id": "charge",
+          "modifiers": [{ "id": "breakthrough", "modifer": 1 }]
+        }
+      ]
+    },
+    {
+      "colors": {
+        "unavailable": "#648264",
+        "inactive": "#3a913b",
+        "selected": "#51db53"
+      },
+      "id": "advanced-charge",
+      "requires": "charge",
+      "name": "Charge+",
+      "description": "Increases the movement of Charge by 2",
+      "cost": 1,
+      "providedAbilities": [
+        { "id": "charge", "modifiers": [{ "id": "dmg", "modifer": 1 }] }
+      ]
+    },
+    {
+      "colors": {
+        "unavailable": "#506b73",
+        "inactive": "#6894a1",
+        "selected": "#4dd2f7"
+      },
+      "id": "flying",
+      "requires": "speed",
+      "name": "Flying",
+      "description": "Grants you the ability to fly",
+      "cost": 1,
+      "levelsRequired": 4,
+      "providedAbilities": [{ "id": "flying", "gain": true }]
+    },
+    {
+      "colors": {
+        "unavailable": "#506b73",
+        "inactive": "#6894a1",
+        "selected": "#4dd2f7"
+      },
+      "id": "death-bomb",
+      "requires": "flying",
+      "name": "Death Bomb",
+      "description": "Grants you the Death Bomb ability. Must be undead to use.",
+      "cost": 1,
+      "providedAbilities": [{ "id": "death-bomb", "gain": true }]
+    },
+    {
+      "colors": {
+        "unavailable": "#506b73",
+        "inactive": "#6894a1",
+        "selected": "#4dd2f7"
+      },
+      "id": "swarm",
+      "requires": "flying",
+      "name": "Swarm",
+      "description": "Grants you the Swarm ability.",
+      "cost": 1,
+      "providedAbilities": [{ "id": "swarm", "gain": true }]
+    },
+    {
+      "colors": {
+        "unavailable": "#506b73",
+        "inactive": "#6894a1",
+        "selected": "#4dd2f7"
+      },
+      "id": "strafing-run",
+      "requires": "flying",
+      "name": "Strafing Run",
+      "description": "Grants you the Strafing Run ability.",
+      "cost": 1,
+      "providedAbilities": [{ "id": "strafing-run", "gain": true }]
+    },
+    {
+      "colors": {
+        "unavailable": "#506b73",
+        "inactive": "#6894a1",
+        "selected": "#4dd2f7"
+      },
+      "id": "advanced-strafing-run",
+      "requires": "strafing-run",
+      "name": "Strafing Run+",
+      "description": "Increases the number of targets by 3.",
+      "levels": 2,
+      "providedAbilities": [
+        { "id": "strafing-run", "modifiers": { "targets": 3 } }
+      ]
+    },
+    {
+      "colors": {
+        "unavailable": "#506b73",
+        "inactive": "#6894a1",
+        "selected": "#4dd2f7"
+      },
+      "id": "advanced-flying",
+      "requires": "flying",
+      "name": "Advanced Flying",
+      "description": "Increases the number of targets by 3.",
+      "cost": 1,
+      "providedAbilities": [{ "id": "advanced-flying", "gain": true }]
+    },
+    {
+      "colors": {
+        "unavailable": "#506b73",
+        "inactive": "#6894a1",
+        "selected": "#4dd2f7"
+      },
+      "id": "dive-bomb",
+      "requires": "advanced-flying",
+      "name": "Dive Bomb",
+      "description": "Grants you the Dive Bomb ability.",
+      "cost": 1,
+      "providedAbilities": [{ "id": "dive-bomb", "gain": true }]
+    },
+    {
+      "colors": {
+        "unavailable": "#506b73",
+        "inactive": "#6894a1",
+        "selected": "#4dd2f7"
+      },
+      "id": "aerial-combat",
+      "requires": "advanced-flying",
+      "name": "Aerial Combat",
+      "description": "Grants you the Aerial Combat ability.",
+      "cost": 1,
+      "providedAbilities": [{ "id": "aerial-combat", "gain": true }]
+    },
+    {
+      "colors": {
+        "unavailable": "#506b73",
+        "inactive": "#6894a1",
+        "selected": "#4dd2f7"
+      },
+      "id": "aerial-evasion",
+      "requires": "aerial-combat",
+      "name": "Aerial Evasion",
+      "description": "Grants you the Aerial Evasion ability.",
+      "cost": 1,
+      "providedAbilities": [{ "id": "aerial-evasion", "gain": true }]
+    },
+    {
+      "colors": {
+        "unavailable": "#87645c",
+        "inactive": "#875246",
+        "selected": "#d44b2c"
+      },
+      "id": "attack-1",
+      "requires": "basic",
+      "name": "Attack",
+      "description": "Grants your unit the ability to attack",
+      "cost": 1,
+      "providedAbilities": [{ "id": "basic-attack", "gain": true }]
+    },
+    {
+      "colors": {
+        "unavailable": "#87645c",
+        "inactive": "#875246",
+        "selected": "#d44b2c"
+      },
+      "id": "attack-1-dmg",
+      "requires": "attack-1",
+      "name": "Attack+",
+      "description": "Increases the damage of your first attack by 1",
+      "cost": 1,
+      "providedAbilities": [
+        { "id": "basic-attack", "modifiers": [{ "id": "dmg", "modifier": 1 }] },
+        { "id": "multi-attack", "modifiers": [{ "id": "dmg1", "modifier": 1 }] }
+      ]
+    },
+    {
+      "colors": {
+        "unavailable": "#87645c",
+        "inactive": "#875246",
+        "selected": "#d44b2c"
+      },
+      "id": "attack-2",
+      "requires": "attack-1-dmg",
+      "name": "MultiAttack",
+      "description": "Grants your unit the ability to attack twice",
+      "cost": 1,
+      "providedAbilities": [{ "id": "multi-attack", "gain": true }]
+    },
+    {
+      "colors": {
+        "unavailable": "#87645c",
+        "inactive": "#875246",
+        "selected": "#d44b2c"
+      },
+      "id": "attack-2-dmg",
+      "requires": "attack-2",
+      "name": "MultiAttack+",
+      "description": "Increases the damage of your second attack by 1",
+      "cost": 1,
+      "providedAbilities": [
+        { "id": "multi-attack", "modifiers": [{ "id": "dmg2", "modifier": 1 }] }
+      ]
+    },
+    {
+      "colors": {
+        "unavailable": "#403c3a",
+        "inactive": "#5e3c2b",
+        "selected": "#cd8150"
+      },
+      "id": "armor",
+      "requires": "basic",
+      "name": "Armor",
+      "description": "Adds 1 Armor",
+      "levels": 7,
+      "levelCost": [1, 1, 2, 2, 3, 4, 4],
+      "providedStats": [{ "id": "armor", "modifier": 1 }]
+    },
+    {
+      "colors": {
+        "unavailable": "#403c3a",
+        "inactive": "#5e3c2b",
+        "selected": "#cd8150"
+      },
+      "id": "attentive",
+      "requires": "armor",
+      "name": "Attentive",
+      "description": "Grants the Attentive ability",
+      "levelsRequired": 2,
+      "providedAbilities": [{ "id": "attentive", "gain": true }]
+    },
+    {
+      "colors": {
+        "unavailable": "#403c3a",
+        "inactive": "#5e3c2b",
+        "selected": "#cd8150"
+      },
+      "id": "alert",
+      "requires": "attentive",
+      "name": "Alert",
+      "description": "Grants the Alert ability",
+      "providedAbilities": [{ "id": "alert", "gain": true }]
+    },
+    {
+      "colors": {
+        "unavailable": "#403c3a",
+        "inactive": "#5e3c2b",
+        "selected": "#cd8150"
+      },
+      "id": "reactive-armor",
+      "requires": "armor",
+      "name": "Reactive Armor",
+      "description": "Sets your AC to 1 and grants Reactive Armor.",
+      "cost": 1,
+      "levelsRequired": 5,
+      "providedStats": [{ "id": "armor", "set": 1 }],
+      "providedAbilities": [{ "id": "reactive-armor", "gain": true }]
+    },
+    {
+      "colors": {
+        "unavailable": "#403c3a",
+        "inactive": "#5e3c2b",
+        "selected": "#cd8150"
+      },
+      "id": "reactive-armor-2",
+      "requires": "reactive-armor",
+      "name": "Reactive Armor 2",
+      "description": "Increases your base AC to 2",
+      "cost": 1,
+      "providedStats": [{ "id": "armor", "set": 2 }]
+    },
+    {
+      "colors": {
+        "unavailable": "#403c3a",
+        "inactive": "#5e3c2b",
+        "selected": "#cd8150"
+      },
+      "id": "defend-1",
+      "requires": "armor",
+      "name": "Defend 1",
+      "description": "Grants the ability to defend and adds 1 HP.",
+      "cost": 1,
+      "levelsRequired": 1,
+      "providedStats": [{ "id": "hp", "modifier": 1 }],
+      "providedAbilities": [{ "id": "defend", "gain": true }]
+    },
+    {
+      "colors": {
+        "unavailable": "#403c3a",
+        "inactive": "#5e3c2b",
+        "selected": "#cd8150"
+      },
+      "id": "defend-2",
+      "requires": "defend-1",
+      "name": "Defend 2",
+      "description": "Grant 1 HP.",
+      "cost": 1,
+      "providedStats": [{ "id": "hp", "modifier": 1 }]
+    },
+    {
+      "colors": {
+        "unavailable": "#403c3a",
+        "inactive": "#5e3c2b",
+        "selected": "#cd8150"
+      },
+      "id": "deflect-1",
+      "requires": "defend-2",
+      "name": "Deflection",
+      "description": "Grants the Deflect ability.",
+      "cost": 1,
+      "providedAbilities": [{ "id": "deflect", "gain": true }]
+    },
+    {
+      "colors": {
+        "unavailable": "#403c3a",
+        "inactive": "#5e3c2b",
+        "selected": "#cd8150"
+      },
+      "id": "deflect-2",
+      "requires": "deflect-1",
+      "name": "Deflection+",
+      "description": "Makes it easier to deflect magic attacks.",
+      "cost": 1,
+      "providedAbilities": [
+        { "id": "deflect", "modifiers": { "lowerRange": -1 } }
+      ]
+    },
+    {
+      "colors": {
+        "unavailable": "#403c3a",
+        "inactive": "#5e3c2b",
+        "selected": "#cd8150"
+      },
+      "id": "guardian-1",
+      "requires": "defend-1",
+      "name": "Guardian",
+      "description": "Grants the Guardian ability",
+      "cost": 1,
+      "providedAbilities": [{ "id": "guardian", "gain": true }]
+    },
+    {
+      "colors": {
+        "unavailable": "#403c3a",
+        "inactive": "#5e3c2b",
+        "selected": "#cd8150"
+      },
+      "id": "guardian-2",
+      "requires": "guardian-1",
+      "name": "Guardian+",
+      "description": "Allows you guard an additional attack",
+      "cost": 1,
+      "providedAbilities": [{ "id": "guardian", "modifiers": { "attacks": 1 } }]
+    },
+    {
+      "colors": {
+        "unavailable": "#65748f",
+        "inactive": "#495d82",
+        "selected": "#7391c9"
+      },
+      "id": "magic-range-1",
+      "requires": "basic-magic",
+      "name": "Spell Range",
+      "description": "Increases the range of your magic.",
+      "levels": 3,
+      "providedAbilities": [
+        {
+          "id": "spellcasting",
+          "modifiers": [{ "id": "range", "modifier": 1 }]
+        }
+      ]
+    },
+    {
+      "colors": {
+        "unavailable": "#65748f",
+        "inactive": "#495d82",
+        "selected": "#7391c9"
+      },
+      "id": "concentration-1",
+      "requires": "basic-magic",
+      "name": "Concentration+",
+      "description": "Add +1 to concentration checks.",
+      "levels": 2,
+      "providedAbilities": [
+        {
+          "id": "spellcasting",
+          "modifiers": [{ "id": "concentration", "modifier": 1 }]
+        }
+      ]
+    },
+    {
+      "colors": {
+        "unavailable": "#7a7354",
+        "inactive": "#4a4118",
+        "selected": "#c7ab2e"
+      },
+      "id": "holy-casting",
+      "requires": "basic-magic",
+      "name": "Holy-Divine Casting",
+      "description": "Grants you the ability to cast Holy/Divine Spells.",
+      "cost": 1,
+      "providedAbilities": [
+        { "id": "smite", "gain": true },
+        { "id": "guiding-bolt", "gain": true },
+        { "id": "death-ward", "gain": true },
+        { "id": "restoration", "gain": true },
+        { "id": "turn-undead", "gain": true },
+        { "id": "bless", "gain": true },
+        { "id": "spirit-guardians", "gain": true }
+      ]
+    },
+    {
+      "colors": {
+        "unavailable": "#7a7354",
+        "inactive": "#4a4118",
+        "selected": "#c7ab2e"
+      },
+      "id": "holy-power",
+      "requires": "holy-casting",
+      "name": "Holy Power",
+      "description": "Increases the damage of Smite and Guiding Bolt by 1",
+      "cost": 1,
+      "providedAbilities": [
+        { "id": "smite", "modifiers": [{ "id": "dmg", "modifier": 1 }] },
+        { "id": "guiding-bolt", "modifiers": [{ "id": "dmg", "modifier": 1 }] }
+      ]
+    },
+    {
+      "colors": {
+        "unavailable": "#7a7354",
+        "inactive": "#4a4118",
+        "selected": "#c7ab2e"
+      },
+      "id": "advanced-guiding-bolt",
+      "requires": "holy-power",
+      "name": "Advanced Guiding Bolt",
+      "description": "Guiding bolt now gives allies +2 to hit the target next round.",
+      "cost": 1,
+      "providedAbilities": [{ "id": "guiding-bolt", "modifiers": { "hit": 1 } }]
+    },
+    {
+      "colors": {
+        "unavailable": "#3f5576",
+        "inactive": "#235299",
+        "selected": "#1a72f5"
+      },
+      "id": "swimming",
+      "requires": "speed",
+      "name": "Swimming",
+      "description": "Congrats! You are a unit.",
+      "cost": 1,
+      "levelsRequired": 1,
+      "providedAbilities": [{ "id": "swimming", "gain": true }]
+    },
+    {
+      "colors": {
+        "unavailable": "#3f5576",
+        "inactive": "#235299",
+        "selected": "#1a72f5"
+      },
+      "id": "advanced-swimming",
+      "requires": "swimming",
+      "name": "Advanded Swimming",
+      "description": "Increases potential water speed by 3.",
+      "cost": 1,
+      "levelsRequired": 1,
+      "providedAbilities": [
+        { "id": "swimming", "modifiers": { "movement": 3 } }
+      ]
+    },
+    {
+      "colors": {
+        "unavailable": "#3f5576",
+        "inactive": "#235299",
+        "selected": "#1a72f5"
+      },
+      "id": "ferry",
+      "requires": "advanced-swimming",
+      "name": "Ferry",
+      "description": "Grants the Ferry ability",
+      "cost": 1,
+      "providedAbilities": [{ "id": "ferry", "gain": true }]
+    },
+    {
+      "colors": {
+        "unavailable": "#3f5576",
+        "inactive": "#235299",
+        "selected": "#1a72f5"
+      },
+      "id": "diving",
+      "requires": "advanced-swimming",
+      "name": "Diving",
+      "description": "Grants the Diving ability",
+      "cost": 2,
+      "providedAbilities": [{ "id": "diving", "gain": true }]
+    },
+    {
+      "colors": {
+        "unavailable": "#3f5576",
+        "inactive": "#235299",
+        "selected": "#1a72f5"
+      },
+      "id": "submarine-transportation",
+      "requires": "diving",
+      "name": "Submarine Transportation",
+      "description": "Grants the Submarine Transportation ability",
+      "cost": 1,
+      "providedAbilities": [{ "id": "submarine-transportation", "gain": true }]
+    },
+    {
+      "colors": {
+        "unavailable": "#3f5576",
+        "inactive": "#235299",
+        "selected": "#1a72f5"
+      },
+      "id": "attack-from-the-deep",
+      "requires": "diving",
+      "name": "Attack From The Deep",
+      "description": "Grants the Attack From The Deep ability",
+      "cost": 2,
+      "providedAbilities": [{ "id": "attack-from-the-deep", "gain": true }]
+    },
+    {
+      "colors": {
+        "unavailable": "#121212",
+        "inactive": "#232323",
+        "selected": "#d2d2d2"
+      },
+      "id": "mega-magic+",
+      "requires": "mega-magic",
+      "name": "Mega magic+",
+      "levels": 2,
+      "levelCost": [1, 1],
+      "providedAbilities": [
+        {
+          "id": "test-ability",
+          "modifier": 1,
+          "modifiers": [{ "id": "magic", "modifier": 1 }]
+        }
+      ]
+    },
+    {
+      "colors": {
+        "unavailable": "#121212",
+        "inactive": "#232323",
+        "selected": "#d2d2d2"
+      },
+      "id": "mega-magic-2",
+      "requires": "mega-magic+",
+      "name": "Ultima Magic",
+      "cost": 1,
+      "providedAbilities": [
+        {
+          "id": "test-ability",
+          "modifier": 1,
+          "modifiers": [{ "id": "mega", "modifier": 1 }]
+        }
+      ]
+    },
+    {
+      "colors": {
+        "unavailable": "#a5b781",
+        "inactive": "#5b9437",
+        "selected": "#95c919"
+      },
+      "id": "necro-1",
+      "requires": "basic",
+      "name": "Necromancy",
+      "cost": 1
+    },
+    {
+      "colors": {
+        "unavailable": "#a5b781",
+        "inactive": "#5b9437",
+        "selected": "#95c919"
+      },
+      "id": "knit-flesh",
+      "requires": "necro-1",
+      "name": "Knit Flesh",
+      "description": "Grants \"Knit Flesh\"",
+      "cost": 1,
+      "providedAbilities": [
+        { "id": "knit-flesh", "modifier": 1, "modifiers": [], "gain": true }
+      ]
+    }
+  ]
+}

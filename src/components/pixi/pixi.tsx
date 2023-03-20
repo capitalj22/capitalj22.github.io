@@ -15,6 +15,12 @@ export function PixiGraph({
   const infoUpdated$ = new Subject();
 
   useEffect(() => {
+   
+  }, []);
+
+  React.useEffect(() => {
+    let destroyFn;
+
     graphEvents.subscribe({
       next: (e) => {
         // console.log("graph component", e);
@@ -32,10 +38,6 @@ export function PixiGraph({
         infoUpdated(data);
       },
     });
-  }, []);
-
-  React.useEffect(() => {
-    let destroyFn;
 
     if (containerRef.current) {
       const { destroy } = runGraphPixi(
@@ -49,6 +51,8 @@ export function PixiGraph({
       destroyFn = destroy;
     }
 
+    nodeSelectionUpdated({})
+    infoUpdated({})
     return destroyFn;
   }, [buildData]);
 
