@@ -8,6 +8,7 @@ interface Props {
   label: string;
   clicked?: (event: string) => void;
   selected?: boolean;
+  children?;
 }
 
 function getStyle(tag, clicked, selected?): React.CSSProperties {
@@ -36,7 +37,7 @@ function getStyle(tag, clicked, selected?): React.CSSProperties {
 
   return style;
 }
-export function StatTag({ label, clicked, selected }: Props) {
+export function StatTag({ label, clicked, selected, children }: Props) {
   let style = getStyle(label, clicked, selected);
 
   const handleClicked = (event) => {
@@ -49,6 +50,7 @@ export function StatTag({ label, clicked, selected }: Props) {
   return (
     <span onClick={handleClicked} className="stat-tag" style={style}>
       {label} {selected ? <Check size={14}></Check> : ""}
+      {children && children}
     </span>
   );
 }

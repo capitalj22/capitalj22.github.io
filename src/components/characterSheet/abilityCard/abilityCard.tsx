@@ -62,6 +62,7 @@ type Props = {
   modifiers?: any;
   startOpen?: boolean;
   editable?: boolean;
+  abilityEdited?;
 };
 export function AbilityCard({
   ability,
@@ -69,12 +70,20 @@ export function AbilityCard({
   modifiers,
   startOpen = true,
   editable = false,
+  abilityEdited,
 }: Props) {
   const [description, setDescription] = useState(
     getDescription(ability, isPlayerAbility, modifiers)
   );
   const [expanded, setExpanded] = useState(startOpen);
   const [isEditing, setIsEditing] = useState(false);
+
+  const abilityChanged = (event) => {
+    if (isFunction(abilityEdited)) {
+      abilityEdited({ ability: event.ability, id: event.id });
+    }
+    setIsEditing(false);
+  };
 
   useEffect(() => {
     setDescription(getDescription(ability, isPlayerAbility, modifiers));
@@ -84,6 +93,7 @@ export function AbilityCard({
     return (
       <EditableAbilityCard
         ability={ability}
+        abilityChanged={abilityChanged}
         editingCanceled={() => setIsEditing(false)}
       />
     );

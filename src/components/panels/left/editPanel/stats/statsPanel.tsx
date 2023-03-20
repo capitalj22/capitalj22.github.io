@@ -58,18 +58,6 @@ export function StatsPanel({
                   singleValue: () => "single-value",
                   menu: () => "select-menu",
                 }}
-                // theme={(theme) => ({
-                //   ...theme,
-                //   colors: {
-                //     ...theme.colors,
-                //     text: "#3599B8",
-                //     font: "#3599B8",
-                //     primary25: "#3599B8",
-                //     primary: "#3599B8",
-                //     neutral80: "black",
-                //     color: "black",
-                //   },
-                // })}
                 options={getAvailableOptions(providedStats, options)}
                 onChange={(e) => statIdChanged(e, index)}
                 value={find(options, { value: stat.id })}

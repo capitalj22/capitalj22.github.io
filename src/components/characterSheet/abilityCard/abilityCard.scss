@@ -32,6 +32,10 @@
     }
   }
 
+  .id.form-control input {
+    font-size: 1rem;
+  }
+
   .tags {
     display: flex;
     gap: 0.5rem;
@@ -67,5 +71,32 @@
   @media only screen and (max-width: 800px) {
     font-size: 0.75rem;
     padding: 1em;
+  }
+
+  button.delete-tag {
+    padding: 0.25rem 0.5rem;
+    background: none;
+    margin-left: 0.25rem;
+    margin-right: -0.5rem;
+  }
+
+  .tag-select {
+    color: #222;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+
+    .stat-tag.form-control {
+      input {
+        max-width: 4rem;
+      }
+    }
+
+    button {
+      padding: 0.1rem 0.25rem;
+      border-radius: 8px;
+      margin-left: 0.5rem;
+    }
   }
 }

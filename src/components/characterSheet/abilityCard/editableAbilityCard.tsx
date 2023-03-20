@@ -1,9 +1,10 @@
 import { clone, each, isFunction } from "lodash-es";
 import { useEffect, useState } from "react";
-import { X } from "react-feather";
+import { Save, X } from "react-feather";
 import { Ability } from "../../../entities/abilities/abilities";
 import { StatTag } from "../statTag/statTag";
 import "./abilityCard.scss";
+import { TagSelect } from "./tagSelect";
 
 function applyParamsToDescription(description, params) {
   let editedDescription = description;
@@ -75,6 +76,19 @@ export function EditableAbilityCard({
     setAbility({ ..._ability, [prop]: event.target.value });
   };
 
+  const handleTagsChanged = (e) => {
+    setAbility({ ..._ability, tags: e });
+  };
+  const handleTypeChanged = (e) => {
+    setAbility({ ..._ability, type: e });
+  };
+
+  const savePressed = () => {
+    if (isFunction(abilityChanged)) {
+      abilityChanged({ ability: _ability, id: ability.id });
+    }
+  };
+
   return (
     <div className="ability-card">
       <div className="name">
@@ -98,6 +112,14 @@ export function EditableAbilityCard({
         </div>
       </div>
 
+      <div className="form-control id">
+        <input
+          type="text"
+          value={_ability.id}
+          onChange={(e) => updateAbility("id", e)}
+        ></input>
+      </div>
+
       <div className="collapsible-content">
         <div className="top">
           <p className="description form-control">
@@ -111,13 +133,18 @@ export function EditableAbilityCard({
         </div>
         <div className="bottom">
           <div className="tags">
-            <StatTag label={ability.type}></StatTag>
-            {ability.tags?.map((tag) => (
-              <StatTag label={tag}></StatTag>
-            ))}
+            <TagSelect
+              tags={_ability.tags}
+              type={_ability.type}
+              tagsChanged={handleTagsChanged}
+              typeChanged={handleTypeChanged}
+            />
           </div>
         </div>
       </div>
+      <button onClick={savePressed}>
+        Save <Save />
+      </button>
     </div>
   );
 }
