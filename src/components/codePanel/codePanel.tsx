@@ -4,13 +4,7 @@ import { TREES } from "../../data/trees/trees";
 import { ABILITIES } from "../../entities/abilities/abilities";
 import "./codePanel.scss";
 
-export function CodePanel({
-  build,
-  abilities,
-  nodes,
-  importAttempted,
-  stateReset,
-}) {
+export function CodePanel({ build, abilities, nodes, importAttempted }) {
   const [buildValue, setBuildTextValue] = useState("");
   const [treeValue, setTreeTextValue] = useState("");
   const [notification1Style, setNotification1Style] = useState({ opacity: 0 });
@@ -118,7 +112,7 @@ export function CodePanel({
           Load Defaults
           <RefreshCcw />
         </button>
-        <br/>
+        <br />
         <button onClick={resetClicked}>
           Reset
           <Shield />
