@@ -10,6 +10,7 @@ import { RightPanel } from "../panels/right/rightPanel";
 import { ABILITIES } from "../../entities/abilities/abilities";
 import { StatsContext } from "../../providers/stats/statsProvider";
 import { TagsContext } from "../../providers/tags/tagsProvider";
+import { AbilitiesContext } from "../../providers/abilities/abilitiesProvider";
 
 function getBuild() {
   const localBuild = localStorage.getItem("dragon-build");
@@ -85,6 +86,7 @@ function saveAbilities(nodes) {
 export function Main() {
   const { setTagColors } = useContext(TagsContext);
   const { setStats } = useContext(StatsContext);
+  const { setAbilityTypes } = useContext(AbilitiesContext);
   const [selectedNode, setSelectedNode] = useState({});
   const [nodes, setNodes] = useState(() => getNodes());
   // const [abilities, setAbilities] = useState(ABILITIES);
@@ -149,6 +151,10 @@ export function Main() {
         }
         if (config.stats) {
           setStats({ type: "set", stats: config.stats });
+        }
+
+        if (config.abilityTypes) {
+          setAbilityTypes({ type: "set", abilityTypes: config.abilityTypes });
         }
       }
     } else if (event.type === "reset") {

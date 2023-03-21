@@ -1,14 +1,6 @@
-import { clone, compact, each, filter, isFunction } from "lodash-es";
+import { compact, isFunction } from "lodash-es";
 import { useContext, useEffect, useRef, useState } from "react";
-import {
-  Copy,
-  CornerLeftUp,
-  RotateCcw,
-  Save,
-  SkipBack,
-  Trash2,
-  X,
-} from "react-feather";
+import { Copy, RotateCcw, Save, Trash2 } from "react-feather";
 import { Ability } from "../../../entities/abilities/abilities";
 import "./abilityCard.scss";
 import { AbilityParamEditor } from "./abilityParamEditor";

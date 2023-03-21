@@ -83,6 +83,7 @@ export function AbilityCard({
   forceIsEditing = false,
   isExpanded,
 }: Props) {
+  const { abilityTypes } = useContext(AbilitiesContext);
   const { abilities, setAbilities } = useContext(AbilitiesContext);
   const { setTagColors } = useContext(TagsContext);
   const [description, setDescription] = useState(
@@ -160,7 +161,10 @@ export function AbilityCard({
             </div>
             <div className="bottom">
               <div className="tags">
-                <StatTag label={ability.type} emphasize={true}></StatTag>
+                <StatTag
+                  label={find(abilityTypes, { id: ability.type })?.name}
+                  emphasize={true}
+                ></StatTag>
                 {ability.tags?.map((tag) => (
                   <StatTag label={tag}></StatTag>
                 ))}

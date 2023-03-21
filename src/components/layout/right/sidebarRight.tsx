@@ -33,7 +33,7 @@ export function SidebarRight({ children, itemSelected, title }) {
   if (!expanded) {
     return (
       <div className="sidebar-right">
-        <RightMenu itemSelected={handleItemSelected}></RightMenu>
+        <RightMenu itemSelected={handleItemSelected} selectedItem={undefined}></RightMenu>
       </div>
     );
   } else
@@ -55,7 +55,7 @@ export function SidebarRight({ children, itemSelected, title }) {
           </div>
           <div className="sidebar-right-panel-content">{children}</div>
         </div>
-        <RightMenu itemSelected={handleItemSelected}></RightMenu>
+        <RightMenu itemSelected={handleItemSelected} selectedItem={selectedPage}></RightMenu>
       </div>
     );
 }

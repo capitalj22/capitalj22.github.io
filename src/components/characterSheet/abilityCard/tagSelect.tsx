@@ -5,6 +5,7 @@ import Select from "react-select";
 import { TagsContext } from "../../../providers/tags/tagsProvider";
 import { SmolButton } from "../../common/buttons/smolButton";
 import { ColorPicker } from "../../common/color-picker/colorPicker";
+import { AbilityTypeSelect } from "../../common/selects/abilityTypeSelect";
 import { FancyTextInput } from "../../common/tag-input/fancyTextInput";
 import "./tagSelect.scss";
 const typeOptions = [
@@ -57,8 +58,8 @@ export function TagSelect({ tags, type, tagsChanged, typeChanged }) {
   };
 
   const typeSelected = (e) => {
-    setType(e.value);
-    typeChanged(e.value);
+    setType(e);
+    typeChanged(e);
   };
 
   const colorChanged = (color, tag) => {
@@ -67,16 +68,7 @@ export function TagSelect({ tags, type, tagsChanged, typeChanged }) {
 
   return (
     <div className="tag-select">
-      <Select
-        classNames={{
-          control: () => "select",
-          singleValue: () => "single-value",
-          menu: () => "select-menu",
-        }}
-        options={typeOptions}
-        onChange={(e) => typeSelected(e)}
-        value={find(typeOptions, { value: _type })}
-      ></Select>
+      <AbilityTypeSelect defaultValue={type} valueChanged={typeSelected} />
       {_tags?.map((tag, index) => (
         <span
           className="stat-tag form-control"

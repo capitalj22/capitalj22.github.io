@@ -1,6 +1,7 @@
 import {
   each,
   filter,
+  find,
   groupBy,
   intersection,
   map,
@@ -8,6 +9,7 @@ import {
   uniq,
 } from "lodash-es";
 import { useContext, useEffect, useState } from "react";
+import { AbilitiesContext } from "../../providers/abilities/abilitiesProvider";
 import { StatsContext } from "../../providers/stats/statsProvider";
 import { Accordion } from "../layout/accordion/accordion";
 import { AbilityCard } from "./abilityCard/abilityCard";
@@ -15,38 +17,50 @@ import "./characterSheet.scss";
 import { StatLine } from "./statLine/statLine";
 import { TagFilters } from "./tagFilters/tagFilters";
 
-function getKnownAbilities(dragon) {
+function getTypeName(abilityTypes, id) {
+  return find(abilityTypes, { id }).name;
+}
+
+function getKnownAbilities(dragon, abilityTypes) {
   return groupBy(
-    filter(dragon.abilities, (ability) => {
-      return !ability.replaced && ability.learned;
-    }),
-    "type"
+    map(
+      filter(dragon.abilities, (ability) => {
+        return !ability.replaced && ability.learned;
+      }),
+      (ability) => ({
+        ...ability,
+        typeName: getTypeName(abilityTypes, ability.type),
+      })
+    ),
+    "typeName"
   );
 }
+
 function CharacterSheet({ dragon }) {
+  const { abilityTypes } = useContext(AbilitiesContext);
   const [knownAbilities, setKnownAbilities] = useState({});
   const [abilityTags, setAbilityTags] = useState({});
   const { stats } = useContext(StatsContext);
 
   useEffect(() => {
-    const abilities = getKnownAbilities(dragon);
+    const abilities = getKnownAbilities(dragon, abilityTypes);
 
     let abilityTagsTemp = {};
-    each(Object.keys(abilities), (type) => {
+    each(Object.keys(abilities), (typeName) => {
       let tags: string[] = [];
-      each(abilities[type], (ability) => {
+      each(abilities[typeName], (ability) => {
         if (ability.tags) {
           tags = uniq([...tags, ...ability.tags]);
         }
       });
-      abilityTagsTemp[type] = sortBy(tags);
+      abilityTagsTemp[typeName] = sortBy(tags);
     });
     setKnownAbilities(abilities);
     setAbilityTags(abilityTagsTemp);
   }, [dragon]);
 
   const handleSelectedTagsChanged = (tags, key) => {
-    let tempAbilities = getKnownAbilities(dragon);
+    let tempAbilities = getKnownAbilities(dragon, abilityTypes);
 
     if (tags.length) {
       tempAbilities[key] = filter(

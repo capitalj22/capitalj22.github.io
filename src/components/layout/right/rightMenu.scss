@@ -17,5 +17,9 @@
 
   button {
     background-color: transparent;
+
+    &.selected {
+      background-color: var(--themeColor);
+    }
   }
 }

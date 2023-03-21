@@ -1,5 +1,6 @@
 .fancy-text-input {
   .hidden-text {
+    font-size: inherit !important;
     position: absolute;
     opacity: 0;
     z-index: -100;
@@ -8,7 +9,9 @@
 
   input,
   span {
-    font-size: 1rem;
+    color: inherit;
+    font-weight: inherit;
+    font-size: inherit !important;
     padding: 0.25rem;
   }
 }

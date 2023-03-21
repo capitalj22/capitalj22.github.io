@@ -3,8 +3,12 @@ import CharacterSheet from "../../characterSheet/characterSheet";
 import { CodePanel } from "../../codePanel/codePanel";
 import { SidebarRight } from "../../layout/right/sidebarRight";
 import { AbilityEditor } from "./abilityEditor/abilityEditor";
+import { AbilityTypeEditor } from "./abilityTypeEditor/abilityTypeEditor";
 import { StatEditor } from "./statEditor/statEditor";
-
+const example1 =
+  "{myParam}This only appears when 'myParam' is at least 1{/myParam}";
+const example2 = "%myParam% will be replaced with the value of 'myParam'";
+const example3 = `You make 1 melee attack against an adjacent enemy. Roll 1d6{dmg}+%dmg%{/dmg} and do that much damage.`;
 export function RightPanel({
   build,
   importAttempted,
@@ -65,14 +69,27 @@ export function RightPanel({
         ""
       )}
       {selectedItem === "list" ? (
-        <AbilityEditor
-          abilities={abilities}
-          abilitiesChanged={handleAbilitiesChanged}
-        ></AbilityEditor>
+        <div>
+          <AbilityEditor
+            abilitiesChanged={handleAbilitiesChanged}
+          ></AbilityEditor>
+        </div>
       ) : (
         ""
       )}
-      {selectedItem === "help" ? <div></div> : ""}
+      {selectedItem === "help" ? (
+        <div>
+          <h2>Ability Description Syntax</h2>
+          <h3>Condition</h3>
+          <p>{example1}</p>
+          <h3>Value</h3>
+          <p>{example2}</p>
+          <h3>Example</h3>
+          <p>{example3}</p>
+        </div>
+      ) : (
+        ""
+      )}
       {selectedItem === "stats" ? <StatEditor /> : ""}
     </SidebarRight>
   );

@@ -25,7 +25,7 @@ export function FancyTextInput({
 
   useEffect(() => {
     if (!isUndefined(content)) {
-      const newWidth = span?.current?.offsetWidth + 24;
+      const newWidth = span?.current?.clientWidth + 24;
       setWidth(newWidth > minWidth ? newWidth : minWidth);
     }
   }, [content]);

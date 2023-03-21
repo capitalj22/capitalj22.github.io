@@ -7,6 +7,7 @@ import { AbilityCard } from "../../../characterSheet/abilityCard/abilityCard";
 import { TagFilters } from "../../../characterSheet/tagFilters/tagFilters";
 import { SmolButton } from "../../../common/buttons/smolButton";
 import { FancyTextInput } from "../../../common/tag-input/fancyTextInput";
+import { AbilityTypeEditor } from "../abilityTypeEditor/abilityTypeEditor";
 import "./abilityEditor.scss";
 
 function filterAbilities(abilities, filters) {
@@ -166,6 +167,10 @@ export function AbilityEditor({ abilitiesChanged }) {
             </button>
           </div>
         )}
+      </div>
+      <div className="ability-type-editor">
+        <div className="title"> Ability Types:</div>
+        <AbilityTypeEditor></AbilityTypeEditor>
       </div>
     </div>
   );

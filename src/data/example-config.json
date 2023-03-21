@@ -887,9 +887,7 @@
       "description": "Guiding bolt now gives allies +2 to hit the target next round.",
       "cost": 1,
       "levelsRequired": 1,
-      "providedAbilities": [
-        { "id": "guiding-bolt", "modifiers": [{ "Id": "hit", "modifier": 1 }] }
-      ]
+      "providedAbilities": [{ "id": "guiding-bolt", "modifiers": { "hit": 1 } }]
     },
     {
       "colors": {
@@ -918,7 +916,7 @@
       "cost": 1,
       "levelsRequired": 1,
       "providedAbilities": [
-        { "id": "swimming", "modifiers": [{ "id": "movement", "modifier": 3 }] }
+        { "id": "swimming", "modifiers": { "movement": 3 } }
       ]
     },
     {
@@ -1010,6 +1008,7 @@
       "providedAbilities": [
         {
           "id": "beguile",
+          "modifier": 1,
           "modifiers": [
             { "id": "compelled", "modifier": 1, "set": false },
             { "id": "charmed", "modifier": 1, "set": false }
@@ -1040,16 +1039,34 @@
   ],
   "tagColors": {
     "attack": "#2a6ed9",
-    "taco": "#b9a238",
     "tag": "#c74141",
-    "sparkle-magic": "#9231d0",
     "holy": "#d7a435",
-    "enchantment": "#ab38d9"
+    "enchantment": "#ab38d9",
+    "defense": "#bb864c",
+    "flying": "#6dcb20",
+    "aquatic": "#2698a8",
+    "magic": "#5269bd",
+    "movement": "#459068",
+    "undead": "#849064",
+    "concentration": "#e28baf",
+    "piercing": "#ec9569"
   },
   "stats": [
     { "id": "armor", "name": "Armor" },
     { "id": "hp", "name": "Hit Points" },
     { "id": "movement", "name": "Movement" },
-    { "id": "holy-spells", "name": "Holy Spells" }
+    { "id": "holy-spell-slots", "name": "Holy Spell Slots" },
+    { "id": "enchantment-spell-slots", "name": "Enchantment Spell Slots" },
+    {
+      "id": "enchantment-spells-per-action",
+      "name": "Enchantment Spells Per Action"
+    }
+  ],
+  "abilityTypes": [
+    { "id": "action", "name": "Action" },
+    { "id": "movement", "name": "Movement" },
+    { "id": "passive", "name": "Passive" },
+    { "id": "reaction", "name": "Reaction" },
+    { "id": "bonus action", "name": "Bonus Action" }
   ]
 }

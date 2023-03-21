@@ -1,52 +1,55 @@
 import { map } from "lodash-es";
 import { useContext } from "react";
 import { PlusSquare, Trash2 } from "react-feather";
-import { StatsContext } from "../../../../providers/stats/statsProvider";
+import { AbilitiesContext } from "../../../../providers/abilities/abilitiesProvider";
 import { FancyTextInput } from "../../../common/tag-input/fancyTextInput";
-import "./statEditor.scss";
+import "./abilityTypeEditor.scss";
 
-export function StatEditor() {
-  const { stats, setStats } = useContext(StatsContext);
+export function AbilityTypeEditor() {
+  const { abilityTypes, setAbilityTypes } = useContext(AbilitiesContext);
 
   const addPressed = (event) => {
-    setStats({ type: "add", stat: { id: "new-stat", name: "New Stat" } });
+    setAbilityTypes({
+      type: "add",
+      abilityType: { id: "new-abilityType-type", name: "New Ability Type" },
+    });
   };
 
   const removePressed = (event) => {
-    setStats({
+    setAbilityTypes({
       type: "remove",
-      stat: { id: event },
+      abilityType: { id: event },
     });
   };
 
   const valueChanged = (val, index, prop) => {
-    setStats({
+    setAbilityTypes({
       type: "update",
       index: index,
-      stat: { ...stats[index], [prop]: val },
+      abilityType: { ...abilityTypes[index], [prop]: val },
     });
   };
 
-  const saveStats = () => {
-    setStats({ type: "save" });
+  const saveAbilityTypes = () => {
+    setAbilityTypes({ type: "save" });
   };
 
   return (
-    <div className="stat-editor">
-      <div className="stats">
-        {map(stats, (stat, index) => (
-          <div key={index} className="stat-instance">
+    <div className="abilityType-editor">
+      <div className="abilityTypes">
+        {map(abilityTypes, (abilityType, index) => (
+          <div key={index} className="abilityType-instance">
             <div className="top">
               <div className="name">
                 <FancyTextInput
-                  blur={saveStats}
-                  value={stat.name}
+                  blur={saveAbilityTypes}
+                  value={abilityType.name}
                   valueChanged={(val) => valueChanged(val, index, "name")}
                 />
               </div>
               <button
                 className="remove-button"
-                onClick={(e) => removePressed(stat.id)}
+                onClick={(e) => removePressed(abilityType.id)}
               >
                 <Trash2 />
               </button>
@@ -54,8 +57,8 @@ export function StatEditor() {
             <div className="bottom">
               <div className="id">
                 <FancyTextInput
-                  blur={saveStats}
-                  value={stat.id}
+                  blur={saveAbilityTypes}
+                  value={abilityType.id}
                   valueChanged={(val) => valueChanged(val, index, "id")}
                 />
               </div>
@@ -63,7 +66,7 @@ export function StatEditor() {
           </div>
         ))}
         <button className="new-button" onClick={addPressed}>
-          Add Stat <PlusSquare />
+          Add Type <PlusSquare />
         </button>
       </div>
     </div>
