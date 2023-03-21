@@ -19,7 +19,7 @@ export const newDragonFromNodes = (selectedNodes: SkillNode[], abilities) => {
       baseDragon[stat] = 0;
     } else if (
       !baseDragon.lockedStats[stat] ||
-      (modifier && baseDragon.lockedStats[stat] > modifier)
+      (set && modifier && baseDragon.lockedStats[stat] < modifier)
     )
       if (set) {
         baseDragon[stat] = modifier;

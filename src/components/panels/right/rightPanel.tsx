@@ -73,7 +73,7 @@ export function RightPanel({
         ""
       )}
       {selectedItem === "help" ? <div></div> : ""}
-      {selectedItem === "stats" ? <StatEditor/>: ""}
+      {selectedItem === "stats" ? <StatEditor /> : ""}
     </SidebarRight>
   );
 }
