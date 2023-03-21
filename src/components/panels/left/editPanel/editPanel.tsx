@@ -9,7 +9,7 @@ import { SkillNode } from "../../../../entities/skilltree/node.entity";
 import { Ability } from "../../../../entities/abilities/abilities";
 import TextareaAutosize from "react-textarea-autosize";
 import { Accordion } from "../../../layout/accordion/accordion";
-import { StatsContext } from "../../../../assets/services/stats/statsService";
+import { StatsContext } from "../../../../providers/stats/statsProvider";
 import { map } from "lodash-es";
 
 interface Props {

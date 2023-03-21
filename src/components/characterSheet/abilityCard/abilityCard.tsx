@@ -1,8 +1,8 @@
 import { clone, each, find, isFunction } from "lodash-es";
 import { useContext, useEffect, useState } from "react";
 import { ChevronDown, ChevronUp, Edit } from "react-feather";
-import { TagsContext } from "../../../assets/services/tags/tagsService";
 import { Ability } from "../../../entities/abilities/abilities";
+import { TagsContext } from "../../../providers/tags/tagsProvider";
 import { StatTag } from "../statTag/statTag";
 import "./abilityCard.scss";
 import { EditableAbilityCard } from "./editableAbilityCard";

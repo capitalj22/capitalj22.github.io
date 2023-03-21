@@ -1,7 +1,7 @@
 import { isFunction } from "lodash-es";
 import { useContext, useEffect } from "react";
 import { Check } from "react-feather";
-import { TagsContext } from "../../../assets/services/tags/tagsService";
+import { TagsContext } from "../../../providers/tags/tagsProvider";
 import "./statTag.scss";
 
 interface Props {

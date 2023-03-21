@@ -8,7 +8,7 @@ import {
   uniq,
 } from "lodash-es";
 import { useContext, useEffect, useState } from "react";
-import { StatsContext } from "../../assets/services/stats/statsService";
+import { StatsContext } from "../../providers/stats/statsProvider";
 import { Accordion } from "../layout/accordion/accordion";
 import { AbilityCard } from "./abilityCard/abilityCard";
 import "./characterSheet.scss";

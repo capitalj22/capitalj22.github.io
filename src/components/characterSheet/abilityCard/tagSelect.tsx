@@ -2,11 +2,10 @@ import { each, find } from "lodash-es";
 import { useContext, useEffect, useState } from "react";
 import { Tag } from "react-feather";
 import Select from "react-select";
-import { TAGS } from "../../../data/tag-colors";
+import { TagsContext } from "../../../providers/tags/tagsProvider";
 import { ColorPicker } from "../../common/color-picker/colorPicker";
 import { FancyTextInput } from "../../common/tag-input/fancyTextInput";
 import "./tagSelect.scss";
-import { TagsContext } from "../../../assets/services/tags/tagsService";
 const typeOptions = [
   { label: "passive", value: "passive" },
   { label: "action", value: "action" },

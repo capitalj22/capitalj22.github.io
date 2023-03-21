@@ -8,8 +8,8 @@ import { Subject } from "rxjs";
 import { LeftPanel } from "../panels/left/leftPanel";
 import { RightPanel } from "../panels/right/rightPanel";
 import { ABILITIES } from "../../entities/abilities/abilities";
-import { TagsContext } from "../../assets/services/tags/tagsService";
-import { StatsContext } from "../../assets/services/stats/statsService";
+import { StatsContext } from "../../providers/stats/statsProvider";
+import { TagsContext } from "../../providers/tags/tagsProvider";
 
 function getBuild() {
   const localBuild = localStorage.getItem("dragon-build");

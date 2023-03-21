@@ -1,7 +1,7 @@
 import { map } from "lodash-es";
 import { useContext } from "react";
 import { MinusCircle, PlusSquare, Trash2 } from "react-feather";
-import { StatsContext } from "../../../../assets/services/stats/statsService";
+import { StatsContext } from "../../../../providers/stats/statsProvider";
 import { FancyTextInput } from "../../../common/tag-input/fancyTextInput";
 import "./statEditor.scss";
 

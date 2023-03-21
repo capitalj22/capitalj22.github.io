@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { Copy, Download, MapPin, RefreshCcw, Shield } from "react-feather";
-import { StatsContext } from "../../assets/services/stats/statsService";
-import { TagsContext } from "../../assets/services/tags/tagsService";
+import { StatsContext } from "../../providers/stats/statsProvider";
+import { TagsContext } from "../../providers/tags/tagsProvider";
 
 import "./codePanel.scss";
 

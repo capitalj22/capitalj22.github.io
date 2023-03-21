@@ -1,7 +1,7 @@
 import { Main } from "./components/main/main";
 import "./App.scss";
-import { TagsProvider } from "./assets/services/tags/tagsService";
-import { StatsProvider } from "./assets/services/stats/statsService";
+import { StatsProvider } from "./providers/stats/statsProvider";
+import { TagsProvider } from "./providers/tags/tagsProvider";
 
 export function App() {
   return (
