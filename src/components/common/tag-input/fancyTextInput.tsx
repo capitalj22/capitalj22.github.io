@@ -9,6 +9,7 @@ interface Props {
   blur?: any;
   minWidth?: number;
   placeholder?: string;
+  fullWidth?: boolean;
 }
 
 export function FancyTextInput({
@@ -18,13 +19,14 @@ export function FancyTextInput({
   blur,
   minWidth = 48,
   placeholder = "",
+  fullWidth = false,
 }: Props) {
   const [content, setContent] = useState(value);
-  const [width, setWidth] = useState(0);
+  const [width, setWidth] = useState(fullWidth ? "100%" : minWidth);
   const span = useRef({ offsetWidth: 0 } as HTMLElement);
 
   useEffect(() => {
-    if (!isUndefined(content)) {
+    if (!isUndefined(content) && !fullWidth) {
       const newWidth = span?.current?.clientWidth + 24;
       setWidth(newWidth > minWidth ? newWidth : minWidth);
     }

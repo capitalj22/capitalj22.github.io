@@ -50,38 +50,13 @@ export function AbilityEditor({ abilitiesChanged }) {
   const [allExpanded, setAllExpanded] = useState(false);
   const [focusedAbility, setFocusedAbility] = useState("");
 
-  const abilityEdited = (event) => {
-    let newAbilities = map(abilities, (ability) => {
-      if (ability.id === event.id) {
-        return event.ability;
-      }
-      return ability;
-    });
-
-    setAbilities(newAbilities);
-    abilitiesChanged(newAbilities);
-  };
+  const abilityEdited = (event) => {};
 
   const abilityCopied = (event) => {
-    // let newAbilities = map(abilities, (ability) => {
-    //   if (ability.id === event.id) {
-    //     return event.ability;
-    //   }
-    //   return ability;
-    // });
-    // newAbilities.push({
-    //   ...event.ability,
-    //   id: `${event.ability.id}-copy`,
-    //   name: `${event.ability.name} Copy`,
-    // });
-    // setAbilities(newAbilities);
-    // abilitiesChanged(newAbilities);
+    setFocusedAbility(event.id);
   };
 
   const abilityRemoved = (id) => {
-    // let newAbilities = filter(abilities, (ability) => ability.id !== id);
-    // setAbilities(newAbilities);
-    // abilitiesChanged(newAbilities);
     setAbilities({ type: "remove", ability: { id } });
   };
 
@@ -99,30 +74,24 @@ export function AbilityEditor({ abilitiesChanged }) {
     });
 
     setFocusedAbility(newId);
-    // setAbilities([
-    //   ...abilities,
-    //   { name: "Name", id: "id", description: "...", tags: [], type: "action" },
-    // ]);
   };
 
   const toggleExpandAll = () => {
     setAllExpanded(!allExpanded);
   };
 
-  // useEffect(() => {
-  //   setAbilities(orderBy(abilities, "name"));
-  // }, [abilities]);
   return (
     <div className="ability-editor">
       <div className="filters">
+        <FancyTextInput
+          fullWidth={true}
+          placeholder="Filter by name"
+          minWidth={200}
+          className="text-filter"
+          value={filters.textFilter}
+          valueChanged={(e) => setFilters({ ...filters, textFilter: e })}
+        />
         <div className="tag-filters">
-          <FancyTextInput
-            placeholder="Filter by name"
-            minWidth={200}
-            className="text-filter"
-            value={filters.textFilter}
-            valueChanged={(e) => setFilters({ ...filters, textFilter: e })}
-          />
           <TagFilters
             tags={getTags(abilities)}
             selectedTagsChanged={(e) => {

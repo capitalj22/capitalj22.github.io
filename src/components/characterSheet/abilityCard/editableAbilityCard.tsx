@@ -77,8 +77,20 @@ export function EditableAbilityCard({
   };
 
   const copyPressed = () => {
+    const newId = `${ability.id}-copy`;
+    savePressed();
+    setAbilities({
+      type: "add",
+      ability: {
+        ..._ability,
+        tags: compact(_ability.tags),
+        id: newId,
+        name: `${ability.name} Copy`,
+      },
+    });
+
     if (isFunction(abilityCopied)) {
-      abilityCopied({ ability: _ability, id: ability.id });
+      abilityCopied({ id: newId });
     }
   };
 

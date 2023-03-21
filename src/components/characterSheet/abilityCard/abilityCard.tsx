@@ -115,6 +115,7 @@ export function AbilityCard({
   const handleAbilityCopied = (event) => {
     abilityCopied(event);
   };
+  
   const handleAbilityRemoved = (event) => {
     setIsEditing(false);
     abilityRemoved(event);

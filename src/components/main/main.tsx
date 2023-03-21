@@ -2,15 +2,14 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { PixiGraph } from "../pixi/pixi";
 import { filter } from "lodash-es";
 import { newDragonFromNodes } from "../../entities/actor/dragon.entity";
-import { TREES } from "../../data/trees/trees";
 import { PointCounter } from "../misc/pointCounter";
 import { Subject } from "rxjs";
 import { LeftPanel } from "../panels/left/leftPanel";
 import { RightPanel } from "../panels/right/rightPanel";
-import { ABILITIES } from "../../entities/abilities/abilities";
 import { StatsContext } from "../../providers/stats/statsProvider";
 import { TagsContext } from "../../providers/tags/tagsProvider";
 import { AbilitiesContext } from "../../providers/abilities/abilitiesProvider";
+import exampleJson from "../../data/example-config.json";
 
 function getBuild() {
   const localBuild = localStorage.getItem("dragon-build");
@@ -40,20 +39,6 @@ function getNodes() {
   return myNodes || {};
 }
 
-function getAbilities() {
-  const localAbilities = localStorage.getItem("dragon-abilities");
-  let myAbilities;
-  if (localAbilities) {
-    try {
-      myAbilities = JSON.parse(localAbilities);
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  return myAbilities || {};
-}
-
 export interface IGraphEvent {
   event:
     | "forcesUpdated"
@@ -78,19 +63,13 @@ function saveNodes(nodes) {
   // localStorage.removeItem("dragon-nodes");
 }
 
-function saveAbilities(nodes) {
-  localStorage.setItem("dragon-abilities", JSON.stringify(nodes));
-  // localStorage.removeItem("dragon-nodes");
-}
-
 export function Main() {
   const { setTagColors } = useContext(TagsContext);
   const { setStats } = useContext(StatsContext);
-  const { setAbilityTypes } = useContext(AbilitiesContext);
+  const { setAbilityTypes, abilities, setAbilities } =
+    useContext(AbilitiesContext);
   const [selectedNode, setSelectedNode] = useState({});
   const [nodes, setNodes] = useState(() => getNodes());
-  // const [abilities, setAbilities] = useState(ABILITIES);
-  const [abilities, setAbilities] = useState(getAbilities());
 
   const activeAbilities = useRef(abilities);
 
@@ -104,10 +83,6 @@ export function Main() {
   useEffect(() => {
     saveNodes(nodes);
   }, [nodes]);
-
-  useEffect(() => {
-    saveAbilities(abilities);
-  }, [abilities]);
 
   useEffect(() => {
     graphEvents$.subscribe({
@@ -144,7 +119,7 @@ export function Main() {
           setNodes(config.nodes);
         }
         if (config.abilities) {
-          setAbilities(config.abilities);
+          setAbilities({ type: "set", abilities: config.abilities });
         }
         if (config.tagColors) {
           setTagColors({ type: "set", colors: config.tagColors });
@@ -159,11 +134,14 @@ export function Main() {
       }
     } else if (event.type === "reset") {
       setNodes([{ id: "start here", name: "Start Here", colors: {} }]);
-      setAbilities([]);
+      setAbilities({ type: "set", abilities: [] });
+      setAbilityTypes({ type: "set", abilityTypes: [] });
       setBuild({});
     } else if (event.type === "default") {
-      setNodes(TREES);
-      setAbilities(ABILITIES);
+      const defaults = exampleJson;
+      setNodes(defaults.nodes);
+      setAbilityTypes({ type: "set", abilityTypes: defaults.abilityTypes });
+      setAbilities({ type: "set", abilities: defaults.abilities });
       setBuild({});
     }
   };
@@ -190,7 +168,6 @@ export function Main() {
       </div>
       <div className="appRight">
         <RightPanel
-          abilities={abilities}
           build={dragon}
           nodes={nodes}
           importAttempted={handleImportAttempted}

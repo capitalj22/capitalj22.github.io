@@ -12,7 +12,6 @@ const example3 = `You make 1 melee attack against an adjacent enemy. Roll 1d6{dm
 export function RightPanel({
   build,
   importAttempted,
-  abilities,
   nodes,
   abilitiesChanged,
 }) {
@@ -61,7 +60,6 @@ export function RightPanel({
       {selectedItem === "code" ? (
         <CodePanel
           build={build}
-          abilities={abilities}
           nodes={nodes}
           importAttempted={handleImportAttempted}
         ></CodePanel>
@@ -78,7 +76,7 @@ export function RightPanel({
         ""
       )}
       {selectedItem === "help" ? (
-        <div>
+        <div className="padding-md" style={{ textAlign: "left", color: "#ddd" }}>
           <h2>Ability Description Syntax</h2>
           <h3>Condition</h3>
           <p>{example1}</p>
