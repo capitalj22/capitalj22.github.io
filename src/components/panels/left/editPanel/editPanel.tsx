@@ -217,7 +217,6 @@ export function EditPanel({
         </Accordion>
         <Accordion name="Abilities" startOpen={false}>
           <AbilitiesPanel
-            allAbilities={_abilities}
             providedAbilities={providedAbilities}
             providedAbilitiesChanged={providedAbilitiesChanged}
           ></AbilitiesPanel>

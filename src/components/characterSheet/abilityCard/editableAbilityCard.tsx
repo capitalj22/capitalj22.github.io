@@ -1,11 +1,12 @@
 import { clone, each, isFunction } from "lodash-es";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Copy, Save, Trash2, X } from "react-feather";
 import { Ability } from "../../../entities/abilities/abilities";
 import "./abilityCard.scss";
 import { AbilityParamEditor } from "./abilityParamEditor";
 import { TagSelect } from "./tagSelect";
 import TextareaAutosize from "react-textarea-autosize";
+import { AbilitiesContext } from "../../../providers/abilities/abilitiesProvider";
 
 function applyParamsToDescription(description, params) {
   let editedDescription = description;
@@ -47,6 +48,9 @@ export function EditableAbilityCard({
   abilityRemoved,
   abilityCopied,
 }: Props) {
+  const { setAbilities } = useContext(AbilitiesContext);
+  const [originalId, setOriginalId] = useState(ability.id);
+
   const [_ability, setAbility] = useState(ability);
 
   const updateAbility = (prop, event) => {
@@ -69,6 +73,12 @@ export function EditableAbilityCard({
     if (isFunction(abilityChanged)) {
       abilityChanged({ ability: _ability, id: ability.id });
     }
+
+    setAbilities({
+      type: "update",
+      ability: _ability,
+      targetId: originalId,
+    });
   };
 
   const deletePressed = () => {

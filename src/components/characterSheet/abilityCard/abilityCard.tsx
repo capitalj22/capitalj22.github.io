@@ -1,7 +1,8 @@
-import { clone, each, find, isFunction } from "lodash-es";
+import { clone, each, isFunction } from "lodash-es";
 import { useContext, useEffect, useState } from "react";
 import { ChevronDown, ChevronUp, Edit } from "react-feather";
 import { Ability } from "../../../entities/abilities/abilities";
+import { AbilitiesContext } from "../../../providers/abilities/abilitiesProvider";
 import { TagsContext } from "../../../providers/tags/tagsProvider";
 import { StatTag } from "../statTag/statTag";
 import "./abilityCard.scss";
@@ -78,6 +79,7 @@ export function AbilityCard({
   abilityCopied,
   abilityRemoved,
 }: Props) {
+  const { abilities, setAbilities } = useContext(AbilitiesContext);
   const { setTagColors } = useContext(TagsContext);
   const [description, setDescription] = useState(
     getDescription(ability, isPlayerAbility, modifiers)
@@ -86,9 +88,9 @@ export function AbilityCard({
   const [isEditing, setIsEditing] = useState(false);
 
   const abilityChanged = (event) => {
-    if (isFunction(abilityEdited)) {
-      abilityEdited({ ability: event.ability, id: event.id });
-    }
+    // if (isFunction(abilityEdited)) {
+    //   abilityEdited({ ability: event.ability, id: event.id });
+    // }
     setIsEditing(false);
     setTagColors({ type: "save" });
   };

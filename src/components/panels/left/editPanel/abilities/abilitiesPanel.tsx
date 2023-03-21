@@ -1,8 +1,9 @@
 import { clone, each, filter, find, includes, map, sortBy } from "lodash-es";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { PlusSquare, XCircle } from "react-feather";
 import Select from "react-select";
 import { Ability } from "../../../../../entities/abilities/abilities";
+import { AbilitiesContext } from "../../../../../providers/abilities/abilitiesProvider";
 import { AbilityCard } from "../../../../characterSheet/abilityCard/abilityCard";
 import { Accordion } from "../../../../layout/accordion/accordion";
 import { StatsPanel } from "../stats/statsPanel";
@@ -53,11 +54,11 @@ function formatModifiersForCard(rawModifiers) {
 }
 
 export function AbilitiesPanel({
-  allAbilities,
   providedAbilities,
   providedAbilitiesChanged,
 }) {
-  const [abilities, setAbilities] = useState(providedAbilities);
+  const allAbilities = useContext(AbilitiesContext).abilities;
+  const [_providedAbilities, setAbilities] = useState(providedAbilities);
   const [abilityPool, setAbilityPool] = useState(allAbilities);
 
   useEffect(() => {
@@ -65,7 +66,7 @@ export function AbilitiesPanel({
   }, [allAbilities]);
 
   const abilityChanged = (event, index) => {
-    const newAbilities = clone(abilities);
+    const newAbilities = clone(_providedAbilities);
     newAbilities[index].id = event.value;
     newAbilities[index].modifiers = [];
 
@@ -73,28 +74,28 @@ export function AbilitiesPanel({
   };
 
   const removeStatClicked = (event, index) => {
-    let newAbilities = clone(abilities);
+    let newAbilities = clone(_providedAbilities);
     newAbilities = filter(newAbilities, (stat, idx) => index !== idx);
 
     providedAbilitiesChanged(newAbilities);
   };
 
   const addbuttonClicked = () => {
-    let newAbilities = clone(abilities);
+    let newAbilities = clone(_providedAbilities);
     newAbilities.push({ id: "", modifier: 1 });
 
     providedAbilitiesChanged(newAbilities);
   };
 
   const handleModifiersChanged = (event, index) => {
-    const newAbilities = clone(abilities);
+    const newAbilities = clone(_providedAbilities);
     newAbilities[index].modifiers = event;
 
     providedAbilitiesChanged(newAbilities);
   };
 
   const grantChanged = (event, index) => {
-    const newAbilities = clone(abilities);
+    const newAbilities = clone(_providedAbilities);
     newAbilities[index].gain = !newAbilities[index].gain;
 
     providedAbilitiesChanged(newAbilities);
@@ -106,11 +107,14 @@ export function AbilitiesPanel({
 
   return (
     <div className="abilities-panel">
-      {abilities.length
-        ? map(abilities, (ability, index) => (
+      {_providedAbilities.length
+        ? map(_providedAbilities, (ability, index) => (
             <div className="stat-edit-line">
               <div className="ability-select">
-                <button className="remove-ability-button" onClick={(e) => removeStatClicked(e, index)}>
+                <button
+                  className="remove-ability-button"
+                  onClick={(e) => removeStatClicked(e, index)}
+                >
                   <XCircle />
                 </button>
                 <Select
@@ -119,7 +123,7 @@ export function AbilitiesPanel({
                     singleValue: () => "single-value",
                     menu: () => "select-menu",
                   }}
-                  options={getAvailableOptions(abilities, abilityPool)}
+                  options={getAvailableOptions(_providedAbilities, abilityPool)}
                   onChange={(e) => abilityChanged(e, index)}
                   defaultValue={getOption(ability.id, abilityPool)}
                   value={getOption(ability.id, abilityPool)}
@@ -128,15 +132,13 @@ export function AbilitiesPanel({
 
               {ability.id ? (
                 <div className="ability-options">
-                  <Accordion name="..." startOpen={false}>
-                    <AbilityCard
-                      ability={
-                        find(allAbilities, { id: ability?.id }) as Ability
-                      }
-                      modifiers={formatModifiersForCard(ability.modifiers)}
-                      isPlayerAbility={false}
-                    ></AbilityCard>
-                  </Accordion>
+                  <AbilityCard
+                    ability={find(allAbilities, { id: ability?.id }) as Ability}
+                    modifiers={formatModifiersForCard(ability.modifiers)}
+                    isPlayerAbility={false}
+                    editable={true}
+                    startOpen={false}
+                  ></AbilityCard>
                   <div className="grant">
                     <label>
                       Grant

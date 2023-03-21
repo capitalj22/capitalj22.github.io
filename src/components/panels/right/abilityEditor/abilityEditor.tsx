@@ -1,14 +1,15 @@
-import { clone, filter, map, orderBy, sortBy } from "lodash-es";
-import { useEffect, useState } from "react";
+import { filter, map, orderBy, sortBy } from "lodash-es";
+import { useContext, useEffect, useState } from "react";
 import { PlusSquare } from "react-feather";
+import { AbilitiesContext } from "../../../../providers/abilities/abilitiesProvider";
 import { AbilityCard } from "../../../characterSheet/abilityCard/abilityCard";
 import "./abilityEditor.scss";
 
-export function AbilityEditor({ abilities, abilitiesChanged }) {
-  const [_abilities, setAbilities] = useState(sortBy(abilities, "name)"));
+export function AbilityEditor({ abilitiesChanged }) {
+  const { abilities, setAbilities } = useContext(AbilitiesContext);
 
   const abilityEdited = (event) => {
-    let newAbilities = map(_abilities, (ability) => {
+    let newAbilities = map(abilities, (ability) => {
       if (ability.id === event.id) {
         return event.ability;
       }
@@ -20,43 +21,43 @@ export function AbilityEditor({ abilities, abilitiesChanged }) {
   };
 
   const abilityCopied = (event) => {
-    let newAbilities = map(_abilities, (ability) => {
-      if (ability.id === event.id) {
-        return event.ability;
-      }
-      return ability;
-    });
+    // let newAbilities = map(abilities, (ability) => {
+    //   if (ability.id === event.id) {
+    //     return event.ability;
+    //   }
+    //   return ability;
+    // });
 
-    newAbilities.push({
-      ...event.ability,
-      id: `${event.ability.id}-copy`,
-      name: `${event.ability.name} Copy`,
-    });
+    // newAbilities.push({
+    //   ...event.ability,
+    //   id: `${event.ability.id}-copy`,
+    //   name: `${event.ability.name} Copy`,
+    // });
 
-    setAbilities(newAbilities);
-    abilitiesChanged(newAbilities);
+    // setAbilities(newAbilities);
+    // abilitiesChanged(newAbilities);
   };
 
   const abilityRemoved = (id) => {
-    let newAbilities = filter(_abilities, (ability) => ability.id !== id);
-    setAbilities(newAbilities);
-    abilitiesChanged(newAbilities);
+    // let newAbilities = filter(abilities, (ability) => ability.id !== id);
+    // setAbilities(newAbilities);
+    // abilitiesChanged(newAbilities);
   };
 
   const addButtonPressed = () => {
-    setAbilities([
-      ..._abilities,
-      { name: "Name", id: "id", description: "...", tags: [], type: "action" },
-    ]);
+    // setAbilities([
+    //   ...abilities,
+    //   { name: "Name", id: "id", description: "...", tags: [], type: "action" },
+    // ]);
   };
 
-  useEffect(() => {
-    setAbilities(orderBy(abilities, "name"));
-  }, [abilities]);
+  // useEffect(() => {
+  //   setAbilities(orderBy(abilities, "name"));
+  // }, [abilities]);
   return (
     <div className="ability-editor">
       <div className="ability-cards">
-        {_abilities.map((ability, index) => (
+        {abilities.map((ability, index) => (
           <div className="card-wrapper">
             <AbilityCard
               key={index}
