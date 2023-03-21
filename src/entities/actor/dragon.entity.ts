@@ -3,6 +3,7 @@ import { clone, each, find, isUndefined, times } from "lodash-es";
 
 export const newDragonFromNodes = (selectedNodes: SkillNode[], abilities) => {
   const baseDragon = {
+    lockedStats: {},
     abilities: {},
     pointsInvested: 0,
     exportableBuild: {},
@@ -16,19 +17,23 @@ export const newDragonFromNodes = (selectedNodes: SkillNode[], abilities) => {
   ) => {
     if (isUndefined(baseDragon[stat])) {
       baseDragon[stat] = 0;
-    }
-    if (!isUndefined(set)) {
-      baseDragon[stat] = set;
-    } else {
-      if (node.levels) {
-        const acquired = node.acquired || 0;
-        modifier = modifier || 0;
-
-        baseDragon[stat] += modifier * acquired;
+    } else if (
+      !baseDragon.lockedStats[stat] ||
+      (modifier && baseDragon.lockedStats[stat] > modifier)
+    )
+      if (set) {
+        baseDragon[stat] = modifier;
+        baseDragon.lockedStats[stat] = modifier;
       } else {
-        baseDragon[stat] += modifier;
+        if (node.levels) {
+          const acquired = node.acquired || 0;
+          modifier = modifier || 0;
+
+          baseDragon[stat] += modifier * acquired;
+        } else {
+          baseDragon[stat] += modifier;
+        }
       }
-    }
   };
 
   const registerAbility = (id: string, gain?) => {

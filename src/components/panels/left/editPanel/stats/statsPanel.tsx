@@ -1,5 +1,5 @@
 import { clone, filter, find, includes, map } from "lodash-es";
-import { PlusSquare, XCircle } from "react-feather";
+import { Lock, PlusSquare, XCircle } from "react-feather";
 import Select from "react-select";
 import "./statsPanel.scss";
 
@@ -8,9 +8,9 @@ function getAvailableOptions(providedStats, options) {
   return filter(options, (options) => !includes(usedStats, options.value));
 }
 interface Props {
-  providedStats: Array<{ id: string; modifier: number }>;
+  providedStats: Array<{ id: string; modifier: number; set?: boolean }>;
   providedStatsChanged: (
-    providedStats: Array<{ id: string; modifier: number }>
+    providedStats: Array<{ id: string; modifier: number; set?: boolean }>
   ) => void;
   options: Array<{ value: any; label: any }>;
   name: string;
@@ -44,9 +44,17 @@ export function StatsPanel({
 
   const addbuttonClicked = () => {
     let newStats = clone(providedStats);
-    newStats.push({ id: "", modifier: 1 });
+    newStats.push({ id: "", modifier: 1, set: false });
 
     providedStatsChanged(newStats);
+  };
+
+  const lockToggled = (index) => {
+    const newStats = clone(providedStats);
+    newStats[index].set = !newStats[index].set;
+
+    providedStatsChanged(newStats);
+    console.log(newStats);
   };
 
   return (
@@ -54,9 +62,13 @@ export function StatsPanel({
       {providedStats?.length
         ? map(providedStats, (stat, index) => (
             <div className="stat-edit-line">
-              <button onClick={(e) => removeStatClicked(e, index)}>
+              <button
+                className="remove"
+                onClick={(e) => removeStatClicked(e, index)}
+              >
                 <XCircle />
               </button>
+
               <Select
                 classNames={{
                   control: () => "select",
@@ -72,6 +84,12 @@ export function StatsPanel({
                 value={stat?.modifier}
                 onChange={(e) => statModifierChanged(e, index)}
               ></input>
+              <button
+                onClick={(e) => lockToggled(index)}
+                style={{ color: stat?.set ? "#fff" : "#222" }}
+              >
+                <Lock />
+              </button>
             </div>
           ))
         : ""}

@@ -18,7 +18,10 @@
     button {
       background: transparent;
       padding: 0.25rem;
-      color: var(--dangerColor);
+
+      &.remove {
+        color: var(--dangerColor);
+      }
     }
     > div {
       width: 12rem;
