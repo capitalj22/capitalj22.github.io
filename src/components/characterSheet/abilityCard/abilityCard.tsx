@@ -78,7 +78,7 @@ export function AbilityCard({
   abilityCopied,
   abilityRemoved,
 }: Props) {
-  const { tagColors } = useContext(TagsContext);
+  const { setTagColors } = useContext(TagsContext);
   const [description, setDescription] = useState(
     getDescription(ability, isPlayerAbility, modifiers)
   );
@@ -90,6 +90,7 @@ export function AbilityCard({
       abilityEdited({ ability: event.ability, id: event.id });
     }
     setIsEditing(false);
+    setTagColors({ type: "save" });
   };
 
   const handleAbilityCopied = (event) => {

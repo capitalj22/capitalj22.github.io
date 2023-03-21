@@ -24,14 +24,16 @@ const tagColorsReducer = (state, action) => {
   // return an array of the previous state and the book object
   if (type === "add") {
     newState[tag] = color;
-    window.localStorage.setItem("dragon-tagColors", JSON.stringify(newState));
     return newState;
   }
 
   if (type === "set") {
     newState = colors;
-    window.localStorage.setItem("dragon-tagColors", JSON.stringify(newState));
     return colors;
+  }
+
+  if (type === "save") {
+    window.localStorage.setItem("dragon-tagColors", JSON.stringify(newState));
   }
 
   // if "remove"

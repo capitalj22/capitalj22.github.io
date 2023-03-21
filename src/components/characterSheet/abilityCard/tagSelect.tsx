@@ -1,6 +1,6 @@
-import { each, find, map, uniq } from "lodash-es";
+import { each, find } from "lodash-es";
 import { useContext, useEffect, useState } from "react";
-import { Plus, Tag } from "react-feather";
+import { Tag } from "react-feather";
 import Select from "react-select";
 import { TAGS } from "../../../data/tag-colors";
 import { ColorPicker } from "../../common/color-picker/colorPicker";
@@ -13,25 +13,6 @@ const typeOptions = [
   { label: "reaction", value: "reaction" },
   { label: "movement", value: "movement" },
 ];
-
-function getStyle(tag): React.CSSProperties {
-  let style: React.CSSProperties = {};
-
-  const tagStyle = TAGS[tag] || { color: "#fff" };
-  style = { borderColor: tagStyle.color || "#fff" };
-
-  style.color = "#fff";
-
-  if (tagStyle?.emphasis === 1) {
-    style.borderColor = "transparent";
-    style.backgroundColor = tagStyle.color;
-    style.color = tagStyle.textColor;
-    style.fontWeight = 600;
-    style.borderRadius = 12;
-  }
-
-  return style;
-}
 
 function getColors(tags, tagColors): any {
   let colors = {};
@@ -79,7 +60,6 @@ export function TagSelect({ tags, type, tagsChanged, typeChanged }) {
   };
 
   const colorChanged = (color, tag) => {
-    // setColors({ ..._colors, [tag]: color });
     setTagColors({ type: "add", color, tag });
   };
 
