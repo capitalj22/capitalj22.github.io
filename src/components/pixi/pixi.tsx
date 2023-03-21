@@ -51,7 +51,7 @@ export function PixiGraph({
       destroyFn = destroy;
     }
 
-    nodeSelectionUpdated({})
+    // nodeSelectionUpdated({})
     infoUpdated({})
     return destroyFn;
   }, [buildData]);

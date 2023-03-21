@@ -297,9 +297,9 @@
     },
     {
       "colors": {
-        "unavailable": "#7c97af",
-        "inactive": "#5980c7",
-        "selected": "#3b8be0"
+        "unavailable": "#121212",
+        "inactive": "#232323",
+        "selected": "#d2d2d2"
       },
       "id": "basic-magic",
       "requires": "basic",
@@ -852,6 +852,7 @@
       "name": "Advanced Guiding Bolt",
       "description": "Guiding bolt now gives allies +2 to hit the target next round.",
       "cost": 1,
+      "levelsRequired": 1,
       "providedAbilities": [{ "id": "guiding-bolt", "modifiers": { "hit": 1 } }]
     },
     {
@@ -935,69 +936,19 @@
       "description": "Grants the Attack From The Deep ability",
       "cost": 2,
       "providedAbilities": [{ "id": "attack-from-the-deep", "gain": true }]
-    },
-    {
-      "colors": {
-        "unavailable": "#121212",
-        "inactive": "#232323",
-        "selected": "#d2d2d2"
-      },
-      "id": "mega-magic+",
-      "requires": "mega-magic",
-      "name": "Mega magic+",
-      "levels": 2,
-      "levelCost": [1, 1],
-      "providedAbilities": [
-        {
-          "id": "test-ability",
-          "modifier": 1,
-          "modifiers": [{ "id": "magic", "modifier": 1 }]
-        }
-      ]
-    },
-    {
-      "colors": {
-        "unavailable": "#121212",
-        "inactive": "#232323",
-        "selected": "#d2d2d2"
-      },
-      "id": "mega-magic-2",
-      "requires": "mega-magic+",
-      "name": "Ultima Magic",
-      "cost": 1,
-      "providedAbilities": [
-        {
-          "id": "test-ability",
-          "modifier": 1,
-          "modifiers": [{ "id": "mega", "modifier": 1 }]
-        }
-      ]
-    },
-    {
-      "colors": {
-        "unavailable": "#a5b781",
-        "inactive": "#5b9437",
-        "selected": "#95c919"
-      },
-      "id": "necro-1",
-      "requires": "basic",
-      "name": "Necromancy",
-      "cost": 1
-    },
-    {
-      "colors": {
-        "unavailable": "#a5b781",
-        "inactive": "#5b9437",
-        "selected": "#95c919"
-      },
-      "id": "knit-flesh",
-      "requires": "necro-1",
-      "name": "Knit Flesh",
-      "description": "Grants \"Knit Flesh\"",
-      "cost": 1,
-      "providedAbilities": [
-        { "id": "knit-flesh", "modifier": 1, "modifiers": [], "gain": true }
-      ]
     }
+  ],
+  "tagColors": {
+    "attack": "#2a6ed9",
+    "taco": "#b9a238",
+    "tag": "#c74141",
+    "sparkle-magic": "#9231d0",
+    "holy": "#d7a435"
+  },
+  "stats": [
+    { "id": "armor", "name": "Armor" },
+    { "id": "hp", "name": "Hit Points" },
+    { "id": "movement", "name": "Movement" },
+    { "id": "holy-spells", "name": "Holy Spells" }
   ]
 }

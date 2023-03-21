@@ -32,13 +32,12 @@ const statsReducer = (state, action) => {
 
   if (type === "set") {
     newState = stats;
-    // window.localStorage.setItem("dragon-stats", JSON.stringify(newState));
+    window.localStorage.setItem("dragon-stats", JSON.stringify(newState));
     return newState;
   }
 
   if (type === "update") {
     newState[index] = stat;
-    // window.localStorage.setItem("dragon-stats", JSON.stringify(newState));
     return newState;
   }
 

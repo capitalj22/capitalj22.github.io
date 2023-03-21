@@ -29,6 +29,8 @@ const tagColorsReducer = (state, action) => {
 
   if (type === "set") {
     newState = colors;
+    window.localStorage.setItem("dragon-tagColors", JSON.stringify(newState));
+
     return colors;
   }
 

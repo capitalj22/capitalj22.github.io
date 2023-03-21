@@ -45,7 +45,6 @@ export function StatTag({
   emphasize,
 }: Props) {
   const { tagColors } = useContext(TagsContext);
-  console.log(tagColors);
 
   const handleClicked = (event) => {
     if (isFunction(clicked)) {

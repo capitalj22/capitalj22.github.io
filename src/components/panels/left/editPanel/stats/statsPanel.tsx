@@ -54,7 +54,6 @@ export function StatsPanel({
     newStats[index].set = !newStats[index].set;
 
     providedStatsChanged(newStats);
-    console.log(newStats);
   };
 
   return (

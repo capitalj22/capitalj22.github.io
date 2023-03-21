@@ -85,7 +85,6 @@ function saveAbilities(nodes) {
 export function Main() {
   const { setTagColors } = useContext(TagsContext);
   const { setStats } = useContext(StatsContext);
-  const [dragon, setDragon] = useState({ armor: 0, hp: 0 } as any);
   const [selectedNode, setSelectedNode] = useState({});
   const [nodes, setNodes] = useState(() => getNodes());
   // const [abilities, setAbilities] = useState(ABILITIES);
@@ -94,6 +93,7 @@ export function Main() {
   const activeAbilities = useRef(abilities);
 
   const [build, setBuild] = useState(() => getBuild());
+  const [dragon, setDragon] = useState(newDragonFromNodes(nodes, abilities));
 
   useEffect(() => {
     saveBuild(dragon.exportableBuild);
