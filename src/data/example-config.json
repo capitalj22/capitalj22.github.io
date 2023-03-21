@@ -1,156 +1,12 @@
 {
   "abilities": [
     {
-      "id": "smite",
-      "name": "Smite",
-      "description": "When an attack hits (does damage to HP), you may spend 1 spell slot to make that attack do +%dmg%\n      damage",
-      "type": "bonus action",
-      "tags": ["holy"],
-      "params": { "dmg": 3 }
-    },
-    {
-      "id": "guiding-bolt",
-      "name": "Guiding Bolt",
-      "description": "You hit an enemy with a blast of light, dealing nonabsorbable damage. Next round, allies have +%roll% on all attacks/cantrip strikes against this target.",
-      "type": "action",
-      "tags": ["holy", "piercing"],
-      "params": { "roll": 1 }
-    },
-    {
-      "id": "death-ward",
-      "name": "Death Ward",
-      "description": "Place a ward against death on a unit. If that unit is reduced to 0 HP it instead goes to 2 HP. When this happens the spell is used up and you lose concentration on it.",
-      "type": "action",
-      "tags": ["concentration", "holy"]
-    },
-    {
-      "id": "restoration",
-      "name": "Restoration",
-      "description": "Heal a unit 3 HP within spell range.",
-      "type": "action",
-      "tags": ["holy"]
-    },
-    {
-      "id": "turn-undead",
-      "name": "Turn Undead",
-      "description": "Deal %dmg% damage to adjacent undead units and force them on their turn to move at least %range% hex away from you and get no closer for %rounds% round.",
-      "type": "action",
-      "tags": ["holy"],
-      "params": { "dmg": 1, "range": 1, "rounds": 1 }
-    },
-    {
-      "id": "bless",
-      "name": "Bless",
-      "description": "Buff up an ally within range, granting them +1 on their first attack/cantrip strike of their turn.",
-      "type": "action",
-      "tags": ["holy"]
-    },
-    {
-      "id": "spirit-guardians",
-      "name": "Spirit Guardians",
-      "description": "Call upon spiritual guardians to protect you. You gain %ac% AC and adjacent enemies take %dmg% unabsorbable damage at the start of your turn.",
-      "type": "action",
-      "tags": ["concentration", "holy", "piercing"],
-      "params": { "dmg": 1, "ac": 1 }
-    },
-    {
-      "id": "guardian",
-      "name": "Guardian",
-      "type": "reaction",
-      "description": "As a reaction, can intercept %attacks% attack(s) going towards an adjacent ally. You now take that attack - also take 1 damage.",
-      "tags": ["defense"]
-    },
-    {
-      "id": "deflect",
-      "name": "Deflect",
-      "type": "reaction",
-      "description": "Block 1 ranged attack that is made at you. Declare before the attack is rolled. For magic attacks, deflect on a roll of %lowerRange% or higher.",
-      "tags": ["defense"]
-    },
-    {
-      "id": "reactive-armor",
-      "name": "Reactive Armor",
-      "description": "When an enemy attacks you, gain 1 AC. Lose 1 AC at the start of each turn.",
-      "type": "passive",
-      "tags": ["defense"]
-    },
-    {
-      "id": "attentive",
-      "name": "Attentive",
-      "type": "movement",
-      "description": "This unit always musters",
-      "tags": ["defense"]
-    },
-    {
-      "id": "alert",
-      "name": "Alert",
-      "type": "movement",
-      "description": "This unit always musters and can muster 1 adjacent unit (during movement).",
-      "replaces": "attentive",
-      "tags": ["defense"]
-    },
-    {
-      "id": "knit-flesh",
-      "name": "Knit Flesh",
-      "description": "Restore %hp% HP to an adjacent undead unit",
-      "type": "action"
-    },
-    {
-      "id": "greater-knitting",
-      "name": "Greater Knitting",
-      "description": "Restore %hp% HP to all adjacent undead units",
-      "type": "action",
-      "replaces": "knit-flesh"
-    },
-    {
-      "id": "mass-knitting",
-      "name": "Mass Knitting",
-      "description": "Restore %hp% HP to all undead units within 2 hexes (100m area)",
-      "type": "action",
-      "replaces": "greater-knitting"
-    },
-    {
-      "id": "flying",
-      "name": "Flying",
-      "description": "This unit can fly. It now can exist on two different battlefield planes. The ground, and the air level 1. It costs 1 hex of movement to move upward but not downward.\n\n    Additionally, you are immune to environmental effects.",
-      "type": "passive",
-      "tags": ["flying"]
-    },
-    {
       "id": "advanced-flying",
       "name": "Advanced Flying",
       "description": "This unit can fly. It now can exist on three different battlefield planes. The ground, and the air level 1, and air level 2, and air level 3. It costs 1 hex of movement to move upward but not downward.\n\n    Additionally, you are immune to environmental effects.",
       "type": "passive",
       "tags": ["flying"],
       "replaces": "flying"
-    },
-    {
-      "id": "death-bomb",
-      "name": "Death Bomb",
-      "type": "action",
-      "description": "This unit can dive bomb and forcefully smash itself into enemy units. This kills this unit. It does 2 damage to a target's HP.",
-      "tags": ["undead", "flying"]
-    },
-    {
-      "id": "swarm",
-      "name": "Swarm",
-      "type": "action",
-      "tags": ["flying"],
-      "description": "Swarm around an adjacent enemy unit, co-existing in their hex, and blocking ranged attacks against targets other than itself. This unit can now move 3 hexes as a reaction to stay with its swarmed unit, any more movement breaks the swarm. In addition it can choose to be hit by ranged attacks that would pass through its hex."
-    },
-    {
-      "id": "strafing-run",
-      "name": "Strafing Run",
-      "type": "passive",
-      "tags": ["flying"],
-      "description": "As part of movement can make a breath attack against up to %targets% target(s) (adjacent to each) that you fly over in a straight line. This costs 1 breath attack use and does half breath damage (but full effect). Costs 1 movement to initiate for each targeted hex."
-    },
-    {
-      "id": "dive-bomb",
-      "name": "Dive Bomb",
-      "type": "passive",
-      "tags": ["flying"],
-      "description": "When this unit moves from a higher elevation to a lower elevation it gains +1 damage for each air level it decends through for its next attack."
     },
     {
       "id": "aerial-combat",
@@ -167,6 +23,84 @@
       "tags": ["flying", "defense"]
     },
     {
+      "id": "alert",
+      "name": "Alert",
+      "type": "movement",
+      "description": "This unit always musters and can muster 1 adjacent unit (during movement).",
+      "replaces": "attentive",
+      "tags": ["defense"]
+    },
+    {
+      "name": "Alter Emotions",
+      "id": "alter-emotions",
+      "description": "Increase or decrease the organization (HP) of any non-elite group of soldiers by %amt%. ",
+      "tags": ["enchantment"],
+      "type": "action",
+      "params": { "amt": 1 }
+    },
+    {
+      "id": "aquatic-combat",
+      "name": "Aquatic Attack",
+      "description": "Add +1 to any attack made from the water.",
+      "type": "passive",
+      "tags": ["aquatic"]
+    },
+    {
+      "id": "attack-from-the-deep",
+      "name": "Attack from the Deeps",
+      "description": "Gain +2 damage on attacks made against other targets in the water that are at ground level.",
+      "type": "passive",
+      "tags": ["aquatic"]
+    },
+    {
+      "id": "attentive",
+      "name": "Attentive",
+      "type": "movement",
+      "description": "This unit always musters",
+      "tags": ["defense"]
+    },
+    {
+      "id": "basic-attack",
+      "name": "Basic Attack",
+      "description": "You make 1 melee attack against an adjacent enemy. Roll 1d6{dmg}+%dmg%{/dmg} and do that much damage.",
+      "type": "action",
+      "params": { "dmg": 0 }
+    },
+    {
+      "name": "Beguile",
+      "id": "beguile",
+      "description": "Beguile a unit into one of the following:\n\nFrightened of you - the unit cannot move towards you on its turn.\n\n{compelled}Compelled -  The unit MUST move at least 2 hexes toward you (if it can/it has to try to){/compelled}\n\n{charmed}Charmed - the unit makes %numAttacks% less attack(s) against you{/charmed}",
+      "tags": ["enchantment"],
+      "type": "action",
+      "params": {
+        "frightened": 1,
+        "compelled": 0,
+        "charmed": 0,
+        "numAttacks": 1
+      }
+    },
+    {
+      "id": "bless",
+      "name": "Bless",
+      "description": "Buff up an ally within range, granting them +1 on their first attack/cantrip strike of their turn.",
+      "type": "action",
+      "tags": ["holy"]
+    },
+    {
+      "id": "cantrip-barrage",
+      "name": "Cantrip Barrage",
+      "description": "Deal 1d6 damage to an enemy.",
+      "type": "action",
+      "tags": ["magic"]
+    },
+    {
+      "id": "charge",
+      "name": "Charge",
+      "type": "movement",
+      "description": "If this unit moves 4 hexes in a straight line before becoming adjacent to an enemy they automatically do +%dmg% damage on first melee attack. The movement for the rest of the turn becomes 0. \n        {breakthrough}\n          If after a charge, this unit still has remaining movement, it can use that movement to continue on its charge-line through enemy units.\n        {/breakthrough}",
+      "params": { "dmg": 1, "breakthrough": 0 }
+    },
+    {
       "id": "dash",
       "name": "Dash",
       "type": "action",
@@ -180,40 +114,38 @@
       "tags": ["movement"]
     },
     {
-      "id": "charge",
-      "name": "Charge",
-      "type": "movement",
-      "description": "If this unit moves 4 hexes in a straight line before becoming adjacent to an enemy they automatically do +%dmg% damage on first melee attack. The movement for the rest of the turn becomes 0. \n        {breakthrough}\n          If after a charge, this unit still has remaining movement, it can use that movement to continue on its charge-line through enemy units.\n        {/breakthrough}",
-      "params": { "dmg": 1, "breakthrough": 0 }
+      "id": "death-bomb",
+      "name": "Death Bomb",
+      "type": "action",
+      "description": "This unit can dive bomb and forcefully smash itself into enemy units. This kills this unit. It does 2 damage to a target's HP.",
+      "tags": ["undead", "flying"]
     },
     {
-      "id": "swimming",
-      "name": "Swimming",
-      "description": "If this unit can move up to %movement% hexes in the water. If the unit's speed is less than %movement% it can move up to its speed.",
-      "type": "movement",
-      "tags": ["aquatic"]
+      "id": "death-ward",
+      "name": "Death Ward",
+      "description": "Place a ward against death on a unit. If that unit is reduced to 0 HP it instead goes to 2 HP. When this happens the spell is used up and you lose concentration on it.",
+      "type": "action",
+      "tags": ["concentration", "holy"]
     },
     {
-      "id": "aquatic-combat",
-      "name": "Aquatic Attack",
-      "description": "Add +1 to any attack made from the water.",
+      "id": "defend",
+      "name": "Defend",
+      "description": "Idk, ask Ed",
+      "type": "action"
+    },
+    {
+      "id": "deflect",
+      "name": "Deflect",
+      "type": "reaction",
+      "description": "Block 1 ranged attack that is made at you. Declare before the attack is rolled. For magic attacks, deflect on a roll of %lowerRange% or higher.",
+      "tags": ["defense"]
+    },
+    {
+      "id": "dive-bomb",
+      "name": "Dive Bomb",
       "type": "passive",
-      "tags": ["aquatic"]
-    },
-    {
-      "id": "ferry",
-      "name": "Ferry",
-      "description": "This unit can carry other units on water. It takes 1 action to load an ally (action used during movement). No action required to disembark.",
-      "type": "passive",
-      "tags": ["aquatic", "movement"]
-    },
-    {
-      "id": "submarine-transportation",
-      "name": "Submarine Transportation",
-      "description": "This unit can carry other units on water and underwater. It takes 1 action to load an ally (action used during movement). No action required to disembark.",
-      "type": "passive",
-      "tags": ["aquatic", "movement"],
-      "replaces": "ferry"
+      "tags": ["flying"],
+      "description": "When this unit moves from a higher elevation to a lower elevation it gains +1 damage for each air level it decends through for its next attack."
     },
     {
       "id": "diving",
@@ -223,24 +155,68 @@
       "tags": ["aquatic"]
     },
     {
-      "id": "attack-from-the-deep",
-      "name": "Attack from the Deeps",
-      "description": "Gain +2 damage on attacks made against other targets in the water that are at ground level.",
-      "type": "passive",
-      "tags": ["aquatic"]
+      "name": "Dominate",
+      "id": "dominate",
+      "description": "Target the leader of a company of troops and try to control their mind. Against non-elite units (so common soliders and such) this works and the unit is under your control until the battle ends or it loses half its current health. Can only have %unit% unit(s) dominated at a time.",
+      "tags": ["enchantment"],
+      "type": "action",
+      "params": { "units": 1 }
     },
     {
-      "id": "defend",
-      "name": "Defend",
-      "description": "Idk, ask Ed",
+      "id": "extra-versatile",
+      "name": "Extra Versatile",
+      "description": "You can choose to take actions before or after each unit of movement.",
+      "type": "passive",
+      "replaces": "versatile"
+    },
+    {
+      "id": "ferry",
+      "name": "Ferry",
+      "description": "This unit can carry other units on water. It takes 1 action to load an ally (action used during movement). No action required to disembark.",
+      "type": "passive",
+      "tags": ["aquatic", "movement"]
+    },
+    {
+      "id": "flying",
+      "name": "Flying",
+      "description": "This unit can fly. It now can exist on two different battlefield planes. The ground, and the air level 1. It costs 1 hex of movement to move upward but not downward.\n\n    Additionally, you are immune to environmental effects.",
+      "type": "passive",
+      "tags": ["flying"]
+    },
+    {
+      "id": "greater-knitting",
+      "name": "Greater Knitting",
+      "description": "Restore %hp% HP to all adjacent undead units",
+      "type": "action",
+      "replaces": "knit-flesh"
+    },
+    {
+      "id": "guardian",
+      "name": "Guardian",
+      "type": "reaction",
+      "description": "As a reaction, can intercept %attacks% attack(s) going towards an adjacent ally. You now take that attack - also take 1 damage.",
+      "tags": ["defense"]
+    },
+    {
+      "id": "guiding-bolt",
+      "name": "Guiding Bolt",
+      "description": "You hit an enemy with a blast of light, dealing nonabsorbable damage. Next round, allies have +%roll% on all attacks/cantrip strikes against this target.",
+      "type": "action",
+      "tags": ["holy", "piercing"],
+      "params": { "roll": 1 }
+    },
+    {
+      "id": "knit-flesh",
+      "name": "Knit Flesh",
+      "description": "Restore %hp% HP to an adjacent undead unit",
       "type": "action"
     },
     {
-      "id": "basic-attack",
-      "name": "Basic Attack",
-      "description": "You make 1 melee attack against an adjacent enemy. Roll 1d6{dmg}+%dmg%{/dmg} and do that much damage.",
+      "id": "mass-knitting",
+      "name": "Mass Knitting",
+      "description": "Restore %hp% HP to all undead units within 2 hexes (100m area)",
       "type": "action",
-      "params": { "dmg": 0 }
+      "replaces": "greater-knitting"
     },
     {
       "id": "multi-attack",
@@ -251,6 +227,28 @@
       "params": { "dmg1": 0, "dmg2": 0 }
     },
     {
+      "id": "reactive-armor",
+      "name": "Reactive Armor",
+      "description": "When an enemy attacks you, gain 1 AC. Lose 1 AC at the start of each turn.",
+      "type": "passive",
+      "tags": ["defense"]
+    },
+    {
+      "id": "restoration",
+      "name": "Restoration",
+      "description": "Heal a unit 3 HP within spell range.",
+      "type": "action",
+      "tags": ["holy"]
+    },
+    {
+      "id": "smite",
+      "name": "Smite",
+      "description": "When an attack hits (does damage to HP), you may spend 1 spell slot to make that attack do +%dmg%\n      damage",
+      "type": "bonus action",
+      "tags": ["holy"],
+      "params": { "dmg": 3 }
+    },
+    {
       "id": "spellcasting",
       "name": "Spellcasting",
       "description": "You can now cast spells and cantrips. Casting spells and cantrips take action to cast and require 1 spell slot of the coresponding school of magic. \n    Cantrips barrage does not cost a spell slot. \n    \n    Range: %range%\n    Contentration Bonus: %concentration%",
@@ -259,24 +257,55 @@
       "params": { "range": 1, "concentration": 1 }
     },
     {
-      "id": "cantrip-barrage",
-      "name": "Cantrip Barrage",
-      "description": "Deal 1d6 damage to an enemy.",
+      "id": "spirit-guardians",
+      "name": "Spirit Guardians",
+      "description": "Call upon spiritual guardians to protect you. You gain %ac% AC and adjacent enemies take %dmg% unabsorbable damage at the start of your turn.",
       "type": "action",
-      "tags": ["magic"]
+      "tags": ["concentration", "holy", "piercing"],
+      "params": { "dmg": 1, "ac": 1 }
+    },
+    {
+      "id": "strafing-run",
+      "name": "Strafing Run",
+      "type": "passive",
+      "tags": ["flying"],
+      "description": "As part of movement can make a breath attack against up to %targets% target(s) (adjacent to each) that you fly over in a straight line. This costs 1 breath attack use and does half breath damage (but full effect). Costs 1 movement to initiate for each targeted hex."
+    },
+    {
+      "id": "submarine-transportation",
+      "name": "Submarine Transportation",
+      "description": "This unit can carry other units on water and underwater. It takes 1 action to load an ally (action used during movement). No action required to disembark.",
+      "type": "passive",
+      "tags": ["aquatic", "movement"],
+      "replaces": "ferry"
+    },
+    {
+      "id": "swarm",
+      "name": "Swarm",
+      "type": "action",
+      "tags": ["flying"],
+      "description": "Swarm around an adjacent enemy unit, co-existing in their hex, and blocking ranged attacks against targets other than itself. This unit can now move 3 hexes as a reaction to stay with its swarmed unit, any more movement breaks the swarm. In addition it can choose to be hit by ranged attacks that would pass through its hex."
+    },
+    {
+      "id": "swimming",
+      "name": "Swimming",
+      "description": "If this unit can move up to %movement% hexes in the water. If the unit's speed is less than %movement% it can move up to its speed.",
+      "type": "movement",
+      "tags": ["aquatic"]
+    },
+    {
+      "id": "turn-undead",
+      "name": "Turn Undead",
+      "description": "Deal %dmg% damage to adjacent undead units and force them on their turn to move at least %range% hex away from you and get no closer for %rounds% round.",
+      "type": "action",
+      "tags": ["holy"],
+      "params": { "dmg": 1, "range": 1, "rounds": 1 }
     },
     {
       "id": "versatile",
       "name": "Versatile",
       "description": "You can choose to take actions prior to movement.",
       "type": "passive"
-    },
-    {
-      "id": "extra-versatile",
-      "name": "Extra Versatile",
-      "description": "You can choose to take actions before or after each unit of movement.",
-      "type": "passive",
-      "replaces": "versatile"
     }
   ],
   "nodes": [
@@ -297,15 +326,16 @@
     },
     {
       "colors": {
-        "unavailable": "#121212",
-        "inactive": "#232323",
-        "selected": "#d2d2d2"
+        "unavailable": "#878787",
+        "inactive": "#818181",
+        "selected": "#96b7bd"
       },
       "id": "basic-magic",
       "requires": "basic",
       "name": "Spellcasting",
       "description": "Grants your unit the ability to cast spells",
       "cost": 1,
+      "levelsRequired": 1,
       "providedAbilities": [
         { "id": "cantrip-barrage", "gain": true },
         { "id": "spellcasting", "gain": true }
@@ -420,10 +450,11 @@
       "name": "Breakthrough",
       "description": "Grants you the ability to continue moving through units after a charge.",
       "cost": 1,
+      "levelsRequired": 1,
       "providedAbilities": [
         {
           "id": "charge",
-          "modifiers": [{ "id": "breakthrough", "modifer": 1 }]
+          "modifiers": [{ "id": "breakthrough", "modifer": 1, "modifier": 1 }]
         }
       ]
     },
@@ -670,7 +701,7 @@
       "description": "Sets your AC to 1 and grants Reactive Armor.",
       "cost": 1,
       "levelsRequired": 5,
-      "providedStats": [{ "id": "armor", "set": 1 }],
+      "providedStats": [{ "id": "armor", "set": 1, "modifier": 1 }],
       "providedAbilities": [{ "id": "reactive-armor", "gain": true }]
     },
     {
@@ -684,7 +715,8 @@
       "name": "Reactive Armor 2",
       "description": "Increases your base AC to 2",
       "cost": 1,
-      "providedStats": [{ "id": "armor", "set": 2 }]
+      "levelsRequired": 1,
+      "providedStats": [{ "id": "armor", "set": 2, "modifier": 2 }]
     },
     {
       "colors": {
@@ -808,13 +840,14 @@
       "colors": {
         "unavailable": "#7a7354",
         "inactive": "#4a4118",
-        "selected": "#c7ab2e"
+        "selected": "#7f7750"
       },
       "id": "holy-casting",
       "requires": "basic-magic",
       "name": "Holy-Divine Casting",
       "description": "Grants you the ability to cast Holy/Divine Spells.",
       "cost": 1,
+      "levelsRequired": 1,
       "providedAbilities": [
         { "id": "smite", "gain": true },
         { "id": "guiding-bolt", "gain": true },
@@ -829,13 +862,14 @@
       "colors": {
         "unavailable": "#7a7354",
         "inactive": "#4a4118",
-        "selected": "#c7ab2e"
+        "selected": "#948540"
       },
       "id": "holy-power",
       "requires": "holy-casting",
       "name": "Holy Power",
       "description": "Increases the damage of Smite and Guiding Bolt by 1",
       "cost": 1,
+      "levelsRequired": 1,
       "providedAbilities": [
         { "id": "smite", "modifiers": [{ "id": "dmg", "modifier": 1 }] },
         { "id": "guiding-bolt", "modifiers": [{ "id": "dmg", "modifier": 1 }] }
@@ -845,7 +879,7 @@
       "colors": {
         "unavailable": "#7a7354",
         "inactive": "#4a4118",
-        "selected": "#c7ab2e"
+        "selected": "#e6c11d"
       },
       "id": "advanced-guiding-bolt",
       "requires": "holy-power",
@@ -853,7 +887,9 @@
       "description": "Guiding bolt now gives allies +2 to hit the target next round.",
       "cost": 1,
       "levelsRequired": 1,
-      "providedAbilities": [{ "id": "guiding-bolt", "modifiers": { "hit": 1 } }]
+      "providedAbilities": [
+        { "id": "guiding-bolt", "modifiers": [{ "Id": "hit", "modifier": 1 }] }
+      ]
     },
     {
       "colors": {
@@ -882,7 +918,7 @@
       "cost": 1,
       "levelsRequired": 1,
       "providedAbilities": [
-        { "id": "swimming", "modifiers": { "movement": 3 } }
+        { "id": "swimming", "modifiers": [{ "id": "movement", "modifier": 3 }] }
       ]
     },
     {
@@ -936,6 +972,70 @@
       "description": "Grants the Attack From The Deep ability",
       "cost": 2,
       "providedAbilities": [{ "id": "attack-from-the-deep", "gain": true }]
+    },
+    {
+      "colors": {
+        "unavailable": "#7b5290",
+        "inactive": "#6a2b85",
+        "selected": "#ab38d9"
+      },
+      "id": "191",
+      "requires": "basic-magic",
+      "name": "Enchantment",
+      "cost": 1,
+      "levelsRequired": 1,
+      "providedAbilities": [
+        {
+          "id": "alter-emotions",
+          "modifier": 1,
+          "modifiers": [],
+          "gain": true
+        },
+        { "id": "beguile", "modifier": 1, "modifiers": [], "gain": true },
+        { "id": "dominate", "modifier": 1, "modifiers": [], "gain": true }
+      ]
+    },
+    {
+      "colors": {
+        "unavailable": "#7b5290",
+        "inactive": "#6a2b85",
+        "selected": "#ab38d9"
+      },
+      "id": "180",
+      "requires": "191",
+      "name": "Beguile+",
+      "description": "Beguiled opponents can now be Compelled and Charmed.",
+      "cost": 1,
+      "levelsRequired": 1,
+      "providedAbilities": [
+        {
+          "id": "beguile",
+          "modifiers": [
+            { "id": "compelled", "modifier": 1, "set": false },
+            { "id": "charmed", "modifier": 1, "set": false }
+          ]
+        }
+      ]
+    },
+    {
+      "colors": {
+        "unavailable": "#7b5290",
+        "inactive": "#6a2b85",
+        "selected": "#ab38d9"
+      },
+      "id": "beguile-3",
+      "requires": "180",
+      "name": "Beguile++",
+      "description": "Charmed opponents make 1 fewer attack against you.",
+      "cost": 1,
+      "levelsRequired": 1,
+      "providedAbilities": [
+        {
+          "id": "beguile",
+          "modifier": 1,
+          "modifiers": [{ "id": "numAttacks", "modifier": 1, "set": false }]
+        }
+      ]
     }
   ],
   "tagColors": {
@@ -943,7 +1043,8 @@
     "taco": "#b9a238",
     "tag": "#c74141",
     "sparkle-magic": "#9231d0",
-    "holy": "#d7a435"
+    "holy": "#d7a435",
+    "enchantment": "#ab38d9"
   },
   "stats": [
     { "id": "armor", "name": "Armor" },
