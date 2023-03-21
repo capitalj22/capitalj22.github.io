@@ -82,7 +82,7 @@ export function runGraphPixi(
   let forces = {
     f1: 20,
     f2: 25,
-    f3: 20,
+    f3: 70,
     f4: 20,
   };
 

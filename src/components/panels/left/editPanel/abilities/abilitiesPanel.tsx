@@ -2,9 +2,7 @@ import { clone, each, filter, find, includes, map, sortBy } from "lodash-es";
 import { useEffect, useState } from "react";
 import { PlusSquare, XCircle } from "react-feather";
 import Select from "react-select";
-import {
-  Ability,
-} from "../../../../../entities/abilities/abilities";
+import { Ability } from "../../../../../entities/abilities/abilities";
 import { AbilityCard } from "../../../../characterSheet/abilityCard/abilityCard";
 import { Accordion } from "../../../../layout/accordion/accordion";
 import { StatsPanel } from "../stats/statsPanel";
@@ -108,12 +106,11 @@ export function AbilitiesPanel({
 
   return (
     <div className="abilities-panel">
-      <div className="abilities-title">Abilities:</div>
       {abilities.length
         ? map(abilities, (ability, index) => (
             <div className="stat-edit-line">
               <div className="ability-select">
-                <button onClick={(e) => removeStatClicked(e, index)}>
+                <button className="remove-ability-button" onClick={(e) => removeStatClicked(e, index)}>
                   <XCircle />
                 </button>
                 <Select
@@ -128,12 +125,6 @@ export function AbilitiesPanel({
                   value={getOption(ability.id, abilityPool)}
                 ></Select>
               </div>
-
-              {/* <input
-                type="number"
-                value={stat?.modifier}
-                onChange={(e) => statModifierChanged(e, index)}
-              ></input> */}
 
               {ability.id ? (
                 <div className="ability-options">

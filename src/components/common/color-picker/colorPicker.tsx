@@ -1,14 +1,34 @@
 import reactCSS from "reactcss";
 import { ChromePicker } from "react-color";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import "./colorPicker.scss";
+
+function useOutsideAlerter(ref, callback) {
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (ref.current && !ref.current.contains(event.target)) {
+        callback();
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [ref]);
+}
 
 export function ColorPicker({ color, colorChanged }) {
   const [displayColorPicker, setDisplayColorPicker] = useState(false);
   const [_color, setColor] = useState(color || "#fff");
+  const popoverRef = useRef(null);
+  useOutsideAlerter(popoverRef, () => {
+    setDisplayColorPicker(false);
+  });
 
   useEffect(() => {
     setColor(color || "#fff");
   }, [color]);
+
   const handleClick = () => {
     setDisplayColorPicker(!displayColorPicker);
   };
@@ -25,9 +45,6 @@ export function ColorPicker({ color, colorChanged }) {
   const styles = reactCSS({
     default: {
       color: {
-        width: "36px",
-        height: "14px",
-        borderRadius: "2px",
         background: _color,
       },
       swatch: {
@@ -52,13 +69,10 @@ export function ColorPicker({ color, colorChanged }) {
     },
   });
   return (
-    <div>
-      <div style={styles.swatch} onClick={handleClick}>
-        <div style={styles.color} />
-      </div>
+    <div className="color-picker" ref={popoverRef}>
+      <div className="swatch" style={styles.color} onClick={handleClick}></div>
       {displayColorPicker ? (
         <div style={styles.popover}>
-          <div style={styles._color} onClick={handleClose} />
           <ChromePicker
             color={_color}
             onChange={handleChange}

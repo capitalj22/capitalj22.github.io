@@ -5,7 +5,6 @@ import "./statsPanel.scss";
 
 function getAvailableOptions(providedStats, options) {
   const usedStats = map(providedStats, (stat) => stat.id);
-
   return filter(options, (options) => !includes(usedStats, options.value));
 }
 interface Props {
@@ -51,8 +50,7 @@ export function StatsPanel({
   };
 
   return (
-    <div className="stats">
-      <div className="stats-title">{name}s:</div>
+    <div className="stats-panel">
       {providedStats?.length
         ? map(providedStats, (stat, index) => (
             <div className="stat-edit-line">

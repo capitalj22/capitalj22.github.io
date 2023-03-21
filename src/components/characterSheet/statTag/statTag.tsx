@@ -1,7 +1,7 @@
 import { isFunction } from "lodash-es";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { Check } from "react-feather";
-import { TAGS } from "../../../data/tag-colors";
+import { TagsContext } from "../../../assets/services/tags/tagsService";
 import "./statTag.scss";
 
 interface Props {
@@ -9,27 +9,27 @@ interface Props {
   clicked?: (event: string) => void;
   selected?: boolean;
   children?;
+  emphasize?: boolean;
 }
 
-function getStyle(tag, clicked, selected?): React.CSSProperties {
+function getStyle(clicked, selected, color, emphasize): React.CSSProperties {
   let style: React.CSSProperties = {};
-
-  const tagStyle = TAGS[tag] || { color: "#fff" };
-  style = { borderColor: tagStyle.color || "#fff" };
+  style.borderColor = color;
   if (selected) {
     style.borderWidth = "2px";
     style.color = "#1a1a1c";
-    style.backgroundColor = tagStyle.color;
+    style.backgroundColor = color;
     style.fontWeight = 500;
   } else {
     style.color = "#fff";
   }
-  if (tagStyle?.emphasis === 1) {
+  if (emphasize) {
     style.borderColor = "transparent";
-    style.backgroundColor = tagStyle.color;
-    style.color = tagStyle.textColor;
+    style.backgroundColor = color;
+    style.color = "#222";
     style.fontWeight = 600;
     style.borderRadius = 12;
+  } else {
   }
   if (isFunction(clicked)) {
     style.cursor = "pointer";
@@ -37,8 +37,15 @@ function getStyle(tag, clicked, selected?): React.CSSProperties {
 
   return style;
 }
-export function StatTag({ label, clicked, selected, children }: Props) {
-  let style = getStyle(label, clicked, selected);
+export function StatTag({
+  label,
+  clicked,
+  selected,
+  children,
+  emphasize,
+}: Props) {
+  const { tagColors } = useContext(TagsContext);
+  console.log(tagColors);
 
   const handleClicked = (event) => {
     if (isFunction(clicked)) {
@@ -48,7 +55,11 @@ export function StatTag({ label, clicked, selected, children }: Props) {
   useEffect(() => {}, [label]);
 
   return (
-    <span onClick={handleClicked} className="stat-tag" style={style}>
+    <span
+      onClick={handleClicked}
+      className="stat-tag"
+      style={getStyle(clicked, selected, tagColors[label] || "#fff", emphasize)}
+    >
       {label} {selected ? <Check size={14}></Check> : ""}
       {children && children}
     </span>

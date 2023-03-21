@@ -1,16 +1,14 @@
 import {
-  clone,
-  cloneDeep,
   each,
   filter,
   groupBy,
   intersection,
-  intersectionWith,
   map,
   sortBy,
   uniq,
 } from "lodash-es";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { StatsContext } from "../../assets/services/stats/statsService";
 import { Accordion } from "../layout/accordion/accordion";
 import { AbilityCard } from "./abilityCard/abilityCard";
 import "./characterSheet.scss";
@@ -28,6 +26,7 @@ function getKnownAbilities(dragon) {
 function CharacterSheet({ dragon }) {
   const [knownAbilities, setKnownAbilities] = useState({});
   const [abilityTags, setAbilityTags] = useState({});
+  const { stats } = useContext(StatsContext);
 
   useEffect(() => {
     const abilities = getKnownAbilities(dragon);
@@ -67,9 +66,9 @@ function CharacterSheet({ dragon }) {
           label=" Skill Points Spent"
           value={dragon.pointsInvested}
         ></StatLine>
-        <StatLine label="Armor" value={dragon.armor}></StatLine>
-        <StatLine label="HP" value={dragon.hp}></StatLine>
-        <StatLine label="Movement" value={dragon.movement}></StatLine>
+        {map(stats, (stat, key) => (
+          <StatLine label={stat.name} value={dragon[stat.id] || 0}></StatLine>
+        ))}
       </div>
       <div className="abilities">
         <div className="title">Abilities</div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { PlusSquare, Save, Trash2 } from "react-feather";
 import { AbilitiesPanel } from "./abilities/abilitiesPanel";
 import { CostPanel } from "./costPanel/costPanel";
@@ -7,12 +7,10 @@ import { StatsPanel } from "./stats/statsPanel";
 import { ColorPicker } from "../../../common/color-picker/colorPicker";
 import { SkillNode } from "../../../../entities/skilltree/node.entity";
 import { Ability } from "../../../../entities/abilities/abilities";
-
-const statOptions = [
-  { value: "hp", label: "HP" },
-  { value: "armor", label: "Armor" },
-  { value: "movement", label: "Movement" },
-];
+import TextareaAutosize from "react-textarea-autosize";
+import { Accordion } from "../../../layout/accordion/accordion";
+import { StatsContext } from "../../../../assets/services/stats/statsService";
+import { map } from "lodash-es";
 
 interface Props {
   node?: SkillNode;
@@ -20,11 +18,16 @@ interface Props {
   abilities: Ability[];
 }
 
+function getStatOptions(stats) {
+  return map(stats, (stat) => ({ value: stat.id, label: stat.name }));
+}
+
 export function EditPanel({
   node = {} as SkillNode,
   graphEvents,
   abilities,
 }: Props) {
+  const { stats } = useContext(StatsContext);
   const [id, setId] = useState(node.id);
   const [name, setName] = useState(node.name);
   const [description, setDescription] = useState(node.description);
@@ -94,7 +97,7 @@ export function EditPanel({
       newNode.levelCost = levelCost;
     }
 
-    if (levelsRequired > 1) {
+    if (levelsRequired > 0) {
       newNode.levelsRequired = levelsRequired;
     }
 
@@ -145,7 +148,7 @@ export function EditPanel({
     setProvidedAbilities(node.providedAbilities || []);
   }, [node]);
 
-  if (node) {
+  if (node.id) {
     return (
       <div className="edit-panel">
         <CostPanel
@@ -163,25 +166,26 @@ export function EditPanel({
           <input type="text" onChange={IdUpdated} value={id || ""}></input>
         </div>
 
-        <div
-          className="divider"
-          style={{ backgroundColor: colors.selected }}
-        ></div>
-
-        <ColorPicker
-          color={colors.unavailable}
-          colorChanged={(e) => colorChanged(e, "unavailable")}
-        />
-
-        <ColorPicker
-          color={colors.inactive}
-          colorChanged={(e) => colorChanged(e, "inactive")}
-        />
-
-        <ColorPicker
-          color={colors.selected}
-          colorChanged={(e) => colorChanged(e, "selected")}
-        />
+        <div className="colors">
+          <div className="color-item">
+            <ColorPicker
+              color={colors.unavailable}
+              colorChanged={(e) => colorChanged(e, "unavailable")}
+            />
+          </div>
+          <div className="color-item">
+            <ColorPicker
+              color={colors.inactive}
+              colorChanged={(e) => colorChanged(e, "inactive")}
+            />
+          </div>
+          <div className="color-item">
+            <ColorPicker
+              color={colors.selected}
+              colorChanged={(e) => colorChanged(e, "selected")}
+            />
+          </div>
+        </div>
 
         <div className="requires">
           Requires{" "}
@@ -197,24 +201,27 @@ export function EditPanel({
         </div>
 
         <div className="form-control description">
-          <textarea
+          <TextareaAutosize
             rows={4}
             onChange={DescriptionUpdated}
             value={description || ""}
-          ></textarea>
+          />
         </div>
-
-        <StatsPanel
-          providedStats={providedStats as any}
-          providedStatsChanged={providedStatsChanged}
-          options={statOptions}
-          name="Stat"
-        ></StatsPanel>
-        <AbilitiesPanel
-          allAbilities={_abilities}
-          providedAbilities={providedAbilities}
-          providedAbilitiesChanged={providedAbilitiesChanged}
-        ></AbilitiesPanel>
+        <Accordion name="Stats" startOpen={false}>
+          <StatsPanel
+            providedStats={providedStats as any}
+            providedStatsChanged={providedStatsChanged}
+            options={getStatOptions(stats)}
+            name="Stat"
+          ></StatsPanel>
+        </Accordion>
+        <Accordion name="Abilities" startOpen={false}>
+          <AbilitiesPanel
+            allAbilities={_abilities}
+            providedAbilities={providedAbilities}
+            providedAbilitiesChanged={providedAbilitiesChanged}
+          ></AbilitiesPanel>
+        </Accordion>
 
         <div className="buttons">
           <button className="green" onClick={SavePressed}>
@@ -228,7 +235,7 @@ export function EditPanel({
 
           <button onClick={AddButtonPressed}>
             <PlusSquare />
-            Add Child Node
+            Save and Add Child Node
           </button>
         </div>
       </div>

@@ -21,10 +21,16 @@
     color: #ddd;
   }
 
-  .divider {
-    height: 2px;
-    width: 80%;
-    margin-bottom: 0.5rem;
+  .colors {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .color-item {
+      border-radius: 4px;
+      height: 0.5rem;
+      display: inline-block;
+    }
   }
 
   .requires {

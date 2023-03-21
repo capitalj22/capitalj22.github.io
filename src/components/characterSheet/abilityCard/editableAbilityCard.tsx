@@ -1,11 +1,11 @@
 import { clone, each, isFunction } from "lodash-es";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Copy, Save, Trash2, X } from "react-feather";
 import { Ability } from "../../../entities/abilities/abilities";
-import { StatTag } from "../statTag/statTag";
 import "./abilityCard.scss";
 import { AbilityParamEditor } from "./abilityParamEditor";
 import { TagSelect } from "./tagSelect";
+import TextareaAutosize from "react-textarea-autosize";
 
 function applyParamsToDescription(description, params) {
   let editedDescription = description;
@@ -31,30 +31,6 @@ function applyParamsToDescription(description, params) {
   });
 
   return editedDescription;
-}
-
-function getDescription(ability, isPlayerAbility, modifiers) {
-  let description;
-  let params = clone(ability.params);
-  if (params && modifiers) {
-    each(Object.keys(params), (key) => {
-      if (modifiers[key]) {
-        params[key] = params[key] + modifiers[key];
-      }
-    });
-  }
-
-  if (ability.params) {
-    description = applyParamsToDescription(ability.description, params);
-  } else {
-    if (isFunction(ability.description)) {
-      description = ability.description({});
-    } else {
-      description = ability.description;
-    }
-  }
-
-  return description;
 }
 
 type Props = {
@@ -142,11 +118,11 @@ export function EditableAbilityCard({
         <div className="top">
           <p className="description form-control">
             {" "}
-            <textarea
+            <TextareaAutosize
               rows={10}
               value={_ability.description || ""}
               onChange={(e) => updateAbility("description", e)}
-            ></textarea>
+            />
           </p>
         </div>
         <div className="bottom">

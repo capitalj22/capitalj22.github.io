@@ -16,7 +16,7 @@ export function SidebarRight({ children, itemSelected, title }) {
 
   let icon;
 
-  const handleItemSelected = (event, page) => {
+  const handleItemSelected = (page) => {
     if (page === selectedPage || !expanded) {
       setExpanded(!expanded);
     }

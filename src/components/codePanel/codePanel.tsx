@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Copy, Download, MapPin, RefreshCcw, Shield } from "react-feather";
-import { TREES } from "../../data/trees/trees";
-import { ABILITIES } from "../../entities/abilities/abilities";
+import { StatsContext } from "../../assets/services/stats/statsService";
+import { TagsContext } from "../../assets/services/tags/tagsService";
+
 import "./codePanel.scss";
 
 export function CodePanel({ build, abilities, nodes, importAttempted }) {
+  const { tagColors } = useContext(TagsContext);
+  const { stats } = useContext(StatsContext);
   const [buildValue, setBuildTextValue] = useState("");
   const [treeValue, setTreeTextValue] = useState("");
   const [notification1Style, setNotification1Style] = useState({ opacity: 0 });
@@ -40,6 +43,8 @@ export function CodePanel({ build, abilities, nodes, importAttempted }) {
     const config = {
       abilities,
       nodes,
+      tagColors,
+      stats,
     };
 
     navigator.clipboard.writeText(JSON.stringify(config));

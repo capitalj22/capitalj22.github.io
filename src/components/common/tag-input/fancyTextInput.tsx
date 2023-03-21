@@ -5,15 +5,18 @@ interface Props {
   value: string | number;
   valueChanged: (value: string | number) => void;
   type?: "text" | "number";
+  blur?: any;
 }
 
-export function FancyTextInput({ value, valueChanged, type = "text" }) {
+export function FancyTextInput({ value, valueChanged, type = "text", blur }) {
   const [content, setContent] = useState(value);
   const [width, setWidth] = useState(0);
   const span = useRef({ offsetWidth: 0 } as HTMLElement);
 
   useEffect(() => {
-    setWidth(span?.current?.offsetWidth + (type === "number" ? 24 : 12));
+    if (content) {
+      setWidth(span?.current?.offsetWidth + (type === "number" ? 24 : 20));
+    }
   }, [content]);
 
   useEffect(() => {
@@ -35,6 +38,7 @@ export function FancyTextInput({ value, valueChanged, type = "text" }) {
         {content}
       </span>
       <input
+        onBlur={blur}
         value={content}
         type={type}
         style={{ width }}

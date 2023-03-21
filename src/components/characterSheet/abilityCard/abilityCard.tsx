@@ -1,6 +1,7 @@
 import { clone, each, find, isFunction } from "lodash-es";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ChevronDown, ChevronUp, Edit } from "react-feather";
+import { TagsContext } from "../../../assets/services/tags/tagsService";
 import { Ability } from "../../../entities/abilities/abilities";
 import { StatTag } from "../statTag/statTag";
 import "./abilityCard.scss";
@@ -77,6 +78,7 @@ export function AbilityCard({
   abilityCopied,
   abilityRemoved,
 }: Props) {
+  const { tagColors } = useContext(TagsContext);
   const [description, setDescription] = useState(
     getDescription(ability, isPlayerAbility, modifiers)
   );
@@ -133,7 +135,7 @@ export function AbilityCard({
             </div>
             <div className="bottom">
               <div className="tags">
-                <StatTag label={ability.type}></StatTag>
+                <StatTag label={ability.type} emphasize={true}></StatTag>
                 {ability.tags?.map((tag) => (
                   <StatTag label={tag}></StatTag>
                 ))}

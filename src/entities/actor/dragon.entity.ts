@@ -3,9 +3,6 @@ import { clone, each, find, isUndefined, times } from "lodash-es";
 
 export const newDragonFromNodes = (selectedNodes: SkillNode[], abilities) => {
   const baseDragon = {
-    movement: 0,
-    hp: 0,
-    armor: 0,
     abilities: {},
     pointsInvested: 0,
     exportableBuild: {},
@@ -17,6 +14,9 @@ export const newDragonFromNodes = (selectedNodes: SkillNode[], abilities) => {
     modifier?: number,
     set?: number
   ) => {
+    if (isUndefined(baseDragon[stat])) {
+      baseDragon[stat] = 0;
+    }
     if (!isUndefined(set)) {
       baseDragon[stat] = set;
     } else {

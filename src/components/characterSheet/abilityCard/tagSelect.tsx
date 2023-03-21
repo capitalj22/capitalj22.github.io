@@ -1,10 +1,12 @@
-import { find } from "lodash-es";
-import { useState } from "react";
+import { each, find, map, uniq } from "lodash-es";
+import { useContext, useEffect, useState } from "react";
 import { Plus, Tag } from "react-feather";
 import Select from "react-select";
 import { TAGS } from "../../../data/tag-colors";
+import { ColorPicker } from "../../common/color-picker/colorPicker";
 import { FancyTextInput } from "../../common/tag-input/fancyTextInput";
-
+import "./tagSelect.scss";
+import { TagsContext } from "../../../assets/services/tags/tagsService";
 const typeOptions = [
   { label: "passive", value: "passive" },
   { label: "action", value: "action" },
@@ -31,9 +33,26 @@ function getStyle(tag): React.CSSProperties {
   return style;
 }
 
+function getColors(tags, tagColors): any {
+  let colors = {};
+  each(Object.keys(tags), (tag) => {
+    if (tagColors[tag]) {
+      colors[tag] = tagColors[tag];
+    } else {
+      colors[tag] = "#fff";
+    }
+  });
+}
+
 export function TagSelect({ tags, type, tagsChanged, typeChanged }) {
+  const { tagColors, setTagColors } = useContext(TagsContext);
   const [_tags, setTags] = useState(tags || []);
   const [_type, setType] = useState(type);
+  const [_colors, setColors] = useState(getColors(tags, tagColors) || {});
+
+  useEffect(() => {
+    setColors(getColors(tags, tagColors) || {});
+  }, [tagColors]);
 
   const tagChanged = (e, index) => {
     let newTags = [..._tags];
@@ -59,6 +78,11 @@ export function TagSelect({ tags, type, tagsChanged, typeChanged }) {
     typeChanged(e.value);
   };
 
+  const colorChanged = (color, tag) => {
+    // setColors({ ..._colors, [tag]: color });
+    setTagColors({ type: "add", color, tag });
+  };
+
   return (
     <div className="tag-select">
       <Select
@@ -72,8 +96,20 @@ export function TagSelect({ tags, type, tagsChanged, typeChanged }) {
         value={find(typeOptions, { value: _type })}
       ></Select>
       {_tags?.map((tag, index) => (
-        <span className="stat-tag form-control" style={getStyle(tag)}>
-          <FancyTextInput value={tag} valueChanged={(e) => tagChanged(e, index)} />
+        <span
+          className="stat-tag form-control"
+          style={{ borderColor: tagColors[tag] }}
+        >
+          <div className="tag-color">
+            <ColorPicker
+              color={tagColors[tag]}
+              colorChanged={(e) => colorChanged(e, tag)}
+            />
+          </div>
+          <FancyTextInput
+            value={tag}
+            valueChanged={(e) => tagChanged(e, index)}
+          />
           <button onClick={() => tagRemoved(index)}>x</button>
         </span>
       ))}

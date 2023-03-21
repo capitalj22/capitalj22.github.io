@@ -3,6 +3,7 @@ import CharacterSheet from "../../characterSheet/characterSheet";
 import { CodePanel } from "../../codePanel/codePanel";
 import { SidebarRight } from "../../layout/right/sidebarRight";
 import { AbilityEditor } from "./abilityEditor/abilityEditor";
+import { StatEditor } from "./statEditor/statEditor";
 
 export function RightPanel({
   build,
@@ -29,6 +30,9 @@ export function RightPanel({
         break;
       case "list":
         setMenuTitle("Edit Abilities");
+        break;
+      case "stats":
+        setMenuTitle("Edit Stats");
         break;
       default:
         break;
@@ -69,6 +73,7 @@ export function RightPanel({
         ""
       )}
       {selectedItem === "help" ? <div></div> : ""}
+      {selectedItem === "stats" ? <StatEditor/>: ""}
     </SidebarRight>
   );
 }

@@ -26,7 +26,8 @@
     "react-dom": "^18.2.0",
     "react-feather": "^2.0.10",
     "react-select": "^5.7.0",
-    "react-slider": "^2.0.4"
+    "react-slider": "^2.0.4",
+    "react-textarea-autosize": "^8.4.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.27",
