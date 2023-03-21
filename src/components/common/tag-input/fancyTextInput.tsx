@@ -8,7 +8,12 @@ interface Props {
   blur?: any;
 }
 
-export function FancyTextInput({ value, valueChanged, type = "text", blur }) {
+export function FancyTextInput({
+  value,
+  valueChanged,
+  type = "text",
+  blur,
+}: Props) {
   const [content, setContent] = useState(value);
   const [width, setWidth] = useState(0);
   const span = useRef({ offsetWidth: 0 } as HTMLElement);

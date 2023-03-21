@@ -13,8 +13,8 @@ import {
   updateNodes,
 } from "./utils/node.utils";
 import { ABILITIES } from "../../entities/abilities/abilities";
-import { IGraphEvent } from "../../App";
 import { SimulationNodeDatum } from "d3";
+import { IGraphEvent } from "../main/main";
 
 export interface GNode<T> extends PIXI.Graphics {
   node?: T;
