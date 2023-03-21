@@ -47,6 +47,7 @@ export function AbilityEditor({ abilitiesChanged }) {
     textFilter: "",
   });
   const [allExpanded, setAllExpanded] = useState(false);
+  const [focusedAbility, setFocusedAbility] = useState("");
 
   const abilityEdited = (event) => {
     let newAbilities = map(abilities, (ability) => {
@@ -80,9 +81,23 @@ export function AbilityEditor({ abilitiesChanged }) {
     // let newAbilities = filter(abilities, (ability) => ability.id !== id);
     // setAbilities(newAbilities);
     // abilitiesChanged(newAbilities);
+    setAbilities({ type: "remove", ability: { id } });
   };
 
   const addButtonPressed = () => {
+    const newId = `id-${Math.floor(Math.random() * 200)}`;
+    setAbilities({
+      type: "add",
+      ability: {
+        name: "Name",
+        id: newId,
+        description: "",
+        tags: [],
+        type: "action",
+      },
+    });
+
+    setFocusedAbility(newId);
     // setAbilities([
     //   ...abilities,
     //   { name: "Name", id: "id", description: "...", tags: [], type: "action" },
@@ -137,6 +152,7 @@ export function AbilityEditor({ abilitiesChanged }) {
               startOpen={false}
               isExpanded={allExpanded}
               editable={true}
+              forceIsEditing={ability.id === focusedAbility}
               abilityEdited={abilityEdited}
               abilityCopied={abilityCopied}
               abilityRemoved={abilityRemoved}

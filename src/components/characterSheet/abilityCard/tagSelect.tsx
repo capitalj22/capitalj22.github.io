@@ -1,8 +1,9 @@
 import { each, find } from "lodash-es";
 import { useContext, useEffect, useState } from "react";
-import { Tag } from "react-feather";
+import { Plus, Tag } from "react-feather";
 import Select from "react-select";
 import { TagsContext } from "../../../providers/tags/tagsProvider";
+import { SmolButton } from "../../common/buttons/smolButton";
 import { ColorPicker } from "../../common/color-picker/colorPicker";
 import { FancyTextInput } from "../../common/tag-input/fancyTextInput";
 import "./tagSelect.scss";
@@ -15,13 +16,15 @@ const typeOptions = [
 
 function getColors(tags, tagColors): any {
   let colors = {};
-  each(Object.keys(tags), (tag) => {
-    if (tagColors[tag]) {
-      colors[tag] = tagColors[tag];
-    } else {
-      colors[tag] = "#fff";
-    }
-  });
+  if (tags) {
+    each(Object.keys(tags), (tag) => {
+      if (tagColors[tag]) {
+        colors[tag] = tagColors[tag];
+      } else {
+        colors[tag] = "#fff";
+      }
+    });
+  }
 }
 
 export function TagSelect({ tags, type, tagsChanged, typeChanged }) {
@@ -89,11 +92,11 @@ export function TagSelect({ tags, type, tagsChanged, typeChanged }) {
             value={tag}
             valueChanged={(e) => tagChanged(e, index)}
           />
-          <button onClick={() => tagRemoved(index)}>x</button>
+          <SmolButton clicked={() => tagRemoved(index)}>x</SmolButton>
         </span>
       ))}
       <button className="add-tag" onClick={tagAdded}>
-        <Tag size={18} />
+        <Plus size={18} />
       </button>
     </div>
   );

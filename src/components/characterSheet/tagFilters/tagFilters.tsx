@@ -1,7 +1,9 @@
 import { includes } from "lodash-es";
 import { useEffect, useState } from "react";
+import { RotateCcw } from "react-feather";
+import { SmolButton } from "../../common/buttons/smolButton";
 import { StatTag } from "../statTag/statTag";
-import './tagFilters.scss';
+import "./tagFilters.scss";
 
 export function TagFilters({ tags, selectedTagsChanged }) {
   const [selectedTags, setSelectedTags] = useState([] as string[]);
@@ -29,6 +31,10 @@ export function TagFilters({ tags, selectedTagsChanged }) {
             selected={includes(selectedTags, tag)}
           />
         ))}
+        <SmolButton noPadding={true} clicked={() => setSelectedTags([])}>
+          <RotateCcw size={24} />
+          reset
+        </SmolButton>
       </div>
     );
   } else {

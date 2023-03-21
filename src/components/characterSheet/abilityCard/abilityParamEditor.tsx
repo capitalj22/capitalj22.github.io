@@ -61,7 +61,6 @@ export function AbilityParamEditor({ params, paramsChanged }) {
 
   return (
     <div className="param-editor">
-      <div className="title">Params</div>
       {_params &&
         map(_params, (param, index) => (
           <div className="param-line">

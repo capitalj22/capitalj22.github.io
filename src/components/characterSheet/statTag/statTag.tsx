@@ -16,7 +16,6 @@ function getStyle(clicked, selected, color, emphasize): React.CSSProperties {
   let style: React.CSSProperties = {};
   style.borderColor = color;
   if (selected) {
-    style.borderWidth = "2px";
     style.color = "#1a1a1c";
     style.backgroundColor = color;
     style.fontWeight = 500;
@@ -33,6 +32,7 @@ function getStyle(clicked, selected, color, emphasize): React.CSSProperties {
   }
   if (isFunction(clicked)) {
     style.cursor = "pointer";
+    style.paddingRight = "32px";
   }
 
   return style;
@@ -59,7 +59,12 @@ export function StatTag({
       className="stat-tag"
       style={getStyle(clicked, selected, tagColors[label] || "#fff", emphasize)}
     >
-      {label} {selected ? <Check size={14}></Check> : ""}
+      {label}{" "}
+      {clicked && (
+        <div className="check">
+          {selected ? <Check size={14}></Check> : ""}
+        </div>
+      )}
       {children && children}
     </span>
   );

@@ -1,4 +1,4 @@
-import { clone, each, find, isFunction } from "lodash-es";
+import { clone, each, find, isFunction, isUndefined } from "lodash-es";
 import { useContext, useEffect, useState } from "react";
 import { ChevronDown, ChevronUp, Edit } from "react-feather";
 import { Ability } from "../../../entities/abilities/abilities";
@@ -64,6 +64,7 @@ type Props = {
   modifiers?: any;
   startOpen?: boolean;
   editable?: boolean;
+  forceIsEditing?: boolean;
   abilityEdited?;
   abilityCopied?;
   abilityRemoved?;
@@ -79,7 +80,8 @@ export function AbilityCard({
   abilityEdited,
   abilityCopied,
   abilityRemoved,
-  isExpanded = false,
+  forceIsEditing = false,
+  isExpanded,
 }: Props) {
   const { abilities, setAbilities } = useContext(AbilitiesContext);
   const { setTagColors } = useContext(TagsContext);
@@ -90,9 +92,16 @@ export function AbilityCard({
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    console.log(isExpanded);
-    setExpanded(isExpanded);
+    if (!isUndefined(isExpanded)) {
+      setExpanded(!!isExpanded);
+    }
   }, [isExpanded]);
+
+  useEffect(() => {
+    if (forceIsEditing) {
+      setIsEditing(true);
+    }
+  }, [forceIsEditing]);
 
   const abilityChanged = (event) => {
     // if (isFunction(abilityEdited)) {
@@ -141,14 +150,15 @@ export function AbilityCard({
         {expanded ? (
           <div className="collapsible-content">
             <div className="top">
+              {ability.replaces && (
+                <div className="replaces">
+                  Replaces{" "}
+                  <span>{find(abilities, { id: ability.replaces })?.name}</span>
+                </div>
+              )}
               <p className="description">{description}</p>
             </div>
             <div className="bottom">
-              {ability.replaces && (
-                <div className="replaces">
-                  Replaces "{find(abilities, { id: ability.replaces })?.name}"
-                </div>
-              )}
               <div className="tags">
                 <StatTag label={ability.type} emphasize={true}></StatTag>
                 {ability.tags?.map((tag) => (

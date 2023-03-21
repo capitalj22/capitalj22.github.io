@@ -1,6 +1,10 @@
 .smol-button {
   padding: 0.25rem;
   background: transparent;
+  display: inline-flex;
+  align-self: center;
+  gap: 0.25rem;
+  align-items: center;
 
   &.danger {
     color: var(--dangerColor);

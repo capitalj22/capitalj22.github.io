@@ -1,4 +1,10 @@
 .tag-select {
+  color: #222;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+
   .stat-tag {
     display: flex;
     align-items: center;
@@ -7,5 +13,19 @@
     width: 1rem;
     height: 1rem;
     margin-right: 0.25rem;
+  }
+
+  .add-tag {
+    justify-content: space-between;
+    background: var(--panelColor);
+    box-shadow: var(--boxShadowInsetBlackSmall);
+    display: inline-flex;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--superMutedWhite);
+    border-radius: 7px;
+    font-size: 14px;
+    align-items: center;
+
+    gap: 1rem;
   }
 }

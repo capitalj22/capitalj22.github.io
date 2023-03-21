@@ -93,6 +93,7 @@ function CharacterSheet({ dragon }) {
                     ability={ability}
                     isPlayerAbility={true}
                     modifiers={ability.modifiers}
+                    startOpen={true}
                   ></AbilityCard>
                 ))}
               </div>

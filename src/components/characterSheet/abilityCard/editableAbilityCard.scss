@@ -1,10 +1,28 @@
 .ability-card.editable {
   .title {
     width: 100%;
-    color: var(--themeColorText);
+    color: var(--infoColor);
     padding-bottom: 0.25rem;
     margin-bottom: 0.5rem;
     font-weight: 400;
     border-bottom: 1px solid var(--superMutedWhite);
+  }
+  .replaces {
+    gap: 1rem;
+    align-items: center;
+    padding-top: 1rem;
+    display: flex;
+
+    .ability-select {
+      flex: 2;
+    }
+  }
+  .accordions {
+    margin: 0 -1rem;
+  }
+
+  .tags,
+  .params {
+    padding: 1rem;
   }
 }

@@ -10,8 +10,13 @@
   .name {
     display: flex;
     align-items: center;
+
     button {
       background-color: transparent;
+
+      svg {
+        color: var(--themeColorText);
+      }
     }
     button.edit {
       color: #aaa;
@@ -89,36 +94,13 @@
     color: #ddd;
   }
 
-  .tag-select {
-    color: #222;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-
-    button {
-      padding: 0.1rem 0.25rem;
-      border-radius: 8px;
-      margin-left: 0.5rem;
-    }
-
-    .add-tag {
-      justify-content: space-between;
-      background: var(--themeColor);
-      display: inline-flex;
-      padding: 0.5rem 1rem;
-      border-radius: 7px;
-      font-size: 14px;
-      align-items: center;
-
-      gap: 1rem;
-    }
-  }
-
   .replaces {
-    padding: 1rem 0;
     color: var(--infoColor);
     font-weight: 300;
+
+    span {
+      font-weight: 500;
+    }
   }
 
   .buttons {

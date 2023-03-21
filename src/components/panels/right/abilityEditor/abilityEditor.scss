@@ -1,6 +1,9 @@
 .ability-editor {
   .filters {
     padding: 1rem;
+    background-color: var(--panelColor2);
+    border-bottom: 1px solid var(--superMutedWhite);
+
     .tag-filters {
       padding: 1rem 0;
     }
@@ -12,7 +15,9 @@
       }
     }
   }
+
   .expand-button {
+    padding-top: 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -21,6 +26,7 @@
     font-weight: 300;
     color: var(--infoColor);
   }
+
   .ability-cards {
     width: 100%;
     padding: 2rem;

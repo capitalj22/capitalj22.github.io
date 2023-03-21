@@ -1,5 +1,5 @@
-import { clone, each, isFunction } from "lodash-es";
-import { useContext, useState } from "react";
+import { clone, compact, each, filter, isFunction } from "lodash-es";
+import { useContext, useEffect, useRef, useState } from "react";
 import {
   Copy,
   CornerLeftUp,
@@ -18,6 +18,7 @@ import { AbilitiesContext } from "../../../providers/abilities/abilitiesProvider
 import { AbilitySelect } from "../../common/selects/abilitySelect";
 import { BigButton } from "../../common/buttons/bigButton";
 import "./editableAbilityCard.scss";
+import { Accordion } from "../../layout/accordion/accordion";
 
 type Props = {
   ability: Ability;
@@ -38,6 +39,11 @@ export function EditableAbilityCard({
 
   const [_ability, setAbility] = useState(ability);
 
+  const nameInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    nameInputRef.current?.focus();
+  }, []);
   const updateAbility = (prop, newValue) => {
     setAbility({ ..._ability, [prop]: newValue });
   };
@@ -56,12 +62,18 @@ export function EditableAbilityCard({
 
   const savePressed = () => {
     if (isFunction(abilityChanged)) {
-      abilityChanged({ ability: _ability, id: ability.id });
+      abilityChanged({
+        ability: _ability,
+        id: ability.id,
+      });
     }
 
     setAbilities({
       type: "update",
-      ability: _ability,
+      ability: {
+        ..._ability,
+        tags: compact(_ability.tags),
+      },
       targetId: originalId,
     });
   };
@@ -94,6 +106,7 @@ export function EditableAbilityCard({
 
         <div className="form-control">
           <input
+            ref={nameInputRef}
             type="text"
             value={_ability.name}
             onChange={(e) => updateAbility("name", e.target.value)}
@@ -109,33 +122,8 @@ export function EditableAbilityCard({
         ></input>
       </div>
 
-      <div className="collapsible-content">
-        <div className="top">
-          <p className="description form-control">
-            {" "}
-            <TextareaAutosize
-              rows={10}
-              value={_ability.description || ""}
-              onChange={(e) => updateAbility("description", e.target.value)}
-            />
-          </p>
-        </div>
-        <div className="bottom">
-          <div className="tags">
-            <div className="title">Tags</div>
-
-            <TagSelect
-              tags={_ability.tags}
-              type={_ability.type}
-              tagsChanged={handleTagsChanged}
-              typeChanged={handleTypeChanged}
-            />
-          </div>
-        </div>
-      </div>
-
       <div className="replaces">
-        <div className="title">Replaces</div>
+        <div className="replaces-name">Replaces</div>
         <AbilitySelect
           usedOptions={[_ability.id]}
           defaultValue={_ability.replaces}
@@ -144,10 +132,36 @@ export function EditableAbilityCard({
         />
       </div>
 
-      <AbilityParamEditor
-        params={_ability.params}
-        paramsChanged={paramsChanged}
-      />
+      <p className="description form-control">
+        {" "}
+        <TextareaAutosize
+          placeholder="Description"
+          rows={10}
+          value={_ability.description || ""}
+          onChange={(e) => updateAbility("description", e.target.value)}
+        />
+      </p>
+      <div className="accordions">
+        <Accordion name="Tags" startOpen={true}>
+          <div className="tags">
+            <TagSelect
+              tags={_ability.tags}
+              type={_ability.type}
+              tagsChanged={handleTagsChanged}
+              typeChanged={handleTypeChanged}
+            />
+          </div>
+        </Accordion>
+        <Accordion name="Params" startOpen={false}>
+          <div className="params">
+            <AbilityParamEditor
+              params={_ability.params}
+              paramsChanged={paramsChanged}
+            />
+          </div>
+        </Accordion>
+      </div>
+
       <div className="buttons">
         <BigButton type="outline" color="success" clicked={savePressed}>
           Save <Save />
