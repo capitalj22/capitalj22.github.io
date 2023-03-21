@@ -1,0 +1,10 @@
+.ability-card.editable {
+  .title {
+    width: 100%;
+    color: var(--themeColorText);
+    padding-bottom: 0.25rem;
+    margin-bottom: 0.5rem;
+    font-weight: 400;
+    border-bottom: 1px solid var(--superMutedWhite);
+  }
+}

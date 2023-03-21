@@ -1,0 +1,24 @@
+.smol-button {
+  padding: 0.25rem;
+  background: transparent;
+
+  &.danger {
+    color: var(--dangerColor);
+  }
+
+  &.info {
+    color: var(--infoColor);
+  }
+
+  &.theme {
+    color: var(--themeColorText);
+  }
+
+  &.success {
+    color: var(--successColor);
+  }
+
+  &.disabled {
+    color: var(--disabledColor);
+  }
+}

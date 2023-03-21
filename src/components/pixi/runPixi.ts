@@ -221,21 +221,17 @@ export function runGraphPixi(
   }
 
   function addNode(newNode: INode) {
+    const numChildren = filter(nodes, { requires: newNode.requires })?.length;
     const requiredNode = find(nodes, { id: newNode.requires });
     let node = {
       ...newNode,
-      name: "New Node",
+      name: "NEW NODE",
+      id: `${newNode.requires}-${numChildren + 1}`,
       colors: find(nodes, { id: newNode.requires })?.colors,
     };
 
     const boundPress = onPress.bind(node);
     let { name } = node;
-    let relatedAbilities: any[] = [];
-
-    // if (node.providedAbilities) {
-    //   const ability1 = find(ABILITIES, { id: node.providedAbilities[0].id });
-    //   relatedAbilities.push(ability1);
-    // }
 
     let touching = false;
 
@@ -283,12 +279,14 @@ export function runGraphPixi(
     text.resolution = 12;
     node.gfx.addChild(text);
 
+    currentlyEditing = node.id;
     nodes = [...nodes, node];
     links.push({ source: node, target: find(nodes, { id: node.requires }) });
     redrawNodes();
     redrawLinks();
     updateForces();
     updateNodes(nodes, graphEvents);
+    updateInfo(node, nodeMeta, nodes, infoUpdated$);
   }
 
   function changeMode(newMode: string) {

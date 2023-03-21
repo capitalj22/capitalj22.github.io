@@ -114,32 +114,17 @@
       gap: 1rem;
     }
   }
+
+  .replaces {
+    padding: 1rem 0;
+    color: var(--infoColor);
+    font-weight: 300;
+  }
+
   .buttons {
     display: flex;
     flex-direction: column;
     gap: 1rem;
     padding-bottom: 1rem;
-    
-    button {
-      background: #476dc8;
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background-color: transparent;
-      color: rgb(198, 163, 255);
-      border: 2px solid rgb(198, 163, 255);
-      border-radius: 7px;
-
-      &.green {
-        color: var(--successColor);
-        border-color: var(--successColor);
-      }
-
-      &.red {
-        border-color: var(--dangerColor);
-        color: var(--dangerColor);
-      }
-    }
   }
 }

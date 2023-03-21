@@ -6,18 +6,20 @@ interface Props {
   valueChanged: (value: string | number) => void;
 }
 
-export function FancyNumberInput({ value, valueChanged }) {
+export function FancyNumberInput({
+  value,
+  valueChanged,
+  className = "",
+  minWidth = 48,
+}) {
   const [content, setContent] = useState(+value);
-  const [width, setWidth] = useState(0);
+  const [width, setWidth] = useState(minWidth);
   const span = useRef({ offsetWidth: 0 } as HTMLElement);
 
   useEffect(() => {
-    setWidth(span?.current?.offsetWidth + 24);
+    const newWidth = span?.current?.offsetWidth + 24;
+    setWidth(newWidth > minWidth ? newWidth : minWidth);
   }, [content]);
-
-  // useEffect(() => {
-  //   setContent(+value);
-  // }, [value]);
 
   const changeHandler = (evt) => {
     setContent(+evt.target.value);
@@ -26,7 +28,7 @@ export function FancyNumberInput({ value, valueChanged }) {
   };
 
   return (
-    <div className="fancy-text-input form-control">
+    <div className={"fancy-text-input form-control " + className}>
       <span className="hidden-text" ref={span}>
         {content}
       </span>

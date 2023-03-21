@@ -1,26 +1,32 @@
+import { isUndefined } from "lodash-es";
 import { useState, useRef, useEffect } from "react";
 import "./fancyTextInput.scss";
 
 interface Props {
-  value: string | number;
-  valueChanged: (value: string | number) => void;
-  type?: "text" | "number";
+  value: string;
+  valueChanged: (value: string) => void;
+  className?: string;
   blur?: any;
+  minWidth?: number;
+  placeholder?: string;
 }
 
 export function FancyTextInput({
   value,
   valueChanged,
-  type = "text",
+  className,
   blur,
+  minWidth = 48,
+  placeholder = "",
 }: Props) {
   const [content, setContent] = useState(value);
   const [width, setWidth] = useState(0);
   const span = useRef({ offsetWidth: 0 } as HTMLElement);
 
   useEffect(() => {
-    if (content) {
-      setWidth(span?.current?.offsetWidth + (type === "number" ? 24 : 20));
+    if (!isUndefined(content)) {
+      const newWidth = span?.current?.offsetWidth + 24;
+      setWidth(newWidth > minWidth ? newWidth : minWidth);
     }
   }, [content]);
 
@@ -29,23 +35,19 @@ export function FancyTextInput({
   }, [value]);
 
   const changeHandler = (evt) => {
-    // setContent(evt.target.value);
-    if (type === "number") {
-      valueChanged(parseInt(evt.target.value, 10));
-    } else {
-      valueChanged(evt.target.value);
-    }
+    valueChanged(evt.target.value);
   };
 
   return (
-    <div className="fancy-text-input form-control">
+    <div className={"fancy-text-input form-control " + className}>
       <span className="hidden-text" ref={span}>
         {content}
       </span>
       <input
+        placeholder={placeholder}
         onBlur={blur}
         value={content}
-        type={type}
+        type="text"
         style={{ width }}
         onChange={changeHandler}
       />

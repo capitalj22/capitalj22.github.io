@@ -1,4 +1,4 @@
-import { clone, each, isFunction } from "lodash-es";
+import { clone, each, find, isFunction } from "lodash-es";
 import { useContext, useEffect, useState } from "react";
 import { ChevronDown, ChevronUp, Edit } from "react-feather";
 import { Ability } from "../../../entities/abilities/abilities";
@@ -67,6 +67,7 @@ type Props = {
   abilityEdited?;
   abilityCopied?;
   abilityRemoved?;
+  isExpanded?: boolean;
 };
 
 export function AbilityCard({
@@ -78,6 +79,7 @@ export function AbilityCard({
   abilityEdited,
   abilityCopied,
   abilityRemoved,
+  isExpanded = false,
 }: Props) {
   const { abilities, setAbilities } = useContext(AbilitiesContext);
   const { setTagColors } = useContext(TagsContext);
@@ -86,6 +88,11 @@ export function AbilityCard({
   );
   const [expanded, setExpanded] = useState(startOpen);
   const [isEditing, setIsEditing] = useState(false);
+
+  useEffect(() => {
+    console.log(isExpanded);
+    setExpanded(isExpanded);
+  }, [isExpanded]);
 
   const abilityChanged = (event) => {
     // if (isFunction(abilityEdited)) {
@@ -137,6 +144,11 @@ export function AbilityCard({
               <p className="description">{description}</p>
             </div>
             <div className="bottom">
+              {ability.replaces && (
+                <div className="replaces">
+                  Replaces "{find(abilities, { id: ability.replaces })?.name}"
+                </div>
+              )}
               <div className="tags">
                 <StatTag label={ability.type} emphasize={true}></StatTag>
                 {ability.tags?.map((tag) => (

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { PlusSquare, Save, Trash2 } from "react-feather";
 import { AbilitiesPanel } from "./abilities/abilitiesPanel";
 import { CostPanel } from "./costPanel/costPanel";
@@ -11,6 +11,7 @@ import TextareaAutosize from "react-textarea-autosize";
 import { Accordion } from "../../../layout/accordion/accordion";
 import { StatsContext } from "../../../../providers/stats/statsProvider";
 import { map } from "lodash-es";
+import { BigButton } from "../../../common/buttons/bigButton";
 
 interface Props {
   node?: SkillNode;
@@ -41,6 +42,7 @@ export function EditPanel({
   );
   const [_abilities, setAbilities] = useState(abilities);
   const [colors, setColors] = useState(node.colors || {});
+  const nameInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setAbilities(abilities);
@@ -63,6 +65,7 @@ export function EditPanel({
   };
 
   const AddButtonPressed = (event) => {
+    SavePressed({});
     graphEvents.next({
       event: "nodeAdded",
       data: {
@@ -146,6 +149,8 @@ export function EditPanel({
     setLevelRequired(node.levelsRequired || 1);
     setProvidedStats(node.providedStats || []);
     setProvidedAbilities(node.providedAbilities || []);
+
+    nameInputRef.current?.focus();
   }, [node]);
 
   if (node.id) {
@@ -159,7 +164,12 @@ export function EditPanel({
           levelsChanged={costChanged}
         />
         <div className="form-control name">
-          <input type="text" onChange={NameUpdated} value={name || ""}></input>
+          <input
+            type="text"
+            ref={nameInputRef}
+            onChange={NameUpdated}
+            value={name || ""}
+          ></input>
         </div>
 
         <div className="form-control id">
@@ -223,19 +233,18 @@ export function EditPanel({
         </Accordion>
 
         <div className="buttons">
-          <button className="green" onClick={SavePressed}>
+          <BigButton type="outline" color="success" clicked={SavePressed}>
             <Save />
             Save Node
-          </button>
-          <button onClick={deletePressed} className="red">
-            <Trash2 />
-            Delete Node
-          </button>
-
-          <button onClick={AddButtonPressed}>
+          </BigButton>
+          <BigButton type="outline" color="success" clicked={AddButtonPressed}>
             <PlusSquare />
             Save and Add Child Node
-          </button>
+          </BigButton>
+          <BigButton type="outline" clicked={deletePressed} color="danger">
+            <Trash2 />
+            Delete Node
+          </BigButton>
         </div>
       </div>
     );

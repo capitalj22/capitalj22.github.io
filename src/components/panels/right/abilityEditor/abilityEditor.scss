@@ -1,4 +1,26 @@
 .ability-editor {
+  .filters {
+    padding: 1rem;
+    .tag-filters {
+      padding: 1rem 0;
+    }
+    .text-filter {
+      border-bottom: 2px solid var(--superMutedWhite);
+      input {
+        padding: 0.5rem;
+        font-size: 1.25em;
+      }
+    }
+  }
+  .expand-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 3rem;
+    font-size: 1.5em;
+    font-weight: 300;
+    color: var(--infoColor);
+  }
   .ability-cards {
     width: 100%;
     padding: 2rem;

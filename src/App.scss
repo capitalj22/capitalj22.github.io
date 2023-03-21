@@ -7,6 +7,13 @@
   --panelBorder: 1px solid #292929;
   --successColor: #53d699;
   --dangerColor: #f1604d;
+  --infoColor: #c2b080;
+  --mutedWhite: #bbb;
+  --superMutedWhite: #5c5c5c60;
+  --boxShadowBlackSmall: 1px 2px 5px 0px rgba(11, 11, 11, 0.226);
+  --boxShadowInsetBlackSmall: inset 1px 2px 5px 0px rgba(11, 11, 11, 0.7);
+  --disabledText: #222;
+  --disabledBg: #7a7a7a;
 }
 
 #root {
@@ -70,8 +77,9 @@
     border: none;
 
     &:focus {
-      outline: 1px solid #ececec27;
+      outline: 1px solid var(--superMutedWhite);
       background-color: rgba(13, 13, 13, 0.31);
+      box-shadow: var(--boxShadowInsetBlackSmall);
     }
 
     &:focus-visible {

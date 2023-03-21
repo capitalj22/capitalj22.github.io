@@ -1,38 +1,23 @@
 import { clone, each, isFunction } from "lodash-es";
 import { useContext, useState } from "react";
-import { Copy, Save, Trash2, X } from "react-feather";
+import {
+  Copy,
+  CornerLeftUp,
+  RotateCcw,
+  Save,
+  SkipBack,
+  Trash2,
+  X,
+} from "react-feather";
 import { Ability } from "../../../entities/abilities/abilities";
 import "./abilityCard.scss";
 import { AbilityParamEditor } from "./abilityParamEditor";
 import { TagSelect } from "./tagSelect";
 import TextareaAutosize from "react-textarea-autosize";
 import { AbilitiesContext } from "../../../providers/abilities/abilitiesProvider";
-
-function applyParamsToDescription(description, params) {
-  let editedDescription = description;
-  each(Object.keys(params), (key) => {
-    let value = params[key];
-
-    if (params[key]) {
-      editedDescription = editedDescription.replace(
-        new RegExp(`\{\\b${key}\\b\}([^*]+)\\\{\/\\b${key}\\b\}`),
-        "$1"
-      );
-    } else {
-      editedDescription = editedDescription.replace(
-        new RegExp(`\{\\b${key}\\b\}([^*]+)\\\{\/\\b${key}\\b\}`),
-        ""
-      );
-    }
-
-    editedDescription = editedDescription.replace(
-      new RegExp("%" + key + "%", "g"),
-      value
-    );
-  });
-
-  return editedDescription;
-}
+import { AbilitySelect } from "../../common/selects/abilitySelect";
+import { BigButton } from "../../common/buttons/bigButton";
+import "./editableAbilityCard.scss";
 
 type Props = {
   ability: Ability;
@@ -53,8 +38,8 @@ export function EditableAbilityCard({
 
   const [_ability, setAbility] = useState(ability);
 
-  const updateAbility = (prop, event) => {
-    setAbility({ ..._ability, [prop]: event.target.value });
+  const updateAbility = (prop, newValue) => {
+    setAbility({ ..._ability, [prop]: newValue });
   };
 
   const handleTagsChanged = (e) => {
@@ -94,7 +79,7 @@ export function EditableAbilityCard({
   };
 
   return (
-    <div className="ability-card">
+    <div className="ability-card editable">
       <div className="name">
         <button
           className="edit"
@@ -104,14 +89,14 @@ export function EditableAbilityCard({
             }
           }}
         >
-          <X />
+          <RotateCcw />
         </button>
 
         <div className="form-control">
           <input
             type="text"
             value={_ability.name}
-            onChange={(e) => updateAbility("name", e)}
+            onChange={(e) => updateAbility("name", e.target.value)}
           ></input>
         </div>
       </div>
@@ -120,7 +105,7 @@ export function EditableAbilityCard({
         <input
           type="text"
           value={_ability.id}
-          onChange={(e) => updateAbility("id", e)}
+          onChange={(e) => updateAbility("id", e.target.value)}
         ></input>
       </div>
 
@@ -131,7 +116,7 @@ export function EditableAbilityCard({
             <TextareaAutosize
               rows={10}
               value={_ability.description || ""}
-              onChange={(e) => updateAbility("description", e)}
+              onChange={(e) => updateAbility("description", e.target.value)}
             />
           </p>
         </div>
@@ -148,20 +133,31 @@ export function EditableAbilityCard({
           </div>
         </div>
       </div>
+
+      <div className="replaces">
+        <div className="title">Replaces</div>
+        <AbilitySelect
+          usedOptions={[_ability.id]}
+          defaultValue={_ability.replaces}
+          valueChanged={(e) => updateAbility("replaces", e)}
+          showEmptyOption={true}
+        />
+      </div>
+
       <AbilityParamEditor
         params={_ability.params}
         paramsChanged={paramsChanged}
       />
       <div className="buttons">
-        <button className="save-button green" onClick={savePressed}>
+        <BigButton type="outline" color="success" clicked={savePressed}>
           Save <Save />
-        </button>
-        <button className="copy-button" onClick={copyPressed}>
-          Copy <Copy />
-        </button>
-        <button className="delete-button red" onClick={deletePressed}>
+        </BigButton>
+        <BigButton type="outline" color="theme" clicked={copyPressed}>
+          Save & Copy <Copy />
+        </BigButton>
+        <BigButton type="outline" color="danger" clicked={deletePressed}>
           Delete <Trash2 />
-        </button>
+        </BigButton>
       </div>
     </div>
   );

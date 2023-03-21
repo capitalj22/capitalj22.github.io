@@ -5,14 +5,10 @@ import Select from "react-select";
 import { Ability } from "../../../../../entities/abilities/abilities";
 import { AbilitiesContext } from "../../../../../providers/abilities/abilitiesProvider";
 import { AbilityCard } from "../../../../characterSheet/abilityCard/abilityCard";
+import { AbilitySelect } from "../../../../common/selects/abilitySelect";
 import { Accordion } from "../../../../layout/accordion/accordion";
 import { StatsPanel } from "../stats/statsPanel";
 import "./abilitiesPanel.scss";
-
-const abilityOptions = (allAbilities) =>
-  map(allAbilities, (ability) => {
-    return { value: ability.id, label: ability.name };
-  });
 
 function getModifierOptions(abilityId, allAbilities) {
   const ability = find(allAbilities, { id: abilityId });
@@ -25,22 +21,6 @@ function getModifierOptions(abilityId, allAbilities) {
   } else {
     return [];
   }
-}
-
-function getOption(abilityId, allAbilities) {
-  return find(abilityOptions(allAbilities), { value: abilityId });
-}
-
-function getAvailableOptions(providedAbilities, allAbilities) {
-  const usedAbilities = map(providedAbilities, (stat) => stat.id);
-
-  return sortBy(
-    filter(
-      abilityOptions(allAbilities),
-      (option) => !includes(usedAbilities, (option as any).value)
-    ),
-    "label"
-  );
 }
 
 function formatModifiersForCard(rawModifiers) {
@@ -66,8 +46,9 @@ export function AbilitiesPanel({
   }, [allAbilities]);
 
   const abilityChanged = (event, index) => {
+    console.log(event, index);
     const newAbilities = clone(_providedAbilities);
-    newAbilities[index].id = event.value;
+    newAbilities[index].id = event;
     newAbilities[index].modifiers = [];
 
     providedAbilitiesChanged(newAbilities);
@@ -117,17 +98,11 @@ export function AbilitiesPanel({
                 >
                   <XCircle />
                 </button>
-                <Select
-                  classNames={{
-                    control: () => "select",
-                    singleValue: () => "single-value",
-                    menu: () => "select-menu",
-                  }}
-                  options={getAvailableOptions(_providedAbilities, abilityPool)}
-                  onChange={(e) => abilityChanged(e, index)}
-                  defaultValue={getOption(ability.id, abilityPool)}
-                  value={getOption(ability.id, abilityPool)}
-                ></Select>
+                <AbilitySelect
+                  usedOptions={map(_providedAbilities, "id")}
+                  defaultValue={ability.id}
+                  valueChanged={(e) => abilityChanged(e, index)}
+                />
               </div>
 
               {ability.id ? (

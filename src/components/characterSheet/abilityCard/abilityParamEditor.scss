@@ -20,4 +20,9 @@
 
     gap: 1rem;
   }
+
+  .param-input {
+    border: 1px solid var(--superMutedWhite);
+    box-shadow: var(--boxShadowInsetBlackSmall);
+  }
 }

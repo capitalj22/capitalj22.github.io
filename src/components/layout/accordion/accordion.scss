@@ -1,6 +1,6 @@
 .accordion {
   .accordion-button {
-    color: var(--themeColorText);
+    color: var(--mutedWhite);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -15,7 +15,7 @@
     border-bottom: 1px solid #424242;
 
     svg {
-      color: #fff;
+      color: var(--themeColorText);
     }
   }
 
@@ -28,5 +28,9 @@
         )
         #989898;
     color: #fff;
+
+    svg {
+      color: #fff;
+    }
   }
 }

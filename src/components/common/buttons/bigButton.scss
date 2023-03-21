@@ -1,0 +1,68 @@
+.big-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.25rem;
+  background: transparent;
+
+  &.default {
+    border-radius: 6px;
+    padding: 0.5rem;
+    box-shadow: var(--boxShadowBlackSmall);
+    border: 1px solid var(--superMutedWhite);
+
+    &.danger {
+      background-color: var(--dangerColor);
+    }
+
+    &.info {
+      background-color: var(--infoColor);
+    }
+
+    &.theme {
+      background-color: var(--themeColor);
+    }
+
+    &.success {
+      background-color: var(--successColor);
+    }
+
+    &.disabled {
+      background-color: var(--disabledBg);
+      color: var(--disabledText);
+    }
+  }
+
+  &.outline {
+    padding: 0.5rem;
+    background-color: transparent;
+    border: 2px solid #fff;
+    border-radius: 7px;
+
+    &.danger {
+      color: var(--dangerColor);
+      border-color: var(--dangerColor);
+    }
+
+    &.info {
+      color: var(--infoColor);
+      border-color: var(--infoColor);
+    }
+
+    &.theme {
+      color: var(--themeColorText);
+      border-color: var(--themeColorText);
+    }
+
+    &.success {
+      color: var(--successColor);
+      border-color: var(--successColor);
+    }
+
+    &.disabled {
+      color: var(--disabledText);
+      border-color: var(--disabledText);
+    }
+  }
+}
