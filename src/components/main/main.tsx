@@ -136,12 +136,14 @@ export function Main() {
       setNodes([{ id: "start here", name: "Start Here", colors: {} }]);
       setAbilities({ type: "set", abilities: [] });
       setAbilityTypes({ type: "set", abilityTypes: [] });
+      setTagColors({ type: "set", tagColors: [] });
       setBuild({});
     } else if (event.type === "default") {
       const defaults = exampleJson;
       setNodes(defaults.nodes);
       setAbilityTypes({ type: "set", abilityTypes: defaults.abilityTypes });
       setAbilities({ type: "set", abilities: defaults.abilities });
+      setTagColors({ type: "set", tagColors: defaults.tagColors });
       setBuild({});
     }
   };
