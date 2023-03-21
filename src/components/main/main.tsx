@@ -143,7 +143,7 @@ export function Main() {
       setNodes(defaults.nodes);
       setAbilityTypes({ type: "set", abilityTypes: defaults.abilityTypes });
       setAbilities({ type: "set", abilities: defaults.abilities });
-      setTagColors({ type: "set", tagColors: defaults.tagColors });
+      setTagColors({ type: "set", colors: defaults.tagColors });
       setBuild({});
     }
   };
