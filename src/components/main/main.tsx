@@ -137,10 +137,13 @@ export function Main() {
       setAbilities({ type: "set", abilities: [] });
       setAbilityTypes({ type: "set", abilityTypes: [] });
       setTagColors({ type: "set", tagColors: [] });
+      setStats({ type: "set", stats: [] });
+
       setBuild({});
     } else if (event.type === "default") {
       const defaults = exampleJson;
       setNodes(defaults.nodes);
+      setStats({ type: "set", stats: defaults.stats });
       setAbilityTypes({ type: "set", abilityTypes: defaults.abilityTypes });
       setAbilities({ type: "set", abilities: defaults.abilities });
       setTagColors({ type: "set", colors: defaults.tagColors });
