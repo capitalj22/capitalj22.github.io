@@ -130,15 +130,18 @@
     {
       "id": "defend",
       "name": "Defend",
-      "description": "Idk, ask Ed",
-      "type": "action"
+      "description": "Gain    %hp% hp.\n\n{brace}For this turn, gain the following effects:\n\n1. You are Immune to Charge effects.\n2. Enemies that move adjacent to you take 1 damage.\n{/brace}",
+      "type": "action",
+      "params": { "brace": 0, "hp": 1 },
+      "tags": []
     },
     {
       "id": "deflect",
       "name": "Deflect",
       "type": "reaction",
       "description": "Block 1 ranged attack that is made at you. Declare before the attack is rolled. For magic attacks, deflect on a roll of %lowerRange% or higher.",
-      "tags": ["defense"]
+      "tags": ["defense"],
+      "params": { "lowerRange": 4 }
     },
     {
       "id": "dive-bomb",
@@ -195,7 +198,8 @@
       "name": "Guardian",
       "type": "reaction",
       "description": "As a reaction, can intercept %attacks% attack(s) going towards an adjacent ally. You now take that attack - also take 1 damage.",
-      "tags": ["defense"]
+      "tags": ["defense"],
+      "params": { "attacks": 1 }
     },
     {
       "id": "guiding-bolt",
@@ -306,6 +310,52 @@
       "name": "Versatile",
       "description": "You can choose to take actions prior to movement.",
       "type": "passive"
+    },
+    {
+      "name": "Command",
+      "id": "command",
+      "description": "Gain a command aura of %commandRadius% m radius (every adjacent hex)",
+      "tags": ["command"],
+      "type": "passive",
+      "params": { "commandRadius": 50 }
+    },
+    {
+      "name": "Rally",
+      "id": "rally",
+      "description": "As an action, allied units in your command aura regain %hp% HP.\n\n{bonus}\n1 unit within your command aura can make an attack.\n{/bonus}",
+      "tags": ["command"],
+      "type": "action",
+      "params": { "bonus": 0, "hp": 1 }
+    },
+    {
+      "name": "Aggressive Commander",
+      "id": "aggro-command",
+      "description": "Allied units adjacent to this unit can make 1 extra attack, unmodified.",
+      "tags": [],
+      "type": "action"
+    },
+    {
+      "name": "Energetic Commander",
+      "id": "energetic-commander",
+      "description": "Allied units in this units command aura can move 1 extra hex.",
+      "tags": [],
+      "type": "action"
+    },
+    {
+      "name": "Rally+",
+      "id": "rally-2",
+      "description": "As an action, allied units in your command aura regain %hp% HP.\n\n2 units within your command aura can make 1 attack \nOR\n1 unit within your command aura can make 2 attacks",
+      "tags": ["command"],
+      "type": "action",
+      "params": { "hp": 1 },
+      "replaces": "rally"
+    },
+    {
+      "name": "Attack of Opportunity",
+      "id": "attack-of-opportunity",
+      "description": "This unit can make a single melee attack (with modified damage) against any enemy that moves out of adjacency with it. The attack takes place immediately.",
+      "tags": ["defense"],
+      "type": "reaction"
     }
   ],
   "nodes": [
@@ -319,6 +369,7 @@
       "name": "Basic",
       "description": "Congrats! You are a unit.",
       "cost": 1,
+      "levelsRequired": 1,
       "providedStats": [
         { "id": "hp", "modifier": 5 },
         { "id": "armor", "modifier": 2 }
@@ -693,7 +744,7 @@
       "colors": {
         "unavailable": "#403c3a",
         "inactive": "#5e3c2b",
-        "selected": "#cd8150"
+        "selected": "#cd8550"
       },
       "id": "reactive-armor",
       "requires": "armor",
@@ -735,16 +786,23 @@
     },
     {
       "colors": {
-        "unavailable": "#403c3a",
-        "inactive": "#5e3c2b",
-        "selected": "#cd8150"
+        "unavailable": "#8e514f",
+        "inactive": "#5e342b",
+        "selected": "#d78142"
       },
       "id": "defend-2",
       "requires": "defend-1",
       "name": "Defend 2",
-      "description": "Grant 1 HP.",
+      "description": "Increases the HP gained by Defend",
       "cost": 1,
-      "providedStats": [{ "id": "hp", "modifier": 1 }]
+      "levelsRequired": 1,
+      "providedAbilities": [
+        {
+          "id": "defend",
+          "modifier": 1,
+          "modifiers": [{ "id": "hp", "modifier": 1, "set": false }]
+        }
+      ]
     },
     {
       "colors": {
@@ -770,8 +828,12 @@
       "name": "Deflection+",
       "description": "Makes it easier to deflect magic attacks.",
       "cost": 1,
+      "levelsRequired": 1,
       "providedAbilities": [
-        { "id": "deflect", "modifiers": { "lowerRange": -1 } }
+        {
+          "id": "deflect",
+          "modifiers": [{ "id": "lowerRange", "modifier": -1, "set": false }]
+        }
       ]
     },
     {
@@ -798,7 +860,13 @@
       "name": "Guardian+",
       "description": "Allows you guard an additional attack",
       "cost": 1,
-      "providedAbilities": [{ "id": "guardian", "modifiers": { "attacks": 1 } }]
+      "levelsRequired": 1,
+      "providedAbilities": [
+        {
+          "id": "guardian",
+          "modifiers": [{ "id": "attacks", "modifier": 1, "set": false }]
+        }
+      ]
     },
     {
       "colors": {
@@ -1035,6 +1103,227 @@
           "modifiers": [{ "id": "numAttacks", "modifier": 1, "set": false }]
         }
       ]
+    },
+    {
+      "colors": {
+        "unavailable": "#7b5290",
+        "inactive": "#6a2b85",
+        "selected": "#ab38d9"
+      },
+      "id": "alter-emotions-1",
+      "requires": "191",
+      "name": "Alter Emotions+",
+      "cost": 1,
+      "levelsRequired": 1,
+      "providedAbilities": [
+        {
+          "id": "alter-emotions",
+          "modifier": 1,
+          "modifiers": [{ "id": "amt", "modifier": 1, "set": false }]
+        }
+      ]
+    },
+    {
+      "colors": {
+        "unavailable": "#7b5290",
+        "inactive": "#6a2b85",
+        "selected": "#ab38d9"
+      },
+      "id": "soothe",
+      "requires": "alter-emotions-1",
+      "name": "Alter Emotions++",
+      "description": "You can cast Alter Emotions on additional targets adjacent to the spell's target.",
+      "cost": 1,
+      "levelsRequired": 1,
+      "providedAbilities": [
+        {
+          "id": "alter-emotions",
+          "modifier": 1,
+          "modifiers": [{ "id": "adjacent", "modifier": 1, "set": false }]
+        }
+      ]
+    },
+    {
+      "colors": {
+        "unavailable": "#7fbfba",
+        "inactive": "#33ada3",
+        "selected": "#3ceac8"
+      },
+      "id": "command",
+      "requires": "basic",
+      "name": "Command",
+      "cost": 1,
+      "levelsRequired": 1,
+      "providedAbilities": [
+        { "id": "command", "modifier": 1, "modifiers": [], "gain": true }
+      ]
+    },
+    {
+      "colors": {
+        "unavailable": "#7fbfba",
+        "inactive": "#33ada3",
+        "selected": "#3ceac8"
+      },
+      "id": "command-plus",
+      "requires": "command",
+      "name": "Command+",
+      "levels": 3,
+      "levelCost": [1, 1, 1],
+      "levelsRequired": 1,
+      "providedAbilities": [
+        {
+          "id": "command",
+          "modifier": 1,
+          "modifiers": [{ "id": "commandRadius", "modifier": 50, "set": false }]
+        }
+      ]
+    },
+    {
+      "colors": {
+        "unavailable": "#7fbfba",
+        "inactive": "#33ada3",
+        "selected": "#3ceac8"
+      },
+      "id": "aggro-command",
+      "requires": "command-plus",
+      "name": "Aggressive Commander",
+      "cost": 1,
+      "levelsRequired": 1,
+      "providedAbilities": [
+        { "id": "aggro-command", "modifier": 1, "modifiers": [], "gain": true }
+      ]
+    },
+    {
+      "colors": {
+        "unavailable": "#7fbfba",
+        "inactive": "#33ada3",
+        "selected": "#3ceac8"
+      },
+      "id": "command-plus-2",
+      "requires": "command-plus",
+      "name": "Energetic Commander",
+      "cost": 1,
+      "levelsRequired": "2",
+      "providedAbilities": [
+        {
+          "id": "energetic-commander",
+          "modifier": 1,
+          "modifiers": [],
+          "gain": true
+        }
+      ]
+    },
+    {
+      "colors": {
+        "unavailable": "#7fbfba",
+        "inactive": "#33ada3",
+        "selected": "#3ceac8"
+      },
+      "id": "command-2",
+      "requires": "command",
+      "name": "Rally",
+      "cost": 1,
+      "levelsRequired": 1,
+      "providedAbilities": [
+        { "id": "rally", "modifier": 1, "modifiers": [], "gain": true }
+      ]
+    },
+    {
+      "colors": {
+        "unavailable": "#7fbfba",
+        "inactive": "#33ada3",
+        "selected": "#3ceac8"
+      },
+      "id": "rally+",
+      "requires": "command-2",
+      "name": "Rally+",
+      "cost": 1,
+      "levelsRequired": 1,
+      "providedAbilities": [
+        {
+          "id": "rally",
+          "modifier": 1,
+          "modifiers": [{ "id": "hp", "modifier": 2, "set": false }]
+        },
+        {
+          "id": "rally-2",
+          "modifiers": [{ "id": "hp", "modifier": 2, "set": false }],
+          "gain": false
+        }
+      ]
+    },
+    {
+      "colors": {
+        "unavailable": "#7fbfba",
+        "inactive": "#33ada3",
+        "selected": "#3ceac8"
+      },
+      "id": "command-2-2",
+      "requires": "command-2",
+      "name": "Ordered Strike",
+      "cost": 1,
+      "levelsRequired": 1,
+      "providedAbilities": [
+        {
+          "id": "rally",
+          "modifiers": [{ "id": "bonus", "modifier": 1, "set": false }]
+        }
+      ]
+    },
+    {
+      "colors": {
+        "unavailable": "#7fbfba",
+        "inactive": "#33ada3",
+        "selected": "#3ceac8"
+      },
+      "id": "command-2-2-1",
+      "requires": "command-2-2",
+      "name": "Ordered Strike 2",
+      "cost": 1,
+      "levelsRequired": 1,
+      "providedAbilities": [
+        { "id": "rally-2", "modifier": 1, "modifiers": [], "gain": true }
+      ]
+    },
+    {
+      "colors": {
+        "unavailable": "#bd7859",
+        "inactive": "#5e342b",
+        "selected": "#d48630"
+      },
+      "id": "brace",
+      "requires": "defend-2",
+      "name": "Brace",
+      "description": "Brace for attacks while defending, negating charge effects and damaging nearby enemies.",
+      "cost": 1,
+      "levelsRequired": 1,
+      "providedAbilities": [
+        {
+          "id": "defend",
+          "modifier": 1,
+          "modifiers": [{ "id": "brace", "modifier": 1, "set": false }]
+        }
+      ]
+    },
+    {
+      "colors": {
+        "unavailable": "#d3976b",
+        "inactive": "#9b4c3b",
+        "selected": "#d46430"
+      },
+      "id": "defend-2-3",
+      "requires": "defend-2",
+      "name": "Attack of Opportunity",
+      "cost": 1,
+      "levelsRequired": "2",
+      "providedAbilities": [
+        {
+          "id": "attack-of-opportunity",
+          "modifier": 1,
+          "modifiers": [],
+          "gain": true
+        }
+      ]
     }
   ],
   "tagColors": {
@@ -1049,7 +1338,9 @@
     "movement": "#459068",
     "undead": "#849064",
     "concentration": "#e28baf",
-    "piercing": "#ec9569"
+    "piercing": "#ec9569",
+    "command": "#46ddcb",
+    "healing": "#e15fab"
   },
   "stats": [
     { "id": "armor", "name": "Armor" },

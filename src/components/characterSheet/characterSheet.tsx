@@ -29,10 +29,9 @@ function getKnownAbilities(dragon, abilityTypes) {
       }),
       (ability) => ({
         ...ability,
-        typeName: getTypeName(abilityTypes, ability.type),
       })
     ),
-    "typeName"
+    "type"
   );
 }
 
@@ -86,33 +85,37 @@ function CharacterSheet({ dragon }) {
       </div>
       <div className="abilities">
         <div className="title">Abilities</div>
-        {knownAbilities &&
-          sortBy(Object.keys(knownAbilities)).map((key) => (
-            <Accordion startOpen={false} name={key}>
-              {abilityTags[key].length ? (
-                <div className="filter-panel">
-                  <TagFilters
-                    tags={abilityTags[key]}
-                    selectedTagsChanged={(e) =>
-                      handleSelectedTagsChanged(e, key)
-                    }
-                  ></TagFilters>
-                </div>
-              ) : (
-                ""
-              )}
-              <div className="ability-cards">
-                {knownAbilities[key].map((ability) => (
-                  <AbilityCard
-                    ability={ability}
-                    isPlayerAbility={true}
-                    modifiers={ability.modifiers}
-                    startOpen={true}
-                  ></AbilityCard>
-                ))}
+        {sortBy(abilityTypes, "name").map((type, index) => (
+          <Accordion
+            key={index}
+            startOpen={false}
+            name={type.name}
+            disabled={!knownAbilities[type.id]?.length}
+          >
+            {abilityTags[type.id]?.length ? (
+              <div className="filter-panel">
+                <TagFilters
+                  tags={abilityTags[type.id]}
+                  selectedTagsChanged={(e) =>
+                    handleSelectedTagsChanged(e, type.id)
+                  }
+                ></TagFilters>
               </div>
-            </Accordion>
-          ))}
+            ) : (
+              ""
+            )}
+            <div className="ability-cards">
+              {knownAbilities[type.id]?.map((ability) => (
+                <AbilityCard
+                  ability={ability}
+                  isPlayerAbility={true}
+                  modifiers={ability.modifiers}
+                  startOpen={true}
+                ></AbilityCard>
+              ))}
+            </div>
+          </Accordion>
+        ))}
       </div>
     </div>
   );

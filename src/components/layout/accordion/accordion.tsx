@@ -1,17 +1,26 @@
 import { useState } from "react";
 import { ChevronDown, ChevronUp } from "react-feather";
 import "./accordion.scss";
+import classNames from "classnames";
 
-export function Accordion({ children, name, startOpen }) {
+export function Accordion({ children, name, startOpen, disabled = false }) {
   const [expanded, setExpanded] = useState(startOpen);
 
   const handleToggled = (event) => {
-    setExpanded(!expanded);
+    if (!disabled) {
+      setExpanded(!expanded);
+    }
   };
 
   if (expanded) {
     return (
-      <div className="accordion open">
+      <div
+        className={classNames({
+          accordion: true,
+          open: true,
+          disabled: disabled,
+        })}
+      >
         <button className="accordion-button" onClick={handleToggled}>
           {name}
           <ChevronUp />
@@ -21,10 +30,18 @@ export function Accordion({ children, name, startOpen }) {
     );
   } else {
     return (
-      <div className="accordion closed">
+      <div
+        className={classNames({
+          accordion: true,
+          closed: true,
+          disabled: disabled,
+        })}
+      >
         <button className="accordion-button" onClick={handleToggled}>
           {name}
-          <ChevronDown />
+          <span className="icon">
+            <ChevronDown />
+          </span>
         </button>
       </div>
     );
