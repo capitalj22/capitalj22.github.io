@@ -1,4 +1,4 @@
-import { BookOpen, HelpCircle, Code, List, BarChart2 } from "react-feather";
+import { BookOpen, HelpCircle, Code, List, BarChart2, Download } from "react-feather";
 
 import "./rightMenu.scss";
 
@@ -14,13 +14,6 @@ export function RightMenu({ itemSelected, selectedItem }) {
       </button>
       <button
         type="button"
-        className={selectedItem === "code" ? "selected" : ""}
-        onClick={(e) => itemSelected("code")}
-      >
-        <Code />
-      </button>
-      <button
-        type="button"
         className={selectedItem === "list" ? "selected" : ""}
         onClick={(e) => itemSelected("list")}
       >
@@ -32,6 +25,13 @@ export function RightMenu({ itemSelected, selectedItem }) {
         onClick={(e) => itemSelected("stats")}
       >
         <BarChart2 />
+      </button>
+      <button
+        type="button"
+        className={selectedItem === "code" ? "selected" : ""}
+        onClick={(e) => itemSelected("code")}
+      >
+        <Download />
       </button>
       <button
         type="button"

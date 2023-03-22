@@ -28,7 +28,7 @@
       "type": "movement",
       "description": "This unit always musters and can muster 1 adjacent unit (during movement).",
       "replaces": "attentive",
-      "tags": ["defense"]
+      "tags": ["defense", "mustering"]
     },
     {
       "name": "Alter Emotions",
@@ -57,7 +57,7 @@
       "name": "Attentive",
       "type": "movement",
       "description": "This unit always musters",
-      "tags": ["defense"]
+      "tags": ["defense", "mustering"]
     },
     {
       "id": "basic-attack",
@@ -104,7 +104,9 @@
       "id": "dash",
       "name": "Dash",
       "type": "action",
-      "description": "Move %movement% hexes."
+      "description": "Move %movement% hexes.",
+      "params": { "movement": 2 },
+      "tags": ["movement", "fast"]
     },
     {
       "id": "dash-expert",
@@ -133,13 +135,13 @@
       "description": "Gain    %hp% hp.\n\n{brace}For this turn, gain the following effects:\n\n1. You are Immune to Charge effects.\n2. Enemies that move adjacent to you take 1 damage.\n{/brace}",
       "type": "action",
       "params": { "brace": 0, "hp": 1 },
-      "tags": []
+      "tags": ["healing"]
     },
     {
       "id": "deflect",
       "name": "Deflect",
       "type": "reaction",
-      "description": "Block 1 ranged attack that is made at you. Declare before the attack is rolled. For magic attacks, deflect on a roll of %lowerRange% or higher.",
+      "description": "Block 1 ranged attack that is made at you. Declare before the attack is rolled. \n\nFor magic attacks, deflect on a roll of %lowerRange% or higher.",
       "tags": ["defense"],
       "params": { "lowerRange": 4 }
     },
@@ -356,6 +358,13 @@
       "description": "This unit can make a single melee attack (with modified damage) against any enemy that moves out of adjacency with it. The attack takes place immediately.",
       "tags": ["defense"],
       "type": "reaction"
+    },
+    {
+      "name": "Professionals",
+      "id": "professionals",
+      "description": "This unit is always active (doesnt count to active unit count).",
+      "tags": ["mustering"],
+      "type": "movement"
     }
   ],
   "nodes": [
@@ -402,8 +411,8 @@
       "requires": "basic",
       "name": "Speed",
       "description": "Allows you to move one additional hex per turn",
-      "cost": 1,
       "levels": 8,
+      "levelsRequired": 1,
       "providedStats": [{ "id": "movement", "modifier": 1 }]
     },
     {
@@ -646,63 +655,6 @@
     },
     {
       "colors": {
-        "unavailable": "#87645c",
-        "inactive": "#875246",
-        "selected": "#d44b2c"
-      },
-      "id": "attack-1",
-      "requires": "basic",
-      "name": "Attack",
-      "description": "Grants your unit the ability to attack",
-      "cost": 1,
-      "providedAbilities": [{ "id": "basic-attack", "gain": true }]
-    },
-    {
-      "colors": {
-        "unavailable": "#87645c",
-        "inactive": "#875246",
-        "selected": "#d44b2c"
-      },
-      "id": "attack-1-dmg",
-      "requires": "attack-1",
-      "name": "Attack+",
-      "description": "Increases the damage of your first attack by 1",
-      "cost": 1,
-      "providedAbilities": [
-        { "id": "basic-attack", "modifiers": [{ "id": "dmg", "modifier": 1 }] },
-        { "id": "multi-attack", "modifiers": [{ "id": "dmg1", "modifier": 1 }] }
-      ]
-    },
-    {
-      "colors": {
-        "unavailable": "#87645c",
-        "inactive": "#875246",
-        "selected": "#d44b2c"
-      },
-      "id": "attack-2",
-      "requires": "attack-1-dmg",
-      "name": "MultiAttack",
-      "description": "Grants your unit the ability to attack twice",
-      "cost": 1,
-      "providedAbilities": [{ "id": "multi-attack", "gain": true }]
-    },
-    {
-      "colors": {
-        "unavailable": "#87645c",
-        "inactive": "#875246",
-        "selected": "#d44b2c"
-      },
-      "id": "attack-2-dmg",
-      "requires": "attack-2",
-      "name": "MultiAttack+",
-      "description": "Increases the damage of your second attack by 1",
-      "cost": 1,
-      "providedAbilities": [
-        { "id": "multi-attack", "modifiers": [{ "id": "dmg2", "modifier": 1 }] }
-      ]
-    },
-    {
-      "colors": {
         "unavailable": "#403c3a",
         "inactive": "#5e3c2b",
         "selected": "#cd8150"
@@ -713,6 +665,7 @@
       "description": "Adds 1 Armor",
       "levels": 7,
       "levelCost": [1, 1, 2, 2, 3, 4, 4],
+      "levelsRequired": 1,
       "providedStats": [{ "id": "armor", "modifier": 1 }]
     },
     {
@@ -1324,6 +1277,22 @@
           "gain": true
         }
       ]
+    },
+    {
+      "colors": {
+        "unavailable": "#403c3a",
+        "inactive": "#5e3c2b",
+        "selected": "#cd8150"
+      },
+      "id": "professionals",
+      "requires": "armor",
+      "name": "Professionals",
+      "description": "Grants the \"Professionals\" ability.",
+      "cost": 1,
+      "levelsRequired": "3",
+      "providedAbilities": [
+        { "id": "professionals", "modifier": 1, "modifiers": [], "gain": true }
+      ]
     }
   ],
   "tagColors": {
@@ -1340,7 +1309,8 @@
     "concentration": "#e28baf",
     "piercing": "#ec9569",
     "command": "#46ddcb",
-    "healing": "#e15fab"
+    "healing": "#e15fab",
+    "mustering": "#dca542"
   },
   "stats": [
     { "id": "armor", "name": "Armor" },
