@@ -1,18 +1,57 @@
-import { find, map, times } from "lodash-es";
-import React from "react";
+import { each, find, isUndefined, map, reduce, times } from "lodash-es";
+import { useContext, useEffect, useState } from "react";
+import { AbilitiesContext } from "../../../../providers/abilities/abilitiesProvider";
 import { AbilityCard } from "../../../characterSheet/abilityCard/abilityCard";
 import "./infoPanel.scss";
 
-export function InfoPanel({ node, build, abilities }) {
-  const relatedAbilities = map(node?.providedAbilities, (ability) => {
+function getRelatedAbilities(node, abilities) {
+  return map(node?.providedAbilities, (ability) => {
     return { ...find(abilities, { id: ability.id }), modifiers: {} };
   });
+}
+
+function formatNodeModifiers(providedAbilities, build, selected) {
+  let abilities = {};
+
+  each(providedAbilities, (ability) => {
+    let modifiers = {...build?.abilities[ability?.id]?.modifiers} || {};
+
+    each(ability.modifiers, (modifier) => {
+      if (!selected) {
+        if (isUndefined(modifiers[modifier.id])) {
+          modifiers[modifier.id] = modifier.modifier;
+        } else modifiers[modifier.id] += modifier.modifier;
+      }
+    });
+    abilities[ability.id] = modifiers;
+  });
+  return abilities;
+}
+
+export function InfoPanel({ node, build }) {
+  const { abilities } = useContext(AbilitiesContext);
+  const [relatedAbilities, setRelatedAbilities] = useState(
+    getRelatedAbilities(node, abilities)
+  );
+  const [formattedModifiers, setFormattedModifiers] = useState(
+    node
+      ? formatNodeModifiers(node.providedAbilities, build, node.selected)
+      : {}
+  );
 
   let nodeColor = node?.colors?.selected;
 
-  React.useEffect(() => {
-    nodeColor = node?.colors?.selected;
+  useEffect(() => {
+    if (node) {
+      nodeColor = node?.colors?.selected;
+      setRelatedAbilities(getRelatedAbilities(node, abilities));
+      setFormattedModifiers(
+        formatNodeModifiers(node?.providedAbilities, build, node.selected)
+      );
+    }
   }, [node]);
+
+  useEffect(() => {}, [build]);
 
   const cost = node?.levels ? (
     <span className="cost">
@@ -60,14 +99,13 @@ export function InfoPanel({ node, build, abilities }) {
         {relatedAbilities.length > 0 && (
           <div className="abilities">
             <div className="title">Related Abilities:</div>
-            {Object.keys(relatedAbilities).map((key) => (
-              <AbilityCard
-                ability={relatedAbilities[key]}
-                modifiers={
-                  build?.abilities[relatedAbilities[key]?.id]?.modifiers
-                }
-              ></AbilityCard>
-            ))}
+            {relatedAbilities &&
+              relatedAbilities.map((ability) => (
+                <AbilityCard
+                  ability={ability}
+                  modifiers={formattedModifiers[ability.id]}
+                ></AbilityCard>
+              ))}
           </div>
         )}
       </div>

@@ -18,7 +18,7 @@ import { StatLine } from "./statLine/statLine";
 import { TagFilters } from "./tagFilters/tagFilters";
 
 function getTypeName(abilityTypes, id) {
-  return find(abilityTypes, { id }).name;
+  return find(abilityTypes, { id })?.name;
 }
 
 function getKnownAbilities(dragon, abilityTypes) {

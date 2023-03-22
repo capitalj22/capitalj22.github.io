@@ -23,7 +23,6 @@ function getAbilityTypes() {
   }
 }
 
-// saved books reducer function
 const abilitiesReducer = (state, action) => {
   const { targetId, index, ability, abilities, type } = action;
   let newState = clone(state);
@@ -41,6 +40,7 @@ const abilitiesReducer = (state, action) => {
 
   if (type === "set") {
     newState = abilities;
+
     window.localStorage.setItem("dragon-abilities", JSON.stringify(newState));
     return newState;
   }
@@ -105,19 +105,13 @@ const abilityTypeReducer = (state, action) => {
     return newState;
   }
 
-  // if "remove"
-  // remove the book object in the previous state
-  // that matches the title of the current book object
   if (type === "remove") {
     const bookIndex = state.findIndex((x) => x.id === abilityType.id);
 
-    // if no match, return the previous state
     if (bookIndex < 0) return state;
 
-    // avoid mutating the original state, create a copy
     const stateUpdate = [...state];
 
-    // then splice it out from the array
     stateUpdate.splice(bookIndex, 1);
     return stateUpdate;
   }

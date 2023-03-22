@@ -164,7 +164,6 @@ export function Main() {
     <div className="App">
       <div className="appLeft">
         <LeftPanel
-          abilities={abilities}
           build={dragon}
           selectedNode={selectedNode}
           graphEvents$={graphEvents$}

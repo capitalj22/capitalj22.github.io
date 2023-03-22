@@ -6,7 +6,6 @@ import "./editPanel.scss";
 import { StatsPanel } from "./stats/statsPanel";
 import { ColorPicker } from "../../../common/color-picker/colorPicker";
 import { SkillNode } from "../../../../entities/skilltree/node.entity";
-import { Ability } from "../../../../entities/abilities/abilities";
 import TextareaAutosize from "react-textarea-autosize";
 import { Accordion } from "../../../layout/accordion/accordion";
 import { StatsContext } from "../../../../providers/stats/statsProvider";
@@ -16,18 +15,13 @@ import { BigButton } from "../../../common/buttons/bigButton";
 interface Props {
   node?: SkillNode;
   graphEvents: any;
-  abilities: Ability[];
 }
 
 function getStatOptions(stats) {
   return map(stats, (stat) => ({ value: stat.id, label: stat.name }));
 }
 
-export function EditPanel({
-  node = {} as SkillNode,
-  graphEvents,
-  abilities,
-}: Props) {
+export function EditPanel({ node = {} as SkillNode, graphEvents }: Props) {
   const { stats } = useContext(StatsContext);
   const [id, setId] = useState(node.id);
   const [name, setName] = useState(node.name);
@@ -40,13 +34,8 @@ export function EditPanel({
   const [providedAbilities, setProvidedAbilities] = useState(
     node.providedAbilities || []
   );
-  const [_abilities, setAbilities] = useState(abilities);
   const [colors, setColors] = useState(node.colors || {});
   const nameInputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    setAbilities(abilities);
-  }, [abilities]);
 
   const IdUpdated = (event) => {
     setId(event.target.value);

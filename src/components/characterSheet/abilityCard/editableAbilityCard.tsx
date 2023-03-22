@@ -68,6 +68,8 @@ export function EditableAbilityCard({
       },
       targetId: originalId,
     });
+
+    setAbilities({ type: "save" });
   };
 
   const deletePressed = () => {
