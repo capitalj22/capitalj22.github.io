@@ -1,12 +1,10 @@
 import { clone, each, filter, find, includes, map, sortBy } from "lodash-es";
 import { useContext, useEffect, useState } from "react";
 import { PlusSquare, XCircle } from "react-feather";
-import Select from "react-select";
 import { Ability } from "../../../../../entities/abilities/abilities";
 import { AbilitiesContext } from "../../../../../providers/abilities/abilitiesProvider";
 import { AbilityCard } from "../../../../characterSheet/abilityCard/abilityCard";
 import { AbilitySelect } from "../../../../common/selects/abilitySelect";
-import { Accordion } from "../../../../layout/accordion/accordion";
 import { StatsPanel } from "../stats/statsPanel";
 import "./abilitiesPanel.scss";
 
@@ -39,11 +37,6 @@ export function AbilitiesPanel({
 }) {
   const allAbilities = useContext(AbilitiesContext).abilities;
   const [_providedAbilities, setAbilities] = useState(providedAbilities);
-  const [abilityPool, setAbilityPool] = useState(allAbilities);
-
-  useEffect(() => {
-    setAbilityPool(allAbilities);
-  }, [allAbilities]);
 
   const abilityChanged = (event, index) => {
     console.log(event, index);
@@ -107,13 +100,17 @@ export function AbilitiesPanel({
 
               {ability.id ? (
                 <div className="ability-options">
-                  <AbilityCard
-                    ability={find(allAbilities, { id: ability?.id }) as Ability}
-                    modifiers={formatModifiersForCard(ability.modifiers)}
-                    isPlayerAbility={false}
-                    editable={true}
-                    startOpen={false}
-                  ></AbilityCard>
+                  {find(allAbilities, { id: ability?.id }) && (
+                    <AbilityCard
+                      ability={
+                        find(allAbilities, { id: ability?.id }) as Ability
+                      }
+                      modifiers={formatModifiersForCard(ability.modifiers)}
+                      isPlayerAbility={false}
+                      editable={true}
+                      startOpen={false}
+                    ></AbilityCard>
+                  )}
                   <div className="grant">
                     <label>
                       Grant
