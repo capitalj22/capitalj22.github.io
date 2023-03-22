@@ -19,6 +19,8 @@ import "./characterSheet.scss";
 import { StatLine } from "./statLine/statLine";
 import { TagFilters } from "./tagFilters/tagFilters";
 import { QueryBreakpoints, useContainerQueries } from "use-container-queries";
+import { SmolButton } from "../common/buttons/smolButton";
+import { ChevronsDown, ChevronsUp } from "react-feather";
 
 function getKnownAbilities(build) {
   return groupBy(
@@ -35,8 +37,9 @@ function getKnownAbilities(build) {
 }
 
 function filterAbilities(abilities, filters) {
+  let newAbilities = abilities;
   if (filters) {
-    return filter(abilities, (ability) => {
+    newAbilities = filter(abilities, (ability) => {
       let matches = true;
       if (filters.tags?.length) {
         matches = difference(filters.tags, ability.tags).length === 0;
@@ -49,15 +52,19 @@ function filterAbilities(abilities, filters) {
       return matches;
     });
   } else {
-    return abilities;
+    newAbilities = abilities;
   }
+
+  return sortBy(newAbilities, "name");
 }
 
 const breakpoints = {
   small: [0, 600],
-  large: [601, 900],
-  xl: [901, 1199],
-  xxl: [1200],
+  med: [600, 900],
+  large: [901, 1150],
+  xl: [1151, 1400],
+  xxl: [1401, 1600],
+  xxxl: [1601, 2000],
 };
 
 function getColumns(active) {
@@ -65,8 +72,9 @@ function getColumns(active) {
     small: 1,
     med: 2,
     large: 3,
-    xl: 5,
-    xxl: 7
+    xl: 4,
+    xxl: 5,
+    xxxl: 6,
   };
 
   return columns[active];
@@ -101,6 +109,11 @@ function CharacterSheet() {
   const { ref, active, width } = useContainerQueries({
     breakpoints: breakpoints as any,
   });
+  const [allExpanded, setAllExpanded] = useState({});
+
+  const toggleExpandAll = (key) => {
+    setAllExpanded({ ...allExpanded, ...{ [key]: !allExpanded[key] } });
+  };
 
   useEffect(() => {
     const result = formatKnownAbilitiesAndTags(build, abilities);
@@ -150,6 +163,18 @@ function CharacterSheet() {
               ""
             )}
             <div ref={ref} className="ability-cards">
+              <div className="expand-button">
+                <SmolButton
+                  color="theme"
+                  clicked={() => toggleExpandAll(type.id)}
+                >
+                  {!!allExpanded[type.id] ? (
+                    <ChevronsUp size={30} />
+                  ) : (
+                    <ChevronsDown size={30} />
+                  )}
+                </SmolButton>
+              </div>
               <Masonry columns={getColumns(active)} spacing={2}>
                 {filterAbilities(
                   knownAbilities[type.id],
@@ -161,7 +186,8 @@ function CharacterSheet() {
                         ability={knownAbility.ability}
                         isPlayerAbility={true}
                         modifiers={knownAbility.modifiers}
-                        startOpen={true}
+                        startOpen={false}
+                        isExpanded={!!allExpanded[type.id]}
                       ></AbilityCard>
                     )}
                   </div>

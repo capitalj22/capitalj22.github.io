@@ -1,4 +1,4 @@
-import { clone, each, find, isFunction, isUndefined } from "lodash-es";
+import { clone, each, find, isFunction, isUndefined, map } from "lodash-es";
 import { useContext, useEffect, useState } from "react";
 import { ChevronDown, ChevronUp, Edit } from "react-feather";
 import { Ability } from "../../../entities/abilities/abilities";
@@ -86,7 +86,7 @@ export function AbilityCard({
 }: Props) {
   const { abilityTypes } = useContext(AbilitiesContext);
   const { abilities, setAbilities } = useContext(AbilitiesContext);
-  const { setTagColors } = useContext(TagsContext);
+  const { tagColors, setTagColors } = useContext(TagsContext);
   const [description, setDescription] = useState(
     getDescription(ability, isPlayerAbility, modifiers)
   );
@@ -141,12 +141,26 @@ export function AbilityCard({
       <div className="ability-card">
         <div className="name">
           {editable && (
-            <SmolButton color="mutedWhite" clicked={() => setIsEditing(!isEditing)}>
+            <SmolButton
+              color="mutedWhite"
+              clicked={() => setIsEditing(!isEditing)}
+            >
               <Edit />
             </SmolButton>
           )}
           <button className="card-title" onClick={() => setExpanded(!expanded)}>
-            <div>{ability.name}</div>
+            <div className="left">
+              {ability.name}
+              <div className="dots">
+                {!expanded &&
+                  map(ability.tags, (tag) => (
+                    <span
+                      className="dot"
+                      style={{ backgroundColor: tagColors[tag] }}
+                    ></span>
+                  ))}
+              </div>
+            </div>
             <div className="chevron">
               {expanded ? <ChevronUp /> : <ChevronDown />}
             </div>

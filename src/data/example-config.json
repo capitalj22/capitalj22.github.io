@@ -1489,14 +1489,7 @@
   "stats": [
     { "id": "armor", "name": "Armor" },
     { "id": "hp", "name": "Hit Points" },
-    { "id": "movement", "name": "Movement" },
-    { "id": "holy-spell-slots", "name": "Holy Spell Slots" },
-    { "id": "enchantment-spell-slots", "name": "Enchantment Spell Slots" },
-    {
-      "id": "enchantment-spells-per-action",
-      "name": "Enchantment Spells Per Action"
-    },
-    { "id": "necro-slots", "name": "Necromancy Spell Slots" }
+    { "id": "movement", "name": "Movement" }
   ],
   "abilityTypes": [
     { "id": "action", "name": "Action" },

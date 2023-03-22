@@ -24,8 +24,11 @@
   .abilities {
     padding-bottom: 5rem;
 
-    .title {
+    .expand-button {
+      display: flex;
+      justify-content: flex-end;
       padding: 2rem;
+      padding-top: 0;
     }
 
     .container {
