@@ -1,14 +1,16 @@
 import { useState } from "react";
 import CharacterSheet from "../../characterSheet/characterSheet";
 import { CodePanel } from "../../codePanel/codePanel";
+import { Accordion } from "../../layout/accordion/accordion";
 import { SidebarRight } from "../../layout/right/sidebarRight";
 import { AbilityEditor } from "./abilityEditor/abilityEditor";
+import { AbilityTypeEditor } from "./abilityTypeEditor/abilityTypeEditor";
 import { StatEditor } from "./statEditor/statEditor";
 const example1 =
   "{myParam}This only appears when 'myParam' is at least 1{/myParam}";
 const example2 = "%myParam% will be replaced with the value of 'myParam'";
 const example3 = `You make 1 melee attack against an adjacent enemy. Roll 1d6{dmg}+%dmg%{/dmg} and do that much damage.`;
-export function RightPanel({ importAttempted, nodes, abilitiesChanged }) {
+export function RightPanel({ importAttempted, nodes }) {
   const [selectedItem, setSelectedItem] = useState("info");
   const [menuTitle, setMenuTitle] = useState("info");
 
@@ -26,10 +28,7 @@ export function RightPanel({ importAttempted, nodes, abilitiesChanged }) {
         setMenuTitle("Help");
         break;
       case "list":
-        setMenuTitle("Edit Abilities");
-        break;
-      case "stats":
-        setMenuTitle("Edit Stats");
+        setMenuTitle("Edit Data");
         break;
       default:
         break;
@@ -38,10 +37,6 @@ export function RightPanel({ importAttempted, nodes, abilitiesChanged }) {
 
   const handleImportAttempted = (item) => {
     importAttempted(item);
-  };
-
-  const handleAbilitiesChanged = (event) => {
-    abilitiesChanged(event);
   };
 
   return (
@@ -57,9 +52,15 @@ export function RightPanel({ importAttempted, nodes, abilitiesChanged }) {
       )}
       {selectedItem === "list" ? (
         <div>
-          <AbilityEditor
-            abilitiesChanged={handleAbilitiesChanged}
-          ></AbilityEditor>
+          <Accordion name="Abilities" startOpen={false}>
+            <AbilityEditor></AbilityEditor>
+          </Accordion>
+          <Accordion name="Ability Types" startOpen={false}>
+            <AbilityTypeEditor></AbilityTypeEditor>
+          </Accordion>
+          <Accordion name="Stats" startOpen={false}>
+            <StatEditor></StatEditor>
+          </Accordion>
         </div>
       ) : (
         ""

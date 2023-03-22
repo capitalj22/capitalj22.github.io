@@ -16,6 +16,10 @@
 
   .abilities {
     padding-bottom: 5rem;
+    .title {
+      padding-left: 2rem;
+      padding-bottom: 1rem;
+    }
 
     .expand-button {
       display: flex;
@@ -40,6 +44,7 @@
   }
 
   .title {
+    color: var(--infoColor);
     font-size: 2em;
     font-weight: 300;
   }

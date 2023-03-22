@@ -40,19 +40,15 @@ const graphEvents$ = new Subject<IGraphEvent>();
 
 function saveNodes(nodes) {
   localStorage.setItem("dragon-nodes", JSON.stringify(nodes));
-  // localStorage.removeItem("dragon-nodes");
 }
 
 export function Main() {
   const { build, setSavedBuild } = useContext(BuildContext);
   const { setTagColors } = useContext(TagsContext);
   const { setStats } = useContext(StatsContext);
-  const { setAbilityTypes, abilities, setAbilities } =
-    useContext(AbilitiesContext);
+  const { setAbilityTypes, setAbilities } = useContext(AbilitiesContext);
   const [selectedNode, setSelectedNode] = useState({});
   const [nodes, setNodes] = useState(() => getNodes());
-
-  const activeAbilities = useRef(abilities);
 
   useEffect(() => {
     saveNodes(nodes);
@@ -119,11 +115,6 @@ export function Main() {
     setSelectedNode(event.node);
   };
 
-  const handleAbilitiesChanged = (event) => {
-    setAbilities(() => [...event]);
-    activeAbilities.current = [...event];
-  };
-
   return (
     <div className="App">
       <div className="appLeft">
@@ -137,7 +128,6 @@ export function Main() {
         <RightPanel
           nodes={nodes}
           importAttempted={handleImportAttempted}
-          abilitiesChanged={handleAbilitiesChanged}
         ></RightPanel>
       </div>
       <div className="skill-panel">

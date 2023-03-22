@@ -4,12 +4,9 @@ import { ChevronsDown, ChevronsUp, PlusSquare } from "react-feather";
 import { Ability } from "../../../../entities/abilities/abilities";
 import { AbilitiesContext } from "../../../../providers/abilities/abilitiesProvider";
 import { AbilityCard } from "../../../characterSheet/abilityCard/abilityCard";
-import { TagFilters } from "../../../characterSheet/tagFilters/tagFilters";
 import { SmolButton } from "../../../common/buttons/smolButton";
 import { AbilityFilterPanel } from "../../../common/filters/abilityFilterPanel";
 import { AbilityFiltersProvider } from "../../../common/filters/abilityFilterProvider";
-import { FancyTextInput } from "../../../common/tag-input/fancyTextInput";
-import { AbilityTypeEditor } from "../abilityTypeEditor/abilityTypeEditor";
 import "./abilityEditor.scss";
 
 function filterAbilities(abilities, filters) {
@@ -43,7 +40,7 @@ function getTags(abilities: Ability[]) {
   return sortBy(uniq(tags));
 }
 
-export function AbilityEditor({ abilitiesChanged }) {
+export function AbilityEditor() {
   const { abilities, setAbilities } = useContext(AbilitiesContext);
   const [filters, setFilters] = useState({
     tags: [] as string[],
@@ -133,10 +130,6 @@ export function AbilityEditor({ abilitiesChanged }) {
             </button>
           </div>
         )}
-      </div>
-      <div className="ability-type-editor">
-        <div className="title"> Ability Types:</div>
-        <AbilityTypeEditor></AbilityTypeEditor>
       </div>
     </div>
   );
