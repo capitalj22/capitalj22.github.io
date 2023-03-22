@@ -12,7 +12,6 @@ import {
   getNodeColor,
   updateNodes,
 } from "./utils/node.utils";
-import { ABILITIES } from "../../entities/abilities/abilities";
 import { SimulationNodeDatum } from "d3";
 import { IGraphEvent } from "../main/main";
 

@@ -46,7 +46,7 @@ function saveNodes(nodes) {
 }
 
 export function Main() {
-  const { build, setBuild } = useContext(BuildContext);
+  const { build, setSavedBuild } = useContext(BuildContext);
   const { setTagColors } = useContext(TagsContext);
   const { setStats } = useContext(StatsContext);
   const { setAbilityTypes, abilities, setAbilities } =
@@ -75,11 +75,11 @@ export function Main() {
       const build = JSON.parse(event.data);
 
       if (build) {
-        setBuild({ type: "set", build: JSON.parse(event.data) });
+        setSavedBuild({ type: "imported", build: JSON.parse(event.data) });
       }
     } else if (event.type === "trees") {
       const config = JSON.parse(event.data);
-      setBuild({ type: "set", build: {} });
+      setSavedBuild({ type: "imported", build: {} });
       if (config) {
         if (config.nodes) {
           setNodes(config.nodes);
@@ -105,7 +105,7 @@ export function Main() {
       setTagColors({ type: "set", tagColors: [] });
       setStats({ type: "set", stats: [] });
 
-      setBuild({ type: "set", build: {} });
+      setSavedBuild({ type: "imported", build: {} });
     } else if (event.type === "default") {
       const defaults = exampleJson;
       setNodes(defaults.nodes);
@@ -113,7 +113,7 @@ export function Main() {
       setAbilityTypes({ type: "set", abilityTypes: defaults.abilityTypes });
       setAbilities({ type: "set", abilities: defaults.abilities });
       setTagColors({ type: "set", colors: defaults.tagColors });
-      setBuild({ type: "set", build: {} });
+      setSavedBuild({ type: "imported", build: {} });
     }
   };
 

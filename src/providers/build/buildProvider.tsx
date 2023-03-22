@@ -1,6 +1,6 @@
 import { clone } from "lodash-es";
 import { createContext, useReducer } from "react";
-export const BuildContext = createContext({} as { build: any; setBuild: any });
+export const BuildContext = createContext({} as any);
 
 function getBuild() {
   const build = window.localStorage.getItem("dragon-build");
@@ -11,10 +11,21 @@ function getBuild() {
   }
 }
 
+const savedBuildReducer = (state, action) => {
+  const { build, type } = action;
+  let newState = clone(state);
+
+  if (type === "imported") {
+    newState = build;
+    return newState;
+  }
+
+  return state;
+};
+
 const buildReducer = (state, action) => {
   const { build, type } = action;
   let newState = clone(state);
-  console.log(state, action);
   if (type === "set") {
     newState = build;
     window.localStorage.setItem("dragon-build", JSON.stringify(newState));
@@ -26,8 +37,15 @@ const buildReducer = (state, action) => {
 
 export const BuildProvider = ({ children }) => {
   const [build, setBuild] = useReducer(buildReducer, getBuild());
+  const [savedBuild, setSavedBuild] = useReducer(
+    savedBuildReducer,
+    build?.exportableBuild
+  );
+
   return (
-    <BuildContext.Provider value={{ build, setBuild }}>
+    <BuildContext.Provider
+      value={{ build, setBuild, savedBuild, setSavedBuild }}
+    >
       {children}
     </BuildContext.Provider>
   );

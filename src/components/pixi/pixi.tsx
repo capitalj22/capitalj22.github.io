@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { runGraphPixi } from "./runPixi";
 import styles from "./pixi.module.css";
 import { Subject } from "rxjs";
@@ -8,15 +8,14 @@ import { newDragonFromNodes } from "../../entities/actor/dragon.entity";
 import { AbilitiesContext } from "../../providers/abilities/abilitiesProvider";
 
 export function PixiGraph({ trees, infoUpdated, graphEvents }) {
-  const containerRef = React.useRef(null);
+  const containerRef = useRef(null);
   const { abilities } = useContext(AbilitiesContext);
   const nodesUpdated$ = new Subject();
   const infoUpdated$ = new Subject();
-  const { build, setBuild } = useContext(BuildContext);
+  const { savedBuild, setBuild } = useContext(BuildContext);
 
-  useEffect(() => {}, []);
-
-  React.useEffect(() => {
+  useEffect(() => {
+    console.log(savedBuild)
     let destroyFn;
 
     graphEvents.subscribe({
@@ -38,8 +37,6 @@ export function PixiGraph({ trees, infoUpdated, graphEvents }) {
           type: "set",
           build: newDragonFromNodes(selectedNodes, abilities),
         });
-
-        console.log("build");
       },
     });
 
@@ -53,7 +50,7 @@ export function PixiGraph({ trees, infoUpdated, graphEvents }) {
       const { destroy } = runGraphPixi(
         containerRef.current,
         trees,
-        build,
+        savedBuild,
         nodesUpdated$,
         infoUpdated$,
         graphEvents
@@ -64,7 +61,7 @@ export function PixiGraph({ trees, infoUpdated, graphEvents }) {
     // nodeSelectionUpdated({})
     infoUpdated({});
     return destroyFn;
-  }, []);
+  }, [savedBuild]);
 
   return <div ref={containerRef} className={styles.container} />;
 }
