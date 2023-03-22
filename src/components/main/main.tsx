@@ -1,29 +1,16 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { PixiGraph } from "../pixi/pixi";
 import { filter } from "lodash-es";
 import { newDragonFromNodes } from "../../entities/actor/dragon.entity";
-import { PointCounter } from "../misc/pointCounter";
 import { Subject } from "rxjs";
-import { LeftPanel } from "../panels/left/leftPanel";
-import { RightPanel } from "../panels/right/rightPanel";
 import { StatsContext } from "../../providers/stats/statsProvider";
 import { TagsContext } from "../../providers/tags/tagsProvider";
 import { AbilitiesContext } from "../../providers/abilities/abilitiesProvider";
 import exampleJson from "../../data/example-config.json";
-
-function getBuild() {
-  const localBuild = localStorage.getItem("dragon-build");
-  let myBuild;
-  if (localBuild) {
-    try {
-      myBuild = JSON.parse(localBuild);
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  return myBuild || {};
-}
+import { BuildContext } from "../../providers/build/buildProvider";
+import { LeftPanel } from "../panels/left/leftPanel";
+import { RightPanel } from "../panels/right/rightPanel";
+import { PointCounter } from "../misc/pointCounter";
+import { PixiGraph } from "../pixi/pixi";
 
 function getNodes() {
   const localBuild = localStorage.getItem("dragon-nodes");
@@ -53,17 +40,13 @@ export interface IGraphEvent {
 
 const graphEvents$ = new Subject<IGraphEvent>();
 
-function saveBuild(build) {
-  localStorage.setItem("dragon-build", JSON.stringify(build));
-  // localStorage.removeItem("dragon-build");
-}
-
 function saveNodes(nodes) {
   localStorage.setItem("dragon-nodes", JSON.stringify(nodes));
   // localStorage.removeItem("dragon-nodes");
 }
 
 export function Main() {
+  const { build, setBuild } = useContext(BuildContext);
   const { setTagColors } = useContext(TagsContext);
   const { setStats } = useContext(StatsContext);
   const { setAbilityTypes, abilities, setAbilities } =
@@ -72,13 +55,6 @@ export function Main() {
   const [nodes, setNodes] = useState(() => getNodes());
 
   const activeAbilities = useRef(abilities);
-
-  const [build, setBuild] = useState(() => getBuild());
-  const [dragon, setDragon] = useState(newDragonFromNodes(nodes, abilities));
-
-  useEffect(() => {
-    saveBuild(dragon.exportableBuild);
-  }, [dragon]);
 
   useEffect(() => {
     saveNodes(nodes);
@@ -94,26 +70,16 @@ export function Main() {
     });
   }, []);
 
-  const nodeSelectionUpdated = (event) => {
-    const selectedNodes = filter(
-      event.nodes,
-      (node) => node.selected || node.acquired
-    );
-    setDragon((dragon) =>
-      newDragonFromNodes(selectedNodes, activeAbilities.current)
-    );
-  };
-
   const handleImportAttempted = (event) => {
     if (event.type === "build") {
       const build = JSON.parse(event.data);
 
       if (build) {
-        setBuild(JSON.parse(event.data));
+        setBuild({ type: "set", build: JSON.parse(event.data) });
       }
     } else if (event.type === "trees") {
       const config = JSON.parse(event.data);
-      setBuild({});
+      setBuild({ type: "set", build: {} });
       if (config) {
         if (config.nodes) {
           setNodes(config.nodes);
@@ -139,7 +105,7 @@ export function Main() {
       setTagColors({ type: "set", tagColors: [] });
       setStats({ type: "set", stats: [] });
 
-      setBuild({});
+      setBuild({ type: "set", build: {} });
     } else if (event.type === "default") {
       const defaults = exampleJson;
       setNodes(defaults.nodes);
@@ -147,7 +113,7 @@ export function Main() {
       setAbilityTypes({ type: "set", abilityTypes: defaults.abilityTypes });
       setAbilities({ type: "set", abilities: defaults.abilities });
       setTagColors({ type: "set", colors: defaults.tagColors });
-      setBuild({});
+      setBuild({ type: "set", build: {} });
     }
   };
 
@@ -164,15 +130,13 @@ export function Main() {
     <div className="App">
       <div className="appLeft">
         <LeftPanel
-          build={dragon}
           selectedNode={selectedNode}
           graphEvents$={graphEvents$}
         ></LeftPanel>
-        <PointCounter pointsSpent={dragon.pointsInvested}></PointCounter>
+        <PointCounter pointsSpent={build.pointsInvested}></PointCounter>
       </div>
       <div className="appRight">
         <RightPanel
-          build={dragon}
           nodes={nodes}
           importAttempted={handleImportAttempted}
           abilitiesChanged={handleAbilitiesChanged}
@@ -181,8 +145,6 @@ export function Main() {
       <div className="skill-panel">
         <PixiGraph
           trees={nodes}
-          buildData={build}
-          nodeSelectionUpdated={(e) => nodeSelectionUpdated(e)}
           infoUpdated={infoUpdated}
           graphEvents={graphEvents$}
         ></PixiGraph>

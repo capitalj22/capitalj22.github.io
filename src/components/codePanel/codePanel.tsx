@@ -1,12 +1,14 @@
 import { useContext, useState } from "react";
 import { Copy, Download, MapPin, RefreshCcw, Shield } from "react-feather";
 import { AbilitiesContext } from "../../providers/abilities/abilitiesProvider";
+import { BuildContext } from "../../providers/build/buildProvider";
 import { StatsContext } from "../../providers/stats/statsProvider";
 import { TagsContext } from "../../providers/tags/tagsProvider";
 
 import "./codePanel.scss";
 
-export function CodePanel({ build, nodes, importAttempted }) {
+export function CodePanel({ nodes, importAttempted }) {
+  const { build } = useContext(BuildContext);
   const { tagColors } = useContext(TagsContext);
   const { stats } = useContext(StatsContext);
   const { abilityTypes, abilities } = useContext(AbilitiesContext);

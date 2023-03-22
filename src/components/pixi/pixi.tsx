@@ -1,22 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { runGraphPixi } from "./runPixi";
 import styles from "./pixi.module.css";
 import { Subject } from "rxjs";
+import { BuildContext } from "../../providers/build/buildProvider";
+import { filter } from "lodash-es";
+import { newDragonFromNodes } from "../../entities/actor/dragon.entity";
+import { AbilitiesContext } from "../../providers/abilities/abilitiesProvider";
 
-export function PixiGraph({
-  trees,
-  buildData,
-  nodeSelectionUpdated,
-  infoUpdated,
-  graphEvents,
-}) {
+export function PixiGraph({ trees, infoUpdated, graphEvents }) {
   const containerRef = React.useRef(null);
+  const { abilities } = useContext(AbilitiesContext);
   const nodesUpdated$ = new Subject();
   const infoUpdated$ = new Subject();
+  const { build, setBuild } = useContext(BuildContext);
 
-  useEffect(() => {
-   
-  }, []);
+  useEffect(() => {}, []);
 
   React.useEffect(() => {
     let destroyFn;
@@ -28,8 +26,20 @@ export function PixiGraph({
     });
 
     nodesUpdated$.subscribe({
-      next: (data) => {
-        nodeSelectionUpdated(data);
+      next: (data: any) => {
+        const selectedNodes = filter(
+          data.nodes,
+          (node) => node.selected || node.acquired
+        );
+
+        console.log(selectedNodes);
+
+        setBuild({
+          type: "set",
+          build: newDragonFromNodes(selectedNodes, abilities),
+        });
+
+        console.log("build");
       },
     });
 
@@ -43,7 +53,7 @@ export function PixiGraph({
       const { destroy } = runGraphPixi(
         containerRef.current,
         trees,
-        buildData,
+        build,
         nodesUpdated$,
         infoUpdated$,
         graphEvents
@@ -52,9 +62,9 @@ export function PixiGraph({
     }
 
     // nodeSelectionUpdated({})
-    infoUpdated({})
+    infoUpdated({});
     return destroyFn;
-  }, [buildData]);
+  }, []);
 
   return <div ref={containerRef} className={styles.container} />;
 }

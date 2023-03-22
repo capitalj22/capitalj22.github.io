@@ -1,6 +1,7 @@
 import { each, find, isUndefined, map, reduce, times } from "lodash-es";
 import { useContext, useEffect, useState } from "react";
 import { AbilitiesContext } from "../../../../providers/abilities/abilitiesProvider";
+import { BuildContext } from "../../../../providers/build/buildProvider";
 import { AbilityCard } from "../../../characterSheet/abilityCard/abilityCard";
 import "./infoPanel.scss";
 
@@ -14,7 +15,7 @@ function formatNodeModifiers(providedAbilities, build, selected) {
   let abilities = {};
 
   each(providedAbilities, (ability) => {
-    let modifiers = {...build?.abilities[ability?.id]?.modifiers} || {};
+    let modifiers = { ...build?.abilities[ability?.id]?.modifiers } || {};
 
     each(ability.modifiers, (modifier) => {
       if (!selected) {
@@ -28,7 +29,8 @@ function formatNodeModifiers(providedAbilities, build, selected) {
   return abilities;
 }
 
-export function InfoPanel({ node, build }) {
+export function InfoPanel({ node }) {
+  const { build } = useContext(BuildContext);
   const { abilities } = useContext(AbilitiesContext);
   const [relatedAbilities, setRelatedAbilities] = useState(
     getRelatedAbilities(node, abilities)

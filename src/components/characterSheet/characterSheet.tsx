@@ -10,6 +10,7 @@ import {
 } from "lodash-es";
 import { useContext, useEffect, useState } from "react";
 import { AbilitiesContext } from "../../providers/abilities/abilitiesProvider";
+import { BuildContext } from "../../providers/build/buildProvider";
 import { StatsContext } from "../../providers/stats/statsProvider";
 import { Accordion } from "../layout/accordion/accordion";
 import { AbilityCard } from "./abilityCard/abilityCard";
@@ -17,14 +18,10 @@ import "./characterSheet.scss";
 import { StatLine } from "./statLine/statLine";
 import { TagFilters } from "./tagFilters/tagFilters";
 
-function getTypeName(abilityTypes, id) {
-  return find(abilityTypes, { id })?.name;
-}
-
-function getKnownAbilities(dragon, abilityTypes) {
+function getKnownAbilities(build) {
   return groupBy(
     map(
-      filter(dragon.abilities, (ability) => {
+      filter(build.abilities, (ability) => {
         return !ability.replaced && ability.learned;
       }),
       (ability) => ({
@@ -35,14 +32,15 @@ function getKnownAbilities(dragon, abilityTypes) {
   );
 }
 
-function CharacterSheet({ dragon }) {
+function CharacterSheet() {
+  const { build } = useContext(BuildContext);
   const { abilityTypes } = useContext(AbilitiesContext);
   const [knownAbilities, setKnownAbilities] = useState({});
   const [abilityTags, setAbilityTags] = useState({});
   const { stats } = useContext(StatsContext);
 
   useEffect(() => {
-    const abilities = getKnownAbilities(dragon, abilityTypes);
+    const abilities = getKnownAbilities(build);
 
     let abilityTagsTemp = {};
     each(Object.keys(abilities), (typeName) => {
@@ -56,10 +54,10 @@ function CharacterSheet({ dragon }) {
     });
     setKnownAbilities(abilities);
     setAbilityTags(abilityTagsTemp);
-  }, [dragon]);
+  }, [build]);
 
   const handleSelectedTagsChanged = (tags, key) => {
-    let tempAbilities = getKnownAbilities(dragon, abilityTypes);
+    let tempAbilities = getKnownAbilities(build);
 
     if (tags.length) {
       tempAbilities[key] = filter(
@@ -77,10 +75,10 @@ function CharacterSheet({ dragon }) {
         <div className="title">Stats</div>
         <StatLine
           label=" Skill Points Spent"
-          value={dragon.pointsInvested}
+          value={build.pointsInvested}
         ></StatLine>
         {map(stats, (stat, key) => (
-          <StatLine label={stat.name} value={dragon[stat.id] || 0}></StatLine>
+          <StatLine label={stat.name} value={build.stats[stat.id] || 0}></StatLine>
         ))}
       </div>
       <div className="abilities">

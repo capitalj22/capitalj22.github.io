@@ -3,18 +3,12 @@ import CharacterSheet from "../../characterSheet/characterSheet";
 import { CodePanel } from "../../codePanel/codePanel";
 import { SidebarRight } from "../../layout/right/sidebarRight";
 import { AbilityEditor } from "./abilityEditor/abilityEditor";
-import { AbilityTypeEditor } from "./abilityTypeEditor/abilityTypeEditor";
 import { StatEditor } from "./statEditor/statEditor";
 const example1 =
   "{myParam}This only appears when 'myParam' is at least 1{/myParam}";
 const example2 = "%myParam% will be replaced with the value of 'myParam'";
 const example3 = `You make 1 melee attack against an adjacent enemy. Roll 1d6{dmg}+%dmg%{/dmg} and do that much damage.`;
-export function RightPanel({
-  build,
-  importAttempted,
-  nodes,
-  abilitiesChanged,
-}) {
+export function RightPanel({ importAttempted, nodes, abilitiesChanged }) {
   const [selectedItem, setSelectedItem] = useState("info");
   const [menuTitle, setMenuTitle] = useState("info");
 
@@ -52,14 +46,9 @@ export function RightPanel({
 
   return (
     <SidebarRight itemSelected={handleItemSelected} title={menuTitle}>
-      {selectedItem === "sheet" ? (
-        <CharacterSheet dragon={build}></CharacterSheet>
-      ) : (
-        ""
-      )}
+      {selectedItem === "sheet" ? <CharacterSheet></CharacterSheet> : ""}
       {selectedItem === "code" ? (
         <CodePanel
-          build={build}
           nodes={nodes}
           importAttempted={handleImportAttempted}
         ></CodePanel>
@@ -76,7 +65,10 @@ export function RightPanel({
         ""
       )}
       {selectedItem === "help" ? (
-        <div className="padding-md" style={{ textAlign: "left", color: "#ddd" }}>
+        <div
+          className="padding-md"
+          style={{ textAlign: "left", color: "#ddd" }}
+        >
           <h2>Ability Description Syntax</h2>
           <h3>Condition</h3>
           <p>{example1}</p>
