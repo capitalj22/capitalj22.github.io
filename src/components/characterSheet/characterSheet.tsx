@@ -32,41 +32,61 @@ function getKnownAbilities(build) {
   );
 }
 
+function filterAbilities(abilities, filters) {
+  if (filters) {
+    return filter(abilities, (ability) => {
+      let matches = true;
+      if (filters.tags?.length) {
+        matches = intersection(filters.tags, ability.tags).length > 0;
+      }
+      if (filters.textFilter?.length) {
+        matches =
+          matches &&
+          ability.name.toLowerCase().includes(filters.textFilter.toLowerCase());
+      }
+      return matches;
+    });
+  } else {
+    return abilities;
+  }
+}
+
+function formatKnownAbilitiesAndTags(build, abilities) {
+  let knownAbilities = getKnownAbilities(build);
+  let abilityTags = {};
+  each(Object.keys(knownAbilities), (typeName) => {
+    let tags: string[] = [];
+    each(knownAbilities[typeName], (knownAbility) => {
+      const id = knownAbility.id;
+      knownAbility.ability = find(abilities as any, { id });
+
+      if (knownAbility.tags) {
+        tags = uniq([...tags, ...knownAbility.tags]);
+      }
+    });
+    abilityTags[typeName] = sortBy(tags);
+  });
+
+  return { abilityTags, knownAbilities };
+}
+
 function CharacterSheet() {
   const { build } = useContext(BuildContext);
-  const { abilityTypes } = useContext(AbilitiesContext);
+  const { abilityTypes, abilities } = useContext(AbilitiesContext);
   const [knownAbilities, setKnownAbilities] = useState({});
   const [abilityTags, setAbilityTags] = useState({});
   const { stats } = useContext(StatsContext);
+  const [filters, setFilters] = useState({});
 
   useEffect(() => {
-    const abilities = getKnownAbilities(build);
+    const result = formatKnownAbilitiesAndTags(build, abilities);
 
-    let abilityTagsTemp = {};
-    each(Object.keys(abilities), (typeName) => {
-      let tags: string[] = [];
-      each(abilities[typeName], (ability) => {
-        if (ability.tags) {
-          tags = uniq([...tags, ...ability.tags]);
-        }
-      });
-      abilityTagsTemp[typeName] = sortBy(tags);
-    });
-    setKnownAbilities(abilities);
-    setAbilityTags(abilityTagsTemp);
-  }, [build]);
+    setKnownAbilities(result.knownAbilities);
+    setAbilityTags(result.abilityTags);
+  }, [build, abilities]);
 
   const handleSelectedTagsChanged = (tags, key) => {
-    let tempAbilities = getKnownAbilities(build);
-
-    if (tags.length) {
-      tempAbilities[key] = filter(
-        tempAbilities[key],
-        (ability) => ability.tags && intersection(ability.tags, tags).length
-      );
-    }
-
-    setKnownAbilities(tempAbilities);
+    setFilters({ ...filters, [key]: { tags: tags } });
   };
 
   return (
@@ -78,7 +98,10 @@ function CharacterSheet() {
           value={build.pointsInvested}
         ></StatLine>
         {map(stats, (stat, key) => (
-          <StatLine label={stat.name} value={build.stats[stat.id] || 0}></StatLine>
+          <StatLine
+            label={stat.name}
+            value={build.stats[stat.id] || 0}
+          ></StatLine>
         ))}
       </div>
       <div className="abilities">
@@ -103,14 +126,20 @@ function CharacterSheet() {
               ""
             )}
             <div className="ability-cards">
-              {knownAbilities[type.id]?.map((ability) => (
-                <AbilityCard
-                  ability={ability}
-                  isPlayerAbility={true}
-                  modifiers={ability.modifiers}
-                  startOpen={true}
-                ></AbilityCard>
-              ))}
+              {filterAbilities(knownAbilities[type.id], filters[type.id])?.map(
+                (knownAbility) => (
+                  <div>
+                    {knownAbility?.ability && (
+                      <AbilityCard
+                        ability={knownAbility.ability}
+                        isPlayerAbility={true}
+                        modifiers={knownAbility.modifiers}
+                        startOpen={true}
+                      ></AbilityCard>
+                    )}
+                  </div>
+                )
+              )}
             </div>
           </Accordion>
         ))}
