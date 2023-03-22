@@ -1,6 +1,4 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { filter } from "lodash-es";
-import { newDragonFromNodes } from "../../entities/actor/dragon.entity";
 import { Subject } from "rxjs";
 import { StatsContext } from "../../providers/stats/statsProvider";
 import { TagsContext } from "../../providers/tags/tagsProvider";

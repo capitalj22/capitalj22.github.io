@@ -15,7 +15,6 @@ export function PixiGraph({ trees, infoUpdated, graphEvents }) {
   const { savedBuild, setBuild } = useContext(BuildContext);
 
   useEffect(() => {
-    console.log(savedBuild)
     let destroyFn;
 
     graphEvents.subscribe({
@@ -26,12 +25,11 @@ export function PixiGraph({ trees, infoUpdated, graphEvents }) {
 
     nodesUpdated$.subscribe({
       next: (data: any) => {
+        console.log("data");
         const selectedNodes = filter(
           data.nodes,
           (node) => node.selected || node.acquired
         );
-
-        console.log(selectedNodes);
 
         setBuild({
           type: "set",
@@ -58,7 +56,6 @@ export function PixiGraph({ trees, infoUpdated, graphEvents }) {
       destroyFn = destroy;
     }
 
-    // nodeSelectionUpdated({})
     infoUpdated({});
     return destroyFn;
   }, [savedBuild]);
