@@ -71,11 +71,8 @@ const abilitiesReducer = (state, action) => {
 };
 
 const abilityTypeReducer = (state, action) => {
-  // get the book object and the type of action by destructuring
   const { index, abilityType, abilityTypes, type } = action;
   let newState = clone(state);
-  // if "add"
-  // return an array of the previous state and the book object
 
   if (type === "save") {
     try {
