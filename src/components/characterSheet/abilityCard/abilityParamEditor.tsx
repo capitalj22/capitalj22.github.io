@@ -1,5 +1,5 @@
 import { clone, each, map, some } from "lodash-es";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { PlusSquare, Trash2 } from "react-feather";
 import { BigButton } from "../../common/buttons/bigButton";
 import { SmolButton } from "../../common/buttons/smolButton";

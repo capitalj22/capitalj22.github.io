@@ -9,22 +9,41 @@
 
   .name {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+    margin: 0 -1rem;
+    gap: 0.5rem;
+    padding-left: 0.5rem;
 
     button {
       background-color: transparent;
 
-      svg {
+      .chevron svg {
         color: var(--themeColorText);
       }
+
+      padding-right: 1rem;
     }
+
     button.edit {
       color: #aaa;
       padding: 0.5rem;
       margin-left: -1rem;
       margin-right: 1rem;
     }
-    .card-title,
+    .card-title {
+      text-align: left;
+      width: 100%;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: 700;
+      font-size: 1.5em;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+      padding-right: 1rem;
+    }
+
     input {
       text-align: left;
       width: 100%;
@@ -34,8 +53,9 @@
       justify-content: space-between;
       font-weight: 700;
       font-size: 1.5em;
-      margin-bottom: 1rem;
       padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+      padding-right: 1rem;
     }
   }
 

@@ -4,6 +4,7 @@ import { ChevronDown, ChevronUp, Edit } from "react-feather";
 import { Ability } from "../../../entities/abilities/abilities";
 import { AbilitiesContext } from "../../../providers/abilities/abilitiesProvider";
 import { TagsContext } from "../../../providers/tags/tagsProvider";
+import { SmolButton } from "../../common/buttons/smolButton";
 import { StatTag } from "../statTag/statTag";
 import "./abilityCard.scss";
 import { EditableAbilityCard } from "./editableAbilityCard";
@@ -115,7 +116,7 @@ export function AbilityCard({
   const handleAbilityCopied = (event) => {
     abilityCopied(event);
   };
-  
+
   const handleAbilityRemoved = (event) => {
     setIsEditing(false);
     abilityRemoved(event);
@@ -140,13 +141,15 @@ export function AbilityCard({
       <div className="ability-card">
         <div className="name">
           {editable && (
-            <button className="edit" onClick={() => setIsEditing(!isEditing)}>
+            <SmolButton color="mutedWhite" clicked={() => setIsEditing(!isEditing)}>
               <Edit />
-            </button>
+            </SmolButton>
           )}
           <button className="card-title" onClick={() => setExpanded(!expanded)}>
             <div>{ability.name}</div>
-            <div>{expanded ? <ChevronUp /> : <ChevronDown />}</div>
+            <div className="chevron">
+              {expanded ? <ChevronUp /> : <ChevronDown />}
+            </div>
           </button>
         </div>
         {expanded ? (

@@ -11,6 +11,7 @@ import { AbilitySelect } from "../../common/selects/abilitySelect";
 import { BigButton } from "../../common/buttons/bigButton";
 import "./editableAbilityCard.scss";
 import { Accordion } from "../../layout/accordion/accordion";
+import { SmolButton } from "../../common/buttons/smolButton";
 
 type Props = {
   ability: Ability;
@@ -99,16 +100,16 @@ export function EditableAbilityCard({
   return (
     <div className="ability-card editable">
       <div className="name">
-        <button
-          className="edit"
-          onClick={() => {
+        <SmolButton
+          color="info"
+          clicked={() => {
             if (isFunction(editingCanceled)) {
               editingCanceled();
             }
           }}
         >
           <RotateCcw />
-        </button>
+        </SmolButton>
 
         <div className="form-control">
           <input

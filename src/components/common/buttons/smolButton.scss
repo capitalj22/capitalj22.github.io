@@ -14,6 +14,10 @@
     color: var(--infoColor);
   }
 
+  &.mutedWhite {
+    color: var(--mutedWhite);
+  }
+
   &.theme {
     color: var(--themeColorText);
   }

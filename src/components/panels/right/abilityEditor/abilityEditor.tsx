@@ -58,6 +58,7 @@ export function AbilityEditor({ abilitiesChanged }) {
 
   const abilityRemoved = (id) => {
     setAbilities({ type: "remove", ability: { id } });
+    setAbilities({ type: "save" });
   };
 
   const addButtonPressed = () => {
