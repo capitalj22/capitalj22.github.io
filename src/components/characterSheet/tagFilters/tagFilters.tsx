@@ -1,24 +1,19 @@
 import { includes } from "lodash-es";
-import { useEffect, useState } from "react";
-import { RotateCcw } from "react-feather";
-import { SmolButton } from "../../common/buttons/smolButton";
+import { useContext } from "react";
+import { abilityFiltersContext } from "../../common/filters/abilityFilterProvider";
 import { StatTag } from "../statTag/statTag";
 import "./tagFilters.scss";
 
-export function TagFilters({ tags, selectedTagsChanged }) {
-  const [selectedTags, setSelectedTags] = useState([] as string[]);
+export function TagFilters({ tags }) {
+  const { filters, setFilters } = useContext(abilityFiltersContext);
 
   const handleTagSelected = (tag: string) => {
-    if (selectedTags.includes(tag)) {
-      setSelectedTags(selectedTags.filter((t) => t !== tag));
+    if (filters.tags.includes(tag)) {
+      setFilters({ ...filters, tags: filters.tags.filter((t) => t !== tag) });
     } else {
-      setSelectedTags([...selectedTags, tag]);
+      setFilters({ ...filters, tags: [...filters.tags, tag] });
     }
   };
-
-  useEffect(() => {
-    selectedTagsChanged(selectedTags);
-  }, [selectedTags]);
 
   if (tags) {
     return (
@@ -28,13 +23,9 @@ export function TagFilters({ tags, selectedTagsChanged }) {
             key={tag}
             label={tag}
             clicked={handleTagSelected}
-            selected={includes(selectedTags, tag)}
+            selected={includes(filters.tags, tag)}
           />
         ))}
-        <SmolButton noPadding={true} clicked={() => setSelectedTags([])}>
-          <RotateCcw size={24} />
-          reset
-        </SmolButton>
       </div>
     );
   } else {

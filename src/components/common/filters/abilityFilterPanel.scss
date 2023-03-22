@@ -1,0 +1,35 @@
+.ability-filters {
+  padding: 1rem;
+  background-color: var(--panelColor2);
+  border-bottom: 1px solid var(--superMutedWhite);
+
+  .tag-filters {
+    padding: 1rem 0;
+  }
+  .text-filter {
+    text-align: left;
+    border-bottom: 2px solid var(--superMutedWhite);
+    font-size: 1.25em;
+    input {
+      width: 100%;
+      padding: 0.5rem;
+    }
+  }
+  .controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #aaa;
+  }
+
+  &.closed {
+    padding: 0 1rem;
+  }
+
+  button.controls {
+    background-color: transparent;
+    font-weight: 300;
+    padding: 0.5rem 0;
+    width: 100%;
+  }
+}

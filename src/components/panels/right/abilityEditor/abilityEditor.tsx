@@ -1,4 +1,4 @@
-import { filter, intersection, map, reduce, sortBy, uniq } from "lodash-es";
+import { difference, filter, reduce, sortBy, uniq } from "lodash-es";
 import { useContext, useState } from "react";
 import { ChevronsDown, ChevronsUp, PlusSquare } from "react-feather";
 import { Ability } from "../../../../entities/abilities/abilities";
@@ -6,6 +6,8 @@ import { AbilitiesContext } from "../../../../providers/abilities/abilitiesProvi
 import { AbilityCard } from "../../../characterSheet/abilityCard/abilityCard";
 import { TagFilters } from "../../../characterSheet/tagFilters/tagFilters";
 import { SmolButton } from "../../../common/buttons/smolButton";
+import { AbilityFilterPanel } from "../../../common/filters/abilityFilterPanel";
+import { AbilityFiltersProvider } from "../../../common/filters/abilityFilterProvider";
 import { FancyTextInput } from "../../../common/tag-input/fancyTextInput";
 import { AbilityTypeEditor } from "../abilityTypeEditor/abilityTypeEditor";
 import "./abilityEditor.scss";
@@ -14,7 +16,7 @@ function filterAbilities(abilities, filters) {
   return filter(abilities, (ability) => {
     let matches = true;
     if (filters.tags?.length) {
-      matches = intersection(filters.tags, ability.tags).length > 0;
+      matches = difference(filters.tags, ability.tags).length === 0;
     }
     if (filters.textFilter?.length) {
       matches =
@@ -61,19 +63,18 @@ export function AbilityEditor({ abilitiesChanged }) {
     setAbilities({ type: "save" });
   };
 
+  const filtersUpdated = (event) => {
+    setFilters(event);
+  };
   const addButtonPressed = () => {
-    setFilters({
-      tags: [] as string[],
-      textFilter: "",
-    });
     const newId = `id-${Math.floor(Math.random() * 200)}`;
     setAbilities({
       type: "add",
       ability: {
-        name: "Name",
+        name: filters.textFilter || "New Ability",
         id: newId,
         description: "",
-        tags: [],
+        tags: filters.tags,
         type: "action",
       },
     });
@@ -87,24 +88,15 @@ export function AbilityEditor({ abilitiesChanged }) {
 
   return (
     <div className="ability-editor">
-      <div className="filters">
-        <FancyTextInput
-          fullWidth={true}
-          placeholder="Filter by name"
-          minWidth={200}
-          className="text-filter"
-          value={filters.textFilter}
-          valueChanged={(e) => setFilters({ ...filters, textFilter: e })}
+      <AbilityFiltersProvider>
+        <AbilityFilterPanel
+          expanded={true}
+          tags={getTags(abilities)}
+          filtersUpdated={filtersUpdated}
+          // filtersUpdated={(filters) => {}}
         />
-        <div className="tag-filters">
-          <TagFilters
-            tags={getTags(abilities)}
-            selectedTagsChanged={(e) => {
-              setFilters({ ...filters, tags: e });
-            }}
-          />
-        </div>
-      </div>
+      </AbilityFiltersProvider>
+
       <div className="expand-button">
         Abilities
         <SmolButton color="theme" clicked={toggleExpandAll}>

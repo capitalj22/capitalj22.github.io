@@ -1,23 +1,4 @@
 .ability-editor {
-  .filters {
-    padding: 1rem;
-    background-color: var(--panelColor2);
-    border-bottom: 1px solid var(--superMutedWhite);
-
-    .tag-filters {
-      padding: 1rem 0;
-    }
-    .text-filter {
-      text-align: left;
-      border-bottom: 2px solid var(--superMutedWhite);
-      font-size: 1.25em;
-      input {
-        width: 100%;
-        padding: 0.5rem;
-      }
-    }
-  }
-
   .expand-button,
   .ability-type-editor .title {
     padding-top: 1rem;

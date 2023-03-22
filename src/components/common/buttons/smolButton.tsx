@@ -6,13 +6,16 @@ export function SmolButton({
   children,
   clicked,
   noPadding = false,
+  disabled = false,
 }) {
   const style = noPadding ? { padding: 0 } : {};
 
   return (
     <button
-      className={"smol-button " + type + " " + color}
-      onClick={clicked}
+      className={
+        "smol-button " + type + " " + color + " " + (disabled ? "disabled" : "")
+      }
+      onClick={disabled ? () => {} : clicked}
       style={style}
     >
       {children}

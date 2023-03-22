@@ -21,6 +21,8 @@ import { TagFilters } from "./tagFilters/tagFilters";
 import { QueryBreakpoints, useContainerQueries } from "use-container-queries";
 import { SmolButton } from "../common/buttons/smolButton";
 import { ChevronsDown, ChevronsUp } from "react-feather";
+import { AbilityFilterPanel } from "../common/filters/abilityFilterPanel";
+import { AbilityFiltersProvider } from "../common/filters/abilityFilterProvider";
 
 function getKnownAbilities(build) {
   return groupBy(
@@ -122,10 +124,6 @@ function CharacterSheet() {
     setAbilityTags(result.abilityTags);
   }, [build, abilities]);
 
-  const handleSelectedTagsChanged = (tags, key) => {
-    setFilters({ ...filters, [key]: { tags: tags } });
-  };
-
   return (
     <div className="character-sheet">
       <div className="stats">
@@ -150,18 +148,13 @@ function CharacterSheet() {
             name={type.name}
             disabled={!knownAbilities[type.id]?.length}
           >
-            {abilityTags[type.id]?.length ? (
-              <div className="filter-panel">
-                <TagFilters
-                  tags={abilityTags[type.id]}
-                  selectedTagsChanged={(e) =>
-                    handleSelectedTagsChanged(e, type.id)
-                  }
-                ></TagFilters>
-              </div>
-            ) : (
-              ""
-            )}
+            <AbilityFiltersProvider>
+              <AbilityFilterPanel
+                expanded={true}
+                tags={abilityTags[type.id] || []}
+                filtersUpdated={(e) => setFilters({ ...filters, [type.id]: e })}
+              />
+            </AbilityFiltersProvider>
             <div ref={ref} className="ability-cards">
               <div className="expand-button">
                 <SmolButton
