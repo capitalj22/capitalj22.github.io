@@ -4,13 +4,12 @@ import {
   filter,
   find,
   groupBy,
-  intersection,
   map,
   sortBy,
-  unionBy,
   uniq,
 } from "lodash-es";
 import { useContext, useEffect, useState } from "react";
+import Masonry from "@mui/lab/Masonry";
 import { AbilitiesContext } from "../../providers/abilities/abilitiesProvider";
 import { BuildContext } from "../../providers/build/buildProvider";
 import { StatsContext } from "../../providers/stats/statsProvider";
@@ -19,6 +18,7 @@ import { AbilityCard } from "./abilityCard/abilityCard";
 import "./characterSheet.scss";
 import { StatLine } from "./statLine/statLine";
 import { TagFilters } from "./tagFilters/tagFilters";
+import { QueryBreakpoints, useContainerQueries } from "use-container-queries";
 
 function getKnownAbilities(build) {
   return groupBy(
@@ -53,6 +53,25 @@ function filterAbilities(abilities, filters) {
   }
 }
 
+const breakpoints = {
+  small: [0, 600],
+  large: [601, 900],
+  xl: [901, 1199],
+  xxl: [1200],
+};
+
+function getColumns(active) {
+  const columns = {
+    small: 1,
+    med: 2,
+    large: 3,
+    xl: 5,
+    xxl: 7
+  };
+
+  return columns[active];
+}
+
 function formatKnownAbilitiesAndTags(build, abilities) {
   let knownAbilities = getKnownAbilities(build);
   let abilityTags = {};
@@ -79,6 +98,9 @@ function CharacterSheet() {
   const [abilityTags, setAbilityTags] = useState({});
   const { stats } = useContext(StatsContext);
   const [filters, setFilters] = useState({});
+  const { ref, active, width } = useContainerQueries({
+    breakpoints: breakpoints as any,
+  });
 
   useEffect(() => {
     const result = formatKnownAbilitiesAndTags(build, abilities);
@@ -127,9 +149,12 @@ function CharacterSheet() {
             ) : (
               ""
             )}
-            <div className="ability-cards">
-              {filterAbilities(knownAbilities[type.id], filters[type.id])?.map(
-                (knownAbility) => (
+            <div ref={ref} className="ability-cards">
+              <Masonry columns={getColumns(active)} spacing={2}>
+                {filterAbilities(
+                  knownAbilities[type.id],
+                  filters[type.id]
+                )?.map((knownAbility) => (
                   <div>
                     {knownAbility?.ability && (
                       <AbilityCard
@@ -140,8 +165,8 @@ function CharacterSheet() {
                       ></AbilityCard>
                     )}
                   </div>
-                )
-              )}
+                ))}
+              </Masonry>
             </div>
           </Accordion>
         ))}

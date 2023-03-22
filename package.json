@@ -12,6 +12,10 @@
     "deploy": "gh-pages -d vite build"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@mui/lab": "^5.0.0-alpha.124",
+    "@mui/material": "^5.11.14",
     "@types/d3": "^7.4.0",
     "@types/lodash-es": "^4.17.6",
     "@types/pixi.js": "^5.0.0",
@@ -28,7 +32,8 @@
     "react-feather": "^2.0.10",
     "react-select": "^5.7.0",
     "react-slider": "^2.0.4",
-    "react-textarea-autosize": "^8.4.0"
+    "react-textarea-autosize": "^8.4.0",
+    "use-container-queries": "^1.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.27",
