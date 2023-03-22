@@ -1,4 +1,5 @@
 import {
+  difference,
   each,
   filter,
   find,
@@ -6,6 +7,7 @@ import {
   intersection,
   map,
   sortBy,
+  unionBy,
   uniq,
 } from "lodash-es";
 import { useContext, useEffect, useState } from "react";
@@ -37,7 +39,7 @@ function filterAbilities(abilities, filters) {
     return filter(abilities, (ability) => {
       let matches = true;
       if (filters.tags?.length) {
-        matches = intersection(filters.tags, ability.tags).length > 0;
+        matches = difference(filters.tags, ability.tags).length === 0;
       }
       if (filters.textFilter?.length) {
         matches =

@@ -193,7 +193,9 @@
       "name": "Greater Knitting",
       "description": "Restore %hp% HP to all adjacent undead units",
       "type": "action",
-      "replaces": "knit-flesh"
+      "replaces": "knit-flesh",
+      "tags": ["undead", "healing", "necromancy"],
+      "params": { "hp": 1 }
     },
     {
       "id": "guardian",
@@ -215,14 +217,18 @@
       "id": "knit-flesh",
       "name": "Knit Flesh",
       "description": "Restore %hp% HP to an adjacent undead unit",
-      "type": "action"
+      "type": "action",
+      "params": { "hp": 1 },
+      "tags": ["undead", "healing", "necromancy"]
     },
     {
       "id": "mass-knitting",
       "name": "Mass Knitting",
       "description": "Restore %hp% HP to all undead units within 2 hexes (100m area)",
       "type": "action",
-      "replaces": "greater-knitting"
+      "replaces": "greater-knitting",
+      "tags": ["undead", "healing", "necromancy"],
+      "params": { "hp": 1 }
     },
     {
       "id": "multi-attack",
@@ -258,7 +264,7 @@
       "id": "spellcasting",
       "name": "Spellcasting",
       "description": "You can now cast spells and cantrips. Casting spells and cantrips take action to cast and require 1 spell slot of the coresponding school of magic. \n    Cantrips barrage does not cost a spell slot. \n    \n    Range: %range%\n    Contentration Bonus: %concentration%",
-      "type": "passive",
+      "type": "school",
       "tags": ["magic"],
       "params": { "range": 1, "concentration": 1 }
     },
@@ -365,6 +371,44 @@
       "description": "This unit is always active (doesnt count to active unit count).",
       "tags": ["mustering"],
       "type": "movement"
+    },
+    {
+      "name": "Raise Dead",
+      "id": "raise-dead",
+      "description": "Raise a deceased unit as a zombie horde with %raiseHp%% health.",
+      "tags": ["necromancy", "spell"],
+      "type": "action",
+      "params": { "raiseHp": 25 }
+    },
+    {
+      "name": "Life Drain",
+      "id": "raise-dead-copy",
+      "description": "Create a link between you and a target within range. Each turn as a bonus action you can tap that link (including turn 1) . Tapping the link deals 1 damage to the target's HP and gives that HP to you. \n\n This spell lasts as long as the target remains within 6 hexes of the caster.",
+      "tags": ["necromancy", "spell", "healing", "concentration"],
+      "type": "action"
+    },
+    {
+      "name": "Wither",
+      "id": "wither",
+      "description": "curse a target within range with:\n   \n-1 armor\n   -1 attack \n   -1 movement\n\nLasts 2 turns. This spell lasts as long as the target remains within 6 hexes of the caster.",
+      "tags": ["spell", "necromancy"],
+      "type": "action"
+    },
+    {
+      "name": "Unrelenting Horde",
+      "id": "unrelenting-horde",
+      "description": "If this unit kills an adjacent unit. It spawns a new zombie unit from the dead unit. The new zombie has %hpPercent%% health",
+      "tags": ["undead", "necromancy"],
+      "type": "passive",
+      "params": { "hpPercent": 50 }
+    },
+    {
+      "name": "Necromancy",
+      "id": "necromancy",
+      "description": "You can cast Necromancy spells.\n\nSpell Slots: %slots%\nSpells Per action: %spellsPerAction%",
+      "tags": ["necromancy"],
+      "type": "school",
+      "params": { "slots": 1, "spellsPerAction": 1 }
     }
   ],
   "nodes": [
@@ -1293,6 +1337,134 @@
       "providedAbilities": [
         { "id": "professionals", "modifier": 1, "modifiers": [], "gain": true }
       ]
+    },
+    {
+      "colors": {
+        "unavailable": "#8eaf60",
+        "inactive": "#62a42b",
+        "selected": "#b7ff2c"
+      },
+      "id": "basic-magic-5",
+      "requires": "basic-magic",
+      "name": "Necromancy",
+      "description": "Cast Necromancer spells.",
+      "cost": 1,
+      "levelsRequired": 1,
+      "providedAbilities": [
+        { "id": "necromancy", "modifier": 1, "modifiers": [], "gain": true },
+        {
+          "id": "raise-dead-copy",
+          "modifier": 1,
+          "modifiers": [],
+          "gain": true
+        },
+        { "id": "raise-dead", "modifier": 1, "modifiers": [], "gain": true },
+        { "id": "knit-flesh", "modifier": 1, "modifiers": [], "gain": true },
+        { "id": "wither", "modifier": 1, "modifiers": [], "gain": true }
+      ]
+    },
+    {
+      "colors": {
+        "unavailable": "#8eaf60",
+        "inactive": "#62a42b",
+        "selected": "#b7ff2c"
+      },
+      "id": "necromancy-raise-dead",
+      "requires": "basic-magic-5",
+      "name": "Raise Dead+",
+      "description": "Increases the health of raised units.",
+      "cost": 1,
+      "levelsRequired": 1,
+      "providedAbilities": [
+        {
+          "id": "raise-dead",
+          "modifier": 1,
+          "modifiers": [{ "id": "raiseHp", "modifier": 25, "set": false }]
+        }
+      ]
+    },
+    {
+      "colors": {
+        "unavailable": "#8eaf60",
+        "inactive": "#62a42b",
+        "selected": "#b7ff2c"
+      },
+      "id": "necromancy-raise-dead-1",
+      "requires": "necromancy-raise-dead",
+      "name": "Raise Dead++",
+      "description": "Raise units to full health.",
+      "cost": 1,
+      "levelsRequired": 1,
+      "providedAbilities": [
+        {
+          "id": "raise-dead",
+          "modifier": 1,
+          "modifiers": [{ "id": "raiseHp", "modifier": 50, "set": false }]
+        }
+      ]
+    },
+    {
+      "colors": {
+        "unavailable": "#8eaf60",
+        "inactive": "#62a42b",
+        "selected": "#b7ff2c"
+      },
+      "id": "necro-prof",
+      "requires": "basic-magic-5",
+      "name": "Necromantic Profiency",
+      "description": "Increases the number of necromancy spells you can cast",
+      "levels": 2,
+      "levelCost": [1, 1],
+      "levelsRequired": 1,
+      "providedAbilities": [
+        {
+          "id": "necromancy",
+          "modifier": 1,
+          "modifiers": [{ "id": "slots", "modifier": 2, "set": false }]
+        }
+      ]
+    },
+    {
+      "colors": {
+        "unavailable": "#8eaf60",
+        "inactive": "#62a42b",
+        "selected": "#b7ff2c"
+      },
+      "id": "necro-prof-1",
+      "requires": "necro-prof",
+      "name": "Necromantic Mastery",
+      "description": "Further increases the number of spells you can cast",
+      "cost": 1,
+      "levelsRequired": 1,
+      "providedAbilities": [
+        {
+          "id": "necromancy",
+          "modifier": 1,
+          "modifiers": [{ "id": "slots", "modifier": 1, "set": false }]
+        }
+      ]
+    },
+    {
+      "colors": {
+        "unavailable": "#8eaf60",
+        "inactive": "#62a42b",
+        "selected": "#b7ff2c"
+      },
+      "id": "necro-prof-2",
+      "requires": "necro-prof",
+      "name": "Necromancer",
+      "description": "You can now cast 2 necromancy spells per action.",
+      "cost": 1,
+      "levelsRequired": 1,
+      "providedAbilities": [
+        {
+          "id": "necromancy",
+          "modifier": 1,
+          "modifiers": [
+            { "id": "spellsPerAction", "modifier": 1, "set": false }
+          ]
+        }
+      ]
     }
   ],
   "tagColors": {
@@ -1310,7 +1482,9 @@
     "piercing": "#ec9569",
     "command": "#46ddcb",
     "healing": "#e15fab",
-    "mustering": "#dca542"
+    "mustering": "#dca542",
+    "necromancy": "#aded23",
+    "spell": "#3579cf"
   },
   "stats": [
     { "id": "armor", "name": "Armor" },
@@ -1321,13 +1495,15 @@
     {
       "id": "enchantment-spells-per-action",
       "name": "Enchantment Spells Per Action"
-    }
+    },
+    { "id": "necro-slots", "name": "Necromancy Spell Slots" }
   ],
   "abilityTypes": [
     { "id": "action", "name": "Action" },
     { "id": "movement", "name": "Movement" },
     { "id": "passive", "name": "Passive" },
     { "id": "reaction", "name": "Reaction" },
-    { "id": "bonus action", "name": "Bonus Action" }
+    { "id": "bonus action", "name": "Bonus Action" },
+    { "id": "school", "name": "Magic Proficiency" }
   ]
 }

@@ -62,6 +62,10 @@ export function AbilityEditor({ abilitiesChanged }) {
   };
 
   const addButtonPressed = () => {
+    setFilters({
+      tags: [] as string[],
+      textFilter: "",
+    });
     const newId = `id-${Math.floor(Math.random() * 200)}`;
     setAbilities({
       type: "add",

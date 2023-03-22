@@ -33,6 +33,7 @@ export function TagSelect({ tags, type, tagsChanged, typeChanged }) {
   const [_tags, setTags] = useState(tags || []);
   const [_type, setType] = useState(type);
   const [_colors, setColors] = useState(getColors(tags, tagColors) || {});
+  const [currentTag, setCurrentTag] = useState(null);
 
   useEffect(() => {
     setColors(getColors(tags, tagColors) || {});
@@ -46,8 +47,9 @@ export function TagSelect({ tags, type, tagsChanged, typeChanged }) {
   };
 
   const tagAdded = () => {
-    setTags([..._tags, "tag"]);
-    tagsChanged([..._tags, "tag"]);
+    setTags([..._tags, ""]);
+    tagsChanged([..._tags, ""]);
+    setCurrentTag(tags?.length);
   };
 
   const tagRemoved = (index) => {
@@ -81,6 +83,7 @@ export function TagSelect({ tags, type, tagsChanged, typeChanged }) {
             />
           </div>
           <FancyTextInput
+            autoFocus={currentTag === index}
             value={tag}
             valueChanged={(e) => tagChanged(e, index)}
           />

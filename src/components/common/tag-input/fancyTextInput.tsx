@@ -10,6 +10,7 @@ interface Props {
   minWidth?: number;
   placeholder?: string;
   fullWidth?: boolean;
+  autoFocus?: boolean;
 }
 
 export function FancyTextInput({
@@ -20,11 +21,12 @@ export function FancyTextInput({
   minWidth = 48,
   placeholder = "",
   fullWidth = false,
+  autoFocus = undefined,
 }: Props) {
   const [content, setContent] = useState(value);
   const [width, setWidth] = useState(fullWidth ? "100%" : minWidth);
   const span = useRef({ offsetWidth: 0 } as HTMLElement);
-
+  const inputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     if (!isUndefined(content) && !fullWidth) {
       const newWidth = span?.current?.clientWidth + 24;
@@ -36,6 +38,12 @@ export function FancyTextInput({
     setContent(value);
   }, [value]);
 
+  useEffect(() => {
+    if (!isUndefined(autoFocus) && autoFocus) {
+      inputRef.current?.focus();
+    }
+  }, [autoFocus]);
+
   const changeHandler = (evt) => {
     valueChanged(evt.target.value);
   };
@@ -46,6 +54,7 @@ export function FancyTextInput({
         {content}
       </span>
       <input
+        ref={inputRef}
         placeholder={placeholder}
         onBlur={blur}
         value={content}
