@@ -17,7 +17,7 @@ export interface IGraphEvent {
     | "nodeAdded"
     | "nodeDeleted"
     | "nodeEdited"
-    | "themechanged"
+    | "themeChanged"
     | "nodeSelectionChanged"
     | "nodesChanged";
   data: any;
