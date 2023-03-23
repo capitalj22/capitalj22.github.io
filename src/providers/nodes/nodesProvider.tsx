@@ -6,15 +6,27 @@ export const NodesContext = createContext({} as any);
 function getNodes() {
   // return exampleJson.nodes;
   const nodes = window.localStorage.getItem("dragon-nodes");
+
   if (nodes) {
     try {
       return JSON.parse(nodes);
     } catch {
-      return [];
+      return [{}];
     }
   } else {
-    return [];
+    return getStarterNodes();
   }
+}
+
+function getStarterNodes() {
+  return [
+    {
+      id: "initial-node",
+      name: "Example Node",
+      description: "Press the Edit button on the left to edit this node. Press the edit button on the right to add stats and abilities.",
+      colors: { selected: "#eee", unavailable: "aaa" },
+    },
+  ];
 }
 
 const savedNodesReducer = (state, action) => {
@@ -32,6 +44,12 @@ const savedNodesReducer = (state, action) => {
 const nodesReducer = (state, action) => {
   const { targetId, index, node, nodes, type } = action;
   let newState = clone(state);
+
+  if (type === "reset") {
+    newState = getStarterNodes();
+    window.localStorage.setItem("dragon-nodes", JSON.stringify(newState));
+    return newState;
+  }
 
   if (type === "save") {
     try {

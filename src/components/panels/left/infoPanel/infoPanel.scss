@@ -1,6 +1,13 @@
 .info-panel {
   text-align: left;
 
+  .title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-right: 2rem;
+  }
+
   .cost {
     position: absolute;
     top: 0;
@@ -54,7 +61,7 @@
     font-size: 1.5em;
     color: var(--descriptionColor);
   }
-  
+
   .divider {
     height: 2px;
     width: 80%;

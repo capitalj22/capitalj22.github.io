@@ -11,20 +11,6 @@ export function LeftPanel({ graphEvents$ }) {
   const [showInfoPanel, setShowInfoPanel] = useState(!!node);
   const handleItemSelected = (item) => {
     setSelectedItem(item);
-
-    switch (item) {
-      case "info":
-        graphEvents$.next({ event: "modeChanged", data: { mode: "build" } });
-        break;
-      case "settings":
-        graphEvents$.next({ event: "modeChanged", data: { mode: "build" } });
-        break;
-      case "edit":
-        graphEvents$.next({ event: "modeChanged", data: { mode: "edit" } });
-        break;
-      default:
-        break;
-    }
   };
 
   useEffect(() => {
@@ -34,7 +20,9 @@ export function LeftPanel({ graphEvents$ }) {
   return (
     <SidebarLeft itemSelected={handleItemSelected} expanded={undefined}>
       {selectedItem === "info" ? (
-        <div>{showInfoPanel ? <InfoPanel /> : ""}</div>
+        <div>
+          {showInfoPanel ? <InfoPanel graphEvents={graphEvents$} /> : ""}
+        </div>
       ) : (
         ""
       )}
@@ -43,7 +31,6 @@ export function LeftPanel({ graphEvents$ }) {
       ) : (
         ""
       )}
-      {selectedItem === "edit" ? <EditPanel graphEvents={graphEvents$} /> : ""}
     </SidebarLeft>
   );
 }

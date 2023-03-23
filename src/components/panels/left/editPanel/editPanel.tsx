@@ -1,5 +1,12 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { PlusSquare, Save, Trash2 } from "react-feather";
+import {
+  ArrowLeft,
+  PlusSquare,
+  RotateCcw,
+  Save,
+  SkipBack,
+  Trash2,
+} from "react-feather";
 import { AbilitiesPanel } from "./abilities/abilitiesPanel";
 import { CostPanel } from "./costPanel/costPanel";
 import "./editPanel.scss";
@@ -14,17 +21,18 @@ import { BigButton } from "../../../common/buttons/bigButton";
 import { NodesContext } from "../../../../providers/nodes/nodesProvider";
 import { NodeSelect } from "../../../common/selects/nodeSelect";
 import { RequiresEdit } from "./requiresEdit";
+import { SmolButton } from "../../../common/buttons/smolButton";
 
 interface Props {
-  node?: SkillNode;
   graphEvents: any;
+  editingCancelled?: any;
 }
 
 function getStatOptions(stats) {
   return map(stats, (stat) => ({ value: stat.id, label: stat.name }));
 }
 
-export function EditPanel({ graphEvents }: Props) {
+export function EditPanel({ graphEvents, editingCancelled }: Props) {
   const { selectedNodeId, nodes, setNodes, setSelectedNodeId } =
     useContext(NodesContext);
   const { stats } = useContext(StatsContext);
@@ -169,13 +177,21 @@ export function EditPanel({ graphEvents }: Props) {
   if (node.id) {
     return (
       <div className="edit-panel">
-        <CostPanel
-          levels={levels}
-          levelCost={levelCost}
-          cost={cost}
-          color={colors.selected}
-          levelsChanged={costChanged}
-        />
+        <div className="top">
+          <div className="back-button">
+            <SmolButton color="theme" clicked={editingCancelled}>
+              <ArrowLeft size={16} /> View Mode
+            </SmolButton>
+          </div>
+          <CostPanel
+            levels={levels}
+            levelCost={levelCost}
+            cost={cost}
+            color={colors.selected}
+            levelsChanged={costChanged}
+          />
+        </div>
+
         <div className="form-control name">
           <input
             type="text"

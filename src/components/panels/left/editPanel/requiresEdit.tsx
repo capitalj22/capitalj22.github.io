@@ -37,27 +37,29 @@ export function RequiresEdit({ value, valueChanged, nodeId }) {
     <div className="require-select">
       {map(mappedValue, (requirement, index) => (
         <div className="requirement">
-          <NodeSelect
-            defaultValue={requirement.id}
-            usedOptions={[nodeId]}
-            valueChanged={(e) => changed(e, index, "id")}
-          />
-          {find(nodes, { id: requirement.id })?.levels > 1 ? (
-            <FancyNumberInput
-              value={requirement.levels}
-              valueChanged={(e) => changed(e, index, "levels")}
-              min={1 as any}
-              max={find(nodes, { id: requirement.id }).levels || 1}
+          <div className="select">
+            <NodeSelect
+              defaultValue={requirement.id}
+              usedOptions={[nodeId]}
+              valueChanged={(e) => changed(e, index, "id")}
             />
-          ) : (
-            <span></span>
-          )}
+            {find(nodes, { id: requirement.id })?.levels > 1 ? (
+              <FancyNumberInput
+                value={requirement.levels}
+                valueChanged={(e) => changed(e, index, "levels")}
+                min={1 as any}
+                max={find(nodes, { id: requirement.id }).levels || 1}
+              />
+            ) : (
+              <span></span>
+            )}
+          </div>
           <SmolButton clicked={(e) => removed(index)} color="danger">
             <Trash />
           </SmolButton>
         </div>
       ))}
-      <SmolButton color="danger" clicked={addPressed}>
+      <SmolButton color="mutdWhite" clicked={addPressed}>
         <PlusSquare />
       </SmolButton>
     </div>

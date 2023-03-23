@@ -1,6 +1,14 @@
 .edit-panel {
   text-align: left;
 
+  .top {
+    font-size: 0.9em;
+    margin-left: -1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
   .name input {
     font-size: 1.5em;
     padding: 0.5em 0;

@@ -92,8 +92,7 @@ export function CodePanel() {
 
   const resetClicked = (event) => {
     setNodes({
-      type: "set",
-      nodes: [{ id: "start here", name: "Start Here", colors: {} }],
+      type: "reset",
     });
     setAbilities({ type: "set", abilities: [] });
     setAbilityTypes({ type: "set", abilityTypes: [] });

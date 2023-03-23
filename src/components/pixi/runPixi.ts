@@ -563,8 +563,9 @@ export function runGraphPixi(
     } else {
       nodes = [
         {
-          id: "start-here",
-          name: "Start here",
+          id: "reset",
+          name: "Info",
+          description: "Press the Reset Button to start",
           colors: { selected: "#fff", unavailable: "#fff" },
         } as any,
       ];
@@ -663,7 +664,6 @@ export function runGraphPixi(
     simulation.on("tick", ticked);
 
     setTheme(theme);
-
   }
 
   function addNodeGfx(node) {

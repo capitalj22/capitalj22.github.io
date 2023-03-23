@@ -75,17 +75,19 @@ export function CostPanel({ levels, levelCost, cost, color, levelsChanged }) {
       <button onClick={costMinusClicked}>
         <MinusSquare />
       </button>
-      {times(_levels, (index) => (
-        <span
-          onWheel={(e) => onWheel(e, index)}
-          className="level-points"
-          style={{
-            background: color,
-          }}
-        >
-          {_levelCost.length ? _levelCost[index] : _levelCost}
-        </span>
-      ))}
+      <div className="levels">
+        {times(_levels, (index) => (
+          <span
+            onWheel={(e) => onWheel(e, index)}
+            className="level-points"
+            style={{
+              background: color,
+            }}
+          >
+            {_levelCost.length ? _levelCost[index] : _levelCost}
+          </span>
+        ))}
+      </div>
 
       <button onClick={costPlusClicked}>
         <PlusSquare />

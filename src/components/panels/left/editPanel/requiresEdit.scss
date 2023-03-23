@@ -2,6 +2,13 @@
   .requirement {
     display: flex;
     gap: 1rem;
+    justify-content: space-between;
     padding: 0.5rem 0;
+  }
+
+  .select {
+    display: flex;
+    flex: 2;
+    gap: 0.5rem;
   }
 }

@@ -1,9 +1,12 @@
 import { each, find, isUndefined, map, reduce, times } from "lodash-es";
 import { useContext, useEffect, useState } from "react";
+import { Edit, Edit2 } from "react-feather";
 import { AbilitiesContext } from "../../../../providers/abilities/abilitiesProvider";
 import { BuildContext } from "../../../../providers/build/buildProvider";
 import { NodesContext } from "../../../../providers/nodes/nodesProvider";
 import { AbilityCard } from "../../../characterSheet/abilityCard/abilityCard";
+import { SmolButton } from "../../../common/buttons/smolButton";
+import { EditPanel } from "../editPanel/editPanel";
 import "./infoPanel.scss";
 
 export const isNodeSelected = (node, nodeMeta) => {
@@ -59,7 +62,7 @@ function getRequiredText(requires, nodes) {
   }
 }
 
-export function InfoPanel() {
+export function InfoPanel({ graphEvents }) {
   const { selectedNodeId, nodes, nodeMeta } = useContext(NodesContext);
   const { build } = useContext(BuildContext);
   const { abilities } = useContext(AbilitiesContext);
@@ -75,6 +78,7 @@ export function InfoPanel() {
   const [requiredText, setRequiredText] = useState(
     getRequiredText(node?.requires, nodes)
   );
+  const [isEditing, setIsEditing] = useState(false);
 
   let nodeColor = node?.colors?.selected;
 
@@ -93,13 +97,24 @@ export function InfoPanel() {
     }
   }, [node]);
 
+  const editClicked = () => {
+    setIsEditing(true);
+    graphEvents.next({ event: "modeChanged", data: { mode: "edit" } });
+  };
+
+  const editCanceled = () => {
+    setIsEditing(false);
+    graphEvents.next({ event: "modeChanged", data: { mode: "build" } });
+  };
+
   const cost = node?.levels ? (
     <span className="cost">
       {times(node?.levels, (index) => (
         <span
           className="level-points"
           style={{
-            background: nodeMeta?.acquired[node.id] > index ? nodeColor : "#666",
+            background:
+              nodeMeta?.acquired[node.id] > index ? nodeColor : "#666",
           }}
         >
           {node?.levelCost?.length ? node.levelCost[index] : node.levelCost}
@@ -120,32 +135,44 @@ export function InfoPanel() {
   );
 
   if (node) {
-    return (
-      <div className="info-panel">
-        {cost}
-        <div className="title">{node?.name}</div>
+    if (!isEditing) {
+      return (
+        <div className="info-panel">
+          <div className="edit"></div>
+          {cost}
+          <div className="title">
+            {node?.name}{" "}
+            <SmolButton color="mutedWhite" clicked={editClicked}>
+              <Edit />
+            </SmolButton>
+          </div>
 
-        <div className="divider" style={{ backgroundColor: nodeColor }}></div>
-        {!nodeMeta?.available[node.id] ? (
-          <div className="requires">
-            Requires <span className="skill">{requiredText}</span>
-          </div>
-        ) : null}
-        <div className="info-description">{node?.description}</div>
-        {relatedAbilities.length > 0 && (
-          <div className="abilities">
-            <div className="title">Related Abilities:</div>
-            {relatedAbilities &&
-              relatedAbilities.map((ability) => (
-                <AbilityCard
-                  ability={ability}
-                  modifiers={formattedModifiers[ability.id]}
-                ></AbilityCard>
-              ))}
-          </div>
-        )}
-      </div>
-    );
+          <div className="divider" style={{ backgroundColor: nodeColor }}></div>
+          {!nodeMeta?.available[node.id] ? (
+            <div className="requires">
+              Requires <span className="skill">{requiredText}</span>
+            </div>
+          ) : null}
+          <div className="info-description">{node?.description}</div>
+          {relatedAbilities.length > 0 && (
+            <div className="abilities">
+              <div className="title">Related Abilities:</div>
+              {relatedAbilities &&
+                relatedAbilities.map((ability) => (
+                  <AbilityCard
+                    ability={ability}
+                    modifiers={formattedModifiers[ability.id]}
+                  ></AbilityCard>
+                ))}
+            </div>
+          )}
+        </div>
+      );
+    } else {
+      return (
+        <EditPanel graphEvents={graphEvents} editingCancelled={editCanceled} />
+      );
+    }
   } else {
     return <div className="info-panel">Select a Node</div>;
   }
