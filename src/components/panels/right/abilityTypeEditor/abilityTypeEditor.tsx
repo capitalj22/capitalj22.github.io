@@ -2,6 +2,7 @@ import { map } from "lodash-es";
 import { useContext } from "react";
 import { PlusSquare, Trash2 } from "react-feather";
 import { AbilitiesContext } from "../../../../providers/abilities/abilitiesProvider";
+import { ColorPicker } from "../../../common/color-picker/colorPicker";
 import { FancyTextInput } from "../../../common/tag-input/fancyTextInput";
 import "./abilityTypeEditor.scss";
 
@@ -39,6 +40,12 @@ export function AbilityTypeEditor() {
       <div className="abilityTypes">
         {map(abilityTypes, (abilityType, index) => (
           <div key={index} className="abilityType-instance">
+            <div className="color">
+              <ColorPicker
+                color={abilityType.color || "#ffffff"}
+                colorChanged={(color) => valueChanged(color, index, "color")}
+              />
+            </div>
             <div className="top">
               <div className="name">
                 <FancyTextInput

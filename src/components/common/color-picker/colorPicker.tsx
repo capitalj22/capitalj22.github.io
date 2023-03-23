@@ -19,7 +19,7 @@ function useOutsideAlerter(ref, callback) {
 
 export function ColorPicker({ color, colorChanged }) {
   const [displayColorPicker, setDisplayColorPicker] = useState(false);
-  const [_color, setColor] = useState(color || "#fff");
+  const [_color, setColor] = useState(color || "#ffffff");
   const popoverRef = useRef(null);
   useOutsideAlerter(popoverRef, () => {
     setDisplayColorPicker(false);

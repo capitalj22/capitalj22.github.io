@@ -2,6 +2,7 @@ import { map } from "lodash-es";
 import { useContext } from "react";
 import { PlusSquare, Trash2 } from "react-feather";
 import { StatsContext } from "../../../../providers/stats/statsProvider";
+import { ColorPicker } from "../../../common/color-picker/colorPicker";
 import { FancyTextInput } from "../../../common/tag-input/fancyTextInput";
 import "./statEditor.scss";
 
@@ -9,7 +10,10 @@ export function StatEditor() {
   const { stats, setStats } = useContext(StatsContext);
 
   const addPressed = (event) => {
-    setStats({ type: "add", stat: { id: "new-stat", name: "New Stat" } });
+    setStats({
+      type: "add",
+      stat: { id: "new-stat", name: "New Stat", color: "#fff" },
+    });
   };
 
   const removePressed = (event) => {
@@ -36,6 +40,14 @@ export function StatEditor() {
       <div className="stats">
         {map(stats, (stat, index) => (
           <div key={index} className="stat-instance">
+            <div className="color">
+              <ColorPicker
+                color={stat.color || "#ffffff"}
+                colorChanged={(color) =>
+                  valueChanged(color, index, "color")
+                }
+              />
+            </div>
             <div className="top">
               <div className="name">
                 <FancyTextInput

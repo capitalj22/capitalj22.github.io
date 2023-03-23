@@ -10,21 +10,29 @@ interface Props {
   selected?: boolean;
   children?;
   emphasize?: boolean;
+  color?: string;
 }
 
-function getStyle(clicked, selected, color, emphasize): React.CSSProperties {
+function getStyle(
+  clicked,
+  selected,
+  color,
+  emphasize,
+  colorOverride
+): React.CSSProperties {
   let style: React.CSSProperties = {};
-  style.borderColor = color;
+  const tagColor = colorOverride || color;
+  style.borderColor = tagColor;
   if (selected) {
     style.color = "#1a1a1c";
-    style.backgroundColor = color;
+    style.backgroundColor = tagColor;
     style.fontWeight = 500;
   } else {
     style.color = "#fff";
   }
   if (emphasize) {
     style.borderColor = "transparent";
-    style.backgroundColor = color;
+    style.backgroundColor = tagColor;
     style.color = "#222";
     style.fontWeight = 600;
     style.borderRadius = 12;
@@ -43,6 +51,7 @@ export function StatTag({
   selected,
   children,
   emphasize,
+  color,
 }: Props) {
   const { tagColors } = useContext(TagsContext);
 
@@ -57,13 +66,17 @@ export function StatTag({
     <span
       onClick={handleClicked}
       className="stat-tag"
-      style={getStyle(clicked, selected, tagColors[label] || "#fff", emphasize)}
+      style={getStyle(
+        clicked,
+        selected,
+        tagColors[label] || "#fff",
+        emphasize,
+        color
+      )}
     >
       {label}{" "}
       {clicked && (
-        <div className="check">
-          {selected ? <Check size={14}></Check> : ""}
-        </div>
+        <div className="check">{selected ? <Check size={14}></Check> : ""}</div>
       )}
       {children && children}
     </span>

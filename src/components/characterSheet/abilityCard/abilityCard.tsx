@@ -92,6 +92,9 @@ export function AbilityCard({
   );
   const [expanded, setExpanded] = useState(startOpen);
   const [isEditing, setIsEditing] = useState(false);
+  const [typeColor, setTypeColor] = useState(
+    find(abilityTypes, { id: ability.type })?.color
+  );
 
   useEffect(() => {
     if (!isUndefined(isExpanded)) {
@@ -138,7 +141,7 @@ export function AbilityCard({
     );
   } else {
     return (
-      <div className="ability-card">
+      <div className="ability-card" style={{ borderColor: typeColor }}>
         <div className="name">
           {editable && (
             <SmolButton
@@ -180,6 +183,9 @@ export function AbilityCard({
             <div className="bottom">
               <div className="tags">
                 <StatTag
+                  color={
+                    find(abilityTypes, { id: ability.type })?.color || "#ffffff"
+                  }
                   label={find(abilityTypes, { id: ability.type })?.name}
                   emphasize={true}
                 ></StatTag>
