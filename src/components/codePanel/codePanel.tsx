@@ -1,19 +1,21 @@
 import { useContext, useState } from "react";
-import { Copy, Download, MapPin, RefreshCcw, Shield } from "react-feather";
+import { Copy, Download, RefreshCcw, Shield } from "react-feather";
 import { AbilitiesContext } from "../../providers/abilities/abilitiesProvider";
 import { BuildContext } from "../../providers/build/buildProvider";
 import { NodesContext } from "../../providers/nodes/nodesProvider";
 import { StatsContext } from "../../providers/stats/statsProvider";
 import { TagsContext } from "../../providers/tags/tagsProvider";
+import exampleJson from "../../data/example-config.json";
 
 import "./codePanel.scss";
 
-export function CodePanel({ importAttempted }) {
-  const { build } = useContext(BuildContext);
-  const { tagColors } = useContext(TagsContext);
-  const { stats } = useContext(StatsContext);
-  const { abilityTypes, abilities } = useContext(AbilitiesContext);
-  const { nodes } = useContext(NodesContext);
+export function CodePanel() {
+  const { build, setSavedBuild } = useContext(BuildContext);
+  const { tagColors, setTagColors } = useContext(TagsContext);
+  const { stats, setStats } = useContext(StatsContext);
+  const { abilityTypes, abilities, setAbilities, setAbilityTypes } =
+    useContext(AbilitiesContext);
+  const { nodes, setNodes } = useContext(NodesContext);
   const [buildValue, setBuildTextValue] = useState("");
   const [treeValue, setTreeTextValue] = useState("");
   const [notification1Style, setNotification1Style] = useState({ opacity: 0 });
@@ -24,7 +26,11 @@ export function CodePanel({ importAttempted }) {
   };
 
   const handleBuildImportClicked = (event) => {
-    importAttempted({ type: "build", data: buildValue });
+    const build = JSON.parse(buildValue);
+
+    if (build) {
+      setSavedBuild({ type: "imported", build });
+    }
   };
 
   const handleTreeValueChanged = (event) => {
@@ -32,7 +38,28 @@ export function CodePanel({ importAttempted }) {
   };
 
   const handleTreeImportClicked = (event) => {
-    importAttempted({ type: "trees", data: treeValue });
+    const config = JSON.parse(treeValue);
+
+    setSavedBuild({ type: "imported", build: {} });
+
+    if (config) {
+      if (config.nodes) {
+        setNodes({ type: "set", nodes: config.nodes });
+      }
+      if (config.abilities) {
+        setAbilities({ type: "set", abilities: config.abilities });
+      }
+      if (config.tagColors) {
+        setTagColors({ type: "set", colors: config.tagColors });
+      }
+      if (config.stats) {
+        setStats({ type: "set", stats: config.stats });
+      }
+
+      if (config.abilityTypes) {
+        setAbilityTypes({ type: "set", abilityTypes: config.abilityTypes });
+      }
+    }
   };
 
   const handleBuildCopyClicked = (event) => {
@@ -64,15 +91,26 @@ export function CodePanel({ importAttempted }) {
   };
 
   const resetClicked = (event) => {
-    importAttempted({
-      type: "reset",
+    setNodes({
+      type: "set",
+      nodes: [{ id: "start here", name: "Start Here", colors: {} }],
     });
+    setAbilities({ type: "set", abilities: [] });
+    setAbilityTypes({ type: "set", abilityTypes: [] });
+    setTagColors({ type: "set", tagColors: [] });
+    setStats({ type: "set", stats: [] });
+
+    setSavedBuild({ type: "imported", build: {} });
   };
 
   const defaultClicked = (event) => {
-    importAttempted({
-      type: "default",
-    });
+    const defaults = exampleJson;
+    setNodes({ type: "set", nodes: defaults.nodes });
+    setStats({ type: "set", stats: defaults.stats });
+    setAbilityTypes({ type: "set", abilityTypes: defaults.abilityTypes });
+    setAbilities({ type: "set", abilities: defaults.abilities });
+    setTagColors({ type: "set", colors: defaults.tagColors });
+    setSavedBuild({ type: "imported", build: {} });
   };
 
   return (
@@ -121,13 +159,13 @@ export function CodePanel({ importAttempted }) {
       <div className="reset">
         <div className="title">Reset</div>
         <button onClick={defaultClicked}>
+          <Shield />
           Load Defaults
-          <RefreshCcw />
         </button>
         <br />
         <button onClick={resetClicked}>
+          <RefreshCcw />
           Reset
-          <Shield />
         </button>
       </div>
     </div>

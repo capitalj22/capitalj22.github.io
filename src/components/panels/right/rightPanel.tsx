@@ -10,7 +10,7 @@ const example1 =
   "{myParam}This only appears when 'myParam' is at least 1{/myParam}";
 const example2 = "%myParam% will be replaced with the value of 'myParam'";
 const example3 = `You make 1 melee attack against an adjacent enemy. Roll 1d6{dmg}+%dmg%{/dmg} and do that much damage.`;
-export function RightPanel({ importAttempted }) {
+export function RightPanel() {
   const [selectedItem, setSelectedItem] = useState("info");
   const [menuTitle, setMenuTitle] = useState("info");
 
@@ -35,18 +35,10 @@ export function RightPanel({ importAttempted }) {
     }
   };
 
-  const handleImportAttempted = (item) => {
-    importAttempted(item);
-  };
-
   return (
     <SidebarRight itemSelected={handleItemSelected} title={menuTitle}>
       {selectedItem === "sheet" ? <CharacterSheet></CharacterSheet> : ""}
-      {selectedItem === "code" ? (
-        <CodePanel importAttempted={handleImportAttempted}></CodePanel>
-      ) : (
-        ""
-      )}
+      {selectedItem === "code" ? <CodePanel></CodePanel> : ""}
       {selectedItem === "list" ? (
         <div>
           <Accordion name="Abilities" startOpen={false}>
