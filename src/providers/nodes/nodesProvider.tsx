@@ -1,10 +1,10 @@
-import { clone, map } from "lodash-es";
+import { clone, filter, map } from "lodash-es";
 import { createContext, useReducer, useState } from "react";
-import exampleJson from '../../data/example-config.json';
+import exampleJson from "../../data/example-config.json";
 export const NodesContext = createContext({} as any);
 
 function getNodes() {
-  return exampleJson.nodes;
+  // return exampleJson.nodes;
   const nodes = window.localStorage.getItem("dragon-nodes");
   if (nodes) {
     return JSON.parse(nodes);
@@ -57,8 +57,7 @@ const nodesReducer = (state, action) => {
         return ab;
       }
     });
-
-    // window.localStorage.setItem("dragon-nodes", JSON.stringify(newState));
+    window.localStorage.setItem("dragon-nodes", JSON.stringify(newState));
     return newState;
   }
 
@@ -67,9 +66,23 @@ const nodesReducer = (state, action) => {
 
     if (nodeIndex < 0) return state;
 
-    const stateUpdate = [...state];
+    let stateUpdate = [...state];
 
     stateUpdate.splice(nodeIndex, 1);
+    stateUpdate = map(
+      filter(stateUpdate, (n) => n.id !== node.id),
+      (n) => {
+        let requires = n.requires;
+        if (n.requires === node.id) {
+          requires = node?.requires;
+        }
+
+        return {
+          ...n,
+          requires,
+        };
+      }
+    );
     // window.localStorage.setItem("dragon-nodes", JSON.stringify(newState));
 
     return stateUpdate;

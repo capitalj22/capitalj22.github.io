@@ -173,6 +173,7 @@ export function runGraphPixi(
 
   function editNode(nodeId, newNode) {
     let node = find(nodes, { id: nodeId }) as INode;
+
     node.name = newNode.name;
     node.id = newNode.id;
     node.description = newNode.description;
@@ -232,8 +233,11 @@ export function runGraphPixi(
   }
 
   function addNode(newNode: INode) {
-    let node = newNode;
+    let node = { ...newNode };
 
+    if (!node.colors) {
+      node.colors = {};
+    }
     const boundPress = onPress.bind(node);
     let { name } = node;
 
@@ -392,7 +396,7 @@ export function runGraphPixi(
       let lineColor = 0x9b9ea3;
       let lineWidth = 1;
 
-      if (target.id) {
+      if (target.id && source) {
         lineColor = getNodeColor(
           source,
           nodeMeta,

@@ -43,8 +43,6 @@ export function EditPanel({ graphEvents }: Props) {
   const nameInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    console.log(nodes);
-    console.log(selectedNodeId);
     setNode(find(nodes, { id: selectedNodeId }) || {});
   }, [selectedNodeId]);
 
@@ -76,7 +74,7 @@ export function EditPanel({ graphEvents }: Props) {
 
       colors: find(nodes, { id: node.requires })?.colors,
     };
-    
+
     setNodes({ type: "add", node: newNode });
 
     graphEvents.next({
@@ -126,7 +124,7 @@ export function EditPanel({ graphEvents }: Props) {
     graphEvents.next({
       event: "nodeEdited",
       data: {
-        id: node.id,
+        id: oldId,
         node: newNode,
       },
     });
@@ -162,6 +160,7 @@ export function EditPanel({ graphEvents }: Props) {
     setLevelRequired(node.levelsRequired || 1);
     setProvidedStats(node.providedStats || []);
     setProvidedAbilities(node.providedAbilities || []);
+    setOldId(node.id);
 
     nameInputRef.current?.focus();
   }, [node]);
