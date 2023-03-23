@@ -422,7 +422,6 @@
       "name": "Basic",
       "description": "Congrats! You are a unit.",
       "cost": 1,
-      "levelsRequired": 1,
       "providedStats": [
         { "id": "hp", "modifier": 5 },
         { "id": "armor", "modifier": 2 }
@@ -439,7 +438,6 @@
       "name": "Spellcasting",
       "description": "Grants your unit the ability to cast spells",
       "cost": 1,
-      "levelsRequired": 1,
       "providedAbilities": [
         { "id": "cantrip-barrage", "gain": true },
         { "id": "spellcasting", "gain": true }
@@ -456,7 +454,6 @@
       "name": "Speed",
       "description": "Allows you to move one additional hex per turn",
       "levels": 8,
-      "levelsRequired": 1,
       "providedStats": [{ "id": "movement", "modifier": 1 }]
     },
     {
@@ -466,11 +463,10 @@
         "selected": "#51db53"
       },
       "id": "versatile",
-      "requires": [{ "id": "speed", "levels": 1 }],
+      "requires": [{ "id": "speed", "levels": 4 }],
       "name": "Versatile",
       "description": "Grants the Versatile ability",
       "cost": 1,
-      "levelsRequired": 4,
       "providedAbilities": [{ "id": "versatile", "gain": true }]
     },
     {
@@ -493,11 +489,10 @@
         "selected": "#51db53"
       },
       "id": "dash",
-      "requires": [{ "id": "speed", "levels": 1 }],
+      "requires": [{ "id": "speed", "levels": 2 }],
       "name": "Dash",
       "description": "Grants the Dash ability",
       "cost": 1,
-      "levelsRequired": 2,
       "providedAbilities": [{ "id": "dash", "gain": true }]
     },
     {
@@ -523,11 +518,10 @@
         "selected": "#51db53"
       },
       "id": "dash-expert",
-      "requires": [{ "id": "advanced-dash", "levels": 1 }],
+      "requires": [{ "id": "advanced-dash", "levels": 2 }],
       "name": "Dash Expert",
       "description": "Grants the Dash Expert ability",
       "cost": 1,
-      "levelsRequired": 2,
       "providedAbilities": [{ "id": "dash-expert", "gain": true }]
     },
     {
@@ -554,7 +548,6 @@
       "name": "Breakthrough",
       "description": "Grants you the ability to continue moving through units after a charge.",
       "cost": 1,
-      "levelsRequired": 1,
       "providedAbilities": [
         {
           "id": "charge",
@@ -584,11 +577,10 @@
         "selected": "#4dd2f7"
       },
       "id": "flying",
-      "requires": [{ "id": "speed", "levels": 1 }],
+      "requires": [{ "id": "speed", "levels": 4 }],
       "name": "Flying",
       "description": "Grants you the ability to fly",
       "cost": 1,
-      "levelsRequired": 4,
       "providedAbilities": [{ "id": "flying", "gain": true }]
     },
     {
@@ -712,7 +704,6 @@
       "description": "Adds 1 Armor",
       "levels": 7,
       "levelCost": [1, 1, 2, 2, 3, 4, 4],
-      "levelsRequired": 1,
       "providedStats": [{ "id": "armor", "modifier": 1 }]
     },
     {
@@ -722,10 +713,9 @@
         "selected": "#cd8150"
       },
       "id": "attentive",
-      "requires": [{ "id": "armor", "levels": 1 }],
+      "requires": [{ "id": "armor", "levels": 2 }],
       "name": "Attentive",
       "description": "Grants the Attentive ability",
-      "levelsRequired": 2,
       "providedAbilities": [{ "id": "attentive", "gain": true }]
     },
     {
@@ -747,11 +737,10 @@
         "selected": "#cd8550"
       },
       "id": "reactive-armor",
-      "requires": [{ "id": "armor", "levels": 1 }],
+      "requires": [{ "id": "armor", "levels": 5 }],
       "name": "Reactive Armor",
       "description": "Sets your AC to 1 and grants Reactive Armor.",
       "cost": 1,
-      "levelsRequired": 5,
       "providedStats": [{ "id": "armor", "set": 1, "modifier": 1 }],
       "providedAbilities": [{ "id": "reactive-armor", "gain": true }]
     },
@@ -766,7 +755,6 @@
       "name": "Reactive Armor 2",
       "description": "Increases your base AC to 2",
       "cost": 1,
-      "levelsRequired": 1,
       "providedStats": [{ "id": "armor", "set": 2, "modifier": 2 }]
     },
     {
@@ -780,7 +768,6 @@
       "name": "Defend 1",
       "description": "Grants the ability to defend and adds 1 HP.",
       "cost": 1,
-      "levelsRequired": 1,
       "providedStats": [{ "id": "hp", "modifier": 1 }],
       "providedAbilities": [{ "id": "defend", "gain": true }]
     },
@@ -795,7 +782,6 @@
       "name": "Defend 2",
       "description": "Increases the HP gained by Defend",
       "cost": 1,
-      "levelsRequired": 1,
       "providedAbilities": [
         {
           "id": "defend",
@@ -828,7 +814,6 @@
       "name": "Deflection+",
       "description": "Makes it easier to deflect magic attacks.",
       "cost": 1,
-      "levelsRequired": 1,
       "providedAbilities": [
         {
           "id": "deflect",
@@ -860,7 +845,6 @@
       "name": "Guardian+",
       "description": "Allows you guard an additional attack",
       "cost": 1,
-      "levelsRequired": 1,
       "providedAbilities": [
         {
           "id": "guardian",
@@ -915,7 +899,6 @@
       "name": "Holy-Divine Casting",
       "description": "Grants you the ability to cast Holy/Divine Spells.",
       "cost": 1,
-      "levelsRequired": 1,
       "providedAbilities": [
         { "id": "smite", "gain": true },
         { "id": "guiding-bolt", "gain": true },
@@ -937,7 +920,6 @@
       "name": "Holy Power",
       "description": "Increases the damage of Smite and Guiding Bolt by 1",
       "cost": 1,
-      "levelsRequired": 1,
       "providedAbilities": [
         { "id": "smite", "modifiers": [{ "id": "dmg", "modifier": 1 }] },
         { "id": "guiding-bolt", "modifiers": [{ "id": "dmg", "modifier": 1 }] }
@@ -954,7 +936,6 @@
       "name": "Advanced Guiding Bolt",
       "description": "Guiding bolt now gives allies +2 to hit the target next round.",
       "cost": 1,
-      "levelsRequired": 1,
       "providedAbilities": [{ "id": "guiding-bolt", "modifiers": { "hit": 1 } }]
     },
     {
@@ -968,7 +949,6 @@
       "name": "Swimming",
       "description": "Congrats! You are a unit.",
       "cost": 1,
-      "levelsRequired": 1,
       "providedAbilities": [{ "id": "swimming", "gain": true }]
     },
     {
@@ -982,7 +962,6 @@
       "name": "Advanded Swimming",
       "description": "Increases potential water speed by 3.",
       "cost": 1,
-      "levelsRequired": 1,
       "providedAbilities": [
         { "id": "swimming", "modifiers": { "movement": 3 } }
       ]
@@ -1049,7 +1028,6 @@
       "requires": [{ "id": "basic-magic", "levels": 1 }],
       "name": "Enchantment",
       "cost": 1,
-      "levelsRequired": 1,
       "providedAbilities": [
         {
           "id": "alter-emotions",
@@ -1072,7 +1050,6 @@
       "name": "Beguile+",
       "description": "Beguiled opponents can now be Compelled and Charmed.",
       "cost": 1,
-      "levelsRequired": 1,
       "providedAbilities": [
         {
           "id": "beguile",
@@ -1095,7 +1072,6 @@
       "name": "Beguile++",
       "description": "Charmed opponents make 1 fewer attack against you.",
       "cost": 1,
-      "levelsRequired": 1,
       "providedAbilities": [
         {
           "id": "beguile",
@@ -1114,7 +1090,6 @@
       "requires": [{ "id": "191", "levels": 1 }],
       "name": "Alter Emotions+",
       "cost": 1,
-      "levelsRequired": 1,
       "providedAbilities": [
         {
           "id": "alter-emotions",
@@ -1134,7 +1109,6 @@
       "name": "Alter Emotions++",
       "description": "You can cast Alter Emotions on additional targets adjacent to the spell's target.",
       "cost": 1,
-      "levelsRequired": 1,
       "providedAbilities": [
         {
           "id": "alter-emotions",
@@ -1153,7 +1127,6 @@
       "requires": [{ "id": "basic", "levels": 1 }],
       "name": "Command",
       "cost": 1,
-      "levelsRequired": 1,
       "providedAbilities": [
         { "id": "command", "modifier": 1, "modifiers": [], "gain": true }
       ]
@@ -1169,7 +1142,6 @@
       "name": "Command+",
       "levels": 3,
       "levelCost": [1, 1, 1],
-      "levelsRequired": 1,
       "providedAbilities": [
         {
           "id": "command",
@@ -1188,7 +1160,6 @@
       "requires": [{ "id": "command-plus", "levels": 1 }],
       "name": "Aggressive Commander",
       "cost": 1,
-      "levelsRequired": 1,
       "providedAbilities": [
         { "id": "aggro-command", "modifier": 1, "modifiers": [], "gain": true }
       ]
@@ -1200,10 +1171,9 @@
         "selected": "#3ceac8"
       },
       "id": "command-plus-2",
-      "requires": [{ "id": "command-plus", "levels": 1 }],
+      "requires": [{ "id": "command-plus", "levels": 2 }],
       "name": "Energetic Commander",
       "cost": 1,
-      "levelsRequired": "2",
       "providedAbilities": [
         {
           "id": "energetic-commander",
@@ -1223,7 +1193,6 @@
       "requires": [{ "id": "command", "levels": 1 }],
       "name": "Rally",
       "cost": 1,
-      "levelsRequired": 1,
       "providedAbilities": [
         { "id": "rally", "modifier": 1, "modifiers": [], "gain": true }
       ]
@@ -1238,7 +1207,6 @@
       "requires": [{ "id": "command-2", "levels": 1 }],
       "name": "Rally+",
       "cost": 1,
-      "levelsRequired": 1,
       "providedAbilities": [
         {
           "id": "rally",
@@ -1262,7 +1230,6 @@
       "requires": [{ "id": "command-2", "levels": 1 }],
       "name": "Ordered Strike",
       "cost": 1,
-      "levelsRequired": 1,
       "providedAbilities": [
         {
           "id": "rally",
@@ -1280,7 +1247,6 @@
       "requires": [{ "id": "command-2-2", "levels": 1 }],
       "name": "Ordered Strike 2",
       "cost": 1,
-      "levelsRequired": 1,
       "providedAbilities": [
         { "id": "rally-2", "modifier": 1, "modifiers": [], "gain": true }
       ]
@@ -1296,7 +1262,6 @@
       "name": "Brace",
       "description": "Brace for attacks while defending, negating charge effects and damaging nearby enemies.",
       "cost": 1,
-      "levelsRequired": 1,
       "providedAbilities": [
         {
           "id": "defend",
@@ -1312,10 +1277,9 @@
         "selected": "#d46430"
       },
       "id": "defend-2-3",
-      "requires": [{ "id": "defend-2", "levels": 1 }],
+      "requires": [{ "id": "defend-2", "levels": 2 }],
       "name": "Attack of Opportunity",
       "cost": 1,
-      "levelsRequired": "2",
       "providedAbilities": [
         {
           "id": "attack-of-opportunity",
@@ -1332,11 +1296,10 @@
         "selected": "#cd8150"
       },
       "id": "professionals",
-      "requires": [{ "id": "armor", "levels": 1 }],
+      "requires": [{ "id": "armor", "levels": 3 }],
       "name": "Professionals",
       "description": "Grants the \"Professionals\" ability.",
       "cost": 1,
-      "levelsRequired": "3",
       "providedAbilities": [
         { "id": "professionals", "modifier": 1, "modifiers": [], "gain": true }
       ]
@@ -1352,7 +1315,6 @@
       "name": "Necromancy",
       "description": "Cast Necromancer spells.",
       "cost": 1,
-      "levelsRequired": 1,
       "providedAbilities": [
         { "id": "necromancy", "modifier": 1, "modifiers": [], "gain": true },
         {
@@ -1377,7 +1339,6 @@
       "name": "Raise Dead+",
       "description": "Increases the health of raised units.",
       "cost": 1,
-      "levelsRequired": 1,
       "providedAbilities": [
         {
           "id": "raise-dead",
@@ -1397,7 +1358,6 @@
       "name": "Raise Dead++",
       "description": "Raise units to full health.",
       "cost": 1,
-      "levelsRequired": 1,
       "providedAbilities": [
         {
           "id": "raise-dead",
@@ -1418,7 +1378,6 @@
       "description": "Increases the number of necromancy spells you can cast",
       "levels": 2,
       "levelCost": [1, 1],
-      "levelsRequired": 1,
       "providedAbilities": [
         {
           "id": "necromancy",
@@ -1438,7 +1397,6 @@
       "name": "Necromantic Mastery",
       "description": "Further increases the number of spells you can cast",
       "cost": 1,
-      "levelsRequired": 1,
       "providedAbilities": [
         {
           "id": "necromancy",
@@ -1458,7 +1416,6 @@
       "name": "Necromancer",
       "description": "You can now cast 2 necromancy spells per action.",
       "cost": 1,
-      "levelsRequired": 1,
       "providedAbilities": [
         {
           "id": "necromancy",

@@ -50,7 +50,10 @@ export const updateNodesAfterDeselection = (nodes, selectedNode, nodeMeta) => {
     if (deps) {
       each(deps, (dep) => {
         if (selectedNode.levels) {
-          const levelsRequired = dep.levelsRequired || selectedNode.levels;
+          const levelsRequired =
+            find(dep.required, { id: selectedNode.id })?.levels ||
+            selectedNode.levels;
+
           if (levelsRequired > nodeMeta.acquired[selectedNode.id]) {
             nodeMeta.selected[dep.id] = false;
             nodeMeta.acquired[dep.id] = 0;
@@ -73,33 +76,21 @@ export const updateNodesAfterDeselection = (nodes, selectedNode, nodeMeta) => {
 export const updateAvailability = (nodes, nodeMeta) => {
   each(nodes, (node) => {
     if (node.requires) {
-      if (!isArray(node.requires)) {
-        const requiredNode = find(nodes, { id: node.requires });
+      let available = true;
+
+      each(node.requires, (requirement) => {
+        const requiredNode = find(nodes, { id: requirement.id });
         if (requiredNode.levels) {
-          const levelsRequired = node.levelsRequired || requiredNode.levels;
+          const levelsRequired = requirement.levels || requiredNode.levels;
           const levelsAcquired = nodeMeta.acquired[requiredNode.id];
 
-          nodeMeta.available[node.id] = levelsAcquired >= levelsRequired;
+          available = available && levelsAcquired >= levelsRequired;
         } else {
-          nodeMeta.available[node.id] = nodeMeta.selected[node.requires];
+          available = available && nodeMeta.selected[requirement.id];
         }
-      } else {
-        let available = true;
+      });
 
-        each(node.requires, (requiredId) => {
-          const requiredNode = find(nodes, { id: requiredId });
-          if (requiredNode.levels) {
-            const levelsRequired = node.levelsRequired || requiredNode.levels;
-            const levelsAcquired = nodeMeta.acquired[requiredNode.id];
-
-            available = available && levelsAcquired >= levelsRequired;
-          } else {
-            available = available && nodeMeta.selected[requiredId];
-          }
-        });
-
-        nodeMeta.available[node.id] = available;
-      }
+      nodeMeta.available[node.id] = available;
     }
   });
 
@@ -150,7 +141,6 @@ export const updateNodes = (nodes, graphEvents) => {
         cost: n.cost,
         levels: n.levels,
         levelCost: n.levelCost,
-        levelsRequired: n.levelsRequired,
         providedStats: n.providedStats,
         providedAbilities: n.providedAbilities,
       })),

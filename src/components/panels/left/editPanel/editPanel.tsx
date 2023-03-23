@@ -35,7 +35,6 @@ export function EditPanel({ graphEvents }: Props) {
   const [levels, setLevels] = useState(node.levels);
   const [levelCost, setLevelCost] = useState(node.levelCost);
   const [cost, setCost] = useState(node.cost);
-  const [levelsRequired, setLevelRequired] = useState(node.levelsRequired || 0);
   const [providedStats, setProvidedStats] = useState(node.providedStats || []);
   const [providedAbilities, setProvidedAbilities] = useState(
     node.providedAbilities || []
@@ -60,10 +59,6 @@ export function EditPanel({ graphEvents }: Props) {
 
   const DescriptionUpdated = (event) => {
     setDescription(event.target.value);
-  };
-
-  const levelsRequiredUpdated = (event) => {
-    setLevelRequired(event.target.value);
   };
 
   const AddButtonPressed = (event) => {
@@ -113,11 +108,6 @@ export function EditPanel({ graphEvents }: Props) {
       newNode.levels = levels;
       newNode.levelCost = levelCost;
     }
-
-    if (levelsRequired > 0) {
-      newNode.levelsRequired = levelsRequired;
-    }
-
     if (providedStats.length) {
       newNode.providedStats = providedStats;
     }
@@ -167,7 +157,6 @@ export function EditPanel({ graphEvents }: Props) {
     setLevels(node.levels || 1);
     setLevelCost(node.levelCost);
     setCost(node.cost);
-    setLevelRequired(node.levelsRequired || 1);
     setProvidedStats(node.providedStats || []);
     setProvidedAbilities(node.providedAbilities || []);
     setOldId(node.id);

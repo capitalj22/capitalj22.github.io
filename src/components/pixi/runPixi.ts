@@ -174,7 +174,6 @@ export function runGraphPixi(
     node.levels = newNode.levels;
     node.cost = newNode.cost;
     node.levelCost = newNode.levelCost;
-    node.levelsRequired = newNode.levelsRequired;
     node.providedStats = newNode.providedStats;
     node.providedAbilities = newNode.providedAbilities;
     node.colors = newNode.colors;

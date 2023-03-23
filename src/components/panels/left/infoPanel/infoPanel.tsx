@@ -36,8 +36,13 @@ function getRequiredText(requires, nodes) {
       requires,
       (acc, required) => {
         const node = find(nodes, { id: required.id });
-
-        return [...acc, node.name];
+        let text;
+        if (required.levels && required.levels > 1) {
+          text = `${node.name} (${required.levels})`;
+        } else {
+          text = node.name;
+        }
+        return [...acc, text];
       },
       [] as string[]
     ).join(" + ");
@@ -113,12 +118,8 @@ export function InfoPanel() {
         <div className="divider" style={{ backgroundColor: nodeColor }}></div>
         {!node.available ? (
           <div className="requires">
-            <span className="skill">
-              {requiredText}
-              {node.levelsRequired ? (
-                <span>({node.levelsRequired})</span>
-              ) : null}
-            </span>
+            Requires{" "}
+            <span className="skill">{requiredText}</span>
           </div>
         ) : null}
         <div className="info-description">{node?.description}</div>
