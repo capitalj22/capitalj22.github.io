@@ -16,7 +16,7 @@ import { SkillNode } from "../../../../entities/skilltree/node.entity";
 import TextareaAutosize from "react-textarea-autosize";
 import { Accordion } from "../../../layout/accordion/accordion";
 import { StatsContext } from "../../../../providers/stats/statsProvider";
-import { filter, find, map, some, sortBy } from "lodash-es";
+import { filter, find, map, sample, some, sortBy } from "lodash-es";
 import { BigButton } from "../../../common/buttons/bigButton";
 import { NodesContext } from "../../../../providers/nodes/nodesProvider";
 import { NodeSelect } from "../../../common/selects/nodeSelect";
@@ -79,7 +79,13 @@ export function EditPanel({ graphEvents, editingCancelled }: Props) {
     let newNode = {
       name: "NEW NODE",
       requires: [{ id: selectedNodeId, levels: 1 }],
-      id: `${node.id}-${numChildren + 1}`,
+      id: `${node.id}-${numChildren + 1}-${sample([
+        "a",
+        "b",
+        "c",
+        "d",
+        "e",
+      ])}${sample(["x", "z", "y", "v", "d"])}`,
 
       colors: node.colors,
     };
