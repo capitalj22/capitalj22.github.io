@@ -101,11 +101,23 @@ export function runGraphPixi(
 
     each(nodes, (node) => {
       if (node.requires) {
-        const target = find(nodes, { id: node.requires });
-        nodeMeta.available[node.id] =
-          !node.requires || isNodeSelected(target as INode, nodeMeta);
+        if (!Array.isArray(node.requires)) {
+          const target = find(nodes, { id: node.requires });
+          nodeMeta.available[node.id] =
+            !node.requires || isNodeSelected(target as INode, nodeMeta);
 
-        links.push({ source: node.id, target: (target as INode).id });
+          links.push({ source: node.id, target: (target as INode).id });
+        } else {
+          let available = true;
+          each(node.requires, (requiredId) => {
+            const target = find(nodes, { id: requiredId });
+            available = available && isNodeSelected(target as INode, nodeMeta);
+
+            links.push({ source: node.id, target: (target as INode).id });
+          });
+
+          nodeMeta.available[node.id] = available;
+        }
       } else {
         nodeMeta.available[node.id] = true;
       }

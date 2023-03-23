@@ -1,4 +1,4 @@
-import { each, filter, find, map } from "lodash-es";
+import { each, filter, find, isArray, map } from "lodash-es";
 import { d3Node, INode } from "../runPixi";
 
 export const isNodeSelected = (node: d3Node, nodeMeta) => {
@@ -71,14 +71,32 @@ export const updateNodesAfterDeselection = (nodes, selectedNode, nodeMeta) => {
 export const updateAvailability = (nodes, nodeMeta) => {
   each(nodes, (node) => {
     if (node.requires) {
-      const requiredNode = find(nodes, { id: node.requires });
-      if (requiredNode.levels) {
-        const levelsRequired = node.levelsRequired || requiredNode.levels;
-        const levelsAcquired = nodeMeta.acquired[requiredNode.id];
+      if (!isArray(node.requires)) {
+        const requiredNode = find(nodes, { id: node.requires });
+        if (requiredNode.levels) {
+          const levelsRequired = node.levelsRequired || requiredNode.levels;
+          const levelsAcquired = nodeMeta.acquired[requiredNode.id];
 
-        nodeMeta.available[node.id] = levelsAcquired >= levelsRequired;
+          nodeMeta.available[node.id] = levelsAcquired >= levelsRequired;
+        } else {
+          nodeMeta.available[node.id] = nodeMeta.selected[node.requires];
+        }
       } else {
-        nodeMeta.available[node.id] = nodeMeta.selected[node.requires];
+        let available = true;
+
+        each(node.requires, (requiredId) => {
+          const requiredNode = find(nodes, { id: requiredId });
+          if (requiredNode.levels) {
+            const levelsRequired = node.levelsRequired || requiredNode.levels;
+            const levelsAcquired = nodeMeta.acquired[requiredNode.id];
+
+            available = available && levelsAcquired >= levelsRequired;
+          } else {
+            available = available && nodeMeta.selected[requiredId];
+          }
+        });
+
+        nodeMeta.available[node.id] = available;
       }
     }
   });

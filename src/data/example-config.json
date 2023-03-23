@@ -678,7 +678,7 @@
         "selected": "#4dd2f7"
       },
       "id": "aerial-combat",
-      "requires": "advanced-flying",
+      "requires": ["advanced-flying", "dive-bomb"],
       "name": "Aerial Combat",
       "description": "Grants you the Aerial Combat ability.",
       "cost": 1,

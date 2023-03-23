@@ -11,17 +11,18 @@ import { PointCounter } from "../misc/pointCounter";
 import { PixiGraph } from "../pixi/pixi";
 
 function getNodes() {
-  const localBuild = localStorage.getItem("dragon-nodes");
-  let myNodes;
-  if (localBuild) {
-    try {
-      myNodes = JSON.parse(localBuild);
-    } catch (e) {
-      console.log(e);
-    }
-  }
+  // const localBuild = localStorage.getItem("dragon-nodes");
+  return exampleJson.nodes;
+  // let myNodes;
+  // if (localBuild) {
+  //   try {
+  //     myNodes = JSON.parse(localBuild);
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // }
 
-  return myNodes || {};
+  // return myNodes || {};
 }
 
 export interface IGraphEvent {
