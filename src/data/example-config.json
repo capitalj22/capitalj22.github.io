@@ -1492,11 +1492,11 @@
     { "id": "movement", "name": "Movement" }
   ],
   "abilityTypes": [
-    { "id": "action", "name": "Action" },
-    { "id": "movement", "name": "Movement" },
-    { "id": "passive", "name": "Passive" },
-    { "id": "reaction", "name": "Reaction" },
-    { "id": "bonus action", "name": "Bonus Action" },
-    { "id": "school", "name": "Magic Proficiency" }
+    { "id": "action", "name": "Action", "color": "#8eb0ff" },
+    { "id": "movement", "name": "Movement", "color": "#c7f8af" },
+    { "id": "passive", "name": "Passive", "color": "#cabfbf" },
+    { "id": "reaction", "name": "Reaction", "color": "#ffb0fc" },
+    { "id": "bonus action", "name": "Bonus Action", "color": "#a887ff" },
+    { "id": "school", "name": "Magic Proficiency", "color": "#5ec5e1" }
   ]
 }
