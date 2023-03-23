@@ -173,6 +173,7 @@ export function runGraphPixi(
 
   function editNode(nodeId, newNode) {
     let node = find(nodes, { id: nodeId }) as INode;
+    let oldRequires = node.requires;
 
     node.name = newNode.name;
     node.id = newNode.id;
@@ -184,6 +185,37 @@ export function runGraphPixi(
     node.providedStats = newNode.providedStats;
     node.providedAbilities = newNode.providedAbilities;
     node.colors = newNode.colors;
+    node.requires = newNode.requires;
+
+    if (oldRequires !== newNode.requires) {
+      links = [];
+
+      each(nodes, (n) => {
+        if (n.requires) {
+          if (!Array.isArray(n.requires)) {
+            const target = find(nodes, { id: n.requires });
+            console.log(target);
+            nodeMeta.available[n.id] =
+              !n.requires || isNodeSelected(target as INode, nodeMeta);
+
+            links.push({ source: n, target: (target as INode).id });
+          } else {
+            let available = true;
+            each(n.requires, (requiredId) => {
+              const target = find(nodes, { id: requiredId });
+              available =
+                available && isNodeSelected(target as INode, nodeMeta);
+
+              links.push({ source: n, target: (target as INode).id });
+            });
+
+            nodeMeta.available[n.id] = available;
+          }
+        } else {
+          nodeMeta.available[n.id] = true;
+        }
+      });
+    }
 
     if (
       nodeMeta.acquired[nodeId] &&

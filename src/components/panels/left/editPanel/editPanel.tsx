@@ -12,6 +12,7 @@ import { StatsContext } from "../../../../providers/stats/statsProvider";
 import { filter, find, map } from "lodash-es";
 import { BigButton } from "../../../common/buttons/bigButton";
 import { NodesContext } from "../../../../providers/nodes/nodesProvider";
+import { NodeSelect } from "../../../common/selects/nodeSelect";
 
 interface Props {
   node?: SkillNode;
@@ -40,10 +41,12 @@ export function EditPanel({ graphEvents }: Props) {
   );
   const [colors, setColors] = useState(node.colors || {});
   const [oldId, setOldId] = useState(node.id);
+  const [requires, setRequires] = useState(node.requires || "");
   const nameInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setNode(find(nodes, { id: selectedNodeId }) || {});
+    console.log(node);
   }, [selectedNodeId]);
 
   const IdUpdated = (event) => {
@@ -94,6 +97,7 @@ export function EditPanel({ graphEvents }: Props) {
     const newNode = {
       id: id,
       name: name,
+      requires: requires,
       description: description,
       colors,
     } as any;
@@ -149,6 +153,10 @@ export function EditPanel({ graphEvents }: Props) {
     setColors({ ...colors, [which]: event });
   };
 
+  const requiredChanged = (event) => {
+    setRequires(event);
+  };
+
   React.useEffect(() => {
     setColors(node.colors || {});
     setId(node.id);
@@ -161,6 +169,7 @@ export function EditPanel({ graphEvents }: Props) {
     setProvidedStats(node.providedStats || []);
     setProvidedAbilities(node.providedAbilities || []);
     setOldId(node.id);
+    setRequires(node.requires || "");
 
     nameInputRef.current?.focus();
   }, [node]);
@@ -211,8 +220,13 @@ export function EditPanel({ graphEvents }: Props) {
 
         <div className="requires">
           Requires{" "}
+          <NodeSelect
+            defaultValue={requires}
+            usedOptions={[node.id]}
+            valueChanged={requiredChanged}
+            isMulti={true}
+          />
           <span className="skill">
-            {(node as any).requiredName}{" "}
             <input
               min={1}
               type="number"
