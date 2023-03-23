@@ -4,7 +4,7 @@ import { SidebarLeft } from "../../layout/left/sidebarLeft";
 import { SettingsPanel } from "./settingsPanel/settingsPanel";
 import { EditPanel } from "./editPanel/editPanel";
 
-export function LeftPanel({ selectedNode, graphEvents$ }) {
+export function LeftPanel({ graphEvents$ }) {
   const [selectedItem, setSelectedItem] = useState("info");
   const handleItemSelected = (item) => {
     setSelectedItem(item);
@@ -28,17 +28,13 @@ export function LeftPanel({ selectedNode, graphEvents$ }) {
 
   return (
     <SidebarLeft itemSelected={handleItemSelected} expanded={handleExpanded}>
-      {selectedItem === "info" ? <InfoPanel node={selectedNode} /> : ""}
+      {selectedItem === "info" ? <InfoPanel /> : ""}
       {selectedItem === "settings" ? (
         <SettingsPanel graphEvents$={graphEvents$} />
       ) : (
         ""
       )}
-      {selectedItem === "edit" ? (
-        <EditPanel node={selectedNode} graphEvents={graphEvents$} />
-      ) : (
-        ""
-      )}
+      {selectedItem === "edit" ? <EditPanel graphEvents={graphEvents$} /> : ""}
     </SidebarLeft>
   );
 }

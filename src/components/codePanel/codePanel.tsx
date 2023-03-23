@@ -2,16 +2,18 @@ import { useContext, useState } from "react";
 import { Copy, Download, MapPin, RefreshCcw, Shield } from "react-feather";
 import { AbilitiesContext } from "../../providers/abilities/abilitiesProvider";
 import { BuildContext } from "../../providers/build/buildProvider";
+import { NodesContext } from "../../providers/nodes/nodesProvider";
 import { StatsContext } from "../../providers/stats/statsProvider";
 import { TagsContext } from "../../providers/tags/tagsProvider";
 
 import "./codePanel.scss";
 
-export function CodePanel({ nodes, importAttempted }) {
+export function CodePanel({ importAttempted }) {
   const { build } = useContext(BuildContext);
   const { tagColors } = useContext(TagsContext);
   const { stats } = useContext(StatsContext);
   const { abilityTypes, abilities } = useContext(AbilitiesContext);
+  const { nodes } = useContext(NodesContext);
   const [buildValue, setBuildTextValue] = useState("");
   const [treeValue, setTreeTextValue] = useState("");
   const [notification1Style, setNotification1Style] = useState({ opacity: 0 });

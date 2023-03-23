@@ -232,14 +232,7 @@ export function runGraphPixi(
   }
 
   function addNode(newNode: INode) {
-    const numChildren = filter(nodes, { requires: newNode.requires })?.length;
-    const requiredNode = find(nodes, { id: newNode.requires });
-    let node = {
-      ...newNode,
-      name: "NEW NODE",
-      id: `${newNode.requires}-${numChildren + 1}`,
-      colors: find(nodes, { id: newNode.requires })?.colors,
-    };
+    let node = newNode;
 
     const boundPress = onPress.bind(node);
     let { name } = node;

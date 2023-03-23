@@ -9,21 +9,7 @@ import { LeftPanel } from "../panels/left/leftPanel";
 import { RightPanel } from "../panels/right/rightPanel";
 import { PointCounter } from "../misc/pointCounter";
 import { PixiGraph } from "../pixi/pixi";
-
-function getNodes() {
-  // const localBuild = localStorage.getItem("dragon-nodes");
-  return exampleJson.nodes;
-  // let myNodes;
-  // if (localBuild) {
-  //   try {
-  //     myNodes = JSON.parse(localBuild);
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // }
-
-  // return myNodes || {};
-}
+import { NodesContext } from "../../providers/nodes/nodesProvider";
 
 export interface IGraphEvent {
   event:
@@ -48,18 +34,13 @@ export function Main() {
   const { setTagColors } = useContext(TagsContext);
   const { setStats } = useContext(StatsContext);
   const { setAbilityTypes, setAbilities } = useContext(AbilitiesContext);
-  const [selectedNode, setSelectedNode] = useState({});
-  const [nodes, setNodes] = useState(() => getNodes());
-
-  useEffect(() => {
-    saveNodes(nodes);
-  }, [nodes]);
+  const { nodes, setNodes, setSelectedNodeId } = useContext(NodesContext);
 
   useEffect(() => {
     graphEvents$.subscribe({
       next: (event) => {
         if (event.event === "nodesChanged") {
-          setNodes(event.data.nodes);
+          // setNodes(event.data.nodes);
         }
       },
     });
@@ -74,10 +55,11 @@ export function Main() {
       }
     } else if (event.type === "trees") {
       const config = JSON.parse(event.data);
+
       setSavedBuild({ type: "imported", build: {} });
       if (config) {
         if (config.nodes) {
-          setNodes(config.nodes);
+          setNodes({ type: "set", nodes: config.nodes });
         }
         if (config.abilities) {
           setAbilities({ type: "set", abilities: config.abilities });
@@ -94,7 +76,10 @@ export function Main() {
         }
       }
     } else if (event.type === "reset") {
-      setNodes([{ id: "start here", name: "Start Here", colors: {} }]);
+      setNodes({
+        type: "set",
+        nodes: [{ id: "start here", name: "Start Here", colors: {} }],
+      });
       setAbilities({ type: "set", abilities: [] });
       setAbilityTypes({ type: "set", abilityTypes: [] });
       setTagColors({ type: "set", tagColors: [] });
@@ -103,7 +88,7 @@ export function Main() {
       setSavedBuild({ type: "imported", build: {} });
     } else if (event.type === "default") {
       const defaults = exampleJson;
-      setNodes(defaults.nodes);
+      setNodes({ type: "set", nodes: defaults.nodes });
       setStats({ type: "set", stats: defaults.stats });
       setAbilityTypes({ type: "set", abilityTypes: defaults.abilityTypes });
       setAbilities({ type: "set", abilities: defaults.abilities });
@@ -113,27 +98,20 @@ export function Main() {
   };
 
   const infoUpdated = (event) => {
-    setSelectedNode(event.node);
+    setSelectedNodeId(event.node?.id);
   };
 
   return (
     <div className="App">
       <div className="appLeft">
-        <LeftPanel
-          selectedNode={selectedNode}
-          graphEvents$={graphEvents$}
-        ></LeftPanel>
+        <LeftPanel graphEvents$={graphEvents$}></LeftPanel>
         <PointCounter pointsSpent={build.pointsInvested}></PointCounter>
       </div>
       <div className="appRight">
-        <RightPanel
-          nodes={nodes}
-          importAttempted={handleImportAttempted}
-        ></RightPanel>
+        <RightPanel importAttempted={handleImportAttempted}></RightPanel>
       </div>
       <div className="skill-panel">
         <PixiGraph
-          trees={nodes}
           infoUpdated={infoUpdated}
           graphEvents={graphEvents$}
         ></PixiGraph>

@@ -9,8 +9,9 @@ import { SkillNode } from "../../../../entities/skilltree/node.entity";
 import TextareaAutosize from "react-textarea-autosize";
 import { Accordion } from "../../../layout/accordion/accordion";
 import { StatsContext } from "../../../../providers/stats/statsProvider";
-import { map } from "lodash-es";
+import { filter, find, map } from "lodash-es";
 import { BigButton } from "../../../common/buttons/bigButton";
+import { NodesContext } from "../../../../providers/nodes/nodesProvider";
 
 interface Props {
   node?: SkillNode;
@@ -21,8 +22,11 @@ function getStatOptions(stats) {
   return map(stats, (stat) => ({ value: stat.id, label: stat.name }));
 }
 
-export function EditPanel({ node = {} as SkillNode, graphEvents }: Props) {
+export function EditPanel({ graphEvents }: Props) {
+  const { selectedNodeId, nodes, setNodes, setSelectedNodeId } =
+    useContext(NodesContext);
   const { stats } = useContext(StatsContext);
+  const [node, setNode] = useState(find(nodes, { id: selectedNodeId }) || {});
   const [id, setId] = useState(node.id);
   const [name, setName] = useState(node.name);
   const [description, setDescription] = useState(node.description);
@@ -35,7 +39,14 @@ export function EditPanel({ node = {} as SkillNode, graphEvents }: Props) {
     node.providedAbilities || []
   );
   const [colors, setColors] = useState(node.colors || {});
+  const [oldId, setOldId] = useState(node.id);
   const nameInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    console.log(nodes);
+    console.log(selectedNodeId);
+    setNode(find(nodes, { id: selectedNodeId }) || {});
+  }, [selectedNodeId]);
 
   const IdUpdated = (event) => {
     setId(event.target.value);
@@ -55,19 +66,30 @@ export function EditPanel({ node = {} as SkillNode, graphEvents }: Props) {
 
   const AddButtonPressed = (event) => {
     SavePressed({});
+
+    const numChildren = filter(nodes, { requires: node.requires })?.length;
+
+    let newNode = {
+      name: "NEW NODE",
+      requires: node.id,
+      id: `${node.requires}-${numChildren + 1}`,
+
+      colors: find(nodes, { id: node.requires })?.colors,
+    };
+    
+    setNodes({ type: "add", node: newNode });
+
     graphEvents.next({
       event: "nodeAdded",
       data: {
-        node: {
-          requires: node.id,
-          id: Math.floor(Math.random() * 200).toString(),
-        },
+        node: newNode,
       },
     });
   };
 
   const deletePressed = (event) => {
     graphEvents.next({ event: "nodeDeleted", data: { id: id } });
+    setNodes({ type: "remove", node });
   };
 
   const SavePressed = (event) => {
@@ -108,6 +130,8 @@ export function EditPanel({ node = {} as SkillNode, graphEvents }: Props) {
         node: newNode,
       },
     });
+
+    setNodes({ type: "update", node: newNode, targetId: oldId });
   };
 
   const providedStatsChanged = (event) => {

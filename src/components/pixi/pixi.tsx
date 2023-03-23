@@ -6,10 +6,12 @@ import { BuildContext } from "../../providers/build/buildProvider";
 import { filter } from "lodash-es";
 import { newDragonFromNodes } from "../../entities/actor/dragon.entity";
 import { AbilitiesContext } from "../../providers/abilities/abilitiesProvider";
+import { NodesContext } from "../../providers/nodes/nodesProvider";
 
-export function PixiGraph({ trees, infoUpdated, graphEvents }) {
+export function PixiGraph({ infoUpdated, graphEvents }) {
   const containerRef = useRef(null);
   const { abilities } = useContext(AbilitiesContext);
+  const { nodes } = useContext(NodesContext);
   const nodesUpdated$ = new Subject();
   const infoUpdated$ = new Subject();
   const { savedBuild, setBuild } = useContext(BuildContext);
@@ -25,7 +27,6 @@ export function PixiGraph({ trees, infoUpdated, graphEvents }) {
 
     nodesUpdated$.subscribe({
       next: (data: any) => {
-        console.log("data");
         const selectedNodes = filter(
           data.nodes,
           (node) => node.selected || node.acquired
@@ -47,7 +48,7 @@ export function PixiGraph({ trees, infoUpdated, graphEvents }) {
     if (containerRef.current) {
       const { destroy } = runGraphPixi(
         containerRef.current,
-        trees,
+        nodes,
         savedBuild,
         nodesUpdated$,
         infoUpdated$,

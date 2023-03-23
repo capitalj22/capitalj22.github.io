@@ -2,6 +2,7 @@ import { each, find, isUndefined, map, reduce, times } from "lodash-es";
 import { useContext, useEffect, useState } from "react";
 import { AbilitiesContext } from "../../../../providers/abilities/abilitiesProvider";
 import { BuildContext } from "../../../../providers/build/buildProvider";
+import { NodesContext } from "../../../../providers/nodes/nodesProvider";
 import { AbilityCard } from "../../../characterSheet/abilityCard/abilityCard";
 import "./infoPanel.scss";
 
@@ -29,9 +30,11 @@ function formatNodeModifiers(providedAbilities, build, selected) {
   return abilities;
 }
 
-export function InfoPanel({ node }) {
+export function InfoPanel() {
+  const { selectedNodeId, nodes } = useContext(NodesContext);
   const { build } = useContext(BuildContext);
   const { abilities } = useContext(AbilitiesContext);
+  const [node, setNode] = useState(find(nodes, { id: selectedNodeId }));
   const [relatedAbilities, setRelatedAbilities] = useState(
     getRelatedAbilities(node, abilities)
   );
@@ -42,6 +45,10 @@ export function InfoPanel({ node }) {
   );
 
   let nodeColor = node?.colors?.selected;
+
+  useEffect(() => {
+    setNode(find(nodes, { id: selectedNodeId }));
+  }, [selectedNodeId]);
 
   useEffect(() => {
     if (node) {
