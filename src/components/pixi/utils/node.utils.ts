@@ -1,4 +1,4 @@
-import { each, filter, find, isArray, map } from "lodash-es";
+import { each, filter, find, includes, isArray, map } from "lodash-es";
 import { d3Node, INode } from "../runPixi";
 
 export const isNodeSelected = (node: d3Node, nodeMeta) => {
@@ -43,7 +43,9 @@ export const acquiredselectNodeAndReturnNewMeta = (
 
 export const updateNodesAfterDeselection = (nodes, selectedNode, nodeMeta) => {
   const turnOffDependentNodes = (n) => {
-    const deps = filter(nodes, { requires: n.id });
+    const deps = filter(nodes, (node) => {
+      return node.requires === n.id || includes(node.requires, n.id);
+    });
 
     if (deps) {
       each(deps, (dep) => {

@@ -435,7 +435,7 @@
         "selected": "#96b7bd"
       },
       "id": "basic-magic",
-      "requires": "basic",
+      "requires": [{ "id": "basic", "levels": 1 }],
       "name": "Spellcasting",
       "description": "Grants your unit the ability to cast spells",
       "cost": 1,
@@ -452,7 +452,7 @@
         "selected": "#51db53"
       },
       "id": "speed",
-      "requires": "basic",
+      "requires": [{ "id": "basic", "levels": 1 }],
       "name": "Speed",
       "description": "Allows you to move one additional hex per turn",
       "levels": 8,
@@ -466,7 +466,7 @@
         "selected": "#51db53"
       },
       "id": "versatile",
-      "requires": "speed",
+      "requires": [{ "id": "speed", "levels": 1 }],
       "name": "Versatile",
       "description": "Grants the Versatile ability",
       "cost": 1,
@@ -480,7 +480,7 @@
         "selected": "#51db53"
       },
       "id": "extra-versatile",
-      "requires": "versatile",
+      "requires": [{ "id": "versatile", "levels": 1 }],
       "name": "Extra Versatile",
       "description": "Grants the Extra Versatile ability",
       "cost": 1,
@@ -493,7 +493,7 @@
         "selected": "#51db53"
       },
       "id": "dash",
-      "requires": "speed",
+      "requires": [{ "id": "speed", "levels": 1 }],
       "name": "Dash",
       "description": "Grants the Dash ability",
       "cost": 1,
@@ -507,7 +507,7 @@
         "selected": "#51db53"
       },
       "id": "advanced-dash",
-      "requires": "charge",
+      "requires": [{ "id": "charge", "levels": 1 }],
       "name": "Dash+",
       "description": "Increases the movement of Dash by 2",
       "cost": 1,
@@ -523,7 +523,7 @@
         "selected": "#51db53"
       },
       "id": "dash-expert",
-      "requires": "advanced-dash",
+      "requires": [{ "id": "advanced-dash", "levels": 1 }],
       "name": "Dash Expert",
       "description": "Grants the Dash Expert ability",
       "cost": 1,
@@ -537,7 +537,7 @@
         "selected": "#51db53"
       },
       "id": "charge",
-      "requires": "dash",
+      "requires": [{ "id": "dash", "levels": 1 }],
       "name": "Charge",
       "description": "Grants the Charge ability",
       "cost": 1,
@@ -550,7 +550,7 @@
         "selected": "#51db53"
       },
       "id": "breakthrough",
-      "requires": "charge",
+      "requires": [{ "id": "charge", "levels": 1 }],
       "name": "Breakthrough",
       "description": "Grants you the ability to continue moving through units after a charge.",
       "cost": 1,
@@ -569,7 +569,7 @@
         "selected": "#51db53"
       },
       "id": "advanced-charge",
-      "requires": "charge",
+      "requires": [{ "id": "charge", "levels": 1 }],
       "name": "Charge+",
       "description": "Increases the movement of Charge by 2",
       "cost": 1,
@@ -584,7 +584,7 @@
         "selected": "#4dd2f7"
       },
       "id": "flying",
-      "requires": "speed",
+      "requires": [{ "id": "speed", "levels": 1 }],
       "name": "Flying",
       "description": "Grants you the ability to fly",
       "cost": 1,
@@ -598,7 +598,7 @@
         "selected": "#4dd2f7"
       },
       "id": "death-bomb",
-      "requires": "flying",
+      "requires": [{ "id": "flying", "levels": 1 }],
       "name": "Death Bomb",
       "description": "Grants you the Death Bomb ability. Must be undead to use.",
       "cost": 1,
@@ -611,7 +611,7 @@
         "selected": "#4dd2f7"
       },
       "id": "swarm",
-      "requires": "flying",
+      "requires": [{ "id": "flying", "levels": 1 }],
       "name": "Swarm",
       "description": "Grants you the Swarm ability.",
       "cost": 1,
@@ -624,7 +624,7 @@
         "selected": "#4dd2f7"
       },
       "id": "strafing-run",
-      "requires": "flying",
+      "requires": [{ "id": "flying", "levels": 1 }],
       "name": "Strafing Run",
       "description": "Grants you the Strafing Run ability.",
       "cost": 1,
@@ -637,7 +637,7 @@
         "selected": "#4dd2f7"
       },
       "id": "advanced-strafing-run",
-      "requires": "strafing-run",
+      "requires": [{ "id": "strafing-run", "levels": 1 }],
       "name": "Strafing Run+",
       "description": "Increases the number of targets by 3.",
       "levels": 2,
@@ -652,7 +652,7 @@
         "selected": "#4dd2f7"
       },
       "id": "advanced-flying",
-      "requires": "flying",
+      "requires": [{ "id": "flying", "levels": 1 }],
       "name": "Advanced Flying",
       "description": "Increases the number of targets by 3.",
       "cost": 1,
@@ -665,7 +665,7 @@
         "selected": "#4dd2f7"
       },
       "id": "dive-bomb",
-      "requires": "advanced-flying",
+      "requires": [{ "id": "advanced-flying", "levels": 1 }],
       "name": "Dive Bomb",
       "description": "Grants you the Dive Bomb ability.",
       "cost": 1,
@@ -678,7 +678,10 @@
         "selected": "#4dd2f7"
       },
       "id": "aerial-combat",
-      "requires": ["advanced-flying", "dive-bomb"],
+      "requires": [
+        { "id": "advanced-flying", "levels": 1 },
+        { "id": "dive-bomb", "levels": 1 }
+      ],
       "name": "Aerial Combat",
       "description": "Grants you the Aerial Combat ability.",
       "cost": 1,
@@ -691,7 +694,7 @@
         "selected": "#4dd2f7"
       },
       "id": "aerial-evasion",
-      "requires": "aerial-combat",
+      "requires": [{ "id": "aerial-combat", "levels": 1 }],
       "name": "Aerial Evasion",
       "description": "Grants you the Aerial Evasion ability.",
       "cost": 1,
@@ -704,7 +707,7 @@
         "selected": "#cd8150"
       },
       "id": "armor",
-      "requires": "basic",
+      "requires": [{ "id": "basic", "levels": 1 }],
       "name": "Armor",
       "description": "Adds 1 Armor",
       "levels": 7,
@@ -719,7 +722,7 @@
         "selected": "#cd8150"
       },
       "id": "attentive",
-      "requires": "armor",
+      "requires": [{ "id": "armor", "levels": 1 }],
       "name": "Attentive",
       "description": "Grants the Attentive ability",
       "levelsRequired": 2,
@@ -732,7 +735,7 @@
         "selected": "#cd8150"
       },
       "id": "alert",
-      "requires": "attentive",
+      "requires": [{ "id": "attentive", "levels": 1 }],
       "name": "Alert",
       "description": "Grants the Alert ability",
       "providedAbilities": [{ "id": "alert", "gain": true }]
@@ -744,7 +747,7 @@
         "selected": "#cd8550"
       },
       "id": "reactive-armor",
-      "requires": "armor",
+      "requires": [{ "id": "armor", "levels": 1 }],
       "name": "Reactive Armor",
       "description": "Sets your AC to 1 and grants Reactive Armor.",
       "cost": 1,
@@ -759,7 +762,7 @@
         "selected": "#cd8150"
       },
       "id": "reactive-armor-2",
-      "requires": "reactive-armor",
+      "requires": [{ "id": "reactive-armor", "levels": 1 }],
       "name": "Reactive Armor 2",
       "description": "Increases your base AC to 2",
       "cost": 1,
@@ -773,7 +776,7 @@
         "selected": "#cd8150"
       },
       "id": "defend-1",
-      "requires": "armor",
+      "requires": [{ "id": "armor", "levels": 1 }],
       "name": "Defend 1",
       "description": "Grants the ability to defend and adds 1 HP.",
       "cost": 1,
@@ -788,7 +791,7 @@
         "selected": "#d78142"
       },
       "id": "defend-2",
-      "requires": "defend-1",
+      "requires": [{ "id": "defend-1", "levels": 1 }],
       "name": "Defend 2",
       "description": "Increases the HP gained by Defend",
       "cost": 1,
@@ -808,7 +811,7 @@
         "selected": "#cd8150"
       },
       "id": "deflect-1",
-      "requires": "defend-2",
+      "requires": [{ "id": "defend-2", "levels": 1 }],
       "name": "Deflection",
       "description": "Grants the Deflect ability.",
       "cost": 1,
@@ -821,7 +824,7 @@
         "selected": "#cd8150"
       },
       "id": "deflect-2",
-      "requires": "deflect-1",
+      "requires": [{ "id": "deflect-1", "levels": 1 }],
       "name": "Deflection+",
       "description": "Makes it easier to deflect magic attacks.",
       "cost": 1,
@@ -840,7 +843,7 @@
         "selected": "#cd8150"
       },
       "id": "guardian-1",
-      "requires": "defend-1",
+      "requires": [{ "id": "defend-1", "levels": 1 }],
       "name": "Guardian",
       "description": "Grants the Guardian ability",
       "cost": 1,
@@ -853,7 +856,7 @@
         "selected": "#cd8150"
       },
       "id": "guardian-2",
-      "requires": "guardian-1",
+      "requires": [{ "id": "guardian-1", "levels": 1 }],
       "name": "Guardian+",
       "description": "Allows you guard an additional attack",
       "cost": 1,
@@ -872,7 +875,7 @@
         "selected": "#7391c9"
       },
       "id": "magic-range-1",
-      "requires": "basic-magic",
+      "requires": [{ "id": "basic-magic", "levels": 1 }],
       "name": "Spell Range",
       "description": "Increases the range of your magic.",
       "levels": 3,
@@ -890,7 +893,7 @@
         "selected": "#7391c9"
       },
       "id": "concentration-1",
-      "requires": "basic-magic",
+      "requires": [{ "id": "basic-magic", "levels": 1 }],
       "name": "Concentration+",
       "description": "Add +1 to concentration checks.",
       "levels": 2,
@@ -908,7 +911,7 @@
         "selected": "#7f7750"
       },
       "id": "holy-casting",
-      "requires": "basic-magic",
+      "requires": [{ "id": "basic-magic", "levels": 1 }],
       "name": "Holy-Divine Casting",
       "description": "Grants you the ability to cast Holy/Divine Spells.",
       "cost": 1,
@@ -930,7 +933,7 @@
         "selected": "#948540"
       },
       "id": "holy-power",
-      "requires": "holy-casting",
+      "requires": [{ "id": "holy-casting", "levels": 1 }],
       "name": "Holy Power",
       "description": "Increases the damage of Smite and Guiding Bolt by 1",
       "cost": 1,
@@ -947,7 +950,7 @@
         "selected": "#e6c11d"
       },
       "id": "advanced-guiding-bolt",
-      "requires": "holy-power",
+      "requires": [{ "id": "holy-power", "levels": 1 }],
       "name": "Advanced Guiding Bolt",
       "description": "Guiding bolt now gives allies +2 to hit the target next round.",
       "cost": 1,
@@ -961,7 +964,7 @@
         "selected": "#1a72f5"
       },
       "id": "swimming",
-      "requires": "speed",
+      "requires": [{ "id": "speed", "levels": 1 }],
       "name": "Swimming",
       "description": "Congrats! You are a unit.",
       "cost": 1,
@@ -975,7 +978,7 @@
         "selected": "#1a72f5"
       },
       "id": "advanced-swimming",
-      "requires": "swimming",
+      "requires": [{ "id": "swimming", "levels": 1 }],
       "name": "Advanded Swimming",
       "description": "Increases potential water speed by 3.",
       "cost": 1,
@@ -991,7 +994,7 @@
         "selected": "#1a72f5"
       },
       "id": "ferry",
-      "requires": "advanced-swimming",
+      "requires": [{ "id": "advanced-swimming", "levels": 1 }],
       "name": "Ferry",
       "description": "Grants the Ferry ability",
       "cost": 1,
@@ -1004,7 +1007,7 @@
         "selected": "#1a72f5"
       },
       "id": "diving",
-      "requires": "advanced-swimming",
+      "requires": [{ "id": "advanced-swimming", "levels": 1 }],
       "name": "Diving",
       "description": "Grants the Diving ability",
       "cost": 2,
@@ -1017,7 +1020,7 @@
         "selected": "#1a72f5"
       },
       "id": "submarine-transportation",
-      "requires": "diving",
+      "requires": [{ "id": "diving", "levels": 1 }],
       "name": "Submarine Transportation",
       "description": "Grants the Submarine Transportation ability",
       "cost": 1,
@@ -1030,7 +1033,7 @@
         "selected": "#1a72f5"
       },
       "id": "attack-from-the-deep",
-      "requires": "diving",
+      "requires": [{ "id": "diving", "levels": 1 }],
       "name": "Attack From The Deep",
       "description": "Grants the Attack From The Deep ability",
       "cost": 2,
@@ -1043,7 +1046,7 @@
         "selected": "#ab38d9"
       },
       "id": "191",
-      "requires": "basic-magic",
+      "requires": [{ "id": "basic-magic", "levels": 1 }],
       "name": "Enchantment",
       "cost": 1,
       "levelsRequired": 1,
@@ -1065,7 +1068,7 @@
         "selected": "#ab38d9"
       },
       "id": "180",
-      "requires": "191",
+      "requires": [{ "id": "191", "levels": 1 }],
       "name": "Beguile+",
       "description": "Beguiled opponents can now be Compelled and Charmed.",
       "cost": 1,
@@ -1088,7 +1091,7 @@
         "selected": "#ab38d9"
       },
       "id": "beguile-3",
-      "requires": "180",
+      "requires": [{ "id": "180", "levels": 1 }],
       "name": "Beguile++",
       "description": "Charmed opponents make 1 fewer attack against you.",
       "cost": 1,
@@ -1108,7 +1111,7 @@
         "selected": "#ab38d9"
       },
       "id": "alter-emotions-1",
-      "requires": "191",
+      "requires": [{ "id": "191", "levels": 1 }],
       "name": "Alter Emotions+",
       "cost": 1,
       "levelsRequired": 1,
@@ -1127,7 +1130,7 @@
         "selected": "#ab38d9"
       },
       "id": "soothe",
-      "requires": "alter-emotions-1",
+      "requires": [{ "id": "alter-emotions-1", "levels": 1 }],
       "name": "Alter Emotions++",
       "description": "You can cast Alter Emotions on additional targets adjacent to the spell's target.",
       "cost": 1,
@@ -1147,7 +1150,7 @@
         "selected": "#3ceac8"
       },
       "id": "command",
-      "requires": "basic",
+      "requires": [{ "id": "basic", "levels": 1 }],
       "name": "Command",
       "cost": 1,
       "levelsRequired": 1,
@@ -1162,7 +1165,7 @@
         "selected": "#3ceac8"
       },
       "id": "command-plus",
-      "requires": "command",
+      "requires": [{ "id": "command", "levels": 1 }],
       "name": "Command+",
       "levels": 3,
       "levelCost": [1, 1, 1],
@@ -1182,7 +1185,7 @@
         "selected": "#3ceac8"
       },
       "id": "aggro-command",
-      "requires": "command-plus",
+      "requires": [{ "id": "command-plus", "levels": 1 }],
       "name": "Aggressive Commander",
       "cost": 1,
       "levelsRequired": 1,
@@ -1197,7 +1200,7 @@
         "selected": "#3ceac8"
       },
       "id": "command-plus-2",
-      "requires": "command-plus",
+      "requires": [{ "id": "command-plus", "levels": 1 }],
       "name": "Energetic Commander",
       "cost": 1,
       "levelsRequired": "2",
@@ -1217,7 +1220,7 @@
         "selected": "#3ceac8"
       },
       "id": "command-2",
-      "requires": "command",
+      "requires": [{ "id": "command", "levels": 1 }],
       "name": "Rally",
       "cost": 1,
       "levelsRequired": 1,
@@ -1232,7 +1235,7 @@
         "selected": "#3ceac8"
       },
       "id": "rally+",
-      "requires": "command-2",
+      "requires": [{ "id": "command-2", "levels": 1 }],
       "name": "Rally+",
       "cost": 1,
       "levelsRequired": 1,
@@ -1256,7 +1259,7 @@
         "selected": "#3ceac8"
       },
       "id": "command-2-2",
-      "requires": "command-2",
+      "requires": [{ "id": "command-2", "levels": 1 }],
       "name": "Ordered Strike",
       "cost": 1,
       "levelsRequired": 1,
@@ -1274,7 +1277,7 @@
         "selected": "#3ceac8"
       },
       "id": "command-2-2-1",
-      "requires": "command-2-2",
+      "requires": [{ "id": "command-2-2", "levels": 1 }],
       "name": "Ordered Strike 2",
       "cost": 1,
       "levelsRequired": 1,
@@ -1289,7 +1292,7 @@
         "selected": "#d48630"
       },
       "id": "brace",
-      "requires": "defend-2",
+      "requires": [{ "id": "defend-2", "levels": 1 }],
       "name": "Brace",
       "description": "Brace for attacks while defending, negating charge effects and damaging nearby enemies.",
       "cost": 1,
@@ -1309,7 +1312,7 @@
         "selected": "#d46430"
       },
       "id": "defend-2-3",
-      "requires": "defend-2",
+      "requires": [{ "id": "defend-2", "levels": 1 }],
       "name": "Attack of Opportunity",
       "cost": 1,
       "levelsRequired": "2",
@@ -1329,7 +1332,7 @@
         "selected": "#cd8150"
       },
       "id": "professionals",
-      "requires": "armor",
+      "requires": [{ "id": "armor", "levels": 1 }],
       "name": "Professionals",
       "description": "Grants the \"Professionals\" ability.",
       "cost": 1,
@@ -1345,7 +1348,7 @@
         "selected": "#b7ff2c"
       },
       "id": "basic-magic-5",
-      "requires": "basic-magic",
+      "requires": [{ "id": "basic-magic", "levels": 1 }],
       "name": "Necromancy",
       "description": "Cast Necromancer spells.",
       "cost": 1,
@@ -1370,7 +1373,7 @@
         "selected": "#b7ff2c"
       },
       "id": "necromancy-raise-dead",
-      "requires": "basic-magic-5",
+      "requires": [{ "id": "basic-magic-5", "levels": 1 }],
       "name": "Raise Dead+",
       "description": "Increases the health of raised units.",
       "cost": 1,
@@ -1390,7 +1393,7 @@
         "selected": "#b7ff2c"
       },
       "id": "necromancy-raise-dead-1",
-      "requires": "necromancy-raise-dead",
+      "requires": [{ "id": "necromancy-raise-dead", "levels": 1 }],
       "name": "Raise Dead++",
       "description": "Raise units to full health.",
       "cost": 1,
@@ -1410,7 +1413,7 @@
         "selected": "#b7ff2c"
       },
       "id": "necro-prof",
-      "requires": "basic-magic-5",
+      "requires": [{ "id": "basic-magic-5", "levels": 1 }],
       "name": "Necromantic Profiency",
       "description": "Increases the number of necromancy spells you can cast",
       "levels": 2,
@@ -1431,7 +1434,7 @@
         "selected": "#b7ff2c"
       },
       "id": "necro-prof-1",
-      "requires": "necro-prof",
+      "requires": [{ "id": "necro-prof", "levels": 1 }],
       "name": "Necromantic Mastery",
       "description": "Further increases the number of spells you can cast",
       "cost": 1,
@@ -1451,7 +1454,7 @@
         "selected": "#b7ff2c"
       },
       "id": "necro-prof-2",
-      "requires": "necro-prof",
+      "requires": [{ "id": "necro-prof", "levels": 1 }],
       "name": "Necromancer",
       "description": "You can now cast 2 necromancy spells per action.",
       "cost": 1,

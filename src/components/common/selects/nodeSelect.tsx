@@ -4,8 +4,12 @@ import Select from "react-select";
 import { NodesContext } from "../../../providers/nodes/nodesProvider";
 import "./nodeSelect.scss";
 
-function getOption(nodeOptions, id) {
-  return find(nodeOptions, { value: id });
+function getOption(nodeOptions, val, isMulti) {
+  if (isMulti) {
+    return map(val, (id) => find(nodeOptions, { value: id }));
+  } else {
+    return find(nodeOptions, { value: val });
+  }
 }
 
 function getNodeOptions(nodes) {
@@ -49,7 +53,10 @@ export function NodeSelect({
     getAvailableOptions(usedOptions, nodes, showEmptyOption)
   );
 
+  console.log(defaultValue);
+
   const handleNewValueSelected = (event) => {
+    console.log(event);
     if (isMulti) {
       valueChanged(map(event as any, "value"));
     } else {
@@ -67,8 +74,10 @@ export function NodeSelect({
       }}
       options={getAvailableOptions(usedOptions, nodes, showEmptyOption)}
       onChange={handleNewValueSelected}
-      defaultValue={defaultValue ? getOption(nodeOptions, defaultValue) : null}
-      value={getOption(nodeOptions, defaultValue)}
+      defaultValue={
+        defaultValue ? getOption(nodeOptions, defaultValue, isMulti) : null
+      }
+      value={getOption(nodeOptions, defaultValue, isMulti)}
     ></Select>
   );
 }

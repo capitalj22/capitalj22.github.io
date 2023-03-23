@@ -9,10 +9,11 @@ import { SkillNode } from "../../../../entities/skilltree/node.entity";
 import TextareaAutosize from "react-textarea-autosize";
 import { Accordion } from "../../../layout/accordion/accordion";
 import { StatsContext } from "../../../../providers/stats/statsProvider";
-import { filter, find, map } from "lodash-es";
+import { filter, find, map, sortBy } from "lodash-es";
 import { BigButton } from "../../../common/buttons/bigButton";
 import { NodesContext } from "../../../../providers/nodes/nodesProvider";
 import { NodeSelect } from "../../../common/selects/nodeSelect";
+import { RequiresEdit } from "./requiresEdit";
 
 interface Props {
   node?: SkillNode;
@@ -41,12 +42,12 @@ export function EditPanel({ graphEvents }: Props) {
   );
   const [colors, setColors] = useState(node.colors || {});
   const [oldId, setOldId] = useState(node.id);
-  const [requires, setRequires] = useState(node.requires || "");
+  const [requires, setRequires] = useState(node.requires || []);
+
   const nameInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setNode(find(nodes, { id: selectedNodeId }) || {});
-    console.log(node);
   }, [selectedNodeId]);
 
   const IdUpdated = (event) => {
@@ -155,6 +156,7 @@ export function EditPanel({ graphEvents }: Props) {
 
   const requiredChanged = (event) => {
     setRequires(event);
+    console.log(event);
   };
 
   React.useEffect(() => {
@@ -169,7 +171,7 @@ export function EditPanel({ graphEvents }: Props) {
     setProvidedStats(node.providedStats || []);
     setProvidedAbilities(node.providedAbilities || []);
     setOldId(node.id);
-    setRequires(node.requires || "");
+    setRequires(node.requires || []);
 
     nameInputRef.current?.focus();
   }, [node]);
@@ -220,20 +222,11 @@ export function EditPanel({ graphEvents }: Props) {
 
         <div className="requires">
           Requires{" "}
-          <NodeSelect
-            defaultValue={requires}
-            usedOptions={[node.id]}
+          <RequiresEdit
+            value={requires}
             valueChanged={requiredChanged}
-            isMulti={true}
+            nodeId={id}
           />
-          <span className="skill">
-            <input
-              min={1}
-              type="number"
-              value={levelsRequired}
-              onChange={levelsRequiredUpdated}
-            ></input>
-          </span>
         </div>
 
         <div className="form-control description">

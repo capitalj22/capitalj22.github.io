@@ -2,7 +2,7 @@ export interface SkillNode {
   id: string;
   name: string;
   description?: string;
-  requires?: string;
+  requires?: Array<{ id: string; levels?: number }>;
   levelsRequired?: number;
   colors?: {
     selected?: any;

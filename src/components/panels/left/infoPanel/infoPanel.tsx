@@ -30,6 +30,20 @@ function formatNodeModifiers(providedAbilities, build, selected) {
   return abilities;
 }
 
+function getRequiredText(requires, nodes) {
+  if (requires?.length) {
+    return reduce(
+      requires,
+      (acc, required) => {
+        const node = find(nodes, { id: required.id });
+
+        return [...acc, node.name];
+      },
+      [] as string[]
+    ).join(" + ");
+  }
+}
+
 export function InfoPanel() {
   const { selectedNodeId, nodes } = useContext(NodesContext);
   const { build } = useContext(BuildContext);
@@ -42,6 +56,9 @@ export function InfoPanel() {
     node
       ? formatNodeModifiers(node.providedAbilities, build, node.selected)
       : {}
+  );
+  const [requiredText, setRequiredText] = useState(
+    getRequiredText(node?.requires, nodes)
   );
 
   let nodeColor = node?.colors?.selected;
@@ -57,6 +74,7 @@ export function InfoPanel() {
       setFormattedModifiers(
         formatNodeModifiers(node?.providedAbilities, build, node.selected)
       );
+      setRequiredText(getRequiredText(node?.requires, nodes));
     }
   }, [node]);
 
@@ -95,9 +113,8 @@ export function InfoPanel() {
         <div className="divider" style={{ backgroundColor: nodeColor }}></div>
         {!node.available ? (
           <div className="requires">
-            Requires{" "}
             <span className="skill">
-              {node.requiredName}{" "}
+              {requiredText}
               {node.levelsRequired ? (
                 <span>({node.levelsRequired})</span>
               ) : null}

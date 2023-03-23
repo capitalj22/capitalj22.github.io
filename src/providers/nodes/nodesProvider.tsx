@@ -4,7 +4,7 @@ import exampleJson from "../../data/example-config.json";
 export const NodesContext = createContext({} as any);
 
 function getNodes() {
-  // return exampleJson.nodes;
+  return exampleJson.nodes;
   const nodes = window.localStorage.getItem("dragon-nodes");
   if (nodes) {
     return JSON.parse(nodes);

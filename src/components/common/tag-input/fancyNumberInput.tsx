@@ -11,6 +11,8 @@ export function FancyNumberInput({
   valueChanged,
   className = "",
   minWidth = 48,
+  min=undefined,
+  max=undefined
 }) {
   const [content, setContent] = useState(+value);
   const [width, setWidth] = useState(minWidth);
@@ -33,6 +35,8 @@ export function FancyNumberInput({
         {content}
       </span>
       <input
+        min={min}
+        max={max}
         value={content}
         type="number"
         style={{ width }}

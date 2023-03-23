@@ -2,7 +2,7 @@ import * as d3 from "d3";
 import * as PIXI from "pixi.js";
 import { Viewport } from "pixi-viewport";
 import { Subject } from "rxjs";
-import { find, map, each, times, isNumber, filter } from "lodash-es";
+import { find, map, each, times, isNumber, filter, some } from "lodash-es";
 import { SkillNode } from "../../entities/skilltree/node.entity";
 import {
   isNodeAvailable,
@@ -100,24 +100,16 @@ export function runGraphPixi(
     });
 
     each(nodes, (node) => {
-      if (node.requires) {
-        if (!Array.isArray(node.requires)) {
-          const target = find(nodes, { id: node.requires });
-          nodeMeta.available[node.id] =
-            !node.requires || isNodeSelected(target as INode, nodeMeta);
+      if (node.requires?.length) {
+        let available = true;
+        each(node.requires, (requirement) => {
+          const target = find(nodes, { id: requirement.id });
+          available = available && isNodeSelected(target as INode, nodeMeta);
 
           links.push({ source: node.id, target: (target as INode).id });
-        } else {
-          let available = true;
-          each(node.requires, (requiredId) => {
-            const target = find(nodes, { id: requiredId });
-            available = available && isNodeSelected(target as INode, nodeMeta);
+        });
 
-            links.push({ source: node.id, target: (target as INode).id });
-          });
-
-          nodeMeta.available[node.id] = available;
-        }
+        nodeMeta.available[node.id] = available;
       } else {
         nodeMeta.available[node.id] = true;
       }
@@ -143,13 +135,14 @@ export function runGraphPixi(
       filter(nodes, (n) => n.id !== id),
       (n) => {
         let requires = n.requires;
-        if (n.requires === id) {
+
+        if (some(n.requires, { id: n.id })) {
           requires = node?.requires;
         }
 
         return {
           ...n,
-          requires,
+          requires: requires,
         };
       }
     );
@@ -162,7 +155,7 @@ export function runGraphPixi(
       "target"
     );
 
-    const newNode = find(nodes, { id: node?.requires });
+    const newNode = find(nodes, { id: node?.requires && node?.requires[0].id });
 
     currentlyEditing = newNode?.id;
     updateInfo(newNode, nodeMeta, nodes, infoUpdated$);
@@ -191,26 +184,17 @@ export function runGraphPixi(
       links = [];
 
       each(nodes, (n) => {
-        if (n.requires) {
-          if (!Array.isArray(n.requires)) {
-            const target = find(nodes, { id: n.requires });
-            console.log(target);
-            nodeMeta.available[n.id] =
-              !n.requires || isNodeSelected(target as INode, nodeMeta);
+        if (n.requires?.length) {
+          let available = true;
+
+          each(n.requires, (requires) => {
+            const target = find(nodes, { id: requires.id });
+            available = available && isNodeSelected(target as INode, nodeMeta);
 
             links.push({ source: n, target: (target as INode).id });
-          } else {
-            let available = true;
-            each(n.requires, (requiredId) => {
-              const target = find(nodes, { id: requiredId });
-              available =
-                available && isNodeSelected(target as INode, nodeMeta);
+          });
 
-              links.push({ source: n, target: (target as INode).id });
-            });
-
-            nodeMeta.available[n.id] = available;
-          }
+          nodeMeta.available[n.id] = available;
         } else {
           nodeMeta.available[n.id] = true;
         }
@@ -242,7 +226,7 @@ export function runGraphPixi(
         let fixedNode = n;
 
         if (n.requires === nodeId) {
-          fixedNode.requires = node.id;
+          fixedNode.requires = [{ id: node.id, levels: 1 }];
         }
 
         return fixedNode;
