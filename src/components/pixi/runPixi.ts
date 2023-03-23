@@ -28,10 +28,6 @@ export interface INode extends SkillNode {
 
 export type d3Node = INode & SimulationNodeDatum;
 
-(PIXI.loadWebFont as any).load(
-  "https://fonts.googleapis.com/css2?family=Inter:wght@100;400;500;700&display=swap"
-);
-
 export function runGraphPixi(
   container,
   nodesData,
@@ -79,10 +75,10 @@ export function runGraphPixi(
   let currentlyEditing;
 
   let forces = {
-    f1: 20,
-    f2: 25,
-    f3: 70,
-    f4: 20,
+    f1: 10,
+    f2: 44,
+    f3: 40,
+    f4: 10,
   };
 
   function newBuild() {
@@ -200,6 +196,7 @@ export function runGraphPixi(
     const text = new PIXI.Text(newNode.name, {
       fontFamily: "Inter",
       fontSize: 12,
+      fontWeight: "500",
       fill: "#fff",
       align: "center",
     });
@@ -341,7 +338,7 @@ export function runGraphPixi(
       updateInfo(node, nodeMeta, nodes, infoUpdated$);
 
       const selectionChanged = isNodeSelected(node, nodeMeta) !== selection;
-
+      nudge();
       redrawNodes(selectionChanged ? node.id : null);
       redrawLinks();
     } else if (mode === "edit") {
@@ -349,6 +346,10 @@ export function runGraphPixi(
       updateInfo(node, nodeMeta, nodes, infoUpdated$);
       redrawNodes();
     }
+  }
+
+  function nudge() {
+    simulation.velocityDecay(0.8).alpha(0.05).restart();
   }
 
   function updateForces() {
@@ -380,7 +381,7 @@ export function runGraphPixi(
           d3
             .forceCollide()
             .radius((d) => forces.f3)
-            .iterations(12)
+            .iterations(4)
         )
         .velocityDecay(forces.f4 * 0.01);
 
@@ -601,16 +602,16 @@ export function runGraphPixi(
             isNodeSelected(d.source as INode, nodeMeta) ? 20 : 30
           )
       )
-      .force("charge", d3.forceManyBody().strength(-600)) // This adds repulsion (if it's negative) between nodes.
-      .force("center", d3.forceCenter(width / 4, height / 4))
+      .force("charge", d3.forceManyBody().strength(-200)) // This adds repulsion (if it's negative) between nodes.
+      .force("center", d3.forceCenter(width / 4, height / 2))
       .force(
         "collision",
         d3
           .forceCollide()
           .radius((d) => (d as any).radius)
-          .iterations(12)
+          .iterations(2)
       )
-      .velocityDecay(0.6);
+      .velocityDecay(0.8);
 
     visualLinks = new PIXI.Graphics();
 
@@ -669,7 +670,7 @@ export function runGraphPixi(
 
       const text = new PIXI.Text(name, {
         fontFamily: "Inter",
-        fontSize: 12,
+        fontSize: 14,
         fill: "#fff",
         align: "center",
       });
@@ -679,6 +680,7 @@ export function runGraphPixi(
     });
 
     redrawNodes();
+    updateForces();
 
     const ticked = () => {
       nodes.forEach((node) => {
@@ -692,7 +694,15 @@ export function runGraphPixi(
     simulation.on("tick", ticked);
   }
 
-  initializeSim();
+  const fonts = {
+    Inter:
+      "https://fonts.googleapis.com/css2?family=Inter:wght@100;400;500;700&display=swap",
+  };
+
+  PIXI.Assets.add("font-Inter", fonts.Inter);
+  PIXI.Assets.load(fonts.Inter).then(() => {
+    initializeSim();
+  });
 
   return {
     destroy: () => {
