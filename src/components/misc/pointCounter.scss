@@ -9,4 +9,9 @@
 
   align-self: flex-end;
   user-select: none;
+  
+  @media only screen and (max-width: 800px) {
+    position: absolute;
+    bottom: 0;
+  }
 }

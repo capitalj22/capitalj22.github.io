@@ -2,7 +2,8 @@
   font-size: 14px;
   padding: 0.1rem 0.6rem;
   padding-bottom: 0.25rem;
-  background: #202020;
+  background: var(--panelColor);
+  color: var(--textColor);
   display: inline-flex;
   align-items: center;
   border-radius: 6px;

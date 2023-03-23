@@ -2,6 +2,7 @@ import { isFunction } from "lodash-es";
 import { useContext, useEffect } from "react";
 import { Check } from "react-feather";
 import { TagsContext } from "../../../providers/tags/tagsProvider";
+import { ThemeContext } from "../../../providers/theme.provider";
 import "./statTag.scss";
 
 interface Props {
@@ -18,17 +19,16 @@ function getStyle(
   selected,
   color,
   emphasize,
-  colorOverride
+  colorOverride,
+  theme
 ): React.CSSProperties {
   let style: React.CSSProperties = {};
   const tagColor = colorOverride || color;
   style.borderColor = tagColor;
+
   if (selected) {
-    style.color = "#1a1a1c";
     style.backgroundColor = tagColor;
     style.fontWeight = 500;
-  } else {
-    style.color = "#fff";
   }
   if (emphasize) {
     style.borderColor = "transparent";
@@ -43,6 +43,12 @@ function getStyle(
     style.paddingRight = "32px";
   }
 
+  if (theme === "light") {
+    // style.backgroundColor = tagColor;
+    style.borderWidth = 2;
+    style.color = "#333";
+  }
+
   return style;
 }
 export function StatTag({
@@ -54,7 +60,7 @@ export function StatTag({
   color,
 }: Props) {
   const { tagColors } = useContext(TagsContext);
-
+  const { theme } = useContext(ThemeContext);
   const handleClicked = (event) => {
     if (isFunction(clicked)) {
       clicked(label);
@@ -71,7 +77,8 @@ export function StatTag({
         selected,
         tagColors[label] || "#fff",
         emphasize,
-        color
+        color,
+        theme
       )}
     >
       {label}{" "}

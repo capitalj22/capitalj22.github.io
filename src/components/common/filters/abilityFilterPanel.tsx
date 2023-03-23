@@ -43,7 +43,7 @@ export function AbilityFilterPanel({ tags, expanded, filtersUpdated }) {
             reset
           </SmolButton>
           <SmolButton
-            color="mutedWhite"
+            color="mutedText"
             clicked={() => setIsExpanded(!isExpanded)}
           >
             <Minus size={18} />

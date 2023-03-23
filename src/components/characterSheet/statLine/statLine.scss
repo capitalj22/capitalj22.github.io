@@ -3,11 +3,11 @@
 
   .label {
     font-weight: 400;
-    color: #fff;
+    color: var(--textColor);
   }
 
   .value {
-    color: #898ff5;
+    color: var(--themeColorText);
     font-weight: 700;
   }
 }

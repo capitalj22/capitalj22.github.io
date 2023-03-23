@@ -145,7 +145,7 @@ export function AbilityCard({
         <div className="name">
           {editable && (
             <SmolButton
-              color="mutedWhite"
+              color="mutedText"
               clicked={() => setIsEditing(!isEditing)}
             >
               <Edit />

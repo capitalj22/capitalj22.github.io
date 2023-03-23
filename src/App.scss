@@ -2,7 +2,7 @@
   --fontFamily: font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   --themeColor: #535bf2;
   --themeColorMod: #4148db;
-  --themeColorText: #898ff5;
+  --themeColorText: #b0b2ec;
   --panelColor: rgba(26, 26, 28);
   --panelColor2: #2e2e34;
   --panelBorder: 1px solid #292929;
@@ -10,16 +10,62 @@
   --dangerColor: #f1604d;
   --descriptionColor: #d5cec6;
   --infoColor: #dbceaa;
-  --mutedWhite: #bbb;
-  --superMutedWhite: #5c5c5c60;
+  --mutedText: #bbb;
+  --supermutedText: #5c5c5c60;
   --boxShadowBlackSmall: 1px 2px 5px 0px rgba(11, 11, 11, 0.226);
   --boxShadowInsetBlackSmall: inset 1px 2px 5px 0px rgba(11, 11, 11, 0.7);
   --disabledText: #222;
   --disabledBg: #7a7a7a;
+  --textColor: #ddd;
+  --cardBorder: 0.5px solid #505050;
+
+  --cardBg: linear-gradient(45deg, #39393c 0%, #292930 100%),
+  radial-gradient(at top center, #46464680 0%, rgba(0, 0, 0, 0.4) 120%)
+    #989898;
+    --textColorMuted: #ddd;
+    --cardShadow: 1px 2px 20px 0px rgba(11, 11, 11, 0.7);
+    --containerShadow: linear-gradient(45deg, #1b1b1c 0%, #1a1a1c 100%),
+    radial-gradient(
+        at top center,
+        rgb(76 76 76 / 49%) 0%,
+        rgba(0, 0, 0, 0.4) 120%
+      )
+      #989898;
+      --panelColor3: #1f1e1e9f;
+}
+
+.light {
+  --themeColorText: #5457b4;
+
+  --descriptionColor: #33474b;
+  --textColor: #222;
+  --panelColor: rgb(229, 229, 235);
+  --panelColor2: #c3c5ce;
+  --infoColor: #676864;
+  --panelBorder: #222;
+  --successColor: #0c8365;
+  --dangerColor: #9b1d0c;
+  --cardBg: linear-gradient(45deg, #998ddd69 0%, #dcdce95e 100%), radial-gradient(at top center, #b8a7a71f 0%, rgb(116 189 152 / 27%) 120%) #ffffff;
+  --textColorMuted: #4b505c;
+  --cardShadow: 1px 2px 20px 0px rgba(70, 70, 70, 0.4);
+  --cardBorder: none;
+  --mutedText: #686868;
+  --supermutedText: #14141460;
+  --containerShadow: linear-gradient(45deg, #8b96bb50 20%, #e5e5f344 120%),
+  radial-gradient(
+      at top center,
+      rgba(253, 253, 253, 0.49) 20%,
+      rgba(231, 231, 231, 0.048) 120%
+    )
+    #f3f3f3;
+    --panelColor3: #9b929267;
+}
+
+.dark, .light {
+  color: var(--textColor);
 }
 
 #root {
-  color: #222;
   box-sizing: border-box;
   max-width: 100%;
   text-align: center;
@@ -77,9 +123,10 @@
     font-family: var(--fontFamily);
     background-color: transparent;
     border: none;
+    color: inherit;
 
     &:focus {
-      outline: 1px solid var(--superMutedWhite);
+      outline: 1px solid var(--supermutedText);
       background-color: rgba(13, 13, 13, 0.31);
       box-shadow: var(--boxShadowInsetBlackSmall);
     }

@@ -1,14 +1,14 @@
 .ability-filters {
   padding: 1rem;
   background-color: var(--panelColor2);
-  border-bottom: 1px solid var(--superMutedWhite);
+  border-bottom: 1px solid var(--supermutedText);
 
   .tag-filters {
     padding: 1rem 0;
   }
   .text-filter {
     text-align: left;
-    border-bottom: 2px solid var(--superMutedWhite);
+    border-bottom: 2px solid var(--supermutedText);
     font-size: 1.25em;
     input {
       width: 100%;
@@ -19,7 +19,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    color: #aaa;
+    color: var(--mutedText);
   }
 
   &.closed {

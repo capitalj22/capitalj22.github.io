@@ -10,6 +10,8 @@ import { RightPanel } from "../panels/right/rightPanel";
 import { PointCounter } from "../misc/pointCounter";
 import { PixiGraph } from "../pixi/pixi";
 import { NodesContext } from "../../providers/nodes/nodesProvider";
+import classNames from "classnames";
+import { ThemeContext } from "../../providers/theme.provider";
 
 export interface IGraphEvent {
   event:
@@ -31,7 +33,7 @@ export function Main() {
   const { setStats } = useContext(StatsContext);
   const { setAbilityTypes, setAbilities } = useContext(AbilitiesContext);
   const { nodes, setNodes, setSelectedNodeId } = useContext(NodesContext);
-
+  const { theme } = useContext(ThemeContext);
   const handleImportAttempted = (event) => {
     if (event.type === "build") {
       const build = JSON.parse(event.data);
@@ -88,7 +90,12 @@ export function Main() {
   };
 
   return (
-    <div className="App">
+    <div
+      className={classNames({
+        App: true,
+        light: theme === "light",
+      })}
+    >
       <div className="appLeft">
         <LeftPanel graphEvents$={graphEvents$}></LeftPanel>
         <PointCounter pointsSpent={build.pointsInvested}></PointCounter>

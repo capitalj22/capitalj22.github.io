@@ -7,6 +7,7 @@ import { filter } from "lodash-es";
 import { newDragonFromNodes } from "../../entities/actor/dragon.entity";
 import { AbilitiesContext } from "../../providers/abilities/abilitiesProvider";
 import { NodesContext } from "../../providers/nodes/nodesProvider";
+import { ThemeContext } from "../../providers/theme.provider";
 
 export function PixiGraph({ infoUpdated, graphEvents }) {
   const containerRef = useRef(null);
@@ -15,6 +16,11 @@ export function PixiGraph({ infoUpdated, graphEvents }) {
   const nodesUpdated$ = new Subject();
   const infoUpdated$ = new Subject();
   const { savedBuild, setBuild } = useContext(BuildContext);
+  const { theme } = useContext(ThemeContext);
+
+  useEffect(() => {
+    graphEvents.next({ event: "themeChanged", data: theme });
+  }, [theme]);
 
   useEffect(() => {
     let destroyFn;
@@ -54,7 +60,8 @@ export function PixiGraph({ infoUpdated, graphEvents }) {
         savedBuild,
         nodesUpdated$,
         infoUpdated$,
-        graphEvents
+        graphEvents,
+        theme
       );
       destroyFn = destroy;
     }

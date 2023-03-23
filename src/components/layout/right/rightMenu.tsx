@@ -1,8 +1,21 @@
-import { BookOpen, HelpCircle, Code, List, BarChart2, Download, Edit3 } from "react-feather";
+import { useContext } from "react";
+import {
+  BookOpen,
+  HelpCircle,
+  Code,
+  List,
+  BarChart2,
+  Download,
+  Edit3,
+  Moon,
+  Sun,
+} from "react-feather";
+import { ThemeContext } from "../../../providers/theme.provider";
 
 import "./rightMenu.scss";
 
 export function RightMenu({ itemSelected, selectedItem }) {
+  const { theme, setTheme } = useContext(ThemeContext);
   return (
     <div className="right-menu">
       <button
@@ -32,6 +45,13 @@ export function RightMenu({ itemSelected, selectedItem }) {
         onClick={(e) => itemSelected("help")}
       >
         <HelpCircle />
+      </button>
+      <button
+        onClick={() =>
+          setTheme({ type: "set", theme: theme === "light" ? "dark" : "light" })
+        }
+      >
+        {theme === "light" ? <Moon /> : <Sun />}
       </button>
     </div>
   );

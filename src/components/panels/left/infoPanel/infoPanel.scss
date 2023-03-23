@@ -1,6 +1,5 @@
 .info-panel {
   text-align: left;
-  color: #fff;
 
   .cost {
     position: absolute;
@@ -35,7 +34,7 @@
 
   .requires {
     padding: 0.5rem 2rem;
-    background-color: #151515;
+    background-color: var(--panelColor2);
     font-style: italic;
     border-radius: 6px;
     margin: 1rem 0;
@@ -53,7 +52,7 @@
     padding: 1rem 0;
     font-weight: 300;
     font-size: 1.5em;
-    color: #ddd;
+    color: var(--descriptionColor);
   }
   
   .divider {

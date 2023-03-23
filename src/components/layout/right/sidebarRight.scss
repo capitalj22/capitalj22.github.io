@@ -4,8 +4,8 @@
   height: 100%;
   top: 0;
   right: 0;
+  color: var(--textColor);
   // max-width: 60rem;
-  color: #fff;
   z-index: 2;
 
   display: flex;
@@ -64,6 +64,11 @@
       display: flex;
       gap: 2rem;
       font-size: 1.6rem;
+      color: #fff;
+
+      button {
+        color: #fff;
+      }
 
       background-color: var(--themeColor);
 

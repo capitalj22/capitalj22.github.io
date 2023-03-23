@@ -11,6 +11,7 @@ import {
   updateInfo,
   getNodeColor,
   updateNodes,
+  toPixiColor,
 } from "./utils/node.utils";
 import { SimulationNodeDatum } from "d3";
 import { IGraphEvent } from "../main/main";
@@ -34,7 +35,8 @@ export function runGraphPixi(
   build = {},
   nodesUpdated$: Subject<any>,
   infoUpdated$: Subject<any>,
-  graphEvents: Subject<IGraphEvent>
+  graphEvents: Subject<IGraphEvent>,
+  theme
 ) {
   let graphSub = graphEvents.subscribe({
     next: (e) => {
@@ -55,10 +57,14 @@ export function runGraphPixi(
         case "nodeEdited":
           editNode(e.data.id, e.data.node);
           break;
+        case "themeChanged":
+          setTheme(e.data);
       }
     },
   });
 
+  let bgColor = "#1d1b21";
+  let textColor = "#ddd";
   let app: PIXI.Application;
   let nodes: INode[];
   let nodeMeta = {
@@ -81,11 +87,25 @@ export function runGraphPixi(
     f4: 10,
   };
 
+  function setTheme(theme: string) {
+    if (theme === "light") {
+      bgColor = "#ffffff";
+      textColor = "#666666";
+    } else {
+      bgColor = "#1d1b21";
+      textColor = "#dddddd";
+    }
+    (app.renderer as any).backgroundColor = toPixiColor(bgColor);
+    redrawNodes();
+  }
   function addNodeLabel(gfx, name) {
+    if (gfx.children.length > 0) {
+      gfx.children[0].destroy();
+    }
     const text = new PIXI.Text(name, {
       fontFamily: "Inter",
       fontSize: 14,
-      fill: "#fff",
+      fill: textColor,
       align: "center",
     });
     text.anchor.set(0.5, -0.75);
@@ -423,7 +443,7 @@ export function runGraphPixi(
           const levelsAcquired = nodeMeta.acquired[node.id];
 
           if (isEditing && mode === "edit") {
-            node.gfx.beginFill(0xffffff);
+            node.gfx.beginFill(toPixiColor(textColor));
             node.gfx.drawShape(
               new PIXI.RoundedRectangle(-14, -8, width + 4, 20, 6)
             );
@@ -435,12 +455,13 @@ export function runGraphPixi(
           // );
           let lowerBound = -(width / 2);
           node.gfx.lineStyle(2, getNodeColor(node, nodeMeta));
+          node.gfx.beginFill(toPixiColor(bgColor));
           node.gfx.drawShape(
             new PIXI.RoundedRectangle(lowerBound, -6, width, 16, 4)
           );
           node.gfx.endFill();
 
-          node.gfx.beginFill(0xffffff);
+          node.gfx.beginFill(toPixiColor(textColor));
           node.gfx.lineStyle();
 
           times(levelsAcquired, (i) => {
@@ -529,7 +550,7 @@ export function runGraphPixi(
           }
         }, 5);
       }
-
+      addNodeLabel(node.gfx, node.name);
       node.gfx.interactive = true;
     });
   }
@@ -564,7 +585,7 @@ export function runGraphPixi(
       antialias: true,
       autoDensity: true,
       resizeTo: window,
-      backgroundColor: "#13131a",
+      backgroundColor: bgColor,
       backgroundAlpha: 1,
       resolution: 4,
     });
@@ -640,6 +661,9 @@ export function runGraphPixi(
     };
 
     simulation.on("tick", ticked);
+
+    setTheme(theme);
+
   }
 
   function addNodeGfx(node) {

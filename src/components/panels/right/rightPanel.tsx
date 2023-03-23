@@ -63,10 +63,7 @@ export function RightPanel({ importAttempted }) {
         ""
       )}
       {selectedItem === "help" ? (
-        <div
-          className="padding-md"
-          style={{ textAlign: "left", color: "#ddd" }}
-        >
+        <div className="padding-md" style={{ textAlign: "left" }}>
           <h2>Ability Description Syntax</h2>
           <h3>Condition</h3>
           <p>{example1}</p>

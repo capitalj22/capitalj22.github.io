@@ -150,7 +150,7 @@ function CharacterSheet() {
           >
             <AbilityFiltersProvider>
               <AbilityFilterPanel
-                expanded={true}
+                expanded={false}
                 tags={abilityTags[type.id] || []}
                 filtersUpdated={(e) => setFilters({ ...filters, [type.id]: e })}
               />

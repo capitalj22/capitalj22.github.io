@@ -4,7 +4,7 @@
   max-width: 40rem;
   height: 100vh;
   background: transparent;
-  color: #fff;
+
   display: flex;
   backdrop-filter: blur(2px);
 
@@ -41,7 +41,7 @@
 
     @media only screen and (max-width: 800px) {
       width: 100vw;
-      max-height: 40vh;
+      max-height: 50vh;
 
       overflow-y: auto;
 

@@ -12,7 +12,7 @@
       hsl(0deg 0% 6.3% / 35%) 72%,
       #0f0f14 100%
     );
-    border-bottom: 1px solid #424242;
+    border-bottom: 1px solid var(--panelBorder);
 
     .icon {
       color: var(--themeColorText);
@@ -36,7 +36,7 @@
 
   &.disabled {
     .accordion-button {
-      color: var(--mutedWhite);
+      color: var(--mutedText);
       cursor: default;
 
       &:hover {
@@ -49,4 +49,9 @@
       }
     }
   }
+}
+
+.light .accordion-button {
+  background: transparent;
+  border-bottom: 1px solid #424242;
 }

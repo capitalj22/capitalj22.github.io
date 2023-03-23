@@ -29,13 +29,7 @@
     }
 
     .container {
-      background: linear-gradient(45deg, #1b1b1c 0%, #1a1a1c 100%),
-        radial-gradient(
-            at top center,
-            rgb(76 76 76 / 49%) 0%,
-            rgba(0, 0, 0, 0.4) 120%
-          )
-          #989898;
+      background: var(--containerShadow);
     }
   }
 
