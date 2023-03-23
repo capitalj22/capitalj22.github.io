@@ -425,7 +425,6 @@
     {
       "colors": {
         "unavailable": "#121212",
-        "inactive": "#232323",
         "selected": "#d2d2d2"
       },
       "id": "basic",
@@ -440,7 +439,6 @@
     {
       "colors": {
         "unavailable": "#878787",
-        "inactive": "#818181",
         "selected": "#96b7bd"
       },
       "id": "basic-magic",
@@ -460,7 +458,6 @@
       "description": "Allows you to move one additional hex per turn",
       "colors": {
         "unavailable": "#648264",
-        "inactive": "#3a913b",
         "selected": "#51db53"
       },
       "levels": 8,
@@ -469,7 +466,6 @@
     {
       "colors": {
         "unavailable": "#648264",
-        "inactive": "#3a913b",
         "selected": "#51db53"
       },
       "id": "versatile",
@@ -482,7 +478,6 @@
     {
       "colors": {
         "unavailable": "#648264",
-        "inactive": "#3a913b",
         "selected": "#51db53"
       },
       "id": "extra-versatile",
@@ -495,7 +490,6 @@
     {
       "colors": {
         "unavailable": "#648264",
-        "inactive": "#3a913b",
         "selected": "#51db53"
       },
       "id": "dash",
@@ -508,7 +502,6 @@
     {
       "colors": {
         "unavailable": "#648264",
-        "inactive": "#3a913b",
         "selected": "#51db53"
       },
       "id": "advanced-dash",
@@ -524,7 +517,6 @@
     {
       "colors": {
         "unavailable": "#648264",
-        "inactive": "#3a913b",
         "selected": "#51db53"
       },
       "id": "dash-expert",
@@ -537,7 +529,6 @@
     {
       "colors": {
         "unavailable": "#648264",
-        "inactive": "#3a913b",
         "selected": "#51db53"
       },
       "id": "charge",
@@ -550,7 +541,6 @@
     {
       "colors": {
         "unavailable": "#648264",
-        "inactive": "#3a913b",
         "selected": "#51db53"
       },
       "id": "breakthrough",
@@ -568,7 +558,6 @@
     {
       "colors": {
         "unavailable": "#648264",
-        "inactive": "#3a913b",
         "selected": "#51db53"
       },
       "id": "advanced-charge",
@@ -583,7 +572,6 @@
     {
       "colors": {
         "unavailable": "#506b73",
-        "inactive": "#6894a1",
         "selected": "#4dd2f7"
       },
       "id": "flying",
@@ -596,7 +584,6 @@
     {
       "colors": {
         "unavailable": "#506b73",
-        "inactive": "#6894a1",
         "selected": "#4dd2f7"
       },
       "id": "death-bomb",
@@ -609,7 +596,6 @@
     {
       "colors": {
         "unavailable": "#506b73",
-        "inactive": "#6894a1",
         "selected": "#4dd2f7"
       },
       "id": "swarm",
@@ -622,7 +608,6 @@
     {
       "colors": {
         "unavailable": "#506b73",
-        "inactive": "#6894a1",
         "selected": "#4dd2f7"
       },
       "id": "strafing-run",
@@ -635,7 +620,6 @@
     {
       "colors": {
         "unavailable": "#506b73",
-        "inactive": "#6894a1",
         "selected": "#4dd2f7"
       },
       "id": "advanced-strafing-run",
@@ -650,7 +634,6 @@
     {
       "colors": {
         "unavailable": "#506b73",
-        "inactive": "#6894a1",
         "selected": "#4dd2f7"
       },
       "id": "advanced-flying",
@@ -663,7 +646,6 @@
     {
       "colors": {
         "unavailable": "#506b73",
-        "inactive": "#6894a1",
         "selected": "#4dd2f7"
       },
       "id": "dive-bomb",
@@ -676,7 +658,6 @@
     {
       "colors": {
         "unavailable": "#506b73",
-        "inactive": "#6894a1",
         "selected": "#4dd2f7"
       },
       "id": "aerial-combat",
@@ -692,7 +673,6 @@
     {
       "colors": {
         "unavailable": "#506b73",
-        "inactive": "#6894a1",
         "selected": "#4dd2f7"
       },
       "id": "aerial-evasion",
@@ -705,7 +685,6 @@
     {
       "colors": {
         "unavailable": "#403c3a",
-        "inactive": "#5e3c2b",
         "selected": "#cd8150"
       },
       "id": "armor",
@@ -719,7 +698,6 @@
     {
       "colors": {
         "unavailable": "#403c3a",
-        "inactive": "#5e3c2b",
         "selected": "#cd8150"
       },
       "id": "attentive",
@@ -731,7 +709,6 @@
     {
       "colors": {
         "unavailable": "#403c3a",
-        "inactive": "#5e3c2b",
         "selected": "#cd8150"
       },
       "id": "alert",
@@ -743,7 +720,6 @@
     {
       "colors": {
         "unavailable": "#403c3a",
-        "inactive": "#5e3c2b",
         "selected": "#cd8550"
       },
       "id": "reactive-armor",
@@ -757,7 +733,6 @@
     {
       "colors": {
         "unavailable": "#403c3a",
-        "inactive": "#5e3c2b",
         "selected": "#cd8150"
       },
       "id": "reactive-armor-2",
@@ -770,7 +745,6 @@
     {
       "colors": {
         "unavailable": "#403c3a",
-        "inactive": "#5e3c2b",
         "selected": "#cd8150"
       },
       "id": "defend-1",
@@ -784,7 +758,6 @@
     {
       "colors": {
         "unavailable": "#8e514f",
-        "inactive": "#5e342b",
         "selected": "#d78142"
       },
       "id": "defend-2",
@@ -803,7 +776,6 @@
     {
       "colors": {
         "unavailable": "#403c3a",
-        "inactive": "#5e3c2b",
         "selected": "#cd8150"
       },
       "id": "deflect-1",
@@ -816,7 +788,6 @@
     {
       "colors": {
         "unavailable": "#403c3a",
-        "inactive": "#5e3c2b",
         "selected": "#cd8150"
       },
       "id": "deflect-2",
@@ -834,7 +805,6 @@
     {
       "colors": {
         "unavailable": "#403c3a",
-        "inactive": "#5e3c2b",
         "selected": "#cd8150"
       },
       "id": "guardian-1",
@@ -847,7 +817,6 @@
     {
       "colors": {
         "unavailable": "#403c3a",
-        "inactive": "#5e3c2b",
         "selected": "#cd8150"
       },
       "id": "guardian-2",
@@ -865,7 +834,6 @@
     {
       "colors": {
         "unavailable": "#65748f",
-        "inactive": "#495d82",
         "selected": "#7391c9"
       },
       "id": "magic-range-1",
@@ -883,7 +851,6 @@
     {
       "colors": {
         "unavailable": "#65748f",
-        "inactive": "#495d82",
         "selected": "#7391c9"
       },
       "id": "concentration-1",
@@ -904,8 +871,7 @@
       "requires": [{ "id": "basic-magic", "levels": 1 }],
       "description": "Grants you the ability to cast Holy/Divine Spells.",
       "colors": {
-        "unavailable": "#7a7354",
-        "inactive": "#4a4118",
+        "unavailable": "#C5B986",
         "selected": "#e2c846"
       },
       "cost": 1,
@@ -925,8 +891,7 @@
       "requires": [{ "id": "holy-casting", "levels": 1 }],
       "description": "Increases the damage of Smite and Guiding Bolt by 1",
       "colors": {
-        "unavailable": "#7a7354",
-        "inactive": "#4a4118",
+        "unavailable": "#C5B986",
         "selected": "#948540"
       },
       "cost": 1,
@@ -937,8 +902,7 @@
     },
     {
       "colors": {
-        "unavailable": "#7a7354",
-        "inactive": "#4a4118",
+        "unavailable": "#C5B986",
         "selected": "#e6c11d"
       },
       "id": "advanced-guiding-bolt",
@@ -951,7 +915,6 @@
     {
       "colors": {
         "unavailable": "#3f5576",
-        "inactive": "#235299",
         "selected": "#1a72f5"
       },
       "id": "swimming",
@@ -964,7 +927,6 @@
     {
       "colors": {
         "unavailable": "#3f5576",
-        "inactive": "#235299",
         "selected": "#1a72f5"
       },
       "id": "advanced-swimming",
@@ -979,7 +941,6 @@
     {
       "colors": {
         "unavailable": "#3f5576",
-        "inactive": "#235299",
         "selected": "#1a72f5"
       },
       "id": "ferry",
@@ -992,7 +953,6 @@
     {
       "colors": {
         "unavailable": "#3f5576",
-        "inactive": "#235299",
         "selected": "#1a72f5"
       },
       "id": "diving",
@@ -1005,7 +965,6 @@
     {
       "colors": {
         "unavailable": "#3f5576",
-        "inactive": "#235299",
         "selected": "#1a72f5"
       },
       "id": "submarine-transportation",
@@ -1018,7 +977,6 @@
     {
       "colors": {
         "unavailable": "#3f5576",
-        "inactive": "#235299",
         "selected": "#1a72f5"
       },
       "id": "attack-from-the-deep",
@@ -1031,7 +989,6 @@
     {
       "colors": {
         "unavailable": "#7b5290",
-        "inactive": "#6a2b85",
         "selected": "#ab38d9"
       },
       "id": "191",
@@ -1052,7 +1009,6 @@
     {
       "colors": {
         "unavailable": "#7b5290",
-        "inactive": "#6a2b85",
         "selected": "#ab38d9"
       },
       "id": "180",
@@ -1074,7 +1030,6 @@
     {
       "colors": {
         "unavailable": "#7b5290",
-        "inactive": "#6a2b85",
         "selected": "#ab38d9"
       },
       "id": "beguile-3",
@@ -1093,7 +1048,6 @@
     {
       "colors": {
         "unavailable": "#7b5290",
-        "inactive": "#6a2b85",
         "selected": "#ab38d9"
       },
       "id": "alter-emotions-1",
@@ -1111,7 +1065,6 @@
     {
       "colors": {
         "unavailable": "#7b5290",
-        "inactive": "#6a2b85",
         "selected": "#ab38d9"
       },
       "id": "soothe",
@@ -1130,7 +1083,6 @@
     {
       "colors": {
         "unavailable": "#7fbfba",
-        "inactive": "#33ada3",
         "selected": "#3ceac8"
       },
       "id": "command",
@@ -1144,7 +1096,6 @@
     {
       "colors": {
         "unavailable": "#7fbfba",
-        "inactive": "#33ada3",
         "selected": "#3ceac8"
       },
       "id": "command-plus",
@@ -1163,7 +1114,6 @@
     {
       "colors": {
         "unavailable": "#7fbfba",
-        "inactive": "#33ada3",
         "selected": "#3ceac8"
       },
       "id": "aggro-command",
@@ -1177,7 +1127,6 @@
     {
       "colors": {
         "unavailable": "#7fbfba",
-        "inactive": "#33ada3",
         "selected": "#3ceac8"
       },
       "id": "command-plus-2",
@@ -1196,7 +1145,6 @@
     {
       "colors": {
         "unavailable": "#7fbfba",
-        "inactive": "#33ada3",
         "selected": "#3ceac8"
       },
       "id": "command-2",
@@ -1210,7 +1158,6 @@
     {
       "colors": {
         "unavailable": "#7fbfba",
-        "inactive": "#33ada3",
         "selected": "#3ceac8"
       },
       "id": "rally+",
@@ -1233,7 +1180,6 @@
     {
       "colors": {
         "unavailable": "#7fbfba",
-        "inactive": "#33ada3",
         "selected": "#3ceac8"
       },
       "id": "command-2-2",
@@ -1250,7 +1196,6 @@
     {
       "colors": {
         "unavailable": "#7fbfba",
-        "inactive": "#33ada3",
         "selected": "#3ceac8"
       },
       "id": "command-2-2-1",
@@ -1264,7 +1209,6 @@
     {
       "colors": {
         "unavailable": "#bd7859",
-        "inactive": "#5e342b",
         "selected": "#d48630"
       },
       "id": "brace",
@@ -1283,7 +1227,6 @@
     {
       "colors": {
         "unavailable": "#d3976b",
-        "inactive": "#9b4c3b",
         "selected": "#d46430"
       },
       "id": "defend-2-3",
@@ -1302,7 +1245,6 @@
     {
       "colors": {
         "unavailable": "#403c3a",
-        "inactive": "#5e3c2b",
         "selected": "#cd8150"
       },
       "id": "professionals",
@@ -1317,7 +1259,6 @@
     {
       "colors": {
         "unavailable": "#8eaf60",
-        "inactive": "#62a42b",
         "selected": "#b7ff2c"
       },
       "id": "basic-magic-5",
@@ -1341,7 +1282,6 @@
     {
       "colors": {
         "unavailable": "#8eaf60",
-        "inactive": "#62a42b",
         "selected": "#b7ff2c"
       },
       "id": "necromancy-raise-dead",
@@ -1360,7 +1300,6 @@
     {
       "colors": {
         "unavailable": "#8eaf60",
-        "inactive": "#62a42b",
         "selected": "#b7ff2c"
       },
       "id": "necromancy-raise-dead-1",
@@ -1379,7 +1318,6 @@
     {
       "colors": {
         "unavailable": "#8eaf60",
-        "inactive": "#62a42b",
         "selected": "#b7ff2c"
       },
       "id": "necro-prof",
@@ -1399,7 +1337,6 @@
     {
       "colors": {
         "unavailable": "#8eaf60",
-        "inactive": "#62a42b",
         "selected": "#b7ff2c"
       },
       "id": "necro-prof-1",
@@ -1418,7 +1355,6 @@
     {
       "colors": {
         "unavailable": "#8eaf60",
-        "inactive": "#62a42b",
         "selected": "#b7ff2c"
       },
       "id": "necro-prof-2",
@@ -1442,8 +1378,7 @@
       "requires": [{ "id": "holy-casting", "levels": 1 }],
       "description": "Restoration now heals 5 HP.\n\nDeath Ward restores units to 3 HP.",
       "colors": {
-        "unavailable": "#7a7354",
-        "inactive": "#4a4118",
+        "unavailable": "#C5B986",
         "selected": "#bda841"
       },
       "cost": 1,
@@ -1466,8 +1401,7 @@
       "requires": [{ "id": "greater-restoration", "levels": 1 }],
       "description": "Restoration can now be cast for 2 spell slots and heals 10 HP if done this way.",
       "colors": {
-        "unavailable": "#7a7354",
-        "inactive": "#4a4118",
+        "unavailable": "#C5B986",
         "selected": "#bda841"
       },
       "cost": 1,
@@ -1484,8 +1418,7 @@
       "name": "Holy Avenger",
       "requires": [{ "id": "holy-power", "levels": 1 }],
       "colors": {
-        "unavailable": "#7a7354",
-        "inactive": "#4a4118",
+        "unavailable": "#C5B986",
         "selected": "#948540"
       },
       "cost": 1
@@ -1498,8 +1431,7 @@
         { "levels": "1", "id": "paragon-of-divintiy" }
       ],
       "colors": {
-        "unavailable": "#7a7354",
-        "inactive": "#4a4118",
+        "unavailable": "#C5B986",
         "selected": "#948540"
       },
       "cost": 1
@@ -1509,8 +1441,7 @@
       "name": "Paragon of Divinity",
       "requires": [{ "id": "holy-casting", "levels": 1 }],
       "colors": {
-        "unavailable": "#7a7354",
-        "inactive": "#4a4118",
+        "unavailable": "#C5B986",
         "selected": "#e2c846"
       },
       "cost": 1
@@ -1520,8 +1451,7 @@
       "name": "Undead Scourge+",
       "requires": [{ "id": "undead-scourge", "levels": 1 }],
       "colors": {
-        "unavailable": "#7a7354",
-        "inactive": "#4a4118",
+        "unavailable": "#C5B986",
         "selected": "#948540"
       },
       "cost": 1
@@ -1531,8 +1461,7 @@
       "name": "Divine Proficiency",
       "requires": [{ "id": "holy-casting", "levels": 1 }],
       "colors": {
-        "unavailable": "#7a7354",
-        "inactive": "#4a4118",
+        "unavailable": "#C5B986",
         "selected": "#e2c846"
       },
       "levels": 3,
@@ -1551,8 +1480,7 @@
       "requires": [{ "id": "divine-prof", "levels": 2 }],
       "description": "Holy spells heal for 1 additional HP.",
       "colors": {
-        "unavailable": "#7a7354",
-        "inactive": "#4a4118",
+        "unavailable": "#C5B986",
         "selected": "#e2c846"
       },
       "cost": 1,
@@ -1575,8 +1503,7 @@
       "requires": [{ "id": "divine-prof", "levels": 2 }],
       "description": "Holy spells deal +1 damage",
       "colors": {
-        "unavailable": "#7a7354",
-        "inactive": "#4a4118",
+        "unavailable": "#C5B986",
         "selected": "#e2c846"
       },
       "cost": 1,

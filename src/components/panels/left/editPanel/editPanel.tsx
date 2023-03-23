@@ -198,12 +198,6 @@ export function EditPanel({ graphEvents }: Props) {
           </div>
           <div className="color-item">
             <ColorPicker
-              color={colors.inactive}
-              colorChanged={(e) => colorChanged(e, "inactive")}
-            />
-          </div>
-          <div className="color-item">
-            <ColorPicker
               color={colors.selected}
               colorChanged={(e) => colorChanged(e, "selected")}
             />

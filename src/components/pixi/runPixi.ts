@@ -544,7 +544,7 @@ export function runGraphPixi(
         {
           id: "start-here",
           name: "Start here",
-          colors: { selected: "#fff", unavailable: "#fff", inactive: "#fff" },
+          colors: { selected: "#fff", unavailable: "#fff" },
         } as any,
       ];
     }

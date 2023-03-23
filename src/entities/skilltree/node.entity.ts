@@ -5,7 +5,6 @@ export interface SkillNode {
   requires?: Array<{ id: string; levels?: number }>;
   colors?: {
     selected?: any;
-    inactive?: any;
     unavailable?: any;
   };
   levels?: number;
