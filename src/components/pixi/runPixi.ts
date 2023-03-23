@@ -129,39 +129,56 @@ export function runGraphPixi(
       return;
     }
     const node = find(nodes, { id });
-    node?.gfx.removeChildren();
-    node?.gfx.clear();
-    nodes = map(
-      filter(nodes, (n) => n.id !== id),
-      (n) => {
-        let requires = n.requires;
 
-        if (some(n.requires, { id: n.id })) {
-          requires = node?.requires;
+    if (node) {
+      node?.gfx.removeChildren();
+      node?.gfx.clear();
+      nodes = map(
+        filter(nodes, (n) => n.id !== id),
+        (n) => {
+          let requires = n.requires;
+
+          if (some(n.requires, { id: node?.id })) {
+            requires = node?.requires;
+          }
+
+          return {
+            ...n,
+            requires: requires,
+          };
         }
+      );
 
-        return {
-          ...n,
-          requires: requires,
-        };
-      }
-    );
+      const newNode = find(nodes, {
+        id: node?.requires && node?.requires[0].id,
+      });
 
-    links = filter(
-      map(nodes, (n) => ({
-        source: n,
-        target: find(nodes, { id: n?.requires }),
-      })),
-      "target"
-    );
+      links = [];
 
-    const newNode = find(nodes, { id: node?.requires && node?.requires[0].id });
+      each(nodes, (n) => {
+        if (n.requires?.length) {
+          let available = true;
 
-    currentlyEditing = newNode?.id;
-    updateInfo(newNode, nodeMeta, nodes, infoUpdated$);
-    redrawNodes();
-    redrawLinks();
-    updateNodes(nodes, graphEvents);
+          each(n.requires, (requires) => {
+            const target = find(nodes, { id: requires.id });
+            available = available && isNodeSelected(target as INode, nodeMeta);
+
+            links.push({ source: n, target: (target as INode).id });
+          });
+
+          nodeMeta.available[n.id] = available;
+        } else {
+          nodeMeta.available[n.id] = true;
+        }
+      });
+
+      currentlyEditing = newNode?.id;
+      updateInfo(newNode, nodeMeta, nodes, infoUpdated$);
+      redrawNodes();
+      updateForces();
+      redrawLinks();
+      updateNodes(nodes, graphEvents);
+    }
   }
 
   function editNode(nodeId, newNode) {
@@ -242,6 +259,7 @@ export function runGraphPixi(
         selected: isNodeSelected(n, nodeMeta),
         acquired: nodeMeta.acquired[n.id],
       })),
+      nodeMeta,
     });
 
     updateNodes(nodes, graphEvents);
@@ -304,7 +322,9 @@ export function runGraphPixi(
 
     currentlyEditing = node.id;
     nodes = [...nodes, node];
-    links.push({ source: node, target: find(nodes, { id: node.requires }) });
+    each(node.requires, (requires) => {
+      links.push({ source: node, target: find(nodes, { id: requires.id }) });
+    });
     redrawNodes();
     redrawLinks();
     updateForces();
@@ -343,6 +363,7 @@ export function runGraphPixi(
           selected: isNodeSelected(n, nodeMeta),
           acquired: nodeMeta.acquired[n.id],
         })),
+        nodeMeta,
       });
 
       updateInfo(node, nodeMeta, nodes, infoUpdated$);

@@ -45,7 +45,7 @@ const nodesReducer = (state, action) => {
   if (type === "set") {
     newState = nodes;
 
-    // window.localStorage.setItem("dragon-nodes", JSON.stringify(newState));
+    window.localStorage.setItem("dragon-nodes", JSON.stringify(newState));
     return newState;
   }
 
@@ -83,7 +83,7 @@ const nodesReducer = (state, action) => {
         };
       }
     );
-    // window.localStorage.setItem("dragon-nodes", JSON.stringify(newState));
+    window.localStorage.setItem("dragon-nodes", JSON.stringify(newState));
 
     return stateUpdate;
   }
@@ -93,14 +93,22 @@ const nodesReducer = (state, action) => {
 export const NodesProvider = ({ children }) => {
   const [nodes, setNodes] = useReducer(nodesReducer, getNodes());
   const [selectedNodeId, setSelectedNodeId] = useState(null);
-  //   const [savedNodes, setSavedNodes] = useReducer(
-  //     savedNodesReducer,
-  //     nodes?.exportableNodes
-  //   );
+  const [nodeMeta, setNodeMeta] = useState({
+    acquired: {},
+    selected: {},
+    available: {},
+  });
 
   return (
     <NodesContext.Provider
-      value={{ nodes, setNodes, selectedNodeId, setSelectedNodeId }}
+      value={{
+        nodes,
+        setNodes,
+        selectedNodeId,
+        setSelectedNodeId,
+        nodeMeta,
+        setNodeMeta,
+      }}
     >
       {children}
     </NodesContext.Provider>

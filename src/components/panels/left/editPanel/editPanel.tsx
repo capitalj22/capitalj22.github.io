@@ -9,7 +9,7 @@ import { SkillNode } from "../../../../entities/skilltree/node.entity";
 import TextareaAutosize from "react-textarea-autosize";
 import { Accordion } from "../../../layout/accordion/accordion";
 import { StatsContext } from "../../../../providers/stats/statsProvider";
-import { filter, find, map, sortBy } from "lodash-es";
+import { filter, find, map, some, sortBy } from "lodash-es";
 import { BigButton } from "../../../common/buttons/bigButton";
 import { NodesContext } from "../../../../providers/nodes/nodesProvider";
 import { NodeSelect } from "../../../common/selects/nodeSelect";
@@ -64,14 +64,16 @@ export function EditPanel({ graphEvents }: Props) {
   const AddButtonPressed = (event) => {
     SavePressed({});
 
-    const numChildren = filter(nodes, { requires: node.requires })?.length;
+    const numChildren = filter(nodes, (node) =>
+      some(node.requires, { id: node.id })
+    )?.length;
 
     let newNode = {
       name: "NEW NODE",
-      requires: node.id,
-      id: `${node.requires}-${numChildren + 1}`,
+      requires: [{ id: node.id, levels: 1 }],
+      id: `${node.requires[0].id}-${numChildren + 1}`,
 
-      colors: find(nodes, { id: node.requires })?.colors,
+      colors: find(nodes, { id: node.requires[0].id })?.colors,
     };
 
     setNodes({ type: "add", node: newNode });
@@ -146,7 +148,6 @@ export function EditPanel({ graphEvents }: Props) {
 
   const requiredChanged = (event) => {
     setRequires(event);
-    console.log(event);
   };
 
   React.useEffect(() => {

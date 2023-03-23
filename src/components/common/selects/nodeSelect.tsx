@@ -53,10 +53,8 @@ export function NodeSelect({
     getAvailableOptions(usedOptions, nodes, showEmptyOption)
   );
 
-  console.log(defaultValue);
 
   const handleNewValueSelected = (event) => {
-    console.log(event);
     if (isMulti) {
       valueChanged(map(event as any, "value"));
     } else {

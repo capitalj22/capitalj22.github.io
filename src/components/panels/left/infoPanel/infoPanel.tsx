@@ -6,6 +6,16 @@ import { NodesContext } from "../../../../providers/nodes/nodesProvider";
 import { AbilityCard } from "../../../characterSheet/abilityCard/abilityCard";
 import "./infoPanel.scss";
 
+export const isNodeSelected = (node, nodeMeta) => {
+  if (node) {
+    if (node?.levels) {
+      return nodeMeta?.acquired[node.id] > 0;
+    } else {
+      return nodeMeta?.selected[node.id];
+    }
+  }
+};
+
 function getRelatedAbilities(node, abilities) {
   return map(node?.providedAbilities, (ability) => {
     return { ...find(abilities, { id: ability.id }), modifiers: {} };
@@ -50,7 +60,7 @@ function getRequiredText(requires, nodes) {
 }
 
 export function InfoPanel() {
-  const { selectedNodeId, nodes } = useContext(NodesContext);
+  const { selectedNodeId, nodes, nodeMeta } = useContext(NodesContext);
   const { build } = useContext(BuildContext);
   const { abilities } = useContext(AbilitiesContext);
   const [node, setNode] = useState(find(nodes, { id: selectedNodeId }));
@@ -83,15 +93,13 @@ export function InfoPanel() {
     }
   }, [node]);
 
-  useEffect(() => {}, [build]);
-
   const cost = node?.levels ? (
     <span className="cost">
       {times(node?.levels, (index) => (
         <span
           className="level-points"
           style={{
-            background: node.acquired > index ? nodeColor : "#666",
+            background: nodeMeta?.acquired[node.id] > index ? nodeColor : "#666",
           }}
         >
           {node?.levelCost?.length ? node.levelCost[index] : node.levelCost}
@@ -102,7 +110,9 @@ export function InfoPanel() {
     <span className="cost">
       <span
         className="level-points"
-        style={{ background: node?.selected ? nodeColor : "#666" }}
+        style={{
+          background: isNodeSelected(node, nodeMeta) ? nodeColor : "#666",
+        }}
       >
         {node?.cost > 1 ? node?.cost : ""}
       </span>
@@ -116,10 +126,9 @@ export function InfoPanel() {
         <div className="title">{node?.name}</div>
 
         <div className="divider" style={{ backgroundColor: nodeColor }}></div>
-        {!node.available ? (
+        {!nodeMeta?.available[node.id] ? (
           <div className="requires">
-            Requires{" "}
-            <span className="skill">{requiredText}</span>
+            Requires <span className="skill">{requiredText}</span>
           </div>
         ) : null}
         <div className="info-description">{node?.description}</div>

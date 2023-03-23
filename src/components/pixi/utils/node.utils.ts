@@ -1,11 +1,11 @@
-import { each, filter, find, includes, isArray, map } from "lodash-es";
+import { each, filter, find, includes, map } from "lodash-es";
 import { d3Node, INode } from "../runPixi";
 
 export const isNodeSelected = (node: d3Node, nodeMeta) => {
-  if (node.levels) {
-    return nodeMeta.acquired[node.id] > 0;
+  if (node?.levels) {
+    return nodeMeta.acquired[node?.id] > 0;
   } else {
-    return nodeMeta.selected[node.id];
+    return nodeMeta.selected[node?.id];
   }
 };
 

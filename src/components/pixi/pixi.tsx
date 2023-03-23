@@ -11,7 +11,7 @@ import { NodesContext } from "../../providers/nodes/nodesProvider";
 export function PixiGraph({ infoUpdated, graphEvents }) {
   const containerRef = useRef(null);
   const { abilities } = useContext(AbilitiesContext);
-  const { nodes } = useContext(NodesContext);
+  const { nodes, setNodeMeta } = useContext(NodesContext);
   const nodesUpdated$ = new Subject();
   const infoUpdated$ = new Subject();
   const { savedBuild, setBuild } = useContext(BuildContext);
@@ -36,6 +36,8 @@ export function PixiGraph({ infoUpdated, graphEvents }) {
           type: "set",
           build: newDragonFromNodes(selectedNodes, abilities),
         });
+
+        setNodeMeta(data.nodeMeta);
       },
     });
 

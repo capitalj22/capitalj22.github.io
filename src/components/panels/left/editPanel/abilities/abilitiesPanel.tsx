@@ -39,7 +39,6 @@ export function AbilitiesPanel({
   const [_providedAbilities, setAbilities] = useState(providedAbilities);
 
   const abilityChanged = (event, index) => {
-    console.log(event, index);
     const newAbilities = clone(_providedAbilities);
     newAbilities[index].id = event;
     newAbilities[index].modifiers = [];

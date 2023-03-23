@@ -25,26 +25,12 @@ export interface IGraphEvent {
 
 const graphEvents$ = new Subject<IGraphEvent>();
 
-function saveNodes(nodes) {
-  localStorage.setItem("dragon-nodes", JSON.stringify(nodes));
-}
-
 export function Main() {
   const { build, setSavedBuild } = useContext(BuildContext);
   const { setTagColors } = useContext(TagsContext);
   const { setStats } = useContext(StatsContext);
   const { setAbilityTypes, setAbilities } = useContext(AbilitiesContext);
   const { nodes, setNodes, setSelectedNodeId } = useContext(NodesContext);
-
-  useEffect(() => {
-    graphEvents$.subscribe({
-      next: (event) => {
-        if (event.event === "nodesChanged") {
-          // setNodes(event.data.nodes);
-        }
-      },
-    });
-  }, []);
 
   const handleImportAttempted = (event) => {
     if (event.type === "build") {
