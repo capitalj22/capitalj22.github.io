@@ -121,10 +121,8 @@ export const getNodeColor = (node, nodeMeta, override?) => {
 
   if (!isNodeAvailable(node, nodeMeta)) {
     return toPixiColor(node.colors.unavailable);
-  } else if (isNodeSelected(node, nodeMeta)) {
-    return toPixiColor(node.colors.selected);
   } else {
-    return toPixiColor(node.colors.inactive);
+    return toPixiColor(node.colors.selected);
   }
 };
 

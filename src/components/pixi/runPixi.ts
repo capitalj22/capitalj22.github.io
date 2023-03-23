@@ -81,6 +81,18 @@ export function runGraphPixi(
     f4: 10,
   };
 
+  function addNodeLabel(gfx, name) {
+    const text = new PIXI.Text(name, {
+      fontFamily: "Inter",
+      fontSize: 14,
+      fill: "#fff",
+      align: "center",
+    });
+    text.anchor.set(0.5, -0.75);
+    text.resolution = 12;
+    gfx.addChild(text);
+  }
+
   function newBuild() {
     nodeMeta = {
       selected: {},
@@ -240,54 +252,7 @@ export function runGraphPixi(
     if (!node.colors) {
       node.colors = {};
     }
-    const boundPress = onPress.bind(node);
-    let { name } = node;
-
-    let touching = false;
-
-    node.gfx = new PIXI.Graphics();
-
-    node.gfx
-      // events for click
-      .on("touchstart", (e) => {
-        touching = true;
-        // updateInfo(node, nodeMeta, nodes, infoUpdated$);
-
-        setTimeout(() => {
-          if (touching) {
-            onPress(e, node);
-          }
-        }, 100);
-      });
-
-    node.gfx
-      // events for click
-      .on("touchend", (e) => {
-        touching = false;
-      });
-
-    node.gfx
-      // events for click
-      .on("click", (e) => boundPress(e, node));
-
-    viewport.addChild(node.gfx);
-
-    node.gfx.on("mouseover", (mouseData) => {
-      if (mode === "build") {
-        currentlyEditing = node.id;
-        updateInfo(node, nodeMeta, nodes, infoUpdated$);
-      }
-    });
-
-    const text = new PIXI.Text(name, {
-      fontFamily: "Inter",
-      fontSize: 12,
-      fill: "#fff",
-      align: "center",
-    });
-    text.anchor.set(0.5, -0.75);
-    text.resolution = 12;
-    node.gfx.addChild(text);
+    addNodeGfx(node);
 
     currentlyEditing = node.id;
     nodes = [...nodes, node];
@@ -368,11 +333,17 @@ export function runGraphPixi(
             .id((d) => {
               return (d as any).id;
             })
-            .distance((d) =>
-              isNodeSelected(d.source as INode, nodeMeta)
-                ? forces.f1 + 5
-                : forces.f1 + 10
-            )
+            .distance((d: any) => {
+              if (d.source.levels || d.target.levels) {
+                return isNodeSelected(d.source as INode, nodeMeta)
+                  ? forces.f1 + 12
+                  : forces.f1 + 17;
+              } else {
+                return isNodeSelected(d.source as INode, nodeMeta)
+                  ? forces.f1 + 5
+                  : forces.f1 + 10;
+              }
+            })
         )
         .force("charge", d3.forceManyBody().strength(-(forces.f3 * 6))) // This adds repulsion (if it's negative) between nodes.
         .force("center", d3.forceCenter(width / 4, height / 4))
@@ -402,22 +373,23 @@ export function runGraphPixi(
 
     links.forEach((link) => {
       let { source, target } = link;
-      let lineColor = 0x9b9ea3;
-      let lineWidth = 1;
+      let lineColor = 0x444444;
+      let lineWidth = 2;
+      let selected = source && isNodeSelected(source, nodeMeta);
 
       if (target.id && source) {
-        lineColor = getNodeColor(
-          source,
-          nodeMeta,
-          mode === "edit" ? "selected" : null
-        );
+        if (selected || mode === "edit") {
+          lineColor = getNodeColor(source, nodeMeta, "selected");
+        } else {
+          lineColor = 0x9b9ea3;
+        }
 
         lineWidth =
           isNodeSelected(target, nodeMeta) && isNodeSelected(source, nodeMeta)
             ? 2
-            : 0.5;
+            : 1;
       }
-      visualLinks.lineStyle(lineWidth, lineColor);
+      visualLinks.lineStyle(lineWidth, lineColor, selected ? 1 : 0.2);
       visualLinks.moveTo(source.x, source.y);
       visualLinks.lineTo(target.x, target.y);
     });
@@ -435,16 +407,19 @@ export function runGraphPixi(
       let cost = node.cost || 1;
 
       if (mode === "build") {
-        node.gfx.cursor = isNodeAvailable(node, nodeMeta)
-          ? "pointer"
-          : "default";
+        node.gfx.cursor = available ? "pointer" : "default";
       } else {
         node.gfx.cursor = "pointer";
       }
 
-      if (!targetNodeId || node.id !== targetNodeId || node.levels) {
+      if (
+        !targetNodeId ||
+        node.id !== targetNodeId ||
+        node.levels ||
+        !selected
+      ) {
         if (node.levels && node.levels > 1) {
-          const width = node.levels * 14;
+          const width = 4 + node.levels * 15;
           const levelsAcquired = nodeMeta.acquired[node.id];
 
           if (isEditing && mode === "edit") {
@@ -455,20 +430,31 @@ export function runGraphPixi(
             node.gfx.endFill();
           }
 
-          node.gfx.beginFill(
-            getNodeColor(node, nodeMeta, mode === "edit" ? "selected" : null)
+          // node.gfx.beginFill(
+          //   getNodeColor(node, nodeMeta, mode === "edit" ? "selected" : null)
+          // );
+          let lowerBound = -(width / 2);
+          node.gfx.lineStyle(2, getNodeColor(node, nodeMeta));
+          node.gfx.drawShape(
+            new PIXI.RoundedRectangle(lowerBound, -6, width, 16, 4)
           );
-          node.gfx.drawShape(new PIXI.RoundedRectangle(-12, -6, width, 16, 4));
           node.gfx.endFill();
 
           node.gfx.beginFill(0xffffff);
+          node.gfx.lineStyle();
 
           times(levelsAcquired, (i) => {
-            node.gfx.drawCircle(-4 + i * 12, 2, 4);
+            node.gfx.drawCircle(lowerBound + 11 + i * 14, 2, 4);
           });
           node.gfx.endFill();
 
-          node.gfx.hitArea = new PIXI.Rectangle(-10, -6, width, 16);
+          node.gfx.hitArea = new PIXI.RoundedRectangle(
+            lowerBound,
+            -6,
+            width,
+            16,
+            4
+          );
         } else {
           let size;
           if (mode === "edit") {
@@ -481,18 +467,38 @@ export function runGraphPixi(
             node.gfx.beginFill(0xffffff);
             node.gfx.drawCircle(0, 0, size + 2);
             node.gfx.endFill();
+
+            node.gfx.beginFill(getNodeColor(node, nodeMeta, "selected"));
+
+            node.gfx.drawCircle(0, 0, size);
+
+            node.gfx.endFill();
+          } else if (selected) {
+            node.gfx.beginFill(getNodeColor(node, nodeMeta));
+
+            node.gfx.drawCircle(0, 0, size);
+
+            node.gfx.endFill();
+          } else if (available) {
+            node.gfx.lineStyle(1, getNodeColor(node, nodeMeta), 1);
+
+            node.gfx.drawCircle(0, 0, size + 4);
+
+            node.gfx.endFill();
+            node.gfx.beginFill(0xdddddd);
+            node.gfx.lineStyle();
+            node.gfx.drawCircle(0, 0, size);
+            node.gfx.endFill();
+          } else {
+            node.gfx.beginFill(getNodeColor(node, nodeMeta));
+
+            node.gfx.drawCircle(0, 0, size);
+
+            node.gfx.endFill();
           }
-
-          node.gfx.beginFill(
-            getNodeColor(node, nodeMeta, mode === "edit" ? "selected" : null)
-          );
-
-          node.gfx.drawCircle(0, 0, size);
-
           node.gfx.hitArea = new PIXI.Circle(0, 0, size + 10);
-          node.gfx.endFill();
         }
-      } else if (node.id === targetNodeId) {
+      } else if (node.id === targetNodeId && selected) {
         const node = find(nodes, { id: targetNodeId });
         let targetSize = selected ? cost * 2 + 6 : cost * 2 + 2;
         let size = !selected ? cost * 2 + 6 : cost * 2 + 2;
@@ -560,7 +566,7 @@ export function runGraphPixi(
       resizeTo: window,
       backgroundColor: "#13131a",
       backgroundAlpha: 1,
-      // resolution: 1,
+      resolution: 4,
     });
 
     container.appendChild(app.view);
@@ -618,65 +624,7 @@ export function runGraphPixi(
     viewport.addChild(visualLinks);
 
     nodes.forEach((node) => {
-      let initialColor = 0xd3d3d3;
-
-      if (isNodeAvailable(node, nodeMeta)) {
-        initialColor = 0xf2f2f2;
-      }
-
-      const boundPress = onPress.bind(node);
-      let { name } = node;
-      let relatedAbilities: any[] = [];
-
-      // if (node.providedAbilities) {
-      //   const ability1 = find(ABILITIES, { id: node.providedAbilities[0].id });
-      //   relatedAbilities.push(ability1);
-      // }
-
-      let touching = false;
-
-      node.gfx = new PIXI.Graphics();
-
-      node.gfx
-        // events for click
-        .on("touchstart", (e) => {
-          touching = true;
-          updateInfo(node, nodeMeta, nodes, infoUpdated$);
-
-          setTimeout(() => {
-            if (touching) {
-              onPress(e, node);
-            }
-          }, 100);
-        });
-
-      node.gfx
-        // events for click
-        .on("touchend", (e) => {
-          touching = false;
-        });
-
-      node.gfx
-        // events for click
-        .on("click", (e) => boundPress(e, node));
-
-      viewport.addChild(node.gfx);
-
-      node.gfx.on("mouseover", (mouseData) => {
-        if (mode === "build") {
-          updateInfo(node, nodeMeta, nodes, infoUpdated$);
-        }
-      });
-
-      const text = new PIXI.Text(name, {
-        fontFamily: "Inter",
-        fontSize: 14,
-        fill: "#fff",
-        align: "center",
-      });
-      text.anchor.set(0.5, -0.75);
-      text.resolution = 12;
-      node.gfx.addChild(text);
+      addNodeGfx(node);
     });
 
     redrawNodes();
@@ -692,6 +640,48 @@ export function runGraphPixi(
     };
 
     simulation.on("tick", ticked);
+  }
+
+  function addNodeGfx(node) {
+    let gfx = new PIXI.Graphics();
+    const boundPress = onPress.bind(node);
+
+    let touching = false;
+
+    gfx
+      // events for click
+      .on("touchstart", (e) => {
+        touching = true;
+        updateInfo(node, nodeMeta, nodes, infoUpdated$);
+
+        setTimeout(() => {
+          if (touching) {
+            onPress(e, node);
+          }
+        }, 100);
+      });
+
+    gfx
+      // events for click
+      .on("touchend", (e) => {
+        touching = false;
+      });
+
+    gfx
+      // events for click
+      .on("click", (e) => boundPress(e, node));
+
+    gfx.on("mouseover", (mouseData) => {
+      console.log("mouseover");
+      if (mode === "build") {
+        console.log("update");
+        updateInfo(node, nodeMeta, nodes, infoUpdated$);
+      }
+    });
+    node.gfx = gfx;
+    viewport.addChild(gfx);
+
+    addNodeLabel(node.gfx, node.name);
   }
 
   const fonts = {
