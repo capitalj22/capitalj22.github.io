@@ -99,21 +99,7 @@ export function runGraphPixi(
         : false;
     });
 
-    each(nodes, (node) => {
-      if (node.requires?.length) {
-        let available = true;
-        each(node.requires, (requirement) => {
-          const target = find(nodes, { id: requirement.id });
-          available = available && isNodeSelected(target as INode, nodeMeta);
-
-          links.push({ source: node.id, target: (target as INode).id });
-        });
-
-        nodeMeta.available[node.id] = available;
-      } else {
-        nodeMeta.available[node.id] = true;
-      }
-    });
+    recreateLinks();
 
     nodesUpdated$.next({
       nodes: map(nodes, (n) => ({
@@ -153,24 +139,7 @@ export function runGraphPixi(
         id: node?.requires && node?.requires[0].id,
       });
 
-      links = [];
-
-      each(nodes, (n) => {
-        if (n.requires?.length) {
-          let available = true;
-
-          each(n.requires, (requires) => {
-            const target = find(nodes, { id: requires.id });
-            available = available && isNodeSelected(target as INode, nodeMeta);
-
-            links.push({ source: n, target: (target as INode).id });
-          });
-
-          nodeMeta.available[n.id] = available;
-        } else {
-          nodeMeta.available[n.id] = true;
-        }
-      });
+      recreateLinks();
 
       currentlyEditing = newNode?.id;
       updateInfo(newNode, nodeMeta, nodes, infoUpdated$);
@@ -179,6 +148,26 @@ export function runGraphPixi(
       redrawLinks();
       updateNodes(nodes, graphEvents);
     }
+  }
+
+  function recreateLinks() {
+    links = [];
+    each(nodes, (n) => {
+      if (n?.requires?.length) {
+        let available = true;
+
+        each(n.requires, (requires) => {
+          const target = find(nodes, { id: requires?.id });
+          available = available && isNodeSelected(target as INode, nodeMeta);
+
+          links.push({ source: n, target: target as INode });
+        });
+
+        nodeMeta.available[n.id] = available;
+      } else {
+        nodeMeta.available[n.id] = true;
+      }
+    });
   }
 
   function editNode(nodeId, newNode) {
@@ -197,24 +186,7 @@ export function runGraphPixi(
     node.requires = newNode.requires;
 
     if (oldRequires !== newNode.requires) {
-      links = [];
-
-      each(nodes, (n) => {
-        if (n.requires?.length) {
-          let available = true;
-
-          each(n.requires, (requires) => {
-            const target = find(nodes, { id: requires.id });
-            available = available && isNodeSelected(target as INode, nodeMeta);
-
-            links.push({ source: n, target: (target as INode).id });
-          });
-
-          nodeMeta.available[n.id] = available;
-        } else {
-          nodeMeta.available[n.id] = true;
-        }
-      });
+      recreateLinks();
     }
 
     if (

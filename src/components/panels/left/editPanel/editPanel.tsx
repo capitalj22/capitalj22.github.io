@@ -70,10 +70,10 @@ export function EditPanel({ graphEvents }: Props) {
 
     let newNode = {
       name: "NEW NODE",
-      requires: [{ id: node.id, levels: 1 }],
-      id: `${node.requires[0].id}-${numChildren + 1}`,
+      requires: [{ id: selectedNodeId, levels: 1 }],
+      id: `${node.id}-${numChildren + 1}`,
 
-      colors: find(nodes, { id: node.requires[0].id })?.colors,
+      colors: node.colors,
     };
 
     setNodes({ type: "add", node: newNode });

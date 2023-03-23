@@ -125,9 +125,10 @@
     {
       "id": "death-ward",
       "name": "Death Ward",
-      "description": "Place a ward against death on a unit. If that unit is reduced to 0 HP it instead goes to 2 HP. When this happens the spell is used up and you lose concentration on it.",
+      "description": "Place a ward against death on a unit. If that unit is reduced to 0 HP it instead goes to %hp% HP. When this happens the spell is used up and you lose concentration on it.",
       "type": "action",
-      "tags": ["concentration", "holy"]
+      "tags": ["concentration", "holy"],
+      "params": { "hp": 2 }
     },
     {
       "id": "defend",
@@ -208,10 +209,10 @@
     {
       "id": "guiding-bolt",
       "name": "Guiding Bolt",
-      "description": "You hit an enemy with a blast of light, dealing nonabsorbable damage. Next round, allies have +%roll% on all attacks/cantrip strikes against this target.",
+      "description": "You hit an enemy with a blast of light, dealing %dmg% nonabsorbable damage. Next round, allies have +%roll% on all attacks/cantrip strikes against this target.",
       "type": "action",
       "tags": ["holy", "piercing"],
-      "params": { "roll": 1 }
+      "params": { "roll": 1, "dmg": 1 }
     },
     {
       "id": "knit-flesh",
@@ -248,9 +249,10 @@
     {
       "id": "restoration",
       "name": "Restoration",
-      "description": "Heal a unit 3 HP within spell range.",
+      "description": "Heal a unit %hp% HP within spell range.{divine}\n\nRestoration can now be cast for 2 spell slots and heals 10 HP if done this way.{/divine}",
       "type": "action",
-      "tags": ["holy"]
+      "tags": ["holy"],
+      "params": { "hp": 3, "divine": 0 }
     },
     {
       "id": "smite",
@@ -409,6 +411,14 @@
       "tags": ["necromancy"],
       "type": "school",
       "params": { "slots": 1, "spellsPerAction": 1 }
+    },
+    {
+      "name": "Holy Casting",
+      "id": "holy-casting",
+      "description": "You can cast Necromancy spells.\n\nSpell Slots: %slots%\nSpells Per action: %spells%",
+      "tags": ["holy"],
+      "type": "action",
+      "params": { "spells": 1, "slots": 2 }
     }
   ],
   "nodes": [
@@ -444,15 +454,15 @@
       ]
     },
     {
+      "id": "speed",
+      "name": "Speed",
+      "requires": [{ "id": "basic", "levels": 1 }],
+      "description": "Allows you to move one additional hex per turn",
       "colors": {
         "unavailable": "#648264",
         "inactive": "#3a913b",
         "selected": "#51db53"
       },
-      "id": "speed",
-      "requires": [{ "id": "basic", "levels": 1 }],
-      "name": "Speed",
-      "description": "Allows you to move one additional hex per turn",
       "levels": 8,
       "providedStats": [{ "id": "movement", "modifier": 1 }]
     },
@@ -889,15 +899,15 @@
       ]
     },
     {
+      "id": "holy-casting",
+      "name": "Holy-Divine Casting",
+      "requires": [{ "id": "basic-magic", "levels": 1 }],
+      "description": "Grants you the ability to cast Holy/Divine Spells.",
       "colors": {
         "unavailable": "#7a7354",
         "inactive": "#4a4118",
-        "selected": "#7f7750"
+        "selected": "#e2c846"
       },
-      "id": "holy-casting",
-      "requires": [{ "id": "basic-magic", "levels": 1 }],
-      "name": "Holy-Divine Casting",
-      "description": "Grants you the ability to cast Holy/Divine Spells.",
       "cost": 1,
       "providedAbilities": [
         { "id": "smite", "gain": true },
@@ -910,15 +920,15 @@
       ]
     },
     {
+      "id": "holy-power",
+      "name": "Holy Power",
+      "requires": [{ "id": "holy-casting", "levels": 1 }],
+      "description": "Increases the damage of Smite and Guiding Bolt by 1",
       "colors": {
         "unavailable": "#7a7354",
         "inactive": "#4a4118",
         "selected": "#948540"
       },
-      "id": "holy-power",
-      "requires": [{ "id": "holy-casting", "levels": 1 }],
-      "name": "Holy Power",
-      "description": "Increases the damage of Smite and Guiding Bolt by 1",
       "cost": 1,
       "providedAbilities": [
         { "id": "smite", "modifiers": [{ "id": "dmg", "modifier": 1 }] },
@@ -1423,6 +1433,173 @@
           "modifiers": [
             { "id": "spellsPerAction", "modifier": 1, "set": false }
           ]
+        }
+      ]
+    },
+    {
+      "id": "greater-restoration",
+      "name": "Greater Restoration",
+      "requires": [{ "id": "holy-casting", "levels": 1 }],
+      "description": "Restoration now heals 5 HP.\n\nDeath Ward restores units to 3 HP.",
+      "colors": {
+        "unavailable": "#7a7354",
+        "inactive": "#4a4118",
+        "selected": "#bda841"
+      },
+      "cost": 1,
+      "providedAbilities": [
+        {
+          "id": "restoration",
+          "modifier": 1,
+          "modifiers": [{ "id": "hp", "modifier": 2, "set": false }]
+        },
+        {
+          "id": "death-ward",
+          "modifier": 1,
+          "modifiers": [{ "id": "hp", "modifier": 1, "set": false }]
+        }
+      ]
+    },
+    {
+      "id": "divine-restoration",
+      "name": "Divine Restoration",
+      "requires": [{ "id": "greater-restoration", "levels": 1 }],
+      "description": "Restoration can now be cast for 2 spell slots and heals 10 HP if done this way.",
+      "colors": {
+        "unavailable": "#7a7354",
+        "inactive": "#4a4118",
+        "selected": "#bda841"
+      },
+      "cost": 1,
+      "providedAbilities": [
+        {
+          "id": "restoration",
+          "modifier": 1,
+          "modifiers": [{ "id": "divine", "modifier": 1, "set": false }]
+        }
+      ]
+    },
+    {
+      "id": "holy-avenger",
+      "name": "Holy Avenger",
+      "requires": [{ "id": "holy-power", "levels": 1 }],
+      "colors": {
+        "unavailable": "#7a7354",
+        "inactive": "#4a4118",
+        "selected": "#948540"
+      },
+      "cost": 1
+    },
+    {
+      "id": "undead-scourge",
+      "name": "Undead Scourge",
+      "requires": [
+        { "id": "holy-power", "levels": 1 },
+        { "levels": "1", "id": "paragon-of-divintiy" }
+      ],
+      "colors": {
+        "unavailable": "#7a7354",
+        "inactive": "#4a4118",
+        "selected": "#948540"
+      },
+      "cost": 1
+    },
+    {
+      "id": "paragon-of-divintiy",
+      "name": "Paragon of Divinity",
+      "requires": [{ "id": "holy-casting", "levels": 1 }],
+      "colors": {
+        "unavailable": "#7a7354",
+        "inactive": "#4a4118",
+        "selected": "#e2c846"
+      },
+      "cost": 1
+    },
+    {
+      "id": "undead-scourge-plus",
+      "name": "Undead Scourge+",
+      "requires": [{ "id": "undead-scourge", "levels": 1 }],
+      "colors": {
+        "unavailable": "#7a7354",
+        "inactive": "#4a4118",
+        "selected": "#948540"
+      },
+      "cost": 1
+    },
+    {
+      "id": "divine-prof",
+      "name": "Divine Proficiency",
+      "requires": [{ "id": "holy-casting", "levels": 1 }],
+      "colors": {
+        "unavailable": "#7a7354",
+        "inactive": "#4a4118",
+        "selected": "#e2c846"
+      },
+      "levels": 3,
+      "levelCost": [2, 2, 2],
+      "providedAbilities": [
+        {
+          "id": "holy-casting",
+          "modifier": 1,
+          "modifiers": [{ "id": "slots", "modifier": 2, "set": false }]
+        }
+      ]
+    },
+    {
+      "id": "cleric",
+      "name": "Cleric",
+      "requires": [{ "id": "divine-prof", "levels": 2 }],
+      "description": "Holy spells heal for 1 additional HP.",
+      "colors": {
+        "unavailable": "#7a7354",
+        "inactive": "#4a4118",
+        "selected": "#e2c846"
+      },
+      "cost": 1,
+      "providedAbilities": [
+        {
+          "id": "restoration",
+          "modifier": 1,
+          "modifiers": [{ "id": "hp", "modifier": 1, "set": false }]
+        },
+        {
+          "id": "death-ward",
+          "modifier": 1,
+          "modifiers": [{ "id": "hp", "modifier": 1, "set": false }]
+        }
+      ]
+    },
+    {
+      "id": "paladin",
+      "name": "Paladin",
+      "requires": [{ "id": "divine-prof", "levels": 2 }],
+      "description": "Holy spells deal +1 damage",
+      "colors": {
+        "unavailable": "#7a7354",
+        "inactive": "#4a4118",
+        "selected": "#e2c846"
+      },
+      "cost": 1,
+      "providedAbilities": [
+        {
+          "id": "smite",
+          "modifier": 1,
+          "modifiers": [{ "id": "dmg", "modifier": 1, "set": false }]
+        },
+        {
+          "id": "turn-undead",
+          "modifier": 1,
+          "modifiers": [{ "id": "dmg", "modifier": 1, "set": false }]
+        },
+        {
+          "id": "spirit-guardians",
+          "modifier": 1,
+          "modifiers": [{ "id": "dmg", "modifier": 1, "set": false }]
+        },
+        {
+          "id": "guiding-bolt",
+          "modifier": 1,
+          "modifiers": [{ "id": "dmg", "modifier": 1, "set": false }]
         }
       ]
     }
