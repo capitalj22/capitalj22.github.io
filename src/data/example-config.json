@@ -43,14 +43,14 @@
       "name": "Aquatic Attack",
       "description": "Add +1 to any attack made from the water.",
       "type": "passive",
-      "tags": ["aquatic"]
+      "tags": ["aquatic", "attack"]
     },
     {
       "id": "attack-from-the-deep",
       "name": "Attack from the Deeps",
       "description": "Gain +2 damage on attacks made against other targets in the water that are at ground level.",
       "type": "passive",
-      "tags": ["aquatic"]
+      "tags": ["aquatic", "attack"]
     },
     {
       "id": "attentive",
@@ -64,7 +64,8 @@
       "name": "Basic Attack",
       "description": "You make 1 melee attack against an adjacent enemy. Roll 1d6{dmg}+%dmg%{/dmg} and do that much damage.",
       "type": "action",
-      "params": { "dmg": 0 }
+      "params": { "dmg": -1 },
+      "tags": ["attack"]
     },
     {
       "name": "Beguile",
@@ -234,10 +235,11 @@
     {
       "id": "multi-attack",
       "name": "Multi Attack",
-      "description": "You make 1 melee attack against an adjacent enemy.\n      \n      First Attack: 1d6{dmg1}+%dmg1%{/dmg1}  \n      Second Attack: 1d6{dmg2}+%dmg2%{/dmg2} ",
+      "description": "You make %numatks% melee attack against an adjacent enemy.\n      \n      Each Attack: 1d6{dmg}+%dmg%{/dmg}  \n\n{dmg2} This attack always does at least %dmg2% damage {/dmg2}\n ",
       "type": "action",
-      "replaces": "basic-attack",
-      "params": { "dmg1": 0, "dmg2": 0 }
+      "replaces": "Attack_norm",
+      "params": { "dmg2": 0, "dmg": 0, "numatks": 1 },
+      "tags": ["attack"]
     },
     {
       "id": "reactive-armor",
@@ -364,7 +366,7 @@
       "name": "Attack of Opportunity",
       "id": "attack-of-opportunity",
       "description": "This unit can make a single melee attack (with modified damage) against any enemy that moves out of adjacency with it. The attack takes place immediately.",
-      "tags": ["defense"],
+      "tags": ["defense", "attack"],
       "type": "reaction"
     },
     {
@@ -419,28 +421,43 @@
       "tags": ["holy"],
       "type": "action",
       "params": { "spells": 1, "slots": 2 }
+    },
+    {
+      "id": "Attack_norm",
+      "name": "Melee Attack",
+      "description": "You make 1 melee attack against an adjacent enemy. Roll 1d6{dmg}+%dmg%{/dmg} and do that much damage.\n\n{dmg2} This attack always does at least %dmg2% damage {/dmg2}",
+      "type": "action",
+      "params": { "dmg2": 0, "dmg": -1 },
+      "tags": ["attack"],
+      "replaces": "basic-attack"
+    },
+    {
+      "name": "Ranged Attack",
+      "id": "ranged-attack",
+      "description": "You make 1 ranged attack against an enemy. First roll 1d6{range}+%range%{/range} against the number of hexes between you and the target. Must beat this distance. For each success now roll 1d6{dmg}+%dmg%{/dmg} and do that much damage.\n\n{dmg2} This attack always does at least %dmg2% damage {/dmg2}",
+      "tags": [],
+      "type": "action",
+      "params": { "dmg2": 0, "dmg": 0, "range": 0 }
     }
   ],
   "nodes": [
     {
-      "colors": {
-        "unavailable": "#121212",
-        "selected": "#d2d2d2"
-      },
       "id": "basic",
       "name": "Basic",
+      "requires": [],
       "description": "Congrats! You are a unit.",
+      "colors": { "unavailable": "#121212", "selected": "#d2d2d2" },
       "cost": 1,
       "providedStats": [
         { "id": "hp", "modifier": 5 },
         { "id": "armor", "modifier": 2 }
+      ],
+      "providedAbilities": [
+        { "id": "basic-attack", "modifier": 1, "modifiers": [], "gain": true }
       ]
     },
     {
-      "colors": {
-        "unavailable": "#878787",
-        "selected": "#96b7bd"
-      },
+      "colors": { "unavailable": "#878787", "selected": "#96b7bd" },
       "id": "basic-magic",
       "requires": [{ "id": "basic", "levels": 1 }],
       "name": "Spellcasting",
@@ -456,18 +473,12 @@
       "name": "Speed",
       "requires": [{ "id": "basic", "levels": 1 }],
       "description": "Allows you to move one additional hex per turn",
-      "colors": {
-        "unavailable": "#648264",
-        "selected": "#51db53"
-      },
+      "colors": { "unavailable": "#648264", "selected": "#51db53" },
       "levels": 8,
       "providedStats": [{ "id": "movement", "modifier": 1 }]
     },
     {
-      "colors": {
-        "unavailable": "#648264",
-        "selected": "#51db53"
-      },
+      "colors": { "unavailable": "#648264", "selected": "#51db53" },
       "id": "versatile",
       "requires": [{ "id": "speed", "levels": 4 }],
       "name": "Versatile",
@@ -476,10 +487,7 @@
       "providedAbilities": [{ "id": "versatile", "gain": true }]
     },
     {
-      "colors": {
-        "unavailable": "#648264",
-        "selected": "#51db53"
-      },
+      "colors": { "unavailable": "#648264", "selected": "#51db53" },
       "id": "extra-versatile",
       "requires": [{ "id": "versatile", "levels": 1 }],
       "name": "Extra Versatile",
@@ -488,10 +496,7 @@
       "providedAbilities": [{ "id": "extra-versatile", "gain": true }]
     },
     {
-      "colors": {
-        "unavailable": "#648264",
-        "selected": "#51db53"
-      },
+      "colors": { "unavailable": "#648264", "selected": "#51db53" },
       "id": "dash",
       "requires": [{ "id": "speed", "levels": 2 }],
       "name": "Dash",
@@ -500,10 +505,7 @@
       "providedAbilities": [{ "id": "dash", "gain": true }]
     },
     {
-      "colors": {
-        "unavailable": "#648264",
-        "selected": "#51db53"
-      },
+      "colors": { "unavailable": "#648264", "selected": "#51db53" },
       "id": "advanced-dash",
       "requires": [{ "id": "charge", "levels": 1 }],
       "name": "Dash+",
@@ -515,10 +517,7 @@
       ]
     },
     {
-      "colors": {
-        "unavailable": "#648264",
-        "selected": "#51db53"
-      },
+      "colors": { "unavailable": "#648264", "selected": "#51db53" },
       "id": "dash-expert",
       "requires": [{ "id": "advanced-dash", "levels": 2 }],
       "name": "Dash Expert",
@@ -527,10 +526,7 @@
       "providedAbilities": [{ "id": "dash-expert", "gain": true }]
     },
     {
-      "colors": {
-        "unavailable": "#648264",
-        "selected": "#51db53"
-      },
+      "colors": { "unavailable": "#648264", "selected": "#51db53" },
       "id": "charge",
       "requires": [{ "id": "dash", "levels": 1 }],
       "name": "Charge",
@@ -539,10 +535,7 @@
       "providedAbilities": [{ "id": "charge", "gain": true }]
     },
     {
-      "colors": {
-        "unavailable": "#648264",
-        "selected": "#51db53"
-      },
+      "colors": { "unavailable": "#648264", "selected": "#51db53" },
       "id": "breakthrough",
       "requires": [{ "id": "charge", "levels": 1 }],
       "name": "Breakthrough",
@@ -556,10 +549,7 @@
       ]
     },
     {
-      "colors": {
-        "unavailable": "#648264",
-        "selected": "#51db53"
-      },
+      "colors": { "unavailable": "#648264", "selected": "#51db53" },
       "id": "advanced-charge",
       "requires": [{ "id": "charge", "levels": 1 }],
       "name": "Charge+",
@@ -570,10 +560,7 @@
       ]
     },
     {
-      "colors": {
-        "unavailable": "#506b73",
-        "selected": "#4dd2f7"
-      },
+      "colors": { "unavailable": "#506b73", "selected": "#4dd2f7" },
       "id": "flying",
       "requires": [{ "id": "speed", "levels": 4 }],
       "name": "Flying",
@@ -582,10 +569,7 @@
       "providedAbilities": [{ "id": "flying", "gain": true }]
     },
     {
-      "colors": {
-        "unavailable": "#506b73",
-        "selected": "#4dd2f7"
-      },
+      "colors": { "unavailable": "#506b73", "selected": "#4dd2f7" },
       "id": "death-bomb",
       "requires": [{ "id": "flying", "levels": 1 }],
       "name": "Death Bomb",
@@ -594,10 +578,7 @@
       "providedAbilities": [{ "id": "death-bomb", "gain": true }]
     },
     {
-      "colors": {
-        "unavailable": "#506b73",
-        "selected": "#4dd2f7"
-      },
+      "colors": { "unavailable": "#506b73", "selected": "#4dd2f7" },
       "id": "swarm",
       "requires": [{ "id": "flying", "levels": 1 }],
       "name": "Swarm",
@@ -606,10 +587,7 @@
       "providedAbilities": [{ "id": "swarm", "gain": true }]
     },
     {
-      "colors": {
-        "unavailable": "#506b73",
-        "selected": "#4dd2f7"
-      },
+      "colors": { "unavailable": "#506b73", "selected": "#4dd2f7" },
       "id": "strafing-run",
       "requires": [{ "id": "flying", "levels": 1 }],
       "name": "Strafing Run",
@@ -618,10 +596,7 @@
       "providedAbilities": [{ "id": "strafing-run", "gain": true }]
     },
     {
-      "colors": {
-        "unavailable": "#506b73",
-        "selected": "#4dd2f7"
-      },
+      "colors": { "unavailable": "#506b73", "selected": "#4dd2f7" },
       "id": "advanced-strafing-run",
       "requires": [{ "id": "strafing-run", "levels": 1 }],
       "name": "Strafing Run+",
@@ -632,10 +607,7 @@
       ]
     },
     {
-      "colors": {
-        "unavailable": "#506b73",
-        "selected": "#4dd2f7"
-      },
+      "colors": { "unavailable": "#506b73", "selected": "#4dd2f7" },
       "id": "advanced-flying",
       "requires": [{ "id": "flying", "levels": 1 }],
       "name": "Advanced Flying",
@@ -644,10 +616,7 @@
       "providedAbilities": [{ "id": "advanced-flying", "gain": true }]
     },
     {
-      "colors": {
-        "unavailable": "#506b73",
-        "selected": "#4dd2f7"
-      },
+      "colors": { "unavailable": "#506b73", "selected": "#4dd2f7" },
       "id": "dive-bomb",
       "requires": [{ "id": "advanced-flying", "levels": 1 }],
       "name": "Dive Bomb",
@@ -656,10 +625,7 @@
       "providedAbilities": [{ "id": "dive-bomb", "gain": true }]
     },
     {
-      "colors": {
-        "unavailable": "#506b73",
-        "selected": "#4dd2f7"
-      },
+      "colors": { "unavailable": "#506b73", "selected": "#4dd2f7" },
       "id": "aerial-combat",
       "requires": [
         { "id": "advanced-flying", "levels": 1 },
@@ -671,10 +637,7 @@
       "providedAbilities": [{ "id": "aerial-combat", "gain": true }]
     },
     {
-      "colors": {
-        "unavailable": "#506b73",
-        "selected": "#4dd2f7"
-      },
+      "colors": { "unavailable": "#506b73", "selected": "#4dd2f7" },
       "id": "aerial-evasion",
       "requires": [{ "id": "aerial-combat", "levels": 1 }],
       "name": "Aerial Evasion",
@@ -683,10 +646,7 @@
       "providedAbilities": [{ "id": "aerial-evasion", "gain": true }]
     },
     {
-      "colors": {
-        "unavailable": "#403c3a",
-        "selected": "#cd8150"
-      },
+      "colors": { "unavailable": "#403c3a", "selected": "#cd8150" },
       "id": "armor",
       "requires": [{ "id": "basic", "levels": 1 }],
       "name": "Armor",
@@ -696,10 +656,7 @@
       "providedStats": [{ "id": "armor", "modifier": 1 }]
     },
     {
-      "colors": {
-        "unavailable": "#403c3a",
-        "selected": "#cd8150"
-      },
+      "colors": { "unavailable": "#403c3a", "selected": "#cd8150" },
       "id": "attentive",
       "requires": [{ "id": "armor", "levels": 2 }],
       "name": "Attentive",
@@ -707,10 +664,7 @@
       "providedAbilities": [{ "id": "attentive", "gain": true }]
     },
     {
-      "colors": {
-        "unavailable": "#403c3a",
-        "selected": "#cd8150"
-      },
+      "colors": { "unavailable": "#403c3a", "selected": "#cd8150" },
       "id": "alert",
       "requires": [{ "id": "attentive", "levels": 1 }],
       "name": "Alert",
@@ -718,10 +672,7 @@
       "providedAbilities": [{ "id": "alert", "gain": true }]
     },
     {
-      "colors": {
-        "unavailable": "#403c3a",
-        "selected": "#cd8550"
-      },
+      "colors": { "unavailable": "#403c3a", "selected": "#cd8550" },
       "id": "reactive-armor",
       "requires": [{ "id": "armor", "levels": 5 }],
       "name": "Reactive Armor",
@@ -731,10 +682,7 @@
       "providedAbilities": [{ "id": "reactive-armor", "gain": true }]
     },
     {
-      "colors": {
-        "unavailable": "#403c3a",
-        "selected": "#cd8150"
-      },
+      "colors": { "unavailable": "#403c3a", "selected": "#cd8150" },
       "id": "reactive-armor-2",
       "requires": [{ "id": "reactive-armor", "levels": 1 }],
       "name": "Reactive Armor 2",
@@ -743,10 +691,7 @@
       "providedStats": [{ "id": "armor", "set": 2, "modifier": 2 }]
     },
     {
-      "colors": {
-        "unavailable": "#403c3a",
-        "selected": "#cd8150"
-      },
+      "colors": { "unavailable": "#403c3a", "selected": "#cd8150" },
       "id": "defend-1",
       "requires": [{ "id": "armor", "levels": 1 }],
       "name": "Defend 1",
@@ -756,10 +701,7 @@
       "providedAbilities": [{ "id": "defend", "gain": true }]
     },
     {
-      "colors": {
-        "unavailable": "#8e514f",
-        "selected": "#d78142"
-      },
+      "colors": { "unavailable": "#8e514f", "selected": "#d78142" },
       "id": "defend-2",
       "requires": [{ "id": "defend-1", "levels": 1 }],
       "name": "Defend 2",
@@ -774,10 +716,7 @@
       ]
     },
     {
-      "colors": {
-        "unavailable": "#403c3a",
-        "selected": "#cd8150"
-      },
+      "colors": { "unavailable": "#403c3a", "selected": "#cd8150" },
       "id": "deflect-1",
       "requires": [{ "id": "defend-2", "levels": 1 }],
       "name": "Deflection",
@@ -786,10 +725,7 @@
       "providedAbilities": [{ "id": "deflect", "gain": true }]
     },
     {
-      "colors": {
-        "unavailable": "#403c3a",
-        "selected": "#cd8150"
-      },
+      "colors": { "unavailable": "#403c3a", "selected": "#cd8150" },
       "id": "deflect-2",
       "requires": [{ "id": "deflect-1", "levels": 1 }],
       "name": "Deflection+",
@@ -803,10 +739,7 @@
       ]
     },
     {
-      "colors": {
-        "unavailable": "#403c3a",
-        "selected": "#cd8150"
-      },
+      "colors": { "unavailable": "#403c3a", "selected": "#cd8150" },
       "id": "guardian-1",
       "requires": [{ "id": "defend-1", "levels": 1 }],
       "name": "Guardian",
@@ -815,10 +748,7 @@
       "providedAbilities": [{ "id": "guardian", "gain": true }]
     },
     {
-      "colors": {
-        "unavailable": "#403c3a",
-        "selected": "#cd8150"
-      },
+      "colors": { "unavailable": "#403c3a", "selected": "#cd8150" },
       "id": "guardian-2",
       "requires": [{ "id": "guardian-1", "levels": 1 }],
       "name": "Guardian+",
@@ -832,10 +762,7 @@
       ]
     },
     {
-      "colors": {
-        "unavailable": "#65748f",
-        "selected": "#7391c9"
-      },
+      "colors": { "unavailable": "#65748f", "selected": "#7391c9" },
       "id": "magic-range-1",
       "requires": [{ "id": "basic-magic", "levels": 1 }],
       "name": "Spell Range",
@@ -849,10 +776,7 @@
       ]
     },
     {
-      "colors": {
-        "unavailable": "#65748f",
-        "selected": "#7391c9"
-      },
+      "colors": { "unavailable": "#65748f", "selected": "#7391c9" },
       "id": "concentration-1",
       "requires": [{ "id": "basic-magic", "levels": 1 }],
       "name": "Concentration+",
@@ -870,10 +794,7 @@
       "name": "Holy-Divine Casting",
       "requires": [{ "id": "basic-magic", "levels": 1 }],
       "description": "Grants you the ability to cast Holy/Divine Spells.",
-      "colors": {
-        "unavailable": "#C5B986",
-        "selected": "#e2c846"
-      },
+      "colors": { "unavailable": "#C5B986", "selected": "#e2c846" },
       "cost": 1,
       "providedAbilities": [
         { "id": "smite", "gain": true },
@@ -890,10 +811,7 @@
       "name": "Holy Power",
       "requires": [{ "id": "holy-casting", "levels": 1 }],
       "description": "Increases the damage of Smite and Guiding Bolt by 1",
-      "colors": {
-        "unavailable": "#C5B986",
-        "selected": "#948540"
-      },
+      "colors": { "unavailable": "#C5B986", "selected": "#948540" },
       "cost": 1,
       "providedAbilities": [
         { "id": "smite", "modifiers": [{ "id": "dmg", "modifier": 1 }] },
@@ -901,10 +819,7 @@
       ]
     },
     {
-      "colors": {
-        "unavailable": "#C5B986",
-        "selected": "#e6c11d"
-      },
+      "colors": { "unavailable": "#C5B986", "selected": "#e6c11d" },
       "id": "advanced-guiding-bolt",
       "requires": [{ "id": "holy-power", "levels": 1 }],
       "name": "Advanced Guiding Bolt",
@@ -913,10 +828,7 @@
       "providedAbilities": [{ "id": "guiding-bolt", "modifiers": { "hit": 1 } }]
     },
     {
-      "colors": {
-        "unavailable": "#3f5576",
-        "selected": "#1a72f5"
-      },
+      "colors": { "unavailable": "#3f5576", "selected": "#1a72f5" },
       "id": "swimming",
       "requires": [{ "id": "speed", "levels": 1 }],
       "name": "Swimming",
@@ -925,10 +837,7 @@
       "providedAbilities": [{ "id": "swimming", "gain": true }]
     },
     {
-      "colors": {
-        "unavailable": "#3f5576",
-        "selected": "#1a72f5"
-      },
+      "colors": { "unavailable": "#3f5576", "selected": "#1a72f5" },
       "id": "advanced-swimming",
       "requires": [{ "id": "swimming", "levels": 1 }],
       "name": "Advanded Swimming",
@@ -939,10 +848,7 @@
       ]
     },
     {
-      "colors": {
-        "unavailable": "#3f5576",
-        "selected": "#1a72f5"
-      },
+      "colors": { "unavailable": "#3f5576", "selected": "#1a72f5" },
       "id": "ferry",
       "requires": [{ "id": "advanced-swimming", "levels": 1 }],
       "name": "Ferry",
@@ -951,10 +857,7 @@
       "providedAbilities": [{ "id": "ferry", "gain": true }]
     },
     {
-      "colors": {
-        "unavailable": "#3f5576",
-        "selected": "#1a72f5"
-      },
+      "colors": { "unavailable": "#3f5576", "selected": "#1a72f5" },
       "id": "diving",
       "requires": [{ "id": "advanced-swimming", "levels": 1 }],
       "name": "Diving",
@@ -963,10 +866,7 @@
       "providedAbilities": [{ "id": "diving", "gain": true }]
     },
     {
-      "colors": {
-        "unavailable": "#3f5576",
-        "selected": "#1a72f5"
-      },
+      "colors": { "unavailable": "#3f5576", "selected": "#1a72f5" },
       "id": "submarine-transportation",
       "requires": [{ "id": "diving", "levels": 1 }],
       "name": "Submarine Transportation",
@@ -975,10 +875,7 @@
       "providedAbilities": [{ "id": "submarine-transportation", "gain": true }]
     },
     {
-      "colors": {
-        "unavailable": "#3f5576",
-        "selected": "#1a72f5"
-      },
+      "colors": { "unavailable": "#3f5576", "selected": "#1a72f5" },
       "id": "attack-from-the-deep",
       "requires": [{ "id": "diving", "levels": 1 }],
       "name": "Attack From The Deep",
@@ -987,10 +884,7 @@
       "providedAbilities": [{ "id": "attack-from-the-deep", "gain": true }]
     },
     {
-      "colors": {
-        "unavailable": "#7b5290",
-        "selected": "#ab38d9"
-      },
+      "colors": { "unavailable": "#7b5290", "selected": "#ab38d9" },
       "id": "191",
       "requires": [{ "id": "basic-magic", "levels": 1 }],
       "name": "Enchantment",
@@ -1007,10 +901,7 @@
       ]
     },
     {
-      "colors": {
-        "unavailable": "#7b5290",
-        "selected": "#ab38d9"
-      },
+      "colors": { "unavailable": "#7b5290", "selected": "#ab38d9" },
       "id": "180",
       "requires": [{ "id": "191", "levels": 1 }],
       "name": "Beguile+",
@@ -1028,10 +919,7 @@
       ]
     },
     {
-      "colors": {
-        "unavailable": "#7b5290",
-        "selected": "#ab38d9"
-      },
+      "colors": { "unavailable": "#7b5290", "selected": "#ab38d9" },
       "id": "beguile-3",
       "requires": [{ "id": "180", "levels": 1 }],
       "name": "Beguile++",
@@ -1046,10 +934,7 @@
       ]
     },
     {
-      "colors": {
-        "unavailable": "#7b5290",
-        "selected": "#ab38d9"
-      },
+      "colors": { "unavailable": "#7b5290", "selected": "#ab38d9" },
       "id": "alter-emotions-1",
       "requires": [{ "id": "191", "levels": 1 }],
       "name": "Alter Emotions+",
@@ -1063,10 +948,7 @@
       ]
     },
     {
-      "colors": {
-        "unavailable": "#7b5290",
-        "selected": "#ab38d9"
-      },
+      "colors": { "unavailable": "#7b5290", "selected": "#ab38d9" },
       "id": "soothe",
       "requires": [{ "id": "alter-emotions-1", "levels": 1 }],
       "name": "Alter Emotions++",
@@ -1081,10 +963,7 @@
       ]
     },
     {
-      "colors": {
-        "unavailable": "#7fbfba",
-        "selected": "#3ceac8"
-      },
+      "colors": { "unavailable": "#7fbfba", "selected": "#3ceac8" },
       "id": "command",
       "requires": [{ "id": "basic", "levels": 1 }],
       "name": "Command",
@@ -1094,10 +973,7 @@
       ]
     },
     {
-      "colors": {
-        "unavailable": "#7fbfba",
-        "selected": "#3ceac8"
-      },
+      "colors": { "unavailable": "#7fbfba", "selected": "#3ceac8" },
       "id": "command-plus",
       "requires": [{ "id": "command", "levels": 1 }],
       "name": "Command+",
@@ -1112,10 +988,7 @@
       ]
     },
     {
-      "colors": {
-        "unavailable": "#7fbfba",
-        "selected": "#3ceac8"
-      },
+      "colors": { "unavailable": "#7fbfba", "selected": "#3ceac8" },
       "id": "aggro-command",
       "requires": [{ "id": "command-plus", "levels": 1 }],
       "name": "Aggressive Commander",
@@ -1125,10 +998,7 @@
       ]
     },
     {
-      "colors": {
-        "unavailable": "#7fbfba",
-        "selected": "#3ceac8"
-      },
+      "colors": { "unavailable": "#7fbfba", "selected": "#3ceac8" },
       "id": "command-plus-2",
       "requires": [{ "id": "command-plus", "levels": 2 }],
       "name": "Energetic Commander",
@@ -1143,10 +1013,7 @@
       ]
     },
     {
-      "colors": {
-        "unavailable": "#7fbfba",
-        "selected": "#3ceac8"
-      },
+      "colors": { "unavailable": "#7fbfba", "selected": "#3ceac8" },
       "id": "command-2",
       "requires": [{ "id": "command", "levels": 1 }],
       "name": "Rally",
@@ -1156,10 +1023,7 @@
       ]
     },
     {
-      "colors": {
-        "unavailable": "#7fbfba",
-        "selected": "#3ceac8"
-      },
+      "colors": { "unavailable": "#7fbfba", "selected": "#3ceac8" },
       "id": "rally+",
       "requires": [{ "id": "command-2", "levels": 1 }],
       "name": "Rally+",
@@ -1178,10 +1042,7 @@
       ]
     },
     {
-      "colors": {
-        "unavailable": "#7fbfba",
-        "selected": "#3ceac8"
-      },
+      "colors": { "unavailable": "#7fbfba", "selected": "#3ceac8" },
       "id": "command-2-2",
       "requires": [{ "id": "command-2", "levels": 1 }],
       "name": "Ordered Strike",
@@ -1194,10 +1055,7 @@
       ]
     },
     {
-      "colors": {
-        "unavailable": "#7fbfba",
-        "selected": "#3ceac8"
-      },
+      "colors": { "unavailable": "#7fbfba", "selected": "#3ceac8" },
       "id": "command-2-2-1",
       "requires": [{ "id": "command-2-2", "levels": 1 }],
       "name": "Ordered Strike 2",
@@ -1207,10 +1065,7 @@
       ]
     },
     {
-      "colors": {
-        "unavailable": "#bd7859",
-        "selected": "#d48630"
-      },
+      "colors": { "unavailable": "#bd7859", "selected": "#d48630" },
       "id": "brace",
       "requires": [{ "id": "defend-2", "levels": 1 }],
       "name": "Brace",
@@ -1225,10 +1080,7 @@
       ]
     },
     {
-      "colors": {
-        "unavailable": "#d3976b",
-        "selected": "#d46430"
-      },
+      "colors": { "unavailable": "#d3976b", "selected": "#d46430" },
       "id": "defend-2-3",
       "requires": [{ "id": "defend-2", "levels": 2 }],
       "name": "Attack of Opportunity",
@@ -1243,10 +1095,7 @@
       ]
     },
     {
-      "colors": {
-        "unavailable": "#403c3a",
-        "selected": "#cd8150"
-      },
+      "colors": { "unavailable": "#403c3a", "selected": "#cd8150" },
       "id": "professionals",
       "requires": [{ "id": "armor", "levels": 3 }],
       "name": "Professionals",
@@ -1257,10 +1106,7 @@
       ]
     },
     {
-      "colors": {
-        "unavailable": "#8eaf60",
-        "selected": "#b7ff2c"
-      },
+      "colors": { "unavailable": "#8eaf60", "selected": "#b7ff2c" },
       "id": "basic-magic-5",
       "requires": [{ "id": "basic-magic", "levels": 1 }],
       "name": "Necromancy",
@@ -1280,10 +1126,7 @@
       ]
     },
     {
-      "colors": {
-        "unavailable": "#8eaf60",
-        "selected": "#b7ff2c"
-      },
+      "colors": { "unavailable": "#8eaf60", "selected": "#b7ff2c" },
       "id": "necromancy-raise-dead",
       "requires": [{ "id": "basic-magic-5", "levels": 1 }],
       "name": "Raise Dead+",
@@ -1298,10 +1141,7 @@
       ]
     },
     {
-      "colors": {
-        "unavailable": "#8eaf60",
-        "selected": "#b7ff2c"
-      },
+      "colors": { "unavailable": "#8eaf60", "selected": "#b7ff2c" },
       "id": "necromancy-raise-dead-1",
       "requires": [{ "id": "necromancy-raise-dead", "levels": 1 }],
       "name": "Raise Dead++",
@@ -1316,10 +1156,7 @@
       ]
     },
     {
-      "colors": {
-        "unavailable": "#8eaf60",
-        "selected": "#b7ff2c"
-      },
+      "colors": { "unavailable": "#8eaf60", "selected": "#b7ff2c" },
       "id": "necro-prof",
       "requires": [{ "id": "basic-magic-5", "levels": 1 }],
       "name": "Necromantic Profiency",
@@ -1335,10 +1172,7 @@
       ]
     },
     {
-      "colors": {
-        "unavailable": "#8eaf60",
-        "selected": "#b7ff2c"
-      },
+      "colors": { "unavailable": "#8eaf60", "selected": "#b7ff2c" },
       "id": "necro-prof-1",
       "requires": [{ "id": "necro-prof", "levels": 1 }],
       "name": "Necromantic Mastery",
@@ -1353,10 +1187,7 @@
       ]
     },
     {
-      "colors": {
-        "unavailable": "#8eaf60",
-        "selected": "#b7ff2c"
-      },
+      "colors": { "unavailable": "#8eaf60", "selected": "#b7ff2c" },
       "id": "necro-prof-2",
       "requires": [{ "id": "necro-prof", "levels": 1 }],
       "name": "Necromancer",
@@ -1377,10 +1208,7 @@
       "name": "Greater Restoration",
       "requires": [{ "id": "holy-casting", "levels": 1 }],
       "description": "Restoration now heals 5 HP.\n\nDeath Ward restores units to 3 HP.",
-      "colors": {
-        "unavailable": "#C5B986",
-        "selected": "#bda841"
-      },
+      "colors": { "unavailable": "#C5B986", "selected": "#bda841" },
       "cost": 1,
       "providedAbilities": [
         {
@@ -1400,10 +1228,7 @@
       "name": "Divine Restoration",
       "requires": [{ "id": "greater-restoration", "levels": 1 }],
       "description": "Restoration can now be cast for 2 spell slots and heals 10 HP if done this way.",
-      "colors": {
-        "unavailable": "#C5B986",
-        "selected": "#bda841"
-      },
+      "colors": { "unavailable": "#C5B986", "selected": "#bda841" },
       "cost": 1,
       "providedAbilities": [
         {
@@ -1417,10 +1242,7 @@
       "id": "holy-avenger",
       "name": "Holy Avenger",
       "requires": [{ "id": "holy-power", "levels": 1 }],
-      "colors": {
-        "unavailable": "#C5B986",
-        "selected": "#948540"
-      },
+      "colors": { "unavailable": "#C5B986", "selected": "#948540" },
       "cost": 1
     },
     {
@@ -1430,40 +1252,28 @@
         { "id": "holy-power", "levels": 1 },
         { "levels": "1", "id": "paragon-of-divintiy" }
       ],
-      "colors": {
-        "unavailable": "#C5B986",
-        "selected": "#948540"
-      },
+      "colors": { "unavailable": "#C5B986", "selected": "#948540" },
       "cost": 1
     },
     {
       "id": "paragon-of-divintiy",
       "name": "Paragon of Divinity",
       "requires": [{ "id": "holy-casting", "levels": 1 }],
-      "colors": {
-        "unavailable": "#C5B986",
-        "selected": "#e2c846"
-      },
+      "colors": { "unavailable": "#C5B986", "selected": "#e2c846" },
       "cost": 1
     },
     {
       "id": "undead-scourge-plus",
       "name": "Undead Scourge+",
       "requires": [{ "id": "undead-scourge", "levels": 1 }],
-      "colors": {
-        "unavailable": "#C5B986",
-        "selected": "#948540"
-      },
+      "colors": { "unavailable": "#C5B986", "selected": "#948540" },
       "cost": 1
     },
     {
       "id": "divine-prof",
       "name": "Divine Proficiency",
       "requires": [{ "id": "holy-casting", "levels": 1 }],
-      "colors": {
-        "unavailable": "#C5B986",
-        "selected": "#e2c846"
-      },
+      "colors": { "unavailable": "#C5B986", "selected": "#e2c846" },
       "levels": 3,
       "levelCost": [2, 2, 2],
       "providedAbilities": [
@@ -1479,10 +1289,7 @@
       "name": "Cleric",
       "requires": [{ "id": "divine-prof", "levels": 2 }],
       "description": "Holy spells heal for 1 additional HP.",
-      "colors": {
-        "unavailable": "#C5B986",
-        "selected": "#e2c846"
-      },
+      "colors": { "unavailable": "#C5B986", "selected": "#e2c846" },
       "cost": 1,
       "providedAbilities": [
         {
@@ -1502,10 +1309,7 @@
       "name": "Paladin",
       "requires": [{ "id": "divine-prof", "levels": 2 }],
       "description": "Holy spells deal +1 damage",
-      "colors": {
-        "unavailable": "#C5B986",
-        "selected": "#e2c846"
-      },
+      "colors": { "unavailable": "#C5B986", "selected": "#e2c846" },
       "cost": 1,
       "providedAbilities": [
         {
@@ -1529,10 +1333,112 @@
           "modifiers": [{ "id": "dmg", "modifier": 1, "set": false }]
         }
       ]
+    },
+    {
+      "id": "attack-node",
+      "name": "Melee Attack",
+      "requires": [{ "id": "basic", "levels": 1 }],
+      "colors": { "unavailable": "#520505", "selected": "#d81b1b" },
+      "levels": 4,
+      "levelCost": [1, 3, 4, 5],
+      "providedAbilities": [
+        {
+          "id": "Attack_norm",
+          "modifier": 1,
+          "modifiers": [{ "id": "dmg", "modifier": 1, "set": false }],
+          "gain": true
+        },
+        {
+          "id": "multi-attack",
+          "modifier": 1,
+          "modifiers": [{ "id": "dmg", "modifier": 1, "set": false }]
+        }
+      ]
+    },
+    {
+      "id": "Multi_attack-1-dz",
+      "name": "Multistrike",
+      "requires": [{ "id": "attack-node", "levels": 1 }],
+      "colors": { "unavailable": "#520505", "selected": "#d81b1b" },
+      "levels": 2,
+      "levelCost": [3, 4],
+      "providedAbilities": [
+        {
+          "id": "multi-attack",
+          "modifier": 1,
+          "modifiers": [{ "id": "numatks", "modifier": 1, "set": false }],
+          "gain": true
+        }
+      ]
+    },
+    {
+      "id": "attack-node-1-dv",
+      "name": "Piercing attack",
+      "requires": [{ "id": "attack-node", "levels": 1 }],
+      "colors": { "unavailable": "#520505", "selected": "#d81b1b" },
+      "levels": 2,
+      "levelCost": [1, 3],
+      "providedAbilities": [
+        {
+          "id": "Attack_norm",
+          "modifier": 1,
+          "modifiers": [{ "id": "dmg2", "modifier": 1, "set": false }]
+        },
+        {
+          "id": "multi-attack",
+          "modifier": 1,
+          "modifiers": [{ "id": "dmg2", "modifier": 1, "set": false }]
+        }
+      ]
+    },
+    {
+      "id": "basic-1-ay",
+      "name": "Ranged Attack",
+      "requires": [{ "id": "basic", "levels": 1 }],
+      "colors": { "unavailable": "#330722", "selected": "#831256" },
+      "levels": 4,
+      "levelCost": [1, 3, 4, 5],
+      "providedAbilities": [
+        {
+          "id": "ranged-attack",
+          "modifier": 1,
+          "modifiers": [{ "id": "dmg", "modifier": 1, "set": false }],
+          "gain": true
+        }
+      ]
+    },
+    {
+      "id": "basic-1-ay-1-ed",
+      "name": "Marksman",
+      "requires": [{ "id": "basic-1-ay", "levels": 1 }],
+      "colors": { "unavailable": "#330722", "selected": "#831256" },
+      "levels": 5,
+      "levelCost": [1, 2, 3, 4, 5],
+      "providedAbilities": [
+        {
+          "id": "ranged-attack",
+          "modifier": 1,
+          "modifiers": [{ "id": "range", "modifier": 1, "set": false }]
+        }
+      ]
+    },
+    {
+      "id": "ranged-piercing-001",
+      "name": "Advanced Arrowheads",
+      "requires": [{ "id": "basic-1-ay", "levels": 1 }],
+      "colors": { "unavailable": "#330722", "selected": "#831256" },
+      "cost": 1,
+      "providedAbilities": [
+        {
+          "id": "ranged-attack",
+          "modifier": 1,
+          "modifiers": [{ "id": "dmg2", "modifier": 1, "set": false }]
+        }
+      ]
     }
   ],
   "tagColors": {
-    "attack": "#2a6ed9",
+    "attack": "#d92a2d",
     "tag": "#c74141",
     "holy": "#d7a435",
     "enchantment": "#ab38d9",
