@@ -11,4 +11,9 @@
     flex: 2;
     gap: 0.5rem;
   }
+  .requirementType {
+    cursor: pointer;
+    padding: 0.5rem 0;
+    color: var(--textColor);
+  }
 }

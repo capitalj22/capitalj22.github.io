@@ -50,9 +50,11 @@ export function EditPanel({ graphEvents, editingCancelled }: Props) {
   const [colors, setColors] = useState(node.colors || {});
   const [oldId, setOldId] = useState(node.id);
   const [requires, setRequires] = useState(node.requires || []);
+  const [requirementType, setRequirementType] = useState(
+    node.requirementType || "and"
+  );
 
   const nameInputRef = useRef<HTMLInputElement>(null);
-
   useEffect(() => {
     setNode(find(nodes, { id: selectedNodeId }) || {});
   }, [selectedNodeId]);
@@ -110,6 +112,7 @@ export function EditPanel({ graphEvents, editingCancelled }: Props) {
       id: id,
       name: name,
       requires: requires,
+      requirementType: requirementType,
       description: description,
       colors,
     } as any;
@@ -161,7 +164,8 @@ export function EditPanel({ graphEvents, editingCancelled }: Props) {
   };
 
   const requiredChanged = (event) => {
-    setRequires(event);
+    setRequires(event.requires);
+    setRequirementType(event.requirementType);
   };
 
   React.useEffect(() => {
@@ -176,6 +180,7 @@ export function EditPanel({ graphEvents, editingCancelled }: Props) {
     setProvidedAbilities(node.providedAbilities || []);
     setOldId(node.id);
     setRequires(node.requires || []);
+    setRequirementType(node.requirementType || "and");
 
     nameInputRef.current?.focus();
   }, [node]);
@@ -229,6 +234,7 @@ export function EditPanel({ graphEvents, editingCancelled }: Props) {
         <div className="requires">
           Requires{" "}
           <RequiresEdit
+            requirementType={requirementType}
             value={requires}
             valueChanged={requiredChanged}
             nodeId={id}

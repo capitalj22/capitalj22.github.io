@@ -25,6 +25,7 @@
     "d3": "^7.8.2",
     "gh-pages": "^5.0.0",
     "lodash-es": "^4.17.21",
+    "pixi-dashed-line": "^1.4.2",
     "pixi-viewport": "^5.0.1",
     "react": "^18.2.0",
     "react-color": "^2.19.3",

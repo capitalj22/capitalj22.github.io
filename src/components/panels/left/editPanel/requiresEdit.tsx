@@ -7,30 +7,44 @@ import { NodeSelect } from "../../../common/selects/nodeSelect";
 import { FancyNumberInput } from "../../../common/tag-input/fancyNumberInput";
 import "./requiresEdit.scss";
 
-export function RequiresEdit({ value, valueChanged, nodeId }) {
+export function RequiresEdit({ value, requirementType, valueChanged, nodeId }) {
   const [mappedValue, setMappedValue] = useState(value);
+  const [isOr, setIsOr] = useState(requirementType === "or");
   const { nodes } = useContext(NodesContext);
 
   useEffect(() => {
+    console.log(value);
     setMappedValue(value);
-  }, [value]);
+    setIsOr(requirementType === "or");
+  }, [value, requirementType]);
 
   const changed = (value, index, prop) => {
     let newValue = [...mappedValue];
     newValue[index][prop] = value;
-    valueChanged(newValue);
+    valueChanged({ requires: newValue, requirementType: isOr ? "or" : "and" });
   };
 
   const removed = (index) => {
     let newValue = [...mappedValue];
     newValue.splice(index, 1);
-    valueChanged(newValue);
+    valueChanged({ requires: newValue, requirementType: isOr ? "or" : "and" });
   };
 
   const addPressed = () => {
     let newValue = [...mappedValue];
     newValue.push({ levels: "1" });
-    valueChanged(newValue);
+    valueChanged({
+      requires: newValue,
+      requirementType: isOr ? "or" : "and",
+    });
+  };
+
+  const requirementTypeChanged = () => {
+    // setIsOr(!isOr);
+    valueChanged({
+      requires: mappedValue,
+      requirementType: isOr ? "and" : "or",
+    });
   };
 
   return (
@@ -59,6 +73,19 @@ export function RequiresEdit({ value, valueChanged, nodeId }) {
           </SmolButton>
         </div>
       ))}
+
+      {mappedValue.length > 1 && (
+        <div className="requirementType">
+          <label>
+            <input
+              type="checkbox"
+              checked={isOr}
+              onChange={requirementTypeChanged}
+            ></input>
+            Requires only one
+          </label>
+        </div>
+      )}
       <SmolButton color="mutdWhite" clicked={addPressed}>
         <PlusSquare />
       </SmolButton>
