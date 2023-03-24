@@ -7,56 +7,34 @@ import { FancyNumberInput } from "../../common/tag-input/fancyNumberInput";
 import { FancyTextInput } from "../../common/tag-input/fancyTextInput";
 import "./abilityParamEditor.scss";
 
-function formatParams(params = {}) {
-  if (params) {
-    return map(Object.keys(params), (key) => {
-      return {
-        name: key,
-        value: params[key],
-      };
-    });
-  } else {
-    return [];
-  }
-}
-
-function convertParams(params) {
-  let newParams = {};
-  each(params, (param) => {
-    newParams[param.name] = param.value;
-  });
-
-  return newParams;
-}
-
 export function AbilityParamEditor({ params, paramsChanged }) {
-  const [_params, setParams] = useState(formatParams(params));
+  const [_params, setParams] = useState(params);
 
   useEffect(() => {
-    setParams(formatParams(params));
+    setParams(params);
   }, [params]);
 
   const keyChanged = (value, index) => {
     let newParams = clone(_params);
     newParams[index].name = value;
 
-    paramsChanged(convertParams(newParams));
+    paramsChanged(newParams);
   };
 
   const valueChanged = (value, index) => {
     let newParams = clone(_params);
     newParams[index].value = value;
-    paramsChanged(convertParams(newParams));
+    paramsChanged(newParams);
   };
 
   const addPressed = () => {
-    paramsChanged(convertParams([..._params, { name: "", value: 0 }]));
+    paramsChanged([...params, { name: "", value: 0 }]);
   };
 
   const removePressed = (index) => {
     let newParams = clone(_params);
     newParams.splice(index, 1);
-    paramsChanged(convertParams(newParams));
+    paramsChanged(newParams);
   };
 
   return (

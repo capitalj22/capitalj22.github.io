@@ -1,4 +1,4 @@
-import { compact, isFunction } from "lodash-es";
+import { compact, each, isFunction, map } from "lodash-es";
 import { useContext, useEffect, useRef, useState } from "react";
 import { Copy, RotateCcw, Save, Trash2 } from "react-feather";
 import { Ability } from "../../../entities/abilities/abilities";
@@ -12,6 +12,28 @@ import { BigButton } from "../../common/buttons/bigButton";
 import "./editableAbilityCard.scss";
 import { Accordion } from "../../layout/accordion/accordion";
 import { SmolButton } from "../../common/buttons/smolButton";
+
+function formatParams(params = {}) {
+  if (params) {
+    return map(Object.keys(params), (key) => {
+      return {
+        name: key,
+        value: params[key],
+      };
+    });
+  } else {
+    return [];
+  }
+}
+
+function convertParams(params) {
+  let newParams = {};
+  each(params, (param) => {
+    newParams[param.name] = param.value;
+  });
+
+  return newParams;
+}
 
 type Props = {
   ability: Ability;
@@ -29,14 +51,20 @@ export function EditableAbilityCard({
 }: Props) {
   const { setAbilities } = useContext(AbilitiesContext);
   const [originalId, setOriginalId] = useState(ability.id);
-
   const [_ability, setAbility] = useState(ability);
+  const [params, setParams] = useState(formatParams(ability.params));
 
   const nameInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     nameInputRef.current?.focus();
   }, []);
+
+  useEffect(() => {
+    setParams(formatParams(ability.params));
+    console.log(ability);
+  }, [ability]);
+
   const updateAbility = (prop, newValue) => {
     setAbility({ ..._ability, [prop]: newValue });
   };
@@ -50,13 +78,13 @@ export function EditableAbilityCard({
   };
 
   const paramsChanged = (e) => {
-    setAbility({ ..._ability, params: e });
+    setParams(e);
   };
 
   const savePressed = () => {
     if (isFunction(abilityChanged)) {
       abilityChanged({
-        ability: _ability,
+        ability: { ..._ability, params: convertParams(params) },
         id: ability.id,
       });
     }
@@ -65,6 +93,7 @@ export function EditableAbilityCard({
       type: "update",
       ability: {
         ..._ability,
+        params: convertParams(params),
         tags: compact(_ability.tags),
       },
       targetId: originalId,
@@ -82,6 +111,7 @@ export function EditableAbilityCard({
   const copyPressed = () => {
     const newId = `${ability.id}-copy`;
     savePressed();
+
     setAbilities({
       type: "add",
       ability: {
@@ -161,10 +191,7 @@ export function EditableAbilityCard({
         </Accordion>
         <Accordion name="Params" startOpen={false}>
           <div className="params">
-            <AbilityParamEditor
-              params={_ability.params}
-              paramsChanged={paramsChanged}
-            />
+            <AbilityParamEditor params={params} paramsChanged={paramsChanged} />
           </div>
         </Accordion>
       </div>

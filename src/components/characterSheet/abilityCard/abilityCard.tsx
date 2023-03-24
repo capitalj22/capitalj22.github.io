@@ -78,7 +78,6 @@ export function AbilityCard({
   modifiers,
   startOpen = true,
   editable = false,
-  abilityEdited,
   abilityCopied,
   abilityRemoved,
   forceIsEditing = false,
@@ -109,9 +108,6 @@ export function AbilityCard({
   }, [forceIsEditing]);
 
   const abilityChanged = (event) => {
-    // if (isFunction(abilityEdited)) {
-    //   abilityEdited({ ability: event.ability, id: event.id });
-    // }
     setIsEditing(false);
     setTagColors({ type: "save" });
   };
