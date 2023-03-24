@@ -40,6 +40,10 @@
       &.full {
         width: calc(100vw - 4rem);
       }
+
+      &.full.minus-right {
+        width: calc(100vw - 34rem);
+      }
     }
 
     @media only screen and (max-width: 800px) {
@@ -51,9 +55,13 @@
 
     @media only screen and (min-width: 2000px) {
       min-width: 48rem;
-
+      
       &.full {
-        width: calc(100vw - 4rem);
+        width: calc(100vw - 7rem);
+      }
+
+      &.full.minus-right {
+        width: calc(100vw - 34rem);
       }
     }
 

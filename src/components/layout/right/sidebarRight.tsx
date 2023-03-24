@@ -1,24 +1,26 @@
-import { useState } from "react";
+import classNames from "classnames";
+import { useContext, useState } from "react";
 import {
   ChevronLeft,
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
 } from "react-feather";
+import { stateContext } from "../../../providers/state/stateProvider";
 import { RightMenu } from "./rightMenu";
 
 import "./sidebarRight.scss";
 
 export function SidebarRight({ children, itemSelected, title }) {
-  const [expanded, setExpanded] = useState(false);
-  const [panelExpanded, setPanelExpanded] = useState(false);
   const [selectedPage, setSelectedPage] = useState(null);
+  const { leftExpanded, setLeftExpanded, rightExpanded, setRightExpanded } =
+    useContext(stateContext);
 
   let icon;
 
   const handleItemSelected = (page) => {
-    if (page === selectedPage || !expanded) {
-      setExpanded(!expanded);
+    if (page === selectedPage || !rightExpanded) {
+      setRightExpanded(!rightExpanded);
     }
     setSelectedPage(page);
 
@@ -26,25 +28,28 @@ export function SidebarRight({ children, itemSelected, title }) {
   };
 
   const handleExpandPressed = (event) => {
-    setPanelExpanded(!panelExpanded);
+    setRightExpanded(!rightExpanded);
   };
 
-  icon = !panelExpanded ? <ChevronsLeft /> : <ChevronsRight />;
-  if (!expanded) {
+  icon = !rightExpanded ? <ChevronsLeft /> : <ChevronsRight />;
+  if (!rightExpanded) {
     return (
       <div className="sidebar-right">
-        <RightMenu itemSelected={handleItemSelected} selectedItem={undefined}></RightMenu>
+        <RightMenu
+          itemSelected={handleItemSelected}
+          selectedItem={undefined}
+        ></RightMenu>
       </div>
     );
   } else
     return (
       <div className="sidebar-right expanded">
         <div
-          className={
-            panelExpanded
-              ? "sidebar-right-panel full"
-              : "sidebar-right-panel partial"
-          }
+          className={classNames({
+            "sidebar-right-panel": true,
+            full: rightExpanded,
+            "minus-right": leftExpanded,
+          })}
         >
           <div
             onClick={handleExpandPressed}
@@ -55,7 +60,10 @@ export function SidebarRight({ children, itemSelected, title }) {
           </div>
           <div className="sidebar-right-panel-content">{children}</div>
         </div>
-        <RightMenu itemSelected={handleItemSelected} selectedItem={selectedPage}></RightMenu>
+        <RightMenu
+          itemSelected={handleItemSelected}
+          selectedItem={selectedPage}
+        ></RightMenu>
       </div>
     );
 }
