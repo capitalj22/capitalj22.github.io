@@ -13,7 +13,6 @@ export function RequiresEdit({ value, requirementType, valueChanged, nodeId }) {
   const { nodes } = useContext(NodesContext);
 
   useEffect(() => {
-    console.log(value);
     setMappedValue(value);
     setIsOr(requirementType === "or");
   }, [value, requirementType]);
@@ -40,7 +39,6 @@ export function RequiresEdit({ value, requirementType, valueChanged, nodeId }) {
   };
 
   const requirementTypeChanged = () => {
-    // setIsOr(!isOr);
     valueChanged({
       requires: mappedValue,
       requirementType: isOr ? "and" : "or",

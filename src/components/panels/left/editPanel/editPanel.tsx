@@ -55,6 +55,7 @@ export function EditPanel({ graphEvents, editingCancelled }: Props) {
   );
 
   const nameInputRef = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
     setNode(find(nodes, { id: selectedNodeId }) || {});
   }, [selectedNodeId]);
