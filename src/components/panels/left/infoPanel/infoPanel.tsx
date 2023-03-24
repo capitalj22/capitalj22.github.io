@@ -174,6 +174,13 @@ export function InfoPanel({ graphEvents }) {
       );
     }
   } else {
-    return <div className="info-panel">Select a Node</div>;
+    return (
+      <div className="info-panel">
+        Select a Node{" "}
+        <SmolButton color="mutedWhite" clicked={editClicked}>
+          <Edit />
+        </SmolButton>
+      </div>
+    );
   }
 }

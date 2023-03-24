@@ -18,6 +18,12 @@ export function PixiGraph({ infoUpdated, graphEvents }) {
   const { savedBuild, setBuild } = useContext(BuildContext);
   const { theme } = useContext(ThemeContext);
 
+  const abilitiesRef = useRef(abilities);
+
+  useEffect(() => {
+    abilitiesRef.current = abilities;
+  }, [abilities]);
+
   useEffect(() => {
     graphEvents.next({ event: "themeChanged", data: theme });
   }, [theme]);
@@ -40,7 +46,7 @@ export function PixiGraph({ infoUpdated, graphEvents }) {
 
         setBuild({
           type: "set",
-          build: newDragonFromNodes(selectedNodes, abilities),
+          build: newDragonFromNodes(selectedNodes, abilitiesRef.current),
         });
 
         setNodeMeta(data.nodeMeta);

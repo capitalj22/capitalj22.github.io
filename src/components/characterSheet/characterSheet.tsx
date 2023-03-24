@@ -8,7 +8,7 @@ import {
   sortBy,
   uniq,
 } from "lodash-es";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import Masonry from "@mui/lab/Masonry";
 import { AbilitiesContext } from "../../providers/abilities/abilitiesProvider";
 import { BuildContext } from "../../providers/build/buildProvider";
@@ -17,8 +17,7 @@ import { Accordion } from "../layout/accordion/accordion";
 import { AbilityCard } from "./abilityCard/abilityCard";
 import "./characterSheet.scss";
 import { StatLine } from "./statLine/statLine";
-import { TagFilters } from "./tagFilters/tagFilters";
-import { QueryBreakpoints, useContainerQueries } from "use-container-queries";
+import { useContainerQueries } from "use-container-queries";
 import { SmolButton } from "../common/buttons/smolButton";
 import { ChevronsDown, ChevronsUp } from "react-feather";
 import { AbilityFilterPanel } from "../common/filters/abilityFilterPanel";
@@ -119,7 +118,6 @@ function CharacterSheet() {
 
   useEffect(() => {
     const result = formatKnownAbilitiesAndTags(build, abilities);
-
     setKnownAbilities(result.knownAbilities);
     setAbilityTags(result.abilityTags);
   }, [build, abilities]);

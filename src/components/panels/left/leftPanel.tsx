@@ -21,7 +21,11 @@ export function LeftPanel({ graphEvents$ }) {
     <SidebarLeft itemSelected={handleItemSelected} expanded={undefined}>
       {selectedItem === "info" ? (
         <div>
-          {showInfoPanel ? <InfoPanel graphEvents={graphEvents$} /> : ""}
+          {showInfoPanel ? (
+            <InfoPanel graphEvents={graphEvents$} />
+          ) : (
+            <div>Select A Node</div>
+          )}
         </div>
       ) : (
         ""

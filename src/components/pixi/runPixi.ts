@@ -442,19 +442,14 @@ export function runGraphPixi(
           const width = 4 + node.levels * 15;
           const levelsAcquired = nodeMeta.acquired[node.id];
 
-          if (isEditing && mode === "edit") {
-            node.gfx.beginFill(toPixiColor(textColor));
-            node.gfx.drawShape(
-              new PIXI.RoundedRectangle(-14, -8, width + 4, 20, 6)
-            );
-            node.gfx.endFill();
-          }
-
-          // node.gfx.beginFill(
-          //   getNodeColor(node, nodeMeta, mode === "edit" ? "selected" : null)
-          // );
           let lowerBound = -(width / 2);
-          node.gfx.lineStyle(2, getNodeColor(node, nodeMeta));
+
+          node.gfx.lineStyle(
+            2,
+            isEditing && mode === "edit"
+              ? toPixiColor("#ffffff")
+              : getNodeColor(node, nodeMeta)
+          );
           node.gfx.beginFill(toPixiColor(bgColor));
           node.gfx.drawShape(
             new PIXI.RoundedRectangle(lowerBound, -6, width, 16, 4)
