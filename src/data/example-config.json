@@ -1082,7 +1082,11 @@
     {
       "colors": { "unavailable": "#d3976b", "selected": "#d46430" },
       "id": "defend-2-3",
-      "requires": [{ "id": "defend-2", "levels": 2 }],
+      "requires": [
+        { "id": "defend-2", "levels": 1 },
+        { "id": "guardian-2", "levels": 1 }
+      ],
+      "requirementType": "or",
       "name": "Attack of Opportunity",
       "cost": 1,
       "providedAbilities": [

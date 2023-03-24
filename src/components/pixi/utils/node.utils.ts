@@ -42,26 +42,20 @@ export const acquiredselectNodeAndReturnNewMeta = (
 };
 
 export const updateNodesAfterDeselection = (nodes, selectedNode, nodeMeta) => {
+  let newMeta = { ...nodeMeta };
   const turnOffDependentNodes = (n) => {
-    const deps = filter(nodes, (node) => {
+    const nodesThatRequireOnThisNode = filter(nodes, (node) => {
       return some(node.requires, { id: n.id });
     });
 
-    if (deps) {
-      each(deps, (dep) => {
-        if (selectedNode.levels) {
-          const levelsRequired =
-            find(dep.required, { id: selectedNode.id })?.levels ||
-            selectedNode.levels;
+    newMeta = updateAvailability(nodes, nodeMeta);
 
-          if (levelsRequired > nodeMeta.acquired[selectedNode.id]) {
-            nodeMeta.selected[dep.id] = false;
-            nodeMeta.acquired[dep.id] = 0;
-            turnOffDependentNodes(dep);
-          }
-        } else {
+    if (nodesThatRequireOnThisNode) {
+      each(nodesThatRequireOnThisNode, (dep) => {
+        if (!nodeMeta.available[dep.id]) {
           nodeMeta.selected[dep.id] = false;
           nodeMeta.acquired[dep.id] = 0;
+          newMeta = updateAvailability(nodes, nodeMeta);
           turnOffDependentNodes(dep);
         }
       });
@@ -70,23 +64,33 @@ export const updateNodesAfterDeselection = (nodes, selectedNode, nodeMeta) => {
 
   turnOffDependentNodes(selectedNode);
 
-  return nodeMeta;
+  return newMeta;
 };
 
 export const updateAvailability = (nodes, nodeMeta) => {
   each(nodes, (node) => {
     if (node.requires) {
-      let available = true;
+      let requirementType = node.requirementType || "and";
+      let available = requirementType === "and";
 
       each(node.requires, (requirement) => {
         const requiredNode = find(nodes, { id: requirement.id });
+
         if (requiredNode.levels) {
           const levelsRequired = requirement.levels || requiredNode.levels;
           const levelsAcquired = nodeMeta.acquired[requiredNode.id];
 
-          available = available && levelsAcquired >= levelsRequired;
+          if (requirementType === "and") {
+            available = available && levelsAcquired >= levelsRequired;
+          } else if (requirementType === "or") {
+            available = available || levelsAcquired >= levelsRequired;
+          }
         } else {
-          available = available && nodeMeta.selected[requirement.id];
+          if (requirementType === "and") {
+            available = available && nodeMeta.selected[requirement.id];
+          } else if (requirementType === "or") {
+            available = available || nodeMeta.selected[requirement.id];
+          }
         }
       });
 

@@ -1,5 +1,6 @@
 import * as d3 from "d3";
 import * as PIXI from "pixi.js";
+import { DashLine } from "pixi-dashed-line";
 import { Viewport } from "pixi-viewport";
 import { Subject } from "rxjs";
 import { find, map, each, times, isNumber, filter, some } from "lodash-es";
@@ -201,6 +202,7 @@ export function runGraphPixi(
   function editNode(nodeId, newNode) {
     let node = find(nodes, { id: nodeId }) as INode;
     let oldRequires = node.requires;
+    let oldRequirementType = node.requirementType;
 
     node.name = newNode.name;
     node.id = newNode.id;
@@ -212,8 +214,9 @@ export function runGraphPixi(
     node.providedAbilities = newNode.providedAbilities;
     node.colors = newNode.colors;
     node.requires = newNode.requires;
+    node.requirementType = newNode.requirementType;
 
-    if (oldRequires !== newNode.requires) {
+    if (oldRequires !== newNode.requires || oldRequirementType !== newNode.requirementType) {
       recreateLinks();
     }
 
@@ -391,11 +394,14 @@ export function runGraphPixi(
     visualLinks.removeChildren();
     visualLinks.alpha = 0.8;
 
-    links.forEach((link) => {
+    links.forEach((link, index) => {
       let { source, target } = link;
       let lineColor = 0x444444;
       let lineWidth = 2;
-      let selected = source && isNodeSelected(source, nodeMeta);
+      let selected =
+        source &&
+        isNodeSelected(source, nodeMeta) &&
+        isNodeSelected(target, nodeMeta);
 
       if (target.id && source) {
         if (selected || mode === "edit") {
@@ -410,8 +416,20 @@ export function runGraphPixi(
             : 1;
       }
       visualLinks.lineStyle(lineWidth, lineColor, selected ? 1 : 0.2);
-      visualLinks.moveTo(source.x, source.y);
-      visualLinks.lineTo(target.x, target.y);
+
+      if (source.requirementType === "or" && !selected) {
+        const dash = new DashLine(visualLinks, {
+          dash: [5, 5],
+          width: 1,
+          color: lineColor,
+        });
+
+        dash.moveTo(source.x, source.y);
+        dash.lineTo(target.x, target.y);
+      } else {
+        visualLinks.moveTo(source.x, source.y);
+        visualLinks.lineTo(target.x, target.y);
+      }
     });
 
     visualLinks.endFill();
@@ -691,9 +709,7 @@ export function runGraphPixi(
       .on("click", (e) => boundPress(e, node));
 
     gfx.on("mouseover", (mouseData) => {
-      console.log("mouseover");
       if (mode === "build") {
-        console.log("update");
         updateInfo(node, nodeMeta, nodes, infoUpdated$);
       }
     });
