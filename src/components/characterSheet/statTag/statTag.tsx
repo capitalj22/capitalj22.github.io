@@ -66,7 +66,6 @@ export function StatTag({
       clicked(label);
     }
   };
-  useEffect(() => {}, [label]);
 
   return (
     <span
@@ -75,7 +74,7 @@ export function StatTag({
       style={getStyle(
         clicked,
         selected,
-        tagColors[label] || "#fff",
+        (tagColors && tagColors[label]) || "#fff",
         emphasize,
         color,
         theme

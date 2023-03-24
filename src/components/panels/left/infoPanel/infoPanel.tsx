@@ -10,9 +10,9 @@ import "./infoPanel.scss";
 export const isNodeSelected = (node, nodeMeta) => {
   if (node) {
     if (node?.levels) {
-      return nodeMeta?.acquired[node.id] > 0;
+      return nodeMeta?.acquired[node?.id] > 0;
     } else {
-      return nodeMeta?.selected[node.id];
+      return nodeMeta?.selected[node?.id];
     }
   }
 };
@@ -49,9 +49,9 @@ function getRequiredText(requires, nodes) {
         const node = find(nodes, { id: required.id });
         let text;
         if (required.levels && required.levels > 1) {
-          text = `${node.name} (${required.levels})`;
+          text = `${node?.name} (${required.levels})`;
         } else {
-          text = node.name;
+          text = node?.name;
         }
         return [...acc, text];
       },
@@ -60,7 +60,7 @@ function getRequiredText(requires, nodes) {
   }
 }
 
-export function InfoPanel({ graphEvents }) {
+export function InfoPanel() {
   const { selectedNodeId, nodes, nodeMeta } = useContext(NodesContext);
   const { build } = useContext(BuildContext);
   const { abilities } = useContext(AbilitiesContext);
@@ -70,7 +70,7 @@ export function InfoPanel({ graphEvents }) {
   );
   const [formattedModifiers, setFormattedModifiers] = useState(
     node
-      ? formatNodeModifiers(node.providedAbilities, build, node.selected)
+      ? formatNodeModifiers(node?.providedAbilities, build, node?.selected)
       : {}
   );
   const [requiredText, setRequiredText] = useState(
@@ -89,7 +89,7 @@ export function InfoPanel({ graphEvents }) {
       nodeColor = node?.colors?.selected;
       setRelatedAbilities(getRelatedAbilities(node, abilities));
       setFormattedModifiers(
-        formatNodeModifiers(node?.providedAbilities, build, node.selected)
+        formatNodeModifiers(node?.providedAbilities, build, node?.selected)
       );
       setRequiredText(getRequiredText(node?.requires, nodes));
     }
@@ -102,10 +102,10 @@ export function InfoPanel({ graphEvents }) {
           className="level-points"
           style={{
             background:
-              nodeMeta?.acquired[node.id] > index ? nodeColor : "#666",
+              nodeMeta?.acquired[node?.id] > index ? nodeColor : "#666",
           }}
         >
-          {node?.levelCost?.length ? node.levelCost[index] : node.levelCost}
+          {node?.levelCost?.length ? node?.levelCost[index] : node?.levelCost}
         </span>
       ))}
     </span>
@@ -130,7 +130,7 @@ export function InfoPanel({ graphEvents }) {
         <div className="title">{node?.name} </div>
 
         <div className="divider" style={{ backgroundColor: nodeColor }}></div>
-        {!nodeMeta?.available[node.id] ? (
+        {!nodeMeta?.available[node?.id] ? (
           <div className="requires">
             Requires <span className="skill">{requiredText}</span>
           </div>

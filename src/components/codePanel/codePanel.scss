@@ -1,11 +1,42 @@
 .code-panel {
   .section {
-    padding: 1rem;
+    padding: 2rem 2rem;
+    padding-bottom: 4rem;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    background-color: var(--panelColor2);
   }
 
-  .buttons {
+  .uploader,
+  .downloader {
+    padding-top: 2rem;
     display: flex;
     gap: 1rem;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+
+    > div {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    input[type="text"] {
+      border: 1px solid var(--mutedText);
+      background: var(--panelColor2);
+    }
+  }
+  .downloader {
+    border-top: 1px solid var(--supermutedText);
+  }
+
+  .reset {
+    padding: 2rem;
+    display: flex;
+    gap: 2rem;
   }
 }

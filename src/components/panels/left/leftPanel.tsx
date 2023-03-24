@@ -26,7 +26,7 @@ export function LeftPanel({ graphEvents$ }) {
           {appMode === "edit" ? (
             <EditPanel graphEvents={graphEvents$} />
           ) : (
-            <InfoPanel graphEvents={graphEvents$} />
+            <InfoPanel />
           )}
         </div>
       ) : (

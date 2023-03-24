@@ -1,38 +1,27 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import {
-  ArrowLeft,
-  PlusSquare,
-  RotateCcw,
-  Save,
-  SkipBack,
-  Trash2,
-} from "react-feather";
+import { PlusSquare, Save, Trash2 } from "react-feather";
 import { AbilitiesPanel } from "./abilities/abilitiesPanel";
 import { CostPanel } from "./costPanel/costPanel";
 import "./editPanel.scss";
 import { StatsPanel } from "./stats/statsPanel";
 import { ColorPicker } from "../../../common/color-picker/colorPicker";
-import { SkillNode } from "../../../../entities/skilltree/node.entity";
 import TextareaAutosize from "react-textarea-autosize";
 import { Accordion } from "../../../layout/accordion/accordion";
 import { StatsContext } from "../../../../providers/stats/statsProvider";
-import { filter, find, map, sample, some, sortBy } from "lodash-es";
+import { filter, find, map, sample, some } from "lodash-es";
 import { BigButton } from "../../../common/buttons/bigButton";
 import { NodesContext } from "../../../../providers/nodes/nodesProvider";
-import { NodeSelect } from "../../../common/selects/nodeSelect";
 import { RequiresEdit } from "./requiresEdit";
-import { SmolButton } from "../../../common/buttons/smolButton";
 
 interface Props {
-  graphEvents: any;
-  editingCancelled?: any;
+  graphEvents?: any;
 }
 
 function getStatOptions(stats) {
   return map(stats, (stat) => ({ value: stat.id, label: stat.name }));
 }
 
-export function EditPanel({ graphEvents, editingCancelled }: Props) {
+export function EditPanel({ graphEvents }: Props) {
   const { selectedNodeId, nodes, setNodes, setSelectedNodeId } =
     useContext(NodesContext);
   const { stats } = useContext(StatsContext);
