@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { stateContext } from "../../../providers/state/stateProvider";
 import CharacterSheet from "../../characterSheet/characterSheet";
 import { CodePanel } from "../../codePanel/codePanel";
 import { Accordion } from "../../layout/accordion/accordion";
@@ -13,6 +14,7 @@ const example3 = `You make 1 melee attack against an adjacent enemy. Roll 1d6{dm
 export function RightPanel() {
   const [selectedItem, setSelectedItem] = useState("info");
   const [menuTitle, setMenuTitle] = useState("info");
+  const { appMode } = useContext(stateContext);
 
   const handleItemSelected = (item) => {
     setSelectedItem(item);
@@ -37,23 +39,28 @@ export function RightPanel() {
 
   return (
     <SidebarRight itemSelected={handleItemSelected} title={menuTitle}>
-      {selectedItem === "sheet" ? <CharacterSheet></CharacterSheet> : ""}
-      {selectedItem === "code" ? <CodePanel></CodePanel> : ""}
-      {selectedItem === "list" ? (
+      {selectedItem === "sheet" && (
         <div>
-          <Accordion name="Abilities" startOpen={false}>
-            <AbilityEditor></AbilityEditor>
-          </Accordion>
-          <Accordion name="Ability Types" startOpen={false}>
-            <AbilityTypeEditor></AbilityTypeEditor>
-          </Accordion>
-          <Accordion name="Stats" startOpen={false}>
-            <StatEditor></StatEditor>
-          </Accordion>
+          {appMode === "build" ? (
+            <CharacterSheet></CharacterSheet>
+          ) : (
+            <div>
+              <Accordion name="Abilities" startOpen={false}>
+                <AbilityEditor></AbilityEditor>
+              </Accordion>
+              <Accordion name="Ability Types" startOpen={false}>
+                <AbilityTypeEditor></AbilityTypeEditor>
+              </Accordion>
+              <Accordion name="Stats" startOpen={false}>
+                <StatEditor></StatEditor>
+              </Accordion>
+            </div>
+          )}
         </div>
-      ) : (
-        ""
       )}
+
+      {selectedItem === "code" ? <CodePanel></CodePanel> : ""}
+
       {selectedItem === "help" ? (
         <div className="padding-md" style={{ textAlign: "left" }}>
           <h2>Ability Description Syntax</h2>

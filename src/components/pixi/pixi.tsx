@@ -8,6 +8,7 @@ import { newDragonFromNodes } from "../../entities/actor/dragon.entity";
 import { AbilitiesContext } from "../../providers/abilities/abilitiesProvider";
 import { NodesContext } from "../../providers/nodes/nodesProvider";
 import { ThemeContext } from "../../providers/theme.provider";
+import { stateContext } from "../../providers/state/stateProvider";
 
 export function PixiGraph({ infoUpdated, graphEvents }) {
   const containerRef = useRef(null);
@@ -17,8 +18,12 @@ export function PixiGraph({ infoUpdated, graphEvents }) {
   const infoUpdated$ = new Subject();
   const { savedBuild, setBuild } = useContext(BuildContext);
   const { theme } = useContext(ThemeContext);
-
+  const { appMode } = useContext(stateContext);
   const abilitiesRef = useRef(abilities);
+
+  useEffect(() => {
+    graphEvents.next({ event: "modeChanged", data: { mode: appMode } });
+  }, [appMode]);
 
   useEffect(() => {
     abilitiesRef.current = abilities;

@@ -101,6 +101,7 @@ export function EditPanel({ graphEvents, editingCancelled }: Props) {
         node: newNode,
       },
     });
+    nameInputRef.current?.focus();
   };
 
   const deletePressed = (event) => {
@@ -182,19 +183,12 @@ export function EditPanel({ graphEvents, editingCancelled }: Props) {
     setOldId(node.id);
     setRequires(node.requires || []);
     setRequirementType(node.requirementType || "and");
-
-    nameInputRef.current?.focus();
   }, [node]);
 
   if (node.id) {
     return (
       <div className="edit-panel">
         <div className="top">
-          <div className="back-button">
-            <SmolButton color="theme" clicked={editingCancelled}>
-              <ArrowLeft size={16} /> View Mode
-            </SmolButton>
-          </div>
           <CostPanel
             levels={levels}
             levelCost={levelCost}

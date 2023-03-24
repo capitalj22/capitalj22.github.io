@@ -1,6 +1,7 @@
 .right-menu {
   display: flex;
   flex-direction: column;
+  align-items: center;
   height: 100%;
   width: 4rem;
   border-left: var(--panelBorder);
@@ -16,10 +17,23 @@
   }
 
   button {
+    width: 100%;
     background-color: transparent;
-
+    padding: 0.5rem 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     &.selected {
       background-color: var(--themeColor);
     }
+  }
+
+  hr {
+    color: var(--mutedText);
+    margin: 0;
+    width: 60%;
+    text-align: center;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
   }
 }

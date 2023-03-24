@@ -8,6 +8,8 @@ import { TagsContext } from "../../providers/tags/tagsProvider";
 import exampleJson from "../../data/example-config.json";
 
 import "./codePanel.scss";
+import { Accordion } from "../layout/accordion/accordion";
+import { BigButton } from "../common/buttons/bigButton";
 
 export function CodePanel() {
   const { build, setSavedBuild } = useContext(BuildContext);
@@ -20,6 +22,37 @@ export function CodePanel() {
   const [treeValue, setTreeTextValue] = useState("");
   const [notification1Style, setNotification1Style] = useState({ opacity: 0 });
   const [notification2Style, setNotification2Style] = useState({ opacity: 0 });
+
+  const downloadFile = () => {
+    const config = {
+      abilities,
+      nodes,
+      tagColors,
+      stats,
+      abilityTypes,
+    };
+
+    const myData = config; // I am assuming that "this.state.myData"
+    // is an object and I wrote it to file as
+    // json
+
+    // create file in browser
+    const fileName = "my-file";
+    const json = JSON.stringify(myData, null, 2);
+    const blob = new Blob([json], { type: "application/json" });
+    const href = URL.createObjectURL(blob);
+
+    // create "a" HTLM element with href to file
+    const link = document.createElement("a");
+    link.href = href;
+    link.download = fileName + ".json";
+    document.body.appendChild(link);
+    link.click();
+
+    // clean up "a" element & remove ObjectURL
+    document.body.removeChild(link);
+    URL.revokeObjectURL(href);
+  };
 
   const handleBuildValueChanged = (event) => {
     setBuildTextValue(event.target.value);
@@ -114,46 +147,49 @@ export function CodePanel() {
 
   return (
     <div className="code-panel">
-      <div>
-        <div className="title">Build</div>
-        <div className="import">
+      <Accordion name="Character Build" startOpen={false}>
+        <div className="section">
           <textarea
             spellCheck={false}
             rows={8}
             onChange={handleBuildValueChanged}
             placeholder="Paste exported build here"
           ></textarea>
-          <button className="attached" onClick={handleBuildImportClicked}>
-            Import Build <Download />
-          </button>
+          <div className="buttons">
+            <BigButton
+              type="outline"
+              color="theme"
+              clicked={handleBuildImportClicked}
+            >
+              Import Build <Download />
+            </BigButton>
+            <BigButton type="outline" color="theme" clicked={downloadFile}>
+              Copy Current Build <Copy />
+            </BigButton>
+          </div>
         </div>
-        <div className="export">
-          <button onClick={handleBuildCopyClicked}>
-            Copy Current Build <Copy />
-          </button>
-          <div style={notification1Style}>Text Copied to Clipboard</div>
+      </Accordion>
+      <Accordion name="Trees, Abilities, Etc" startOpen={false}>
+        <div className="section">
+          <div className="import">
+            <textarea
+              spellCheck={false}
+              rows={8}
+              onChange={handleTreeValueChanged}
+              placeholder="Paste exported trees and abilities here"
+            ></textarea>
+            <BigButton clicked={handleTreeImportClicked}>
+              Import Trees/Abilities <Download />
+            </BigButton>
+          </div>
+          <div className="export">
+            <BigButton clicked={handleTreeCopyClicked}>
+              Copy Current Trees/Abilities <Copy />
+            </BigButton>
+            <div style={notification2Style}>Text Copied to Clipboard</div>
+          </div>
         </div>
-      </div>
-      <div>
-        <div className="title">Trees/Abilities</div>
-        <div className="import">
-          <textarea
-            spellCheck={false}
-            rows={8}
-            onChange={handleTreeValueChanged}
-            placeholder="Paste exported trees and abilities here"
-          ></textarea>
-          <button className="attached" onClick={handleTreeImportClicked}>
-            Import Trees/Abilities <Download />
-          </button>
-        </div>
-        <div className="export">
-          <button onClick={handleTreeCopyClicked}>
-            Copy Current Trees/Abilities <Copy />
-          </button>
-          <div style={notification2Style}>Text Copied to Clipboard</div>
-        </div>
-      </div>
+      </Accordion>
 
       <div className="reset">
         <div className="title">Reset</div>
