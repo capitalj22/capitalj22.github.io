@@ -187,7 +187,7 @@ export function EditPanel({ graphEvents }: Props) {
   if (node.id) {
     return (
       <div className="edit-panel">
-        <div className="top">
+        <div className="edit-panel-top">
           <CostPanel
             levels={levels}
             levelCost={levelCost}
@@ -235,7 +235,7 @@ export function EditPanel({ graphEvents }: Props) {
           />
         </div>
 
-        <div className="form-control description">
+        <div className="form-control node-description">
           <TextareaAutosize
             rows={4}
             onChange={DescriptionUpdated}

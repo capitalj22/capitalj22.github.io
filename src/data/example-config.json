@@ -36,7 +36,9 @@
       "description": "Increase or decrease the organization (HP) of any non-elite group of soldiers by %amt%. ",
       "tags": ["enchantment"],
       "type": "action",
-      "params": { "amt": 1 }
+      "params": {
+        "amt": 1
+      }
     },
     {
       "id": "aquatic-combat",
@@ -64,7 +66,9 @@
       "name": "Basic Attack",
       "description": "You make 1 melee attack against an adjacent enemy. Roll 1d6{dmg}+%dmg%{/dmg} and do that much damage.",
       "type": "action",
-      "params": { "dmg": -1 },
+      "params": {
+        "dmg": -1
+      },
       "tags": ["attack"]
     },
     {
@@ -99,14 +103,19 @@
       "name": "Charge",
       "type": "movement",
       "description": "If this unit moves 4 hexes in a straight line before becoming adjacent to an enemy they automatically do +%dmg% damage on first melee attack. The movement for the rest of the turn becomes 0. \n        {breakthrough}\n          If after a charge, this unit still has remaining movement, it can use that movement to continue on its charge-line through enemy units.\n        {/breakthrough}",
-      "params": { "dmg": 1, "breakthrough": 0 }
+      "params": {
+        "dmg": 1,
+        "breakthrough": 0
+      }
     },
     {
       "id": "dash",
       "name": "Dash",
       "type": "action",
       "description": "Move %movement% hexes.",
-      "params": { "movement": 2 },
+      "params": {
+        "movement": 2
+      },
       "tags": ["movement", "fast"]
     },
     {
@@ -129,14 +138,19 @@
       "description": "Place a ward against death on a unit. If that unit is reduced to 0 HP it instead goes to %hp% HP. When this happens the spell is used up and you lose concentration on it.",
       "type": "action",
       "tags": ["concentration", "holy"],
-      "params": { "hp": 2 }
+      "params": {
+        "hp": 2
+      }
     },
     {
       "id": "defend",
       "name": "Defend",
       "description": "Gain    %hp% hp.\n\n{brace}For this turn, gain the following effects:\n\n1. You are Immune to Charge effects.\n2. Enemies that move adjacent to you take 1 damage.\n{/brace}",
       "type": "action",
-      "params": { "brace": 0, "hp": 1 },
+      "params": {
+        "brace": 0,
+        "hp": 1
+      },
       "tags": ["healing"]
     },
     {
@@ -145,7 +159,9 @@
       "type": "reaction",
       "description": "Block 1 ranged attack that is made at you. Declare before the attack is rolled. \n\nFor magic attacks, deflect on a roll of %lowerRange% or higher.",
       "tags": ["defense"],
-      "params": { "lowerRange": 4 }
+      "params": {
+        "lowerRange": 4
+      }
     },
     {
       "id": "dive-bomb",
@@ -167,7 +183,9 @@
       "description": "Target the leader of a company of troops and try to control their mind. Against non-elite units (so common soliders and such) this works and the unit is under your control until the battle ends or it loses half its current health. Can only have %unit% unit(s) dominated at a time.",
       "tags": ["enchantment"],
       "type": "action",
-      "params": { "units": 1 }
+      "params": {
+        "units": 1
+      }
     },
     {
       "id": "extra-versatile",
@@ -197,7 +215,9 @@
       "type": "action",
       "replaces": "knit-flesh",
       "tags": ["undead", "healing", "necromancy"],
-      "params": { "hp": 1 }
+      "params": {
+        "hp": 1
+      }
     },
     {
       "id": "guardian",
@@ -205,7 +225,9 @@
       "type": "reaction",
       "description": "As a reaction, can intercept %attacks% attack(s) going towards an adjacent ally. You now take that attack - also take 1 damage.",
       "tags": ["defense"],
-      "params": { "attacks": 1 }
+      "params": {
+        "attacks": 1
+      }
     },
     {
       "id": "guiding-bolt",
@@ -213,14 +235,19 @@
       "description": "You hit an enemy with a blast of light, dealing %dmg% nonabsorbable damage. Next round, allies have +%roll% on all attacks/cantrip strikes against this target.",
       "type": "action",
       "tags": ["holy", "piercing"],
-      "params": { "roll": 1, "dmg": 1 }
+      "params": {
+        "roll": 1,
+        "dmg": 1
+      }
     },
     {
       "id": "knit-flesh",
       "name": "Knit Flesh",
       "description": "Restore %hp% HP to an adjacent undead unit",
       "type": "action",
-      "params": { "hp": 1 },
+      "params": {
+        "hp": 1
+      },
       "tags": ["undead", "healing", "necromancy"]
     },
     {
@@ -230,7 +257,9 @@
       "type": "action",
       "replaces": "greater-knitting",
       "tags": ["undead", "healing", "necromancy"],
-      "params": { "hp": 1 }
+      "params": {
+        "hp": 1
+      }
     },
     {
       "id": "multi-attack",
@@ -238,7 +267,12 @@
       "description": "You make %numatks% melee attack against an adjacent enemy.\n      \n      Each Attack: 1d6{dmg}+%dmg%{/dmg}  \n\n{dmg2} This attack always does at least %dmg2% damage {/dmg2}\n ",
       "type": "action",
       "replaces": "Attack_norm",
-      "params": { "dmg2": 0, "dmg": 0, "numatks": 1 },
+      "params": {
+        "dmg2": 0,
+        "dmg": 0,
+        "numatks": 1,
+        "tag-piercing": 0
+      },
       "tags": ["attack"]
     },
     {
@@ -254,7 +288,10 @@
       "description": "Heal a unit %hp% HP within spell range.{divine}\n\nRestoration can now be cast for 2 spell slots and heals 10 HP if done this way.{/divine}",
       "type": "action",
       "tags": ["holy"],
-      "params": { "hp": 3, "divine": 0 }
+      "params": {
+        "hp": 3,
+        "divine": 0
+      }
     },
     {
       "id": "smite",
@@ -262,7 +299,9 @@
       "description": "When an attack hits (does damage to HP), you may spend 1 spell slot to make that attack do +%dmg%\n      damage",
       "type": "bonus action",
       "tags": ["holy"],
-      "params": { "dmg": 3 }
+      "params": {
+        "dmg": 3
+      }
     },
     {
       "id": "spellcasting",
@@ -270,7 +309,10 @@
       "description": "You can now cast spells and cantrips. Casting spells and cantrips take action to cast and require 1 spell slot of the coresponding school of magic. \n    Cantrips barrage does not cost a spell slot. \n    \n    Range: %range%\n    Contentration Bonus: %concentration%",
       "type": "school",
       "tags": ["magic"],
-      "params": { "range": 1, "concentration": 1 }
+      "params": {
+        "range": 1,
+        "concentration": 1
+      }
     },
     {
       "id": "spirit-guardians",
@@ -278,7 +320,10 @@
       "description": "Call upon spiritual guardians to protect you. You gain %ac% AC and adjacent enemies take %dmg% unabsorbable damage at the start of your turn.",
       "type": "action",
       "tags": ["concentration", "holy", "piercing"],
-      "params": { "dmg": 1, "ac": 1 }
+      "params": {
+        "dmg": 1,
+        "ac": 1
+      }
     },
     {
       "id": "strafing-run",
@@ -315,7 +360,11 @@
       "description": "Deal %dmg% damage to adjacent undead units and force them on their turn to move at least %range% hex away from you and get no closer for %rounds% round.",
       "type": "action",
       "tags": ["holy"],
-      "params": { "dmg": 1, "range": 1, "rounds": 1 }
+      "params": {
+        "dmg": 1,
+        "range": 1,
+        "rounds": 1
+      }
     },
     {
       "id": "versatile",
@@ -329,7 +378,9 @@
       "description": "Gain a command aura of %commandRadius% m radius (every adjacent hex)",
       "tags": ["command"],
       "type": "passive",
-      "params": { "commandRadius": 50 }
+      "params": {
+        "commandRadius": 50
+      }
     },
     {
       "name": "Rally",
@@ -337,7 +388,10 @@
       "description": "As an action, allied units in your command aura regain %hp% HP.\n\n{bonus}\n1 unit within your command aura can make an attack.\n{/bonus}",
       "tags": ["command"],
       "type": "action",
-      "params": { "bonus": 0, "hp": 1 }
+      "params": {
+        "bonus": 0,
+        "hp": 1
+      }
     },
     {
       "name": "Aggressive Commander",
@@ -359,7 +413,9 @@
       "description": "As an action, allied units in your command aura regain %hp% HP.\n\n2 units within your command aura can make 1 attack \nOR\n1 unit within your command aura can make 2 attacks",
       "tags": ["command"],
       "type": "action",
-      "params": { "hp": 1 },
+      "params": {
+        "hp": 1
+      },
       "replaces": "rally"
     },
     {
@@ -382,7 +438,9 @@
       "description": "Raise a deceased unit as a zombie horde with %raiseHp%% health.",
       "tags": ["necromancy", "spell"],
       "type": "action",
-      "params": { "raiseHp": 25 }
+      "params": {
+        "raiseHp": 25
+      }
     },
     {
       "name": "Life Drain",
@@ -404,7 +462,9 @@
       "description": "If this unit kills an adjacent unit. It spawns a new zombie unit from the dead unit. The new zombie has %hpPercent%% health",
       "tags": ["undead", "necromancy"],
       "type": "passive",
-      "params": { "hpPercent": 50 }
+      "params": {
+        "hpPercent": 50
+      }
     },
     {
       "name": "Necromancy",
@@ -412,7 +472,10 @@
       "description": "You can cast Necromancy spells.\n\nSpell Slots: %slots%\nSpells Per action: %spellsPerAction%",
       "tags": ["necromancy"],
       "type": "school",
-      "params": { "slots": 1, "spellsPerAction": 1 }
+      "params": {
+        "slots": 1,
+        "spellsPerAction": 1
+      }
     },
     {
       "name": "Holy Casting",
@@ -420,14 +483,21 @@
       "description": "You can cast Necromancy spells.\n\nSpell Slots: %slots%\nSpells Per action: %spells%",
       "tags": ["holy"],
       "type": "action",
-      "params": { "spells": 1, "slots": 2 }
+      "params": {
+        "spells": 1,
+        "slots": 2
+      }
     },
     {
       "id": "Attack_norm",
       "name": "Melee Attack",
       "description": "You make 1 melee attack against an adjacent enemy. Roll 1d6{dmg}+%dmg%{/dmg} and do that much damage.\n\n{dmg2} This attack always does at least %dmg2% damage {/dmg2}",
       "type": "action",
-      "params": { "dmg2": 0, "dmg": -1 },
+      "params": {
+        "dmg2": 0,
+        "dmg": -1,
+        "tag-piercing": 0
+      },
       "tags": ["attack"],
       "replaces": "basic-attack"
     },
@@ -437,7 +507,49 @@
       "description": "You make 1 ranged attack against an enemy. First roll 1d6{range}+%range%{/range} against the number of hexes between you and the target. Must beat this distance. For each success now roll 1d6{dmg}+%dmg%{/dmg} and do that much damage.\n\n{dmg2} This attack always does at least %dmg2% damage {/dmg2}",
       "tags": [],
       "type": "action",
-      "params": { "dmg2": 0, "dmg": 0, "range": 0 }
+      "params": {
+        "dmg2": 0,
+        "dmg": 0,
+        "range": 0
+      }
+    }
+  ],
+  "abilityTypes": [
+    {
+      "id": "action",
+      "name": "Action",
+      "color": "#8eb0ff"
+    },
+    {
+      "id": "movement",
+      "name": "Movement",
+      "color": "#c7f8af"
+    },
+    {
+      "id": "passive",
+      "name": "Passive",
+      "color": "#cabfbf"
+    },
+    {
+      "id": "reaction",
+      "name": "Reaction",
+      "color": "#ffb0fc"
+    },
+    {
+      "id": "bonus action",
+      "name": "Bonus Action",
+      "color": "#a887ff"
+    },
+    {
+      "id": "school",
+      "name": "Magic Proficiency",
+      "color": "#5ec5e1"
+    }
+  ],
+  "globalParams": [
+    {
+      "id": "pierce-attack",
+      "value": 0
     }
   ],
   "nodes": [
@@ -446,264 +558,632 @@
       "name": "Basic",
       "requires": [],
       "description": "Congrats! You are a unit.",
-      "colors": { "unavailable": "#121212", "selected": "#d2d2d2" },
+      "colors": {
+        "unavailable": "#121212",
+        "selected": "#d2d2d2"
+      },
       "cost": 1,
       "providedStats": [
-        { "id": "hp", "modifier": 5 },
-        { "id": "armor", "modifier": 2 }
+        {
+          "id": "hp",
+          "modifier": 5
+        },
+        {
+          "id": "armor",
+          "modifier": 2
+        }
       ],
       "providedAbilities": [
-        { "id": "basic-attack", "modifier": 1, "modifiers": [], "gain": true }
+        {
+          "id": "basic-attack",
+          "modifier": 1,
+          "modifiers": [],
+          "gain": true
+        }
       ]
     },
     {
-      "colors": { "unavailable": "#878787", "selected": "#96b7bd" },
+      "colors": {
+        "unavailable": "#878787",
+        "selected": "#96b7bd"
+      },
       "id": "basic-magic",
-      "requires": [{ "id": "basic", "levels": 1 }],
+      "requires": [
+        {
+          "id": "basic",
+          "levels": 1
+        }
+      ],
       "name": "Spellcasting",
       "description": "Grants your unit the ability to cast spells",
       "cost": 1,
       "providedAbilities": [
-        { "id": "cantrip-barrage", "gain": true },
-        { "id": "spellcasting", "gain": true }
+        {
+          "id": "cantrip-barrage",
+          "gain": true
+        },
+        {
+          "id": "spellcasting",
+          "gain": true
+        }
       ]
     },
     {
       "id": "speed",
       "name": "Speed",
-      "requires": [{ "id": "basic", "levels": 1 }],
+      "requires": [
+        {
+          "id": "basic",
+          "levels": 1
+        }
+      ],
       "description": "Allows you to move one additional hex per turn",
-      "colors": { "unavailable": "#648264", "selected": "#51db53" },
+      "colors": {
+        "unavailable": "#648264",
+        "selected": "#51db53"
+      },
       "levels": 8,
-      "providedStats": [{ "id": "movement", "modifier": 1 }]
+      "providedStats": [
+        {
+          "id": "movement",
+          "modifier": 1
+        }
+      ]
     },
     {
-      "colors": { "unavailable": "#648264", "selected": "#51db53" },
+      "colors": {
+        "unavailable": "#648264",
+        "selected": "#51db53"
+      },
       "id": "versatile",
-      "requires": [{ "id": "speed", "levels": 4 }],
+      "requires": [
+        {
+          "id": "speed",
+          "levels": 4
+        }
+      ],
       "name": "Versatile",
       "description": "Grants the Versatile ability",
       "cost": 1,
-      "providedAbilities": [{ "id": "versatile", "gain": true }]
+      "providedAbilities": [
+        {
+          "id": "versatile",
+          "gain": true
+        }
+      ]
     },
     {
-      "colors": { "unavailable": "#648264", "selected": "#51db53" },
+      "colors": {
+        "unavailable": "#648264",
+        "selected": "#51db53"
+      },
       "id": "extra-versatile",
-      "requires": [{ "id": "versatile", "levels": 1 }],
+      "requires": [
+        {
+          "id": "versatile",
+          "levels": 1
+        }
+      ],
       "name": "Extra Versatile",
       "description": "Grants the Extra Versatile ability",
       "cost": 1,
-      "providedAbilities": [{ "id": "extra-versatile", "gain": true }]
+      "providedAbilities": [
+        {
+          "id": "extra-versatile",
+          "gain": true
+        }
+      ]
     },
     {
-      "colors": { "unavailable": "#648264", "selected": "#51db53" },
+      "colors": {
+        "unavailable": "#648264",
+        "selected": "#51db53"
+      },
       "id": "dash",
-      "requires": [{ "id": "speed", "levels": 2 }],
+      "requires": [
+        {
+          "id": "speed",
+          "levels": 2
+        }
+      ],
       "name": "Dash",
       "description": "Grants the Dash ability",
       "cost": 1,
-      "providedAbilities": [{ "id": "dash", "gain": true }]
+      "providedAbilities": [
+        {
+          "id": "dash",
+          "gain": true
+        }
+      ]
     },
     {
-      "colors": { "unavailable": "#648264", "selected": "#51db53" },
+      "colors": {
+        "unavailable": "#648264",
+        "selected": "#51db53"
+      },
       "id": "advanced-dash",
-      "requires": [{ "id": "charge", "levels": 1 }],
+      "requires": [
+        {
+          "id": "charge",
+          "levels": 1
+        }
+      ],
       "name": "Dash+",
       "description": "Increases the movement of Dash by 2",
       "cost": 1,
       "levels": 2,
       "providedAbilities": [
-        { "id": "dash", "modifiers": [{ "id": "movement", "modifier": 2 }] }
+        {
+          "id": "dash",
+          "modifiers": [
+            {
+              "id": "movement",
+              "modifier": 2
+            }
+          ]
+        }
       ]
     },
     {
-      "colors": { "unavailable": "#648264", "selected": "#51db53" },
+      "colors": {
+        "unavailable": "#648264",
+        "selected": "#51db53"
+      },
       "id": "dash-expert",
-      "requires": [{ "id": "advanced-dash", "levels": 2 }],
+      "requires": [
+        {
+          "id": "advanced-dash",
+          "levels": 2
+        }
+      ],
       "name": "Dash Expert",
       "description": "Grants the Dash Expert ability",
       "cost": 1,
-      "providedAbilities": [{ "id": "dash-expert", "gain": true }]
+      "providedAbilities": [
+        {
+          "id": "dash-expert",
+          "gain": true
+        }
+      ]
     },
     {
-      "colors": { "unavailable": "#648264", "selected": "#51db53" },
+      "colors": {
+        "unavailable": "#648264",
+        "selected": "#51db53"
+      },
       "id": "charge",
-      "requires": [{ "id": "dash", "levels": 1 }],
+      "requires": [
+        {
+          "id": "dash",
+          "levels": 1
+        }
+      ],
       "name": "Charge",
       "description": "Grants the Charge ability",
       "cost": 1,
-      "providedAbilities": [{ "id": "charge", "gain": true }]
+      "providedAbilities": [
+        {
+          "id": "charge",
+          "gain": true
+        }
+      ]
     },
     {
-      "colors": { "unavailable": "#648264", "selected": "#51db53" },
+      "colors": {
+        "unavailable": "#648264",
+        "selected": "#51db53"
+      },
       "id": "breakthrough",
-      "requires": [{ "id": "charge", "levels": 1 }],
+      "requires": [
+        {
+          "id": "charge",
+          "levels": 1
+        }
+      ],
       "name": "Breakthrough",
       "description": "Grants you the ability to continue moving through units after a charge.",
       "cost": 1,
       "providedAbilities": [
         {
           "id": "charge",
-          "modifiers": [{ "id": "breakthrough", "modifer": 1, "modifier": 1 }]
+          "modifiers": [
+            {
+              "id": "breakthrough",
+              "modifer": 1,
+              "modifier": 1
+            }
+          ]
         }
       ]
     },
     {
-      "colors": { "unavailable": "#648264", "selected": "#51db53" },
+      "colors": {
+        "unavailable": "#648264",
+        "selected": "#51db53"
+      },
       "id": "advanced-charge",
-      "requires": [{ "id": "charge", "levels": 1 }],
+      "requires": [
+        {
+          "id": "charge",
+          "levels": 1
+        }
+      ],
       "name": "Charge+",
       "description": "Increases the movement of Charge by 2",
       "cost": 1,
       "providedAbilities": [
-        { "id": "charge", "modifiers": [{ "id": "dmg", "modifer": 1 }] }
+        {
+          "id": "charge",
+          "modifiers": [
+            {
+              "id": "dmg",
+              "modifer": 1
+            }
+          ]
+        }
       ]
     },
     {
-      "colors": { "unavailable": "#506b73", "selected": "#4dd2f7" },
+      "colors": {
+        "unavailable": "#506b73",
+        "selected": "#4dd2f7"
+      },
       "id": "flying",
-      "requires": [{ "id": "speed", "levels": 4 }],
+      "requires": [
+        {
+          "id": "speed",
+          "levels": 4
+        }
+      ],
       "name": "Flying",
       "description": "Grants you the ability to fly",
       "cost": 1,
-      "providedAbilities": [{ "id": "flying", "gain": true }]
+      "providedAbilities": [
+        {
+          "id": "flying",
+          "gain": true
+        }
+      ]
     },
     {
-      "colors": { "unavailable": "#506b73", "selected": "#4dd2f7" },
+      "colors": {
+        "unavailable": "#506b73",
+        "selected": "#4dd2f7"
+      },
       "id": "death-bomb",
-      "requires": [{ "id": "flying", "levels": 1 }],
+      "requires": [
+        {
+          "id": "flying",
+          "levels": 1
+        }
+      ],
       "name": "Death Bomb",
       "description": "Grants you the Death Bomb ability. Must be undead to use.",
       "cost": 1,
-      "providedAbilities": [{ "id": "death-bomb", "gain": true }]
+      "providedAbilities": [
+        {
+          "id": "death-bomb",
+          "gain": true
+        }
+      ]
     },
     {
-      "colors": { "unavailable": "#506b73", "selected": "#4dd2f7" },
+      "colors": {
+        "unavailable": "#506b73",
+        "selected": "#4dd2f7"
+      },
       "id": "swarm",
-      "requires": [{ "id": "flying", "levels": 1 }],
+      "requires": [
+        {
+          "id": "flying",
+          "levels": 1
+        }
+      ],
       "name": "Swarm",
       "description": "Grants you the Swarm ability.",
       "cost": 1,
-      "providedAbilities": [{ "id": "swarm", "gain": true }]
+      "providedAbilities": [
+        {
+          "id": "swarm",
+          "gain": true
+        }
+      ]
     },
     {
-      "colors": { "unavailable": "#506b73", "selected": "#4dd2f7" },
+      "colors": {
+        "unavailable": "#506b73",
+        "selected": "#4dd2f7"
+      },
       "id": "strafing-run",
-      "requires": [{ "id": "flying", "levels": 1 }],
+      "requires": [
+        {
+          "id": "flying",
+          "levels": 1
+        }
+      ],
       "name": "Strafing Run",
       "description": "Grants you the Strafing Run ability.",
       "cost": 1,
-      "providedAbilities": [{ "id": "strafing-run", "gain": true }]
+      "providedAbilities": [
+        {
+          "id": "strafing-run",
+          "gain": true
+        }
+      ]
     },
     {
-      "colors": { "unavailable": "#506b73", "selected": "#4dd2f7" },
+      "colors": {
+        "unavailable": "#506b73",
+        "selected": "#4dd2f7"
+      },
       "id": "advanced-strafing-run",
-      "requires": [{ "id": "strafing-run", "levels": 1 }],
+      "requires": [
+        {
+          "id": "strafing-run",
+          "levels": 1
+        }
+      ],
       "name": "Strafing Run+",
       "description": "Increases the number of targets by 3.",
       "levels": 2,
       "providedAbilities": [
-        { "id": "strafing-run", "modifiers": { "targets": 3 } }
+        {
+          "id": "strafing-run",
+          "modifiers": {
+            "targets": 3
+          }
+        }
       ]
     },
     {
-      "colors": { "unavailable": "#506b73", "selected": "#4dd2f7" },
+      "colors": {
+        "unavailable": "#506b73",
+        "selected": "#4dd2f7"
+      },
       "id": "advanced-flying",
-      "requires": [{ "id": "flying", "levels": 1 }],
+      "requires": [
+        {
+          "id": "flying",
+          "levels": 1
+        }
+      ],
       "name": "Advanced Flying",
       "description": "Increases the number of targets by 3.",
       "cost": 1,
-      "providedAbilities": [{ "id": "advanced-flying", "gain": true }]
+      "providedAbilities": [
+        {
+          "id": "advanced-flying",
+          "gain": true
+        }
+      ]
     },
     {
-      "colors": { "unavailable": "#506b73", "selected": "#4dd2f7" },
+      "colors": {
+        "unavailable": "#506b73",
+        "selected": "#4dd2f7"
+      },
       "id": "dive-bomb",
-      "requires": [{ "id": "advanced-flying", "levels": 1 }],
+      "requires": [
+        {
+          "id": "advanced-flying",
+          "levels": 1
+        }
+      ],
       "name": "Dive Bomb",
       "description": "Grants you the Dive Bomb ability.",
       "cost": 1,
-      "providedAbilities": [{ "id": "dive-bomb", "gain": true }]
+      "providedAbilities": [
+        {
+          "id": "dive-bomb",
+          "gain": true
+        }
+      ]
     },
     {
-      "colors": { "unavailable": "#506b73", "selected": "#4dd2f7" },
+      "colors": {
+        "unavailable": "#506b73",
+        "selected": "#4dd2f7"
+      },
       "id": "aerial-combat",
       "requires": [
-        { "id": "advanced-flying", "levels": 1 },
-        { "id": "dive-bomb", "levels": 1 }
+        {
+          "id": "advanced-flying",
+          "levels": 1
+        },
+        {
+          "id": "dive-bomb",
+          "levels": 1
+        }
       ],
       "name": "Aerial Combat",
       "description": "Grants you the Aerial Combat ability.",
       "cost": 1,
-      "providedAbilities": [{ "id": "aerial-combat", "gain": true }]
+      "providedAbilities": [
+        {
+          "id": "aerial-combat",
+          "gain": true
+        }
+      ]
     },
     {
-      "colors": { "unavailable": "#506b73", "selected": "#4dd2f7" },
+      "colors": {
+        "unavailable": "#506b73",
+        "selected": "#4dd2f7"
+      },
       "id": "aerial-evasion",
-      "requires": [{ "id": "aerial-combat", "levels": 1 }],
+      "requires": [
+        {
+          "id": "aerial-combat",
+          "levels": 1
+        }
+      ],
       "name": "Aerial Evasion",
       "description": "Grants you the Aerial Evasion ability.",
       "cost": 1,
-      "providedAbilities": [{ "id": "aerial-evasion", "gain": true }]
+      "providedAbilities": [
+        {
+          "id": "aerial-evasion",
+          "gain": true
+        }
+      ]
     },
     {
-      "colors": { "unavailable": "#403c3a", "selected": "#cd8150" },
+      "colors": {
+        "unavailable": "#403c3a",
+        "selected": "#cd8150"
+      },
       "id": "armor",
-      "requires": [{ "id": "basic", "levels": 1 }],
+      "requires": [
+        {
+          "id": "basic",
+          "levels": 1
+        }
+      ],
       "name": "Armor",
       "description": "Adds 1 Armor",
       "levels": 7,
       "levelCost": [1, 1, 2, 2, 3, 4, 4],
-      "providedStats": [{ "id": "armor", "modifier": 1 }]
+      "providedStats": [
+        {
+          "id": "armor",
+          "modifier": 1
+        }
+      ]
     },
     {
-      "colors": { "unavailable": "#403c3a", "selected": "#cd8150" },
+      "colors": {
+        "unavailable": "#403c3a",
+        "selected": "#cd8150"
+      },
       "id": "attentive",
-      "requires": [{ "id": "armor", "levels": 2 }],
+      "requires": [
+        {
+          "id": "armor",
+          "levels": 2
+        }
+      ],
       "name": "Attentive",
       "description": "Grants the Attentive ability",
-      "providedAbilities": [{ "id": "attentive", "gain": true }]
+      "providedAbilities": [
+        {
+          "id": "attentive",
+          "gain": true
+        }
+      ]
     },
     {
-      "colors": { "unavailable": "#403c3a", "selected": "#cd8150" },
+      "colors": {
+        "unavailable": "#403c3a",
+        "selected": "#cd8150"
+      },
       "id": "alert",
-      "requires": [{ "id": "attentive", "levels": 1 }],
+      "requires": [
+        {
+          "id": "attentive",
+          "levels": 1
+        }
+      ],
       "name": "Alert",
       "description": "Grants the Alert ability",
-      "providedAbilities": [{ "id": "alert", "gain": true }]
+      "providedAbilities": [
+        {
+          "id": "alert",
+          "gain": true
+        }
+      ]
     },
     {
-      "colors": { "unavailable": "#403c3a", "selected": "#cd8550" },
+      "colors": {
+        "unavailable": "#403c3a",
+        "selected": "#cd8550"
+      },
       "id": "reactive-armor",
-      "requires": [{ "id": "armor", "levels": 5 }],
+      "requires": [
+        {
+          "id": "armor",
+          "levels": 5
+        }
+      ],
       "name": "Reactive Armor",
       "description": "Sets your AC to 1 and grants Reactive Armor.",
       "cost": 1,
-      "providedStats": [{ "id": "armor", "set": 1, "modifier": 1 }],
-      "providedAbilities": [{ "id": "reactive-armor", "gain": true }]
+      "providedStats": [
+        {
+          "id": "armor",
+          "set": 1,
+          "modifier": 1
+        }
+      ],
+      "providedAbilities": [
+        {
+          "id": "reactive-armor",
+          "gain": true
+        }
+      ]
     },
     {
-      "colors": { "unavailable": "#403c3a", "selected": "#cd8150" },
+      "colors": {
+        "unavailable": "#403c3a",
+        "selected": "#cd8150"
+      },
       "id": "reactive-armor-2",
-      "requires": [{ "id": "reactive-armor", "levels": 1 }],
+      "requires": [
+        {
+          "id": "reactive-armor",
+          "levels": 1
+        }
+      ],
       "name": "Reactive Armor 2",
       "description": "Increases your base AC to 2",
       "cost": 1,
-      "providedStats": [{ "id": "armor", "set": 2, "modifier": 2 }]
+      "providedStats": [
+        {
+          "id": "armor",
+          "set": 2,
+          "modifier": 2
+        }
+      ]
     },
     {
-      "colors": { "unavailable": "#403c3a", "selected": "#cd8150" },
+      "colors": {
+        "unavailable": "#403c3a",
+        "selected": "#cd8150"
+      },
       "id": "defend-1",
-      "requires": [{ "id": "armor", "levels": 1 }],
+      "requires": [
+        {
+          "id": "armor",
+          "levels": 1
+        }
+      ],
       "name": "Defend 1",
       "description": "Grants the ability to defend and adds 1 HP.",
       "cost": 1,
-      "providedStats": [{ "id": "hp", "modifier": 1 }],
-      "providedAbilities": [{ "id": "defend", "gain": true }]
+      "providedStats": [
+        {
+          "id": "hp",
+          "modifier": 1
+        }
+      ],
+      "providedAbilities": [
+        {
+          "id": "defend",
+          "gain": true
+        }
+      ]
     },
     {
-      "colors": { "unavailable": "#8e514f", "selected": "#d78142" },
+      "colors": {
+        "unavailable": "#8e514f",
+        "selected": "#d78142"
+      },
       "id": "defend-2",
-      "requires": [{ "id": "defend-1", "levels": 1 }],
+      "requires": [
+        {
+          "id": "defend-1",
+          "levels": 1
+        }
+      ],
       "name": "Defend 2",
       "description": "Increases the HP gained by Defend",
       "cost": 1,
@@ -711,182 +1191,422 @@
         {
           "id": "defend",
           "modifier": 1,
-          "modifiers": [{ "id": "hp", "modifier": 1, "set": false }]
+          "modifiers": [
+            {
+              "id": "hp",
+              "modifier": 1,
+              "set": false
+            }
+          ]
         }
       ]
     },
     {
-      "colors": { "unavailable": "#403c3a", "selected": "#cd8150" },
+      "colors": {
+        "unavailable": "#403c3a",
+        "selected": "#cd8150"
+      },
       "id": "deflect-1",
-      "requires": [{ "id": "defend-2", "levels": 1 }],
+      "requires": [
+        {
+          "id": "defend-2",
+          "levels": 1
+        }
+      ],
       "name": "Deflection",
       "description": "Grants the Deflect ability.",
       "cost": 1,
-      "providedAbilities": [{ "id": "deflect", "gain": true }]
+      "providedAbilities": [
+        {
+          "id": "deflect",
+          "gain": true
+        }
+      ]
     },
     {
-      "colors": { "unavailable": "#403c3a", "selected": "#cd8150" },
+      "colors": {
+        "unavailable": "#403c3a",
+        "selected": "#cd8150"
+      },
       "id": "deflect-2",
-      "requires": [{ "id": "deflect-1", "levels": 1 }],
+      "requires": [
+        {
+          "id": "deflect-1",
+          "levels": 1
+        }
+      ],
       "name": "Deflection+",
       "description": "Makes it easier to deflect magic attacks.",
       "cost": 1,
       "providedAbilities": [
         {
           "id": "deflect",
-          "modifiers": [{ "id": "lowerRange", "modifier": -1, "set": false }]
+          "modifiers": [
+            {
+              "id": "lowerRange",
+              "modifier": -1,
+              "set": false
+            }
+          ]
         }
       ]
     },
     {
-      "colors": { "unavailable": "#403c3a", "selected": "#cd8150" },
+      "colors": {
+        "unavailable": "#403c3a",
+        "selected": "#cd8150"
+      },
       "id": "guardian-1",
-      "requires": [{ "id": "defend-1", "levels": 1 }],
+      "requires": [
+        {
+          "id": "defend-1",
+          "levels": 1
+        }
+      ],
       "name": "Guardian",
       "description": "Grants the Guardian ability",
       "cost": 1,
-      "providedAbilities": [{ "id": "guardian", "gain": true }]
+      "providedAbilities": [
+        {
+          "id": "guardian",
+          "gain": true
+        }
+      ]
     },
     {
-      "colors": { "unavailable": "#403c3a", "selected": "#cd8150" },
+      "colors": {
+        "unavailable": "#403c3a",
+        "selected": "#cd8150"
+      },
       "id": "guardian-2",
-      "requires": [{ "id": "guardian-1", "levels": 1 }],
+      "requires": [
+        {
+          "id": "guardian-1",
+          "levels": 1
+        }
+      ],
       "name": "Guardian+",
       "description": "Allows you guard an additional attack",
       "cost": 1,
       "providedAbilities": [
         {
           "id": "guardian",
-          "modifiers": [{ "id": "attacks", "modifier": 1, "set": false }]
+          "modifiers": [
+            {
+              "id": "attacks",
+              "modifier": 1,
+              "set": false
+            }
+          ]
         }
       ]
     },
     {
-      "colors": { "unavailable": "#65748f", "selected": "#7391c9" },
+      "colors": {
+        "unavailable": "#65748f",
+        "selected": "#7391c9"
+      },
       "id": "magic-range-1",
-      "requires": [{ "id": "basic-magic", "levels": 1 }],
+      "requires": [
+        {
+          "id": "basic-magic",
+          "levels": 1
+        }
+      ],
       "name": "Spell Range",
       "description": "Increases the range of your magic.",
       "levels": 3,
       "providedAbilities": [
         {
           "id": "spellcasting",
-          "modifiers": [{ "id": "range", "modifier": 1 }]
+          "modifiers": [
+            {
+              "id": "range",
+              "modifier": 1
+            }
+          ]
         }
       ]
     },
     {
-      "colors": { "unavailable": "#65748f", "selected": "#7391c9" },
+      "colors": {
+        "unavailable": "#65748f",
+        "selected": "#7391c9"
+      },
       "id": "concentration-1",
-      "requires": [{ "id": "basic-magic", "levels": 1 }],
+      "requires": [
+        {
+          "id": "basic-magic",
+          "levels": 1
+        }
+      ],
       "name": "Concentration+",
       "description": "Add +1 to concentration checks.",
       "levels": 2,
       "providedAbilities": [
         {
           "id": "spellcasting",
-          "modifiers": [{ "id": "concentration", "modifier": 1 }]
+          "modifiers": [
+            {
+              "id": "concentration",
+              "modifier": 1
+            }
+          ]
         }
       ]
     },
     {
       "id": "holy-casting",
       "name": "Holy-Divine Casting",
-      "requires": [{ "id": "basic-magic", "levels": 1 }],
+      "requires": [
+        {
+          "id": "basic-magic",
+          "levels": 1
+        }
+      ],
       "description": "Grants you the ability to cast Holy/Divine Spells.",
-      "colors": { "unavailable": "#C5B986", "selected": "#e2c846" },
+      "colors": {
+        "unavailable": "#C5B986",
+        "selected": "#e2c846"
+      },
       "cost": 1,
       "providedAbilities": [
-        { "id": "smite", "gain": true },
-        { "id": "guiding-bolt", "gain": true },
-        { "id": "death-ward", "gain": true },
-        { "id": "restoration", "gain": true },
-        { "id": "turn-undead", "gain": true },
-        { "id": "bless", "gain": true },
-        { "id": "spirit-guardians", "gain": true }
+        {
+          "id": "smite",
+          "gain": true
+        },
+        {
+          "id": "guiding-bolt",
+          "gain": true
+        },
+        {
+          "id": "death-ward",
+          "gain": true
+        },
+        {
+          "id": "restoration",
+          "gain": true
+        },
+        {
+          "id": "turn-undead",
+          "gain": true
+        },
+        {
+          "id": "bless",
+          "gain": true
+        },
+        {
+          "id": "spirit-guardians",
+          "gain": true
+        }
       ]
     },
     {
       "id": "holy-power",
       "name": "Holy Power",
-      "requires": [{ "id": "holy-casting", "levels": 1 }],
+      "requires": [
+        {
+          "id": "holy-casting",
+          "levels": 1
+        }
+      ],
       "description": "Increases the damage of Smite and Guiding Bolt by 1",
-      "colors": { "unavailable": "#C5B986", "selected": "#948540" },
+      "colors": {
+        "unavailable": "#C5B986",
+        "selected": "#948540"
+      },
       "cost": 1,
       "providedAbilities": [
-        { "id": "smite", "modifiers": [{ "id": "dmg", "modifier": 1 }] },
-        { "id": "guiding-bolt", "modifiers": [{ "id": "dmg", "modifier": 1 }] }
+        {
+          "id": "smite",
+          "modifiers": [
+            {
+              "id": "dmg",
+              "modifier": 1
+            }
+          ]
+        },
+        {
+          "id": "guiding-bolt",
+          "modifiers": [
+            {
+              "id": "dmg",
+              "modifier": 1
+            }
+          ]
+        }
       ]
     },
     {
-      "colors": { "unavailable": "#C5B986", "selected": "#e6c11d" },
+      "colors": {
+        "unavailable": "#C5B986",
+        "selected": "#e6c11d"
+      },
       "id": "advanced-guiding-bolt",
-      "requires": [{ "id": "holy-power", "levels": 1 }],
+      "requires": [
+        {
+          "id": "holy-power",
+          "levels": 1
+        }
+      ],
       "name": "Advanced Guiding Bolt",
       "description": "Guiding bolt now gives allies +2 to hit the target next round.",
       "cost": 1,
-      "providedAbilities": [{ "id": "guiding-bolt", "modifiers": { "hit": 1 } }]
+      "providedAbilities": [
+        {
+          "id": "guiding-bolt",
+          "modifiers": {
+            "hit": 1
+          }
+        }
+      ]
     },
     {
-      "colors": { "unavailable": "#3f5576", "selected": "#1a72f5" },
+      "colors": {
+        "unavailable": "#3f5576",
+        "selected": "#1a72f5"
+      },
       "id": "swimming",
-      "requires": [{ "id": "speed", "levels": 1 }],
+      "requires": [
+        {
+          "id": "speed",
+          "levels": 1
+        }
+      ],
       "name": "Swimming",
       "description": "Congrats! You are a unit.",
       "cost": 1,
-      "providedAbilities": [{ "id": "swimming", "gain": true }]
+      "providedAbilities": [
+        {
+          "id": "swimming",
+          "gain": true
+        }
+      ]
     },
     {
-      "colors": { "unavailable": "#3f5576", "selected": "#1a72f5" },
+      "colors": {
+        "unavailable": "#3f5576",
+        "selected": "#1a72f5"
+      },
       "id": "advanced-swimming",
-      "requires": [{ "id": "swimming", "levels": 1 }],
+      "requires": [
+        {
+          "id": "swimming",
+          "levels": 1
+        }
+      ],
       "name": "Advanded Swimming",
       "description": "Increases potential water speed by 3.",
       "cost": 1,
       "providedAbilities": [
-        { "id": "swimming", "modifiers": { "movement": 3 } }
+        {
+          "id": "swimming",
+          "modifiers": {
+            "movement": 3
+          }
+        }
       ]
     },
     {
-      "colors": { "unavailable": "#3f5576", "selected": "#1a72f5" },
+      "colors": {
+        "unavailable": "#3f5576",
+        "selected": "#1a72f5"
+      },
       "id": "ferry",
-      "requires": [{ "id": "advanced-swimming", "levels": 1 }],
+      "requires": [
+        {
+          "id": "advanced-swimming",
+          "levels": 1
+        }
+      ],
       "name": "Ferry",
       "description": "Grants the Ferry ability",
       "cost": 1,
-      "providedAbilities": [{ "id": "ferry", "gain": true }]
+      "providedAbilities": [
+        {
+          "id": "ferry",
+          "gain": true
+        }
+      ]
     },
     {
-      "colors": { "unavailable": "#3f5576", "selected": "#1a72f5" },
+      "colors": {
+        "unavailable": "#3f5576",
+        "selected": "#1a72f5"
+      },
       "id": "diving",
-      "requires": [{ "id": "advanced-swimming", "levels": 1 }],
+      "requires": [
+        {
+          "id": "advanced-swimming",
+          "levels": 1
+        }
+      ],
       "name": "Diving",
       "description": "Grants the Diving ability",
       "cost": 2,
-      "providedAbilities": [{ "id": "diving", "gain": true }]
+      "providedAbilities": [
+        {
+          "id": "diving",
+          "gain": true
+        }
+      ]
     },
     {
-      "colors": { "unavailable": "#3f5576", "selected": "#1a72f5" },
+      "colors": {
+        "unavailable": "#3f5576",
+        "selected": "#1a72f5"
+      },
       "id": "submarine-transportation",
-      "requires": [{ "id": "diving", "levels": 1 }],
+      "requires": [
+        {
+          "id": "diving",
+          "levels": 1
+        }
+      ],
       "name": "Submarine Transportation",
       "description": "Grants the Submarine Transportation ability",
       "cost": 1,
-      "providedAbilities": [{ "id": "submarine-transportation", "gain": true }]
+      "providedAbilities": [
+        {
+          "id": "submarine-transportation",
+          "gain": true
+        }
+      ]
     },
     {
-      "colors": { "unavailable": "#3f5576", "selected": "#1a72f5" },
+      "colors": {
+        "unavailable": "#3f5576",
+        "selected": "#1a72f5"
+      },
       "id": "attack-from-the-deep",
-      "requires": [{ "id": "diving", "levels": 1 }],
+      "requires": [
+        {
+          "id": "diving",
+          "levels": 1
+        }
+      ],
       "name": "Attack From The Deep",
       "description": "Grants the Attack From The Deep ability",
       "cost": 2,
-      "providedAbilities": [{ "id": "attack-from-the-deep", "gain": true }]
+      "providedAbilities": [
+        {
+          "id": "attack-from-the-deep",
+          "gain": true
+        }
+      ]
     },
     {
-      "colors": { "unavailable": "#7b5290", "selected": "#ab38d9" },
+      "colors": {
+        "unavailable": "#7b5290",
+        "selected": "#ab38d9"
+      },
       "id": "191",
-      "requires": [{ "id": "basic-magic", "levels": 1 }],
+      "requires": [
+        {
+          "id": "basic-magic",
+          "levels": 1
+        }
+      ],
       "name": "Enchantment",
       "cost": 1,
       "providedAbilities": [
@@ -896,14 +1616,32 @@
           "modifiers": [],
           "gain": true
         },
-        { "id": "beguile", "modifier": 1, "modifiers": [], "gain": true },
-        { "id": "dominate", "modifier": 1, "modifiers": [], "gain": true }
+        {
+          "id": "beguile",
+          "modifier": 1,
+          "modifiers": [],
+          "gain": true
+        },
+        {
+          "id": "dominate",
+          "modifier": 1,
+          "modifiers": [],
+          "gain": true
+        }
       ]
     },
     {
-      "colors": { "unavailable": "#7b5290", "selected": "#ab38d9" },
+      "colors": {
+        "unavailable": "#7b5290",
+        "selected": "#ab38d9"
+      },
       "id": "180",
-      "requires": [{ "id": "191", "levels": 1 }],
+      "requires": [
+        {
+          "id": "191",
+          "levels": 1
+        }
+      ],
       "name": "Beguile+",
       "description": "Beguiled opponents can now be Compelled and Charmed.",
       "cost": 1,
@@ -912,16 +1650,32 @@
           "id": "beguile",
           "modifier": 1,
           "modifiers": [
-            { "id": "compelled", "modifier": 1, "set": false },
-            { "id": "charmed", "modifier": 1, "set": false }
+            {
+              "id": "compelled",
+              "modifier": 1,
+              "set": false
+            },
+            {
+              "id": "charmed",
+              "modifier": 1,
+              "set": false
+            }
           ]
         }
       ]
     },
     {
-      "colors": { "unavailable": "#7b5290", "selected": "#ab38d9" },
+      "colors": {
+        "unavailable": "#7b5290",
+        "selected": "#ab38d9"
+      },
       "id": "beguile-3",
-      "requires": [{ "id": "180", "levels": 1 }],
+      "requires": [
+        {
+          "id": "180",
+          "levels": 1
+        }
+      ],
       "name": "Beguile++",
       "description": "Charmed opponents make 1 fewer attack against you.",
       "cost": 1,
@@ -929,28 +1683,56 @@
         {
           "id": "beguile",
           "modifier": 1,
-          "modifiers": [{ "id": "numAttacks", "modifier": 1, "set": false }]
+          "modifiers": [
+            {
+              "id": "numAttacks",
+              "modifier": 1,
+              "set": false
+            }
+          ]
         }
       ]
     },
     {
-      "colors": { "unavailable": "#7b5290", "selected": "#ab38d9" },
+      "colors": {
+        "unavailable": "#7b5290",
+        "selected": "#ab38d9"
+      },
       "id": "alter-emotions-1",
-      "requires": [{ "id": "191", "levels": 1 }],
+      "requires": [
+        {
+          "id": "191",
+          "levels": 1
+        }
+      ],
       "name": "Alter Emotions+",
       "cost": 1,
       "providedAbilities": [
         {
           "id": "alter-emotions",
           "modifier": 1,
-          "modifiers": [{ "id": "amt", "modifier": 1, "set": false }]
+          "modifiers": [
+            {
+              "id": "amt",
+              "modifier": 1,
+              "set": false
+            }
+          ]
         }
       ]
     },
     {
-      "colors": { "unavailable": "#7b5290", "selected": "#ab38d9" },
+      "colors": {
+        "unavailable": "#7b5290",
+        "selected": "#ab38d9"
+      },
       "id": "soothe",
-      "requires": [{ "id": "alter-emotions-1", "levels": 1 }],
+      "requires": [
+        {
+          "id": "alter-emotions-1",
+          "levels": 1
+        }
+      ],
       "name": "Alter Emotions++",
       "description": "You can cast Alter Emotions on additional targets adjacent to the spell's target.",
       "cost": 1,
@@ -958,24 +1740,51 @@
         {
           "id": "alter-emotions",
           "modifier": 1,
-          "modifiers": [{ "id": "adjacent", "modifier": 1, "set": false }]
+          "modifiers": [
+            {
+              "id": "adjacent",
+              "modifier": 1,
+              "set": false
+            }
+          ]
         }
       ]
     },
     {
-      "colors": { "unavailable": "#7fbfba", "selected": "#3ceac8" },
+      "colors": {
+        "unavailable": "#7fbfba",
+        "selected": "#3ceac8"
+      },
       "id": "command",
-      "requires": [{ "id": "basic", "levels": 1 }],
+      "requires": [
+        {
+          "id": "basic",
+          "levels": 1
+        }
+      ],
       "name": "Command",
       "cost": 1,
       "providedAbilities": [
-        { "id": "command", "modifier": 1, "modifiers": [], "gain": true }
+        {
+          "id": "command",
+          "modifier": 1,
+          "modifiers": [],
+          "gain": true
+        }
       ]
     },
     {
-      "colors": { "unavailable": "#7fbfba", "selected": "#3ceac8" },
+      "colors": {
+        "unavailable": "#7fbfba",
+        "selected": "#3ceac8"
+      },
       "id": "command-plus",
-      "requires": [{ "id": "command", "levels": 1 }],
+      "requires": [
+        {
+          "id": "command",
+          "levels": 1
+        }
+      ],
       "name": "Command+",
       "levels": 3,
       "levelCost": [1, 1, 1],
@@ -983,24 +1792,51 @@
         {
           "id": "command",
           "modifier": 1,
-          "modifiers": [{ "id": "commandRadius", "modifier": 50, "set": false }]
+          "modifiers": [
+            {
+              "id": "commandRadius",
+              "modifier": 50,
+              "set": false
+            }
+          ]
         }
       ]
     },
     {
-      "colors": { "unavailable": "#7fbfba", "selected": "#3ceac8" },
+      "colors": {
+        "unavailable": "#7fbfba",
+        "selected": "#3ceac8"
+      },
       "id": "aggro-command",
-      "requires": [{ "id": "command-plus", "levels": 1 }],
+      "requires": [
+        {
+          "id": "command-plus",
+          "levels": 1
+        }
+      ],
       "name": "Aggressive Commander",
       "cost": 1,
       "providedAbilities": [
-        { "id": "aggro-command", "modifier": 1, "modifiers": [], "gain": true }
+        {
+          "id": "aggro-command",
+          "modifier": 1,
+          "modifiers": [],
+          "gain": true
+        }
       ]
     },
     {
-      "colors": { "unavailable": "#7fbfba", "selected": "#3ceac8" },
+      "colors": {
+        "unavailable": "#7fbfba",
+        "selected": "#3ceac8"
+      },
       "id": "command-plus-2",
-      "requires": [{ "id": "command-plus", "levels": 2 }],
+      "requires": [
+        {
+          "id": "command-plus",
+          "levels": 2
+        }
+      ],
       "name": "Energetic Commander",
       "cost": 1,
       "providedAbilities": [
@@ -1013,61 +1849,129 @@
       ]
     },
     {
-      "colors": { "unavailable": "#7fbfba", "selected": "#3ceac8" },
+      "colors": {
+        "unavailable": "#7fbfba",
+        "selected": "#3ceac8"
+      },
       "id": "command-2",
-      "requires": [{ "id": "command", "levels": 1 }],
+      "requires": [
+        {
+          "id": "command",
+          "levels": 1
+        }
+      ],
       "name": "Rally",
       "cost": 1,
       "providedAbilities": [
-        { "id": "rally", "modifier": 1, "modifiers": [], "gain": true }
+        {
+          "id": "rally",
+          "modifier": 1,
+          "modifiers": [],
+          "gain": true
+        }
       ]
     },
     {
-      "colors": { "unavailable": "#7fbfba", "selected": "#3ceac8" },
+      "colors": {
+        "unavailable": "#7fbfba",
+        "selected": "#3ceac8"
+      },
       "id": "rally+",
-      "requires": [{ "id": "command-2", "levels": 1 }],
+      "requires": [
+        {
+          "id": "command-2",
+          "levels": 1
+        }
+      ],
       "name": "Rally+",
       "cost": 1,
       "providedAbilities": [
         {
           "id": "rally",
           "modifier": 1,
-          "modifiers": [{ "id": "hp", "modifier": 2, "set": false }]
+          "modifiers": [
+            {
+              "id": "hp",
+              "modifier": 2,
+              "set": false
+            }
+          ]
         },
         {
           "id": "rally-2",
-          "modifiers": [{ "id": "hp", "modifier": 2, "set": false }],
+          "modifiers": [
+            {
+              "id": "hp",
+              "modifier": 2,
+              "set": false
+            }
+          ],
           "gain": false
         }
       ]
     },
     {
-      "colors": { "unavailable": "#7fbfba", "selected": "#3ceac8" },
+      "colors": {
+        "unavailable": "#7fbfba",
+        "selected": "#3ceac8"
+      },
       "id": "command-2-2",
-      "requires": [{ "id": "command-2", "levels": 1 }],
+      "requires": [
+        {
+          "id": "command-2",
+          "levels": 1
+        }
+      ],
       "name": "Ordered Strike",
       "cost": 1,
       "providedAbilities": [
         {
           "id": "rally",
-          "modifiers": [{ "id": "bonus", "modifier": 1, "set": false }]
+          "modifiers": [
+            {
+              "id": "bonus",
+              "modifier": 1,
+              "set": false
+            }
+          ]
         }
       ]
     },
     {
-      "colors": { "unavailable": "#7fbfba", "selected": "#3ceac8" },
+      "colors": {
+        "unavailable": "#7fbfba",
+        "selected": "#3ceac8"
+      },
       "id": "command-2-2-1",
-      "requires": [{ "id": "command-2-2", "levels": 1 }],
+      "requires": [
+        {
+          "id": "command-2-2",
+          "levels": 1
+        }
+      ],
       "name": "Ordered Strike 2",
       "cost": 1,
       "providedAbilities": [
-        { "id": "rally-2", "modifier": 1, "modifiers": [], "gain": true }
+        {
+          "id": "rally-2",
+          "modifier": 1,
+          "modifiers": [],
+          "gain": true
+        }
       ]
     },
     {
-      "colors": { "unavailable": "#bd7859", "selected": "#d48630" },
+      "colors": {
+        "unavailable": "#bd7859",
+        "selected": "#d48630"
+      },
       "id": "brace",
-      "requires": [{ "id": "defend-2", "levels": 1 }],
+      "requires": [
+        {
+          "id": "defend-2",
+          "levels": 1
+        }
+      ],
       "name": "Brace",
       "description": "Brace for attacks while defending, negating charge effects and damaging nearby enemies.",
       "cost": 1,
@@ -1075,16 +1979,31 @@
         {
           "id": "defend",
           "modifier": 1,
-          "modifiers": [{ "id": "brace", "modifier": 1, "set": false }]
+          "modifiers": [
+            {
+              "id": "brace",
+              "modifier": 1,
+              "set": false
+            }
+          ]
         }
       ]
     },
     {
-      "colors": { "unavailable": "#d3976b", "selected": "#d46430" },
+      "colors": {
+        "unavailable": "#d3976b",
+        "selected": "#d46430"
+      },
       "id": "defend-2-3",
       "requires": [
-        { "id": "defend-2", "levels": 1 },
-        { "id": "guardian-2", "levels": 1 }
+        {
+          "id": "defend-2",
+          "levels": 1
+        },
+        {
+          "id": "guardian-2",
+          "levels": 1
+        }
       ],
       "requirementType": "or",
       "name": "Attack of Opportunity",
@@ -1099,40 +2018,89 @@
       ]
     },
     {
-      "colors": { "unavailable": "#403c3a", "selected": "#cd8150" },
+      "colors": {
+        "unavailable": "#403c3a",
+        "selected": "#cd8150"
+      },
       "id": "professionals",
-      "requires": [{ "id": "armor", "levels": 3 }],
+      "requires": [
+        {
+          "id": "armor",
+          "levels": 3
+        }
+      ],
       "name": "Professionals",
       "description": "Grants the \"Professionals\" ability.",
       "cost": 1,
       "providedAbilities": [
-        { "id": "professionals", "modifier": 1, "modifiers": [], "gain": true }
+        {
+          "id": "professionals",
+          "modifier": 1,
+          "modifiers": [],
+          "gain": true
+        }
       ]
     },
     {
-      "colors": { "unavailable": "#8eaf60", "selected": "#b7ff2c" },
+      "colors": {
+        "unavailable": "#8eaf60",
+        "selected": "#b7ff2c"
+      },
       "id": "basic-magic-5",
-      "requires": [{ "id": "basic-magic", "levels": 1 }],
+      "requires": [
+        {
+          "id": "basic-magic",
+          "levels": 1
+        }
+      ],
       "name": "Necromancy",
       "description": "Cast Necromancer spells.",
       "cost": 1,
       "providedAbilities": [
-        { "id": "necromancy", "modifier": 1, "modifiers": [], "gain": true },
+        {
+          "id": "necromancy",
+          "modifier": 1,
+          "modifiers": [],
+          "gain": true
+        },
         {
           "id": "raise-dead-copy",
           "modifier": 1,
           "modifiers": [],
           "gain": true
         },
-        { "id": "raise-dead", "modifier": 1, "modifiers": [], "gain": true },
-        { "id": "knit-flesh", "modifier": 1, "modifiers": [], "gain": true },
-        { "id": "wither", "modifier": 1, "modifiers": [], "gain": true }
+        {
+          "id": "raise-dead",
+          "modifier": 1,
+          "modifiers": [],
+          "gain": true
+        },
+        {
+          "id": "knit-flesh",
+          "modifier": 1,
+          "modifiers": [],
+          "gain": true
+        },
+        {
+          "id": "wither",
+          "modifier": 1,
+          "modifiers": [],
+          "gain": true
+        }
       ]
     },
     {
-      "colors": { "unavailable": "#8eaf60", "selected": "#b7ff2c" },
+      "colors": {
+        "unavailable": "#8eaf60",
+        "selected": "#b7ff2c"
+      },
       "id": "necromancy-raise-dead",
-      "requires": [{ "id": "basic-magic-5", "levels": 1 }],
+      "requires": [
+        {
+          "id": "basic-magic-5",
+          "levels": 1
+        }
+      ],
       "name": "Raise Dead+",
       "description": "Increases the health of raised units.",
       "cost": 1,
@@ -1140,14 +2108,28 @@
         {
           "id": "raise-dead",
           "modifier": 1,
-          "modifiers": [{ "id": "raiseHp", "modifier": 25, "set": false }]
+          "modifiers": [
+            {
+              "id": "raiseHp",
+              "modifier": 25,
+              "set": false
+            }
+          ]
         }
       ]
     },
     {
-      "colors": { "unavailable": "#8eaf60", "selected": "#b7ff2c" },
+      "colors": {
+        "unavailable": "#8eaf60",
+        "selected": "#b7ff2c"
+      },
       "id": "necromancy-raise-dead-1",
-      "requires": [{ "id": "necromancy-raise-dead", "levels": 1 }],
+      "requires": [
+        {
+          "id": "necromancy-raise-dead",
+          "levels": 1
+        }
+      ],
       "name": "Raise Dead++",
       "description": "Raise units to full health.",
       "cost": 1,
@@ -1155,14 +2137,28 @@
         {
           "id": "raise-dead",
           "modifier": 1,
-          "modifiers": [{ "id": "raiseHp", "modifier": 50, "set": false }]
+          "modifiers": [
+            {
+              "id": "raiseHp",
+              "modifier": 50,
+              "set": false
+            }
+          ]
         }
       ]
     },
     {
-      "colors": { "unavailable": "#8eaf60", "selected": "#b7ff2c" },
+      "colors": {
+        "unavailable": "#8eaf60",
+        "selected": "#b7ff2c"
+      },
       "id": "necro-prof",
-      "requires": [{ "id": "basic-magic-5", "levels": 1 }],
+      "requires": [
+        {
+          "id": "basic-magic-5",
+          "levels": 1
+        }
+      ],
       "name": "Necromantic Profiency",
       "description": "Increases the number of necromancy spells you can cast",
       "levels": 2,
@@ -1171,14 +2167,28 @@
         {
           "id": "necromancy",
           "modifier": 1,
-          "modifiers": [{ "id": "slots", "modifier": 2, "set": false }]
+          "modifiers": [
+            {
+              "id": "slots",
+              "modifier": 2,
+              "set": false
+            }
+          ]
         }
       ]
     },
     {
-      "colors": { "unavailable": "#8eaf60", "selected": "#b7ff2c" },
+      "colors": {
+        "unavailable": "#8eaf60",
+        "selected": "#b7ff2c"
+      },
       "id": "necro-prof-1",
-      "requires": [{ "id": "necro-prof", "levels": 1 }],
+      "requires": [
+        {
+          "id": "necro-prof",
+          "levels": 1
+        }
+      ],
       "name": "Necromantic Mastery",
       "description": "Further increases the number of spells you can cast",
       "cost": 1,
@@ -1186,14 +2196,28 @@
         {
           "id": "necromancy",
           "modifier": 1,
-          "modifiers": [{ "id": "slots", "modifier": 1, "set": false }]
+          "modifiers": [
+            {
+              "id": "slots",
+              "modifier": 1,
+              "set": false
+            }
+          ]
         }
       ]
     },
     {
-      "colors": { "unavailable": "#8eaf60", "selected": "#b7ff2c" },
+      "colors": {
+        "unavailable": "#8eaf60",
+        "selected": "#b7ff2c"
+      },
       "id": "necro-prof-2",
-      "requires": [{ "id": "necro-prof", "levels": 1 }],
+      "requires": [
+        {
+          "id": "necro-prof",
+          "levels": 1
+        }
+      ],
       "name": "Necromancer",
       "description": "You can now cast 2 necromancy spells per action.",
       "cost": 1,
@@ -1202,7 +2226,11 @@
           "id": "necromancy",
           "modifier": 1,
           "modifiers": [
-            { "id": "spellsPerAction", "modifier": 1, "set": false }
+            {
+              "id": "spellsPerAction",
+              "modifier": 1,
+              "set": false
+            }
           ]
         }
       ]
@@ -1210,167 +2238,334 @@
     {
       "id": "greater-restoration",
       "name": "Greater Restoration",
-      "requires": [{ "id": "holy-casting", "levels": 1 }],
+      "requires": [
+        {
+          "id": "holy-casting",
+          "levels": 1
+        }
+      ],
       "description": "Restoration now heals 5 HP.\n\nDeath Ward restores units to 3 HP.",
-      "colors": { "unavailable": "#C5B986", "selected": "#bda841" },
+      "colors": {
+        "unavailable": "#C5B986",
+        "selected": "#bda841"
+      },
       "cost": 1,
       "providedAbilities": [
         {
           "id": "restoration",
           "modifier": 1,
-          "modifiers": [{ "id": "hp", "modifier": 2, "set": false }]
+          "modifiers": [
+            {
+              "id": "hp",
+              "modifier": 2,
+              "set": false
+            }
+          ]
         },
         {
           "id": "death-ward",
           "modifier": 1,
-          "modifiers": [{ "id": "hp", "modifier": 1, "set": false }]
+          "modifiers": [
+            {
+              "id": "hp",
+              "modifier": 1,
+              "set": false
+            }
+          ]
         }
       ]
     },
     {
       "id": "divine-restoration",
       "name": "Divine Restoration",
-      "requires": [{ "id": "greater-restoration", "levels": 1 }],
+      "requires": [
+        {
+          "id": "greater-restoration",
+          "levels": 1
+        }
+      ],
       "description": "Restoration can now be cast for 2 spell slots and heals 10 HP if done this way.",
-      "colors": { "unavailable": "#C5B986", "selected": "#bda841" },
+      "colors": {
+        "unavailable": "#C5B986",
+        "selected": "#bda841"
+      },
       "cost": 1,
       "providedAbilities": [
         {
           "id": "restoration",
           "modifier": 1,
-          "modifiers": [{ "id": "divine", "modifier": 1, "set": false }]
+          "modifiers": [
+            {
+              "id": "divine",
+              "modifier": 1,
+              "set": false
+            }
+          ]
         }
       ]
     },
     {
       "id": "holy-avenger",
       "name": "Holy Avenger",
-      "requires": [{ "id": "holy-power", "levels": 1 }],
-      "colors": { "unavailable": "#C5B986", "selected": "#948540" },
+      "requires": [
+        {
+          "id": "holy-power",
+          "levels": 1
+        }
+      ],
+      "colors": {
+        "unavailable": "#C5B986",
+        "selected": "#948540"
+      },
       "cost": 1
     },
     {
       "id": "undead-scourge",
       "name": "Undead Scourge",
       "requires": [
-        { "id": "holy-power", "levels": 1 },
-        { "levels": "1", "id": "paragon-of-divintiy" }
+        {
+          "id": "holy-power",
+          "levels": 1
+        },
+        {
+          "levels": "1",
+          "id": "paragon-of-divintiy"
+        }
       ],
-      "colors": { "unavailable": "#C5B986", "selected": "#948540" },
+      "colors": {
+        "unavailable": "#C5B986",
+        "selected": "#948540"
+      },
       "cost": 1
     },
     {
       "id": "paragon-of-divintiy",
       "name": "Paragon of Divinity",
-      "requires": [{ "id": "holy-casting", "levels": 1 }],
-      "colors": { "unavailable": "#C5B986", "selected": "#e2c846" },
+      "requires": [
+        {
+          "id": "holy-casting",
+          "levels": 1
+        }
+      ],
+      "colors": {
+        "unavailable": "#C5B986",
+        "selected": "#e2c846"
+      },
       "cost": 1
     },
     {
       "id": "undead-scourge-plus",
       "name": "Undead Scourge+",
-      "requires": [{ "id": "undead-scourge", "levels": 1 }],
-      "colors": { "unavailable": "#C5B986", "selected": "#948540" },
+      "requires": [
+        {
+          "id": "undead-scourge",
+          "levels": 1
+        }
+      ],
+      "colors": {
+        "unavailable": "#C5B986",
+        "selected": "#948540"
+      },
       "cost": 1
     },
     {
       "id": "divine-prof",
       "name": "Divine Proficiency",
-      "requires": [{ "id": "holy-casting", "levels": 1 }],
-      "colors": { "unavailable": "#C5B986", "selected": "#e2c846" },
+      "requires": [
+        {
+          "id": "holy-casting",
+          "levels": 1
+        }
+      ],
+      "colors": {
+        "unavailable": "#C5B986",
+        "selected": "#e2c846"
+      },
       "levels": 3,
       "levelCost": [2, 2, 2],
       "providedAbilities": [
         {
           "id": "holy-casting",
           "modifier": 1,
-          "modifiers": [{ "id": "slots", "modifier": 2, "set": false }]
+          "modifiers": [
+            {
+              "id": "slots",
+              "modifier": 2,
+              "set": false
+            }
+          ]
         }
       ]
     },
     {
       "id": "cleric",
       "name": "Cleric",
-      "requires": [{ "id": "divine-prof", "levels": 2 }],
+      "requires": [
+        {
+          "id": "divine-prof",
+          "levels": 2
+        }
+      ],
       "description": "Holy spells heal for 1 additional HP.",
-      "colors": { "unavailable": "#C5B986", "selected": "#e2c846" },
+      "colors": {
+        "unavailable": "#C5B986",
+        "selected": "#e2c846"
+      },
       "cost": 1,
       "providedAbilities": [
         {
           "id": "restoration",
           "modifier": 1,
-          "modifiers": [{ "id": "hp", "modifier": 1, "set": false }]
+          "modifiers": [
+            {
+              "id": "hp",
+              "modifier": 1,
+              "set": false
+            }
+          ]
         },
         {
           "id": "death-ward",
           "modifier": 1,
-          "modifiers": [{ "id": "hp", "modifier": 1, "set": false }]
+          "modifiers": [
+            {
+              "id": "hp",
+              "modifier": 1,
+              "set": false
+            }
+          ]
         }
       ]
     },
     {
       "id": "paladin",
       "name": "Paladin",
-      "requires": [{ "id": "divine-prof", "levels": 2 }],
+      "requires": [
+        {
+          "id": "divine-prof",
+          "levels": 2
+        }
+      ],
       "description": "Holy spells deal +1 damage",
-      "colors": { "unavailable": "#C5B986", "selected": "#e2c846" },
+      "colors": {
+        "unavailable": "#C5B986",
+        "selected": "#e2c846"
+      },
       "cost": 1,
       "providedAbilities": [
         {
           "id": "smite",
           "modifier": 1,
-          "modifiers": [{ "id": "dmg", "modifier": 1, "set": false }]
+          "modifiers": [
+            {
+              "id": "dmg",
+              "modifier": 1,
+              "set": false
+            }
+          ]
         },
         {
           "id": "turn-undead",
           "modifier": 1,
-          "modifiers": [{ "id": "dmg", "modifier": 1, "set": false }]
+          "modifiers": [
+            {
+              "id": "dmg",
+              "modifier": 1,
+              "set": false
+            }
+          ]
         },
         {
           "id": "spirit-guardians",
           "modifier": 1,
-          "modifiers": [{ "id": "dmg", "modifier": 1, "set": false }]
+          "modifiers": [
+            {
+              "id": "dmg",
+              "modifier": 1,
+              "set": false
+            }
+          ]
         },
         {
           "id": "guiding-bolt",
           "modifier": 1,
-          "modifiers": [{ "id": "dmg", "modifier": 1, "set": false }]
+          "modifiers": [
+            {
+              "id": "dmg",
+              "modifier": 1,
+              "set": false
+            }
+          ]
         }
       ]
     },
     {
       "id": "attack-node",
       "name": "Melee Attack",
-      "requires": [{ "id": "basic", "levels": 1 }],
-      "colors": { "unavailable": "#520505", "selected": "#d81b1b" },
+      "requires": [
+        {
+          "id": "basic",
+          "levels": 1
+        }
+      ],
+      "colors": {
+        "unavailable": "#520505",
+        "selected": "#d81b1b"
+      },
       "levels": 4,
       "levelCost": [1, 3, 4, 5],
       "providedAbilities": [
         {
           "id": "Attack_norm",
           "modifier": 1,
-          "modifiers": [{ "id": "dmg", "modifier": 1, "set": false }],
+          "modifiers": [
+            {
+              "id": "dmg",
+              "modifier": 1,
+              "set": false
+            }
+          ],
           "gain": true
         },
         {
           "id": "multi-attack",
           "modifier": 1,
-          "modifiers": [{ "id": "dmg", "modifier": 1, "set": false }]
+          "modifiers": [
+            {
+              "id": "dmg",
+              "modifier": 1,
+              "set": false
+            }
+          ]
         }
       ]
     },
     {
       "id": "Multi_attack-1-dz",
       "name": "Multistrike",
-      "requires": [{ "id": "attack-node", "levels": 1 }],
-      "colors": { "unavailable": "#520505", "selected": "#d81b1b" },
+      "requires": [
+        {
+          "id": "attack-node",
+          "levels": 1
+        }
+      ],
+      "colors": {
+        "unavailable": "#520505",
+        "selected": "#d81b1b"
+      },
       "levels": 2,
       "levelCost": [3, 4],
       "providedAbilities": [
         {
           "id": "multi-attack",
           "modifier": 1,
-          "modifiers": [{ "id": "numatks", "modifier": 1, "set": false }],
+          "modifiers": [
+            {
+              "id": "numatks",
+              "modifier": 1,
+              "set": false
+            }
+          ],
           "gain": true
         }
       ]
@@ -1378,35 +2573,80 @@
     {
       "id": "attack-node-1-dv",
       "name": "Piercing attack",
-      "requires": [{ "id": "attack-node", "levels": 1 }],
-      "colors": { "unavailable": "#520505", "selected": "#d81b1b" },
+      "requires": [
+        {
+          "id": "attack-node",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "colors": {
+        "unavailable": "#520505",
+        "selected": "#d81b1b"
+      },
       "levels": 2,
       "levelCost": [1, 3],
       "providedAbilities": [
         {
           "id": "Attack_norm",
           "modifier": 1,
-          "modifiers": [{ "id": "dmg2", "modifier": 1, "set": false }]
+          "modifiers": [
+            {
+              "id": "dmg2",
+              "modifier": 1,
+              "set": false
+            },
+            {
+              "id": "tag-piercing",
+              "modifier": 1,
+              "set": false
+            }
+          ]
         },
         {
           "id": "multi-attack",
           "modifier": 1,
-          "modifiers": [{ "id": "dmg2", "modifier": 1, "set": false }]
+          "modifiers": [
+            {
+              "id": "dmg2",
+              "modifier": 1,
+              "set": false
+            },
+            {
+              "id": "tag-piercing",
+              "modifier": 1,
+              "set": false
+            }
+          ]
         }
       ]
     },
     {
       "id": "basic-1-ay",
       "name": "Ranged Attack",
-      "requires": [{ "id": "basic", "levels": 1 }],
-      "colors": { "unavailable": "#330722", "selected": "#831256" },
+      "requires": [
+        {
+          "id": "basic",
+          "levels": 1
+        }
+      ],
+      "colors": {
+        "unavailable": "#330722",
+        "selected": "#831256"
+      },
       "levels": 4,
       "levelCost": [1, 3, 4, 5],
       "providedAbilities": [
         {
           "id": "ranged-attack",
           "modifier": 1,
-          "modifiers": [{ "id": "dmg", "modifier": 1, "set": false }],
+          "modifiers": [
+            {
+              "id": "dmg",
+              "modifier": 1,
+              "set": false
+            }
+          ],
           "gain": true
         }
       ]
@@ -1414,29 +2654,57 @@
     {
       "id": "basic-1-ay-1-ed",
       "name": "Marksman",
-      "requires": [{ "id": "basic-1-ay", "levels": 1 }],
-      "colors": { "unavailable": "#330722", "selected": "#831256" },
+      "requires": [
+        {
+          "id": "basic-1-ay",
+          "levels": 1
+        }
+      ],
+      "colors": {
+        "unavailable": "#330722",
+        "selected": "#831256"
+      },
       "levels": 5,
       "levelCost": [1, 2, 3, 4, 5],
       "providedAbilities": [
         {
           "id": "ranged-attack",
           "modifier": 1,
-          "modifiers": [{ "id": "range", "modifier": 1, "set": false }]
+          "modifiers": [
+            {
+              "id": "range",
+              "modifier": 1,
+              "set": false
+            }
+          ]
         }
       ]
     },
     {
       "id": "ranged-piercing-001",
       "name": "Advanced Arrowheads",
-      "requires": [{ "id": "basic-1-ay", "levels": 1 }],
-      "colors": { "unavailable": "#330722", "selected": "#831256" },
+      "requires": [
+        {
+          "id": "basic-1-ay",
+          "levels": 1
+        }
+      ],
+      "colors": {
+        "unavailable": "#330722",
+        "selected": "#831256"
+      },
       "cost": 1,
       "providedAbilities": [
         {
           "id": "ranged-attack",
           "modifier": 1,
-          "modifiers": [{ "id": "dmg2", "modifier": 1, "set": false }]
+          "modifiers": [
+            {
+              "id": "dmg2",
+              "modifier": 1,
+              "set": false
+            }
+          ]
         }
       ]
     }
@@ -1461,17 +2729,17 @@
     "spell": "#3579cf"
   },
   "stats": [
-    { "id": "armor", "name": "Armor" },
-    { "id": "hp", "name": "Hit Points" },
-    { "id": "movement", "name": "Movement" }
-  ],
-  "abilityTypes": [
-    { "id": "action", "name": "Action", "color": "#8eb0ff" },
-    { "id": "movement", "name": "Movement", "color": "#c7f8af" },
-    { "id": "passive", "name": "Passive", "color": "#cabfbf" },
-    { "id": "reaction", "name": "Reaction", "color": "#ffb0fc" },
-    { "id": "bonus action", "name": "Bonus Action", "color": "#a887ff" },
-    { "id": "school", "name": "Magic Proficiency", "color": "#5ec5e1" }
-  ],
-  "globalParams": [{ "id": "pierce-attack", "value": 0 }]
+    {
+      "id": "armor",
+      "name": "Armor"
+    },
+    {
+      "id": "hp",
+      "name": "Hit Points"
+    },
+    {
+      "id": "movement",
+      "name": "Movement"
+    }
+  ]
 }
