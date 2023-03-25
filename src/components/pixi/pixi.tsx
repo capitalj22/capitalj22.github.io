@@ -12,7 +12,7 @@ import { stateContext } from "../../providers/state/stateProvider";
 
 export function PixiGraph({ infoUpdated, graphEvents }) {
   const containerRef = useRef(null);
-  const { abilities } = useContext(AbilitiesContext);
+  const { abilities, globalParams } = useContext(AbilitiesContext);
   const { nodes, setNodeMeta } = useContext(NodesContext);
   const nodesUpdated$ = new Subject();
   const infoUpdated$ = new Subject();
@@ -20,6 +20,7 @@ export function PixiGraph({ infoUpdated, graphEvents }) {
   const { theme } = useContext(ThemeContext);
   const { appMode } = useContext(stateContext);
   const abilitiesRef = useRef(abilities);
+  const globalParamsref = useRef(globalParams);
 
   useEffect(() => {
     graphEvents.next({ event: "modeChanged", data: { mode: appMode } });
@@ -28,6 +29,10 @@ export function PixiGraph({ infoUpdated, graphEvents }) {
   useEffect(() => {
     abilitiesRef.current = abilities;
   }, [abilities]);
+
+  useEffect(() => {
+    globalParamsref.current = globalParams;
+  }, [globalParams]);
 
   useEffect(() => {
     graphEvents.next({ event: "themeChanged", data: theme });
@@ -51,7 +56,11 @@ export function PixiGraph({ infoUpdated, graphEvents }) {
 
         setBuild({
           type: "set",
-          build: newDragonFromNodes(selectedNodes, abilitiesRef.current),
+          build: newDragonFromNodes(
+            selectedNodes,
+            abilitiesRef.current,
+            globalParamsref.current
+          ),
         });
 
         setNodeMeta(data.nodeMeta);

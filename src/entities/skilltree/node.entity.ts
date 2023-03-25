@@ -3,7 +3,7 @@ export interface SkillNode {
   name: string;
   description?: string;
   requires?: Array<{ id: string; levels?: number }>;
-  requirementType?: "and" | "or"
+  requirementType?: "and" | "or";
   colors?: {
     selected?: any;
     unavailable?: any;
@@ -13,6 +13,7 @@ export interface SkillNode {
   levelsAcquired?: number;
   acquired?: number;
   cost?: number;
+  globalParams?: Array<{ id: string; modifier: number; set: boolean }>;
   providedAbilities?: Array<{
     id: string;
     gain?: boolean;

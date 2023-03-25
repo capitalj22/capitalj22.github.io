@@ -12,6 +12,7 @@ import { filter, find, map, sample, some } from "lodash-es";
 import { BigButton } from "../../../common/buttons/bigButton";
 import { NodesContext } from "../../../../providers/nodes/nodesProvider";
 import { RequiresEdit } from "./requiresEdit";
+import { AbilitiesContext } from "../../../../providers/abilities/abilitiesProvider";
 
 interface Props {
   graphEvents?: any;
@@ -21,9 +22,12 @@ function getStatOptions(stats) {
   return map(stats, (stat) => ({ value: stat.id, label: stat.name }));
 }
 
+function getGlobalParamOptions(globalParams) {
+  return map(globalParams, (param) => ({ value: param.id, label: param.id }));
+}
+
 export function EditPanel({ graphEvents }: Props) {
-  const { selectedNodeId, nodes, setNodes, setSelectedNodeId } =
-    useContext(NodesContext);
+  const { selectedNodeId, nodes, setNodes } = useContext(NodesContext);
   const { stats } = useContext(StatsContext);
   const [node, setNode] = useState(find(nodes, { id: selectedNodeId }) || {});
   const [id, setId] = useState(node.id);
@@ -43,7 +47,10 @@ export function EditPanel({ graphEvents }: Props) {
     node.requirementType || "and"
   );
   const [unsavedData, setUnsavedData] = useState(false);
-
+  const { globalParams, setGlobalParams } = useContext(AbilitiesContext);
+  const [nodeGlobalParams, setNodeGlobalParams] = useState(
+    node.globalParams || []
+  );
   const nameInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -103,6 +110,7 @@ export function EditPanel({ graphEvents }: Props) {
     setNodes({ type: "remove", node });
   };
 
+  // [d] SAVE
   const SavePressed = (event) => {
     const newNode = {
       id: id,
@@ -110,6 +118,7 @@ export function EditPanel({ graphEvents }: Props) {
       requires: requires,
       requirementType: requires.length < 2 ? "and" : requirementType,
       description: description,
+      globalParams: nodeGlobalParams,
       colors,
     } as any;
 
@@ -169,6 +178,11 @@ export function EditPanel({ graphEvents }: Props) {
     setUnsavedData(true);
   };
 
+  const nodeGlobalParamsChanged = (event) => {
+    setNodeGlobalParams(event);
+    setUnsavedData(true);
+  };
+
   React.useEffect(() => {
     setColors(node.colors || {});
     setId(node.id);
@@ -182,6 +196,7 @@ export function EditPanel({ graphEvents }: Props) {
     setOldId(node.id);
     setRequires(node.requires || []);
     setRequirementType(node.requirementType || "and");
+    setNodeGlobalParams(node.globalParams || []);
   }, [node]);
 
   if (node.id) {
@@ -237,25 +252,35 @@ export function EditPanel({ graphEvents }: Props) {
 
         <div className="form-control node-description">
           <TextareaAutosize
-            rows={4}
+            rows={6}
             onChange={DescriptionUpdated}
             value={description || ""}
           />
         </div>
-        <Accordion name="Stats" startOpen={false}>
-          <StatsPanel
-            providedStats={providedStats as any}
-            providedStatsChanged={providedStatsChanged}
-            options={getStatOptions(stats)}
-            name="Stat"
-          ></StatsPanel>
-        </Accordion>
-        <Accordion name="Abilities" startOpen={false}>
-          <AbilitiesPanel
-            providedAbilities={providedAbilities}
-            providedAbilitiesChanged={providedAbilitiesChanged}
-          ></AbilitiesPanel>
-        </Accordion>
+        <div className="accordions">
+          <Accordion name="Stats" startOpen={false}>
+            <StatsPanel
+              providedStats={providedStats as any}
+              providedStatsChanged={providedStatsChanged}
+              options={getStatOptions(stats)}
+              name="Stat"
+            ></StatsPanel>
+          </Accordion>
+          <Accordion name="Abilities" startOpen={false}>
+            <AbilitiesPanel
+              providedAbilities={providedAbilities}
+              providedAbilitiesChanged={providedAbilitiesChanged}
+            ></AbilitiesPanel>
+          </Accordion>
+          <Accordion name="Global Params" startOpen={false}>
+            <StatsPanel
+              providedStats={nodeGlobalParams as any}
+              providedStatsChanged={nodeGlobalParamsChanged}
+              options={getGlobalParamOptions(globalParams)}
+              name="Stat"
+            ></StatsPanel>
+          </Accordion>
+        </div>
 
         <div className="buttons">
           <BigButton

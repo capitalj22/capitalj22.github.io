@@ -62,7 +62,6 @@ export function EditableAbilityCard({
 
   useEffect(() => {
     setParams(formatParams(ability.params));
-    console.log(ability);
   }, [ability]);
 
   const updateAbility = (prop, newValue) => {

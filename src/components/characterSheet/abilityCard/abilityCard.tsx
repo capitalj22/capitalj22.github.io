@@ -11,6 +11,7 @@ import { useContext, useEffect, useState } from "react";
 import { ChevronDown, ChevronUp, Edit } from "react-feather";
 import { Ability } from "../../../entities/abilities/abilities";
 import { AbilitiesContext } from "../../../providers/abilities/abilitiesProvider";
+import { BuildContext } from "../../../providers/build/buildProvider";
 import { TagsContext } from "../../../providers/tags/tagsProvider";
 import { SmolButton } from "../../common/buttons/smolButton";
 import { StatTag } from "../statTag/statTag";
@@ -18,6 +19,8 @@ import "./abilityCard.scss";
 import { EditableAbilityCard } from "./editableAbilityCard";
 
 function applyParamsToDescription(description, params, globalParams) {
+  console.log(globalParams);
+
   let editedDescription = description;
   each(Object.keys(params), (key) => {
     let value = params[key];
@@ -40,29 +43,27 @@ function applyParamsToDescription(description, params, globalParams) {
     );
   });
 
-  console.log(globalParams);
-  each(globalParams, (globalParam) => {
-    if (globalParam.value) {
+  if (globalParams) {
+    each(Object.keys(globalParams), (key) => {
+      let value = globalParams[key];
+
+      if (globalParams[key]) {
+        editedDescription = editedDescription.replace(
+          new RegExp(`\{\@\\b${key}\\b\}([^*]+)\\\{\/\\b${key}\\b\}`),
+          "$1"
+        );
+      } else {
+        editedDescription = editedDescription.replace(
+          new RegExp(`\{\@\\b${key}\\b\}([^*]+)\\\{\/\\b${key}\\b\}`),
+          ""
+        );
+      }
       editedDescription = editedDescription.replace(
-        new RegExp(
-          `\{\@\\b${globalParam.id}\\b\}([^*]+)\\\{\/\\b${globalParam.id}\\b\}`
-        ),
-        "$1"
+        new RegExp(`%@${key}%`, "g"),
+        value
       );
-    } else {
-      editedDescription = editedDescription.replace(
-        new RegExp(
-          `\{\@\\b${globalParam.id}\\b\}([^*]+)\\\{\/\\b${globalParam.id}\\b\}`
-        ),
-        ""
-      );
-    }
-    console.log(description);
-    editedDescription = editedDescription.replace(
-      new RegExp(`@%${globalParam.id}%`, "g"),
-      globalParam.value
-    );
-  });
+    });
+  }
 
   return editedDescription;
 }
@@ -99,6 +100,7 @@ type Props = {
   ability: Ability;
   isPlayerAbility?: boolean;
   modifiers?: any;
+  playerGlobalParams?: any[];
   tags?: string[];
   startOpen?: boolean;
   editable?: boolean;
@@ -112,6 +114,7 @@ type Props = {
 export function AbilityCard({
   ability,
   modifiers,
+  playerGlobalParams,
   tags,
   startOpen = true,
   editable = false,
@@ -121,16 +124,23 @@ export function AbilityCard({
   isExpanded,
 }: Props) {
   const { abilityTypes } = useContext(AbilitiesContext);
-  const { abilities, globalParams } = useContext(AbilitiesContext);
+  const { build } = useContext(BuildContext);
+  const { abilities } = useContext(AbilitiesContext);
   const { tagColors, setTagColors } = useContext(TagsContext);
+  const [_globalParams, setGlobalParams] = useState(playerGlobalParams);
   const [description, setDescription] = useState(
-    getDescription(ability, modifiers, globalParams)
+    getDescription(ability, modifiers, _globalParams)
   );
   const [expanded, setExpanded] = useState(startOpen);
   const [isEditing, setIsEditing] = useState(false);
   const [typeColor, setTypeColor] = useState(
     find(abilityTypes, { id: ability.type })?.color
   );
+
+  useEffect(() => {
+    setGlobalParams(build.globalParams);
+  }, [build]);
+
   useEffect(() => {
     if (!isUndefined(isExpanded)) {
       setExpanded(!!isExpanded);
@@ -158,7 +168,7 @@ export function AbilityCard({
   };
 
   useEffect(() => {
-    setDescription(getDescription(ability, modifiers, globalParams));
+    setDescription(getDescription(ability, modifiers, playerGlobalParams));
   }, [ability, modifiers]);
 
   if (isEditing) {
