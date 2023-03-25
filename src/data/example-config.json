@@ -95,8 +95,7 @@
       "id": "cantrip-barrage",
       "name": "Cantrip Barrage",
       "description": "Deal 1d6 damage to an enemy.",
-      "type": "action",
-      "tags": ["magic"]
+      "type": "action"
     },
     {
       "id": "charge",
@@ -308,7 +307,6 @@
       "name": "Spellcasting",
       "description": "You can now cast spells and cantrips. Casting spells and cantrips take action to cast and require 1 spell slot of the coresponding school of magic. \n    Cantrips barrage does not cost a spell slot. \n    \n    Range: %range%\n    Contentration Bonus: %concentration%",
       "type": "school",
-      "tags": ["magic"],
       "params": {
         "range": 1,
         "concentration": 1
@@ -512,6 +510,28 @@
         "dmg": 0,
         "range": 0
       }
+    },
+    {
+      "name": "Evocation",
+      "id": "evocation",
+      "description": "You can cast Evocation Spells\n\nSpell Slots: %slots%\nSpells per Day: %spells%",
+      "tags": ["evocation"],
+      "type": "school",
+      "params": {
+        "slots": 2,
+        "spells": 1
+      }
+    },
+    {
+      "name": "Magical Barrage",
+      "id": "magical-barrage",
+      "description": "Unleash a magical barrage against a unit within range. Deals 3 absorbable damage. ",
+      "tags": ["evocation", "spell"],
+      "type": "school",
+      "params": {
+        "slots": 2,
+        "spells": 1
+      }
     }
   ],
   "abilityTypes": [
@@ -583,19 +603,21 @@
       ]
     },
     {
-      "colors": {
-        "unavailable": "#878787",
-        "selected": "#96b7bd"
-      },
       "id": "basic-magic",
+      "name": "Spellcasting",
       "requires": [
         {
           "id": "basic",
           "levels": 1
         }
       ],
-      "name": "Spellcasting",
+      "requirementType": "and",
       "description": "Grants your unit the ability to cast spells",
+      "globalParams": [],
+      "colors": {
+        "unavailable": "#878787",
+        "selected": "#96b7bd"
+      },
       "cost": 1,
       "providedAbilities": [
         {
@@ -2707,11 +2729,180 @@
           ]
         }
       ]
+    },
+    {
+      "id": "evocation",
+      "name": "Evocation",
+      "requires": [
+        {
+          "id": "basic-magic",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "globalParams": [],
+      "colors": {
+        "unavailable": "#912534",
+        "selected": "#d9203a"
+      },
+      "cost": 1,
+      "providedAbilities": [
+        {
+          "id": "evocation",
+          "modifier": 1,
+          "modifiers": [],
+          "gain": true
+        },
+        {
+          "id": "magical-barrage",
+          "modifier": 1,
+          "modifiers": [],
+          "gain": true
+        }
+      ]
+    },
+    {
+      "id": "cantrip-strike-2",
+      "name": "Cantrip Strike 2",
+      "requires": [
+        {
+          "id": "evocation",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "globalParams": [],
+      "colors": {
+        "unavailable": "#912534",
+        "selected": "#d9203a"
+      },
+      "cost": 1
+    },
+    {
+      "id": "cantrip-expert",
+      "name": "Cantrip Expert",
+      "requires": [
+        {
+          "id": "cantrip-strike-2",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "globalParams": [],
+      "colors": {
+        "unavailable": "#912534",
+        "selected": "#d9203a"
+      },
+      "cost": 1
+    },
+    {
+      "id": "cantrip-strike-3",
+      "name": "Cantrip Strike 3",
+      "requires": [
+        {
+          "id": "cantrip-strike-2",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "globalParams": [],
+      "colors": {
+        "unavailable": "#912534",
+        "selected": "#d9203a"
+      },
+      "cost": 1
+    },
+    {
+      "id": "evocation-casting",
+      "name": "Evocation Casting",
+      "requires": [
+        {
+          "id": "evocation",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "globalParams": [],
+      "colors": {
+        "unavailable": "#912534",
+        "selected": "#d9203a"
+      },
+      "levels": 2,
+      "levelCost": [1, 1]
+    },
+    {
+      "id": "evoker",
+      "name": "Evoker",
+      "requires": [
+        {
+          "id": "evocation-casting",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "globalParams": [],
+      "colors": {
+        "unavailable": "#912534",
+        "selected": "#d9203a"
+      },
+      "cost": 1
+    },
+    {
+      "id": "barrage-damage",
+      "name": "Barrage Damage",
+      "requires": [
+        {
+          "id": "evocation",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "globalParams": [],
+      "colors": {
+        "unavailable": "#912534",
+        "selected": "#d9203a"
+      },
+      "levels": 3,
+      "levelCost": [1, 1, 1]
+    },
+    {
+      "id": "barrage-effect",
+      "name": "Barrage Effect",
+      "requires": [
+        {
+          "id": "evocation",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "globalParams": [],
+      "colors": {
+        "unavailable": "#912534",
+        "selected": "#d9203a"
+      },
+      "levels": 2,
+      "levelCost": [1, 1]
+    },
+    {
+      "id": "concussive-barrage",
+      "name": "Concussive Barrage",
+      "requires": [
+        {
+          "id": "evocation",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "globalParams": [],
+      "colors": {
+        "unavailable": "#912534",
+        "selected": "#d9203a"
+      },
+      "cost": 1
     }
   ],
   "tagColors": {
     "attack": "#d92a2d",
-    "tag": "#c74141",
     "holy": "#d7a435",
     "enchantment": "#ab38d9",
     "defense": "#bb864c",
@@ -2726,7 +2917,8 @@
     "healing": "#e15fab",
     "mustering": "#dca542",
     "necromancy": "#aded23",
-    "spell": "#3579cf"
+    "spell": "#3579cf",
+    "evocation": "#d91949"
   },
   "stats": [
     {

@@ -1,5 +1,5 @@
 import { filter, find, includes, map, sortBy } from "lodash-es";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import Select from "react-select";
 import { NodesContext } from "../../../providers/nodes/nodesProvider";
 import "./nodeSelect.scss";
@@ -52,19 +52,21 @@ export function NodeSelect({
   const [nodeOptions, setNodeOptions] = useState(
     getAvailableOptions(usedOptions, nodes, showEmptyOption)
   );
-
   const [selectedValue, setSelectedValue] = useState(
     getOption(nodeOptions, defaultValue, isMulti)
   );
 
   useEffect(() => {
     setNodeOptions(getAvailableOptions(usedOptions, nodes, showEmptyOption));
-  }, [selectedValue]);
+  }, [nodes]);
 
   useEffect(() => {
     setNodeOptions(getAvailableOptions(usedOptions, nodes, showEmptyOption));
+  }, [defaultValue]);
+
+  useEffect(() => {
     setSelectedValue(getOption(nodeOptions, defaultValue, isMulti));
-  }, [defaultValue, nodes]);
+  }, [nodeOptions]);
 
   const handleNewValueSelected = (event) => {
     if (isMulti) {
@@ -82,8 +84,9 @@ export function NodeSelect({
         singleValue: () => "single-value",
         menu: () => "select-menu",
       }}
-      options={getAvailableOptions(usedOptions, nodes, showEmptyOption)}
+      options={nodeOptions}
       onChange={handleNewValueSelected}
+      defaultValue={selectedValue}
       value={selectedValue}
     ></Select>
   );
