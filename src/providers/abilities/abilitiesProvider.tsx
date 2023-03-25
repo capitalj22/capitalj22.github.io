@@ -1,9 +1,7 @@
 import { clone, map } from "lodash-es";
 import { createContext, useReducer } from "react";
 
-export const AbilitiesContext = createContext(
-  {} as { abilities: any; setAbilities: any; abilityTypes; setAbilityTypes }
-);
+export const AbilitiesContext = createContext({} as any);
 
 function getAbilities() {
   const abilities = window.localStorage.getItem("dragon-abilities");
@@ -22,6 +20,68 @@ function getAbilityTypes() {
     return [];
   }
 }
+
+function getGlobalParams() {
+  const globalParams = window.localStorage.getItem("dragon-global-params");
+  if (globalParams) {
+    return JSON.parse(globalParams);
+  } else {
+    return [];
+  }
+}
+
+const globalParamReducer = (state, action) => {
+  const { targetId, index, param, params, type } = action;
+  let newState = clone(state);
+
+  if (type === "save") {
+    try {
+      window.localStorage.setItem(
+        "dragon-global-params",
+        JSON.stringify(newState)
+      );
+    } catch (err) {}
+  }
+
+  if (type === "add") {
+    newState = [...newState, param];
+    return newState;
+  }
+
+  if (type === "set") {
+    newState = params;
+
+    window.localStorage.setItem(
+      "dragon-global-params",
+      JSON.stringify(newState)
+    );
+    return newState;
+  }
+
+  if (type === "update") {
+    newState = map(newState, (ab) => {
+      if (ab.id === targetId) {
+        return param;
+      } else {
+        return ab;
+      }
+    });
+
+    return newState;
+  }
+
+  if (type === "remove") {
+    const paramIndex = state.findIndex((x) => x.id === param.id);
+
+    if (paramIndex < 0) return state;
+
+    const stateUpdate = [...state];
+
+    stateUpdate.splice(paramIndex, 1);
+    return stateUpdate;
+  }
+  return state;
+};
 
 const abilitiesReducer = (state, action) => {
   const { targetId, index, ability, abilities, type } = action;
@@ -120,14 +180,27 @@ export const AbilitiesProvider = ({ children }) => {
     abilitiesReducer,
     getAbilities()
   );
+
   const [abilityTypes, setAbilityTypes] = useReducer(
     abilityTypeReducer,
     getAbilityTypes()
   );
 
+  const [globalParams, setGlobalParams] = useReducer(
+    globalParamReducer,
+    getGlobalParams()
+  );
+
   return (
     <AbilitiesContext.Provider
-      value={{ abilities, setAbilities, abilityTypes, setAbilityTypes }}
+      value={{
+        abilities,
+        setAbilities,
+        abilityTypes,
+        setAbilityTypes,
+        globalParams,
+        setGlobalParams,
+      }}
     >
       {children}
     </AbilitiesContext.Provider>

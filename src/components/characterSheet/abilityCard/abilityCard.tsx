@@ -1,4 +1,12 @@
-import { clone, each, find, isFunction, isUndefined, map } from "lodash-es";
+import {
+  clone,
+  each,
+  find,
+  isFunction,
+  isUndefined,
+  map,
+  uniq,
+} from "lodash-es";
 import { useContext, useEffect, useState } from "react";
 import { ChevronDown, ChevronUp, Edit } from "react-feather";
 import { Ability } from "../../../entities/abilities/abilities";
@@ -9,7 +17,7 @@ import { StatTag } from "../statTag/statTag";
 import "./abilityCard.scss";
 import { EditableAbilityCard } from "./editableAbilityCard";
 
-function applyParamsToDescription(description, params) {
+function applyParamsToDescription(description, params, globalParams) {
   let editedDescription = description;
   each(Object.keys(params), (key) => {
     let value = params[key];
@@ -32,10 +40,34 @@ function applyParamsToDescription(description, params) {
     );
   });
 
+  console.log(globalParams);
+  each(globalParams, (globalParam) => {
+    if (globalParam.value) {
+      editedDescription = editedDescription.replace(
+        new RegExp(
+          `\{\@\\b${globalParam.id}\\b\}([^*]+)\\\{\/\\b${globalParam.id}\\b\}`
+        ),
+        "$1"
+      );
+    } else {
+      editedDescription = editedDescription.replace(
+        new RegExp(
+          `\{\@\\b${globalParam.id}\\b\}([^*]+)\\\{\/\\b${globalParam.id}\\b\}`
+        ),
+        ""
+      );
+    }
+    console.log(description);
+    editedDescription = editedDescription.replace(
+      new RegExp(`@%${globalParam.id}%`, "g"),
+      globalParam.value
+    );
+  });
+
   return editedDescription;
 }
 
-function getDescription(ability, isPlayerAbility, modifiers) {
+function getDescription(ability, modifiers, globalParams) {
   let description;
   let params = clone(ability.params);
   if (params && modifiers) {
@@ -47,7 +79,11 @@ function getDescription(ability, isPlayerAbility, modifiers) {
   }
 
   if (ability.params) {
-    description = applyParamsToDescription(ability.description, params);
+    description = applyParamsToDescription(
+      ability.description,
+      params,
+      globalParams
+    );
   } else {
     if (isFunction(ability.description)) {
       description = ability.description({});
@@ -63,6 +99,7 @@ type Props = {
   ability: Ability;
   isPlayerAbility?: boolean;
   modifiers?: any;
+  tags?: string[];
   startOpen?: boolean;
   editable?: boolean;
   forceIsEditing?: boolean;
@@ -74,8 +111,8 @@ type Props = {
 
 export function AbilityCard({
   ability,
-  isPlayerAbility,
   modifiers,
+  tags,
   startOpen = true,
   editable = false,
   abilityCopied,
@@ -84,17 +121,16 @@ export function AbilityCard({
   isExpanded,
 }: Props) {
   const { abilityTypes } = useContext(AbilitiesContext);
-  const { abilities, setAbilities } = useContext(AbilitiesContext);
+  const { abilities, globalParams } = useContext(AbilitiesContext);
   const { tagColors, setTagColors } = useContext(TagsContext);
   const [description, setDescription] = useState(
-    getDescription(ability, isPlayerAbility, modifiers)
+    getDescription(ability, modifiers, globalParams)
   );
   const [expanded, setExpanded] = useState(startOpen);
   const [isEditing, setIsEditing] = useState(false);
   const [typeColor, setTypeColor] = useState(
     find(abilityTypes, { id: ability.type })?.color
   );
-
   useEffect(() => {
     if (!isUndefined(isExpanded)) {
       setExpanded(!!isExpanded);
@@ -122,7 +158,7 @@ export function AbilityCard({
   };
 
   useEffect(() => {
-    setDescription(getDescription(ability, isPlayerAbility, modifiers));
+    setDescription(getDescription(ability, modifiers, globalParams));
   }, [ability, modifiers]);
 
   if (isEditing) {
@@ -185,9 +221,11 @@ export function AbilityCard({
                   label={find(abilityTypes, { id: ability.type })?.name}
                   emphasize={true}
                 ></StatTag>
-                {ability.tags?.map((tag) => (
-                  <StatTag label={tag}></StatTag>
-                ))}
+                {uniq([...(ability.tags || []), ...(tags || [])])?.map(
+                  (tag) => (
+                    <StatTag label={tag}></StatTag>
+                  )
+                )}
               </div>
             </div>
           </div>

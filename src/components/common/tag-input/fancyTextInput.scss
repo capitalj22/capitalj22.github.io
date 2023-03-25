@@ -13,5 +13,9 @@
     font-weight: inherit;
     font-size: inherit !important;
     padding: 0.25rem;
+
+    &.unsavedData {
+      border: 2px solid var(--dangerColor);
+    }
   }
 }

@@ -17,7 +17,7 @@ const typeOptions = [
 
 function getColors(tags, tagColors): any {
   let colors = {};
-  if (tags) {
+  if (tags && tagColors) {
     each(Object.keys(tags), (tag) => {
       if (tagColors[tag]) {
         colors[tag] = tagColors[tag];

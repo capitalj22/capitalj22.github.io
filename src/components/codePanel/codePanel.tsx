@@ -17,8 +17,14 @@ export function CodePanel() {
   const { build, setSavedBuild } = useContext(BuildContext);
   const { tagColors, setTagColors } = useContext(TagsContext);
   const { stats, setStats } = useContext(StatsContext);
-  const { abilityTypes, abilities, setAbilities, setAbilityTypes } =
-    useContext(AbilitiesContext);
+  const {
+    abilityTypes,
+    abilities,
+    setAbilities,
+    setAbilityTypes,
+    globalParams,
+    setGlobalParams,
+  } = useContext(AbilitiesContext);
   const { nodes, setNodes } = useContext(NodesContext);
 
   const [buildFile, setBuildFile] = useState("");
@@ -57,7 +63,7 @@ export function CodePanel() {
     } else if (type === "trees") {
       const name = treeFileName || "dragon-trees";
 
-      data = { abilities, nodes, tagColors, stats, abilityTypes };
+      data = { abilities, abilityTypes, globalParams, nodes, tagColors, stats };
       filename = `${name}.json`;
     }
 
@@ -108,6 +114,9 @@ export function CodePanel() {
         if (config.stats) {
           setStats({ type: "set", stats: config.stats });
         }
+        if (config.globalParams) {
+          setGlobalParams({ type: "set", params: config.globalParams });
+        }
 
         if (config.abilityTypes) {
           setAbilityTypes({ type: "set", abilityTypes: config.abilityTypes });
@@ -124,6 +133,7 @@ export function CodePanel() {
     setAbilityTypes({ type: "set", abilityTypes: [] });
     setTagColors({ type: "set", tagColors: {} });
     setStats({ type: "set", stats: [] });
+    setGlobalParams({ type: "set", params: [] });
 
     setSavedBuild({ type: "imported", build: {} });
   };
@@ -135,6 +145,7 @@ export function CodePanel() {
     setAbilityTypes({ type: "set", abilityTypes: defaults.abilityTypes });
     setAbilities({ type: "set", abilities: defaults.abilities });
     setTagColors({ type: "set", colors: defaults.tagColors });
+    setGlobalParams({ type: "set", params: defaults.globalParams });
     setSavedBuild({ type: "imported", build: {} });
   };
 

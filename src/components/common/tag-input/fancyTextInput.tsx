@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { isUndefined } from "lodash-es";
 import { useState, useRef, useEffect } from "react";
 import "./fancyTextInput.scss";
@@ -11,6 +12,7 @@ interface Props {
   placeholder?: string;
   fullWidth?: boolean;
   autoFocus?: boolean;
+  unsavedData?: boolean;
 }
 
 export function FancyTextInput({
@@ -22,6 +24,7 @@ export function FancyTextInput({
   placeholder = "",
   fullWidth = false,
   autoFocus = undefined,
+  unsavedData = false,
 }: Props) {
   const [content, setContent] = useState(value);
   const [width, setWidth] = useState(fullWidth ? "100%" : minWidth);
@@ -54,6 +57,9 @@ export function FancyTextInput({
         {content}
       </span>
       <input
+        className={classNames({
+          unsavedData: unsavedData,
+        })}
         ref={inputRef}
         placeholder={placeholder}
         onBlur={blur}

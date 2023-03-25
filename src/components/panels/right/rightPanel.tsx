@@ -6,9 +6,9 @@ import { Accordion } from "../../layout/accordion/accordion";
 import { SidebarRight } from "../../layout/right/sidebarRight";
 import { AbilityEditor } from "./abilityEditor/abilityEditor";
 import { AbilityTypeEditor } from "./abilityTypeEditor/abilityTypeEditor";
+import { GlobalParamsEditor } from "./globalParamsEditor/globalParamsEditor";
 import { StatEditor } from "./statEditor/statEditor";
-const example1 =
-  "{myParam}This only appears when 'myParam' is at least 1{/myParam}";
+const example1 = `{myParam}This only appears when 'myParam' is at least 1{/myParam}`;
 const example2 = "%myParam% will be replaced with the value of 'myParam'";
 const example3 = `You make 1 melee attack against an adjacent enemy. Roll 1d6{dmg}+%dmg%{/dmg} and do that much damage.`;
 export function RightPanel() {
@@ -50,6 +50,9 @@ export function RightPanel() {
               </Accordion>
               <Accordion name="Ability Types" startOpen={false}>
                 <AbilityTypeEditor></AbilityTypeEditor>
+              </Accordion>
+              <Accordion name="Global Params" startOpen={false}>
+                <GlobalParamsEditor></GlobalParamsEditor>
               </Accordion>
               <Accordion name="Stats" startOpen={false}>
                 <StatEditor></StatEditor>

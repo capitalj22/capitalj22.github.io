@@ -177,6 +177,7 @@ function CharacterSheet() {
                         ability={knownAbility.ability}
                         isPlayerAbility={true}
                         modifiers={knownAbility.modifiers}
+                        tags={knownAbility.tags}
                         startOpen={false}
                         isExpanded={!!allExpanded[type.id]}
                       ></AbilityCard>

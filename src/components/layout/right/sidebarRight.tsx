@@ -1,11 +1,6 @@
 import classNames from "classnames";
 import { useContext, useState } from "react";
-import {
-  ChevronLeft,
-  ChevronRight,
-  ChevronsLeft,
-  ChevronsRight,
-} from "react-feather";
+import { ChevronsLeft, ChevronsRight } from "react-feather";
 import { stateContext } from "../../../providers/state/stateProvider";
 import { RightMenu } from "./rightMenu";
 
@@ -15,6 +10,7 @@ export function SidebarRight({ children, itemSelected, title }) {
   const [selectedPage, setSelectedPage] = useState(null);
   const { leftExpanded, setLeftExpanded, rightExpanded, setRightExpanded } =
     useContext(stateContext);
+  const [panelExpanded, setPanelExpanded] = useState(true);
 
   let icon;
 
@@ -28,10 +24,10 @@ export function SidebarRight({ children, itemSelected, title }) {
   };
 
   const handleExpandPressed = (event) => {
-    setRightExpanded(!rightExpanded);
+    setPanelExpanded(!panelExpanded);
   };
 
-  icon = !rightExpanded ? <ChevronsLeft /> : <ChevronsRight />;
+  icon = !panelExpanded ? <ChevronsLeft /> : <ChevronsRight />;
   if (!rightExpanded) {
     return (
       <div className="sidebar-right">
@@ -47,7 +43,8 @@ export function SidebarRight({ children, itemSelected, title }) {
         <div
           className={classNames({
             "sidebar-right-panel": true,
-            full: rightExpanded,
+            full: panelExpanded,
+            partial: rightExpanded,
             "minus-right": leftExpanded,
           })}
         >

@@ -1472,5 +1472,6 @@
     { "id": "reaction", "name": "Reaction", "color": "#ffb0fc" },
     { "id": "bonus action", "name": "Bonus Action", "color": "#a887ff" },
     { "id": "school", "name": "Magic Proficiency", "color": "#5ec5e1" }
-  ]
+  ],
+  "globalParams": [{ "id": "pierce-attack", "value": 0 }]
 }

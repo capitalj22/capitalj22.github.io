@@ -59,13 +59,15 @@ export function AbilityParamEditor({ params, paramsChanged }) {
             ></FancyNumberInput>
           </div>
         ))}
-      <BigButton
-        disabled={some(_params, { name: "" })}
-        color="theme"
-        clicked={addPressed}
-      >
-        Add Param <PlusSquare size={20} />
-      </BigButton>
+      <div className="add-button">
+        <BigButton
+          disabled={some(_params, { name: "" })}
+          color="theme"
+          clicked={addPressed}
+        >
+          Add Param <PlusSquare size={20} />
+        </BigButton>
+      </div>
     </div>
   );
 }

@@ -1,5 +1,13 @@
 import { SkillNode } from "../skilltree/node.entity";
-import { clone, each, find, isUndefined, times } from "lodash-es";
+import {
+  clone,
+  each,
+  find,
+  isUndefined,
+  startsWith,
+  times,
+  uniq,
+} from "lodash-es";
 
 export const newDragonFromNodes = (selectedNodes: SkillNode[], abilities) => {
   const baseDragon = {
@@ -71,6 +79,16 @@ export const newDragonFromNodes = (selectedNodes: SkillNode[], abilities) => {
 
     if (modifiers) {
       each(modifiers, (modifier: { id: string; modifier: number }) => {
+        if (startsWith(modifier.id, "tag-")) {
+          if (isUndefined(baseDragon.abilities[id].tags)) {
+            baseDragon.abilities[id].tags = [];
+          }
+          const tag = modifier.id.substring(4);
+          baseDragon.abilities[id].tags = uniq([
+            ...baseDragon.abilities[id].tags,
+            tag,
+          ]);
+        }
         let val = modifier.modifier;
         if (node.levels) {
           val = node.acquired * modifier.modifier;
