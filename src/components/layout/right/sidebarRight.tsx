@@ -10,7 +10,7 @@ export function SidebarRight({ children, itemSelected, title }) {
   const [selectedPage, setSelectedPage] = useState(null);
   const { leftExpanded, setLeftExpanded, rightExpanded, setRightExpanded } =
     useContext(stateContext);
-  const [panelExpanded, setPanelExpanded] = useState(true);
+  const [panelExpanded, setPanelExpanded] = useState(false);
 
   let icon;
 

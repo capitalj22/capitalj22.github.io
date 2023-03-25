@@ -42,23 +42,28 @@ export function EditPanel({ graphEvents }: Props) {
   const [requirementType, setRequirementType] = useState(
     node.requirementType || "and"
   );
+  const [unsavedData, setUnsavedData] = useState(false);
 
   const nameInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setNode(find(nodes, { id: selectedNodeId }) || {});
+    setUnsavedData(false);
   }, [selectedNodeId]);
 
   const IdUpdated = (event) => {
     setId(event.target.value);
+    setUnsavedData(true);
   };
 
   const NameUpdated = (event) => {
     setName(event.target.value);
+    setUnsavedData(true);
   };
 
   const DescriptionUpdated = (event) => {
     setDescription(event.target.value);
+    setUnsavedData(true);
   };
 
   const AddButtonPressed = (event) => {
@@ -103,7 +108,7 @@ export function EditPanel({ graphEvents }: Props) {
       id: id,
       name: name,
       requires: requires,
-      requirementType: requirementType,
+      requirementType: requires.length < 2 ? "and" : requirementType,
       description: description,
       colors,
     } as any;
@@ -133,30 +138,35 @@ export function EditPanel({ graphEvents }: Props) {
         node: newNode,
       },
     });
-
+    setUnsavedData(false);
     setNodes({ type: "update", node: newNode, targetId: oldId });
   };
 
   const providedStatsChanged = (event) => {
     setProvidedStats(event);
+    setUnsavedData(true);
   };
 
   const providedAbilitiesChanged = (event) => {
     setProvidedAbilities(event);
+    setUnsavedData(true);
   };
 
   const costChanged = (event) => {
     setLevelCost(event.levelCost);
     setLevels(event.levels);
+    setUnsavedData(true);
   };
 
   const colorChanged = (event, which) => {
     setColors({ ...colors, [which]: event });
+    setUnsavedData(true);
   };
 
   const requiredChanged = (event) => {
     setRequires(event.requires);
     setRequirementType(event.requirementType);
+    setUnsavedData(true);
   };
 
   React.useEffect(() => {
@@ -248,12 +258,20 @@ export function EditPanel({ graphEvents }: Props) {
         </Accordion>
 
         <div className="buttons">
-          <BigButton type="outline" color="success" clicked={SavePressed}>
+          <BigButton
+            disabled={!unsavedData}
+            type="outline"
+            color="success"
+            clicked={SavePressed}
+          >
             <Save />
-            Save Node
+            {unsavedData ? "Save Node" : "Node Saved"}
           </BigButton>
           <BigButton type="outline" color="success" clicked={AddButtonPressed}>
-            <PlusSquare />
+            <span>
+              <Save />
+              <PlusSquare />
+            </span>
             Save and Add Child Node
           </BigButton>
           <BigButton type="outline" clicked={deletePressed} color="danger">

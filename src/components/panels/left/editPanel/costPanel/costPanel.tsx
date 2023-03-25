@@ -58,15 +58,13 @@ export function CostPanel({ levels, levelCost, cost, color, levelsChanged }) {
     update(newLevels, newLevelCost, levelsChanged);
   };
 
-  const onWheel = (event, index?) => {
+  const costClicked = (event, index) => {
     let newCost = clone(_levelCost);
-
-    if (event.deltaY < 0) {
+    if (!event.shiftKey) {
       newCost[index] += 1;
-    } else if (_levelCost[index] > 1) {
+    } else if (newCost[index] > 1) {
       newCost[index] -= 1;
     }
-
     update(_levels, newCost, levelsChanged);
   };
 
@@ -77,14 +75,15 @@ export function CostPanel({ levels, levelCost, cost, color, levelsChanged }) {
       </button>
       <div className="levels">
         {times(_levels, (index) => (
-          <span
-            onWheel={(e) => onWheel(e, index)}
-            className="level-points"
-            style={{
-              background: color,
-            }}
-          >
-            {_levelCost.length ? _levelCost[index] : _levelCost}
+          <span onClick={(e) => costClicked(e, index)} className="level-points">
+            <span
+              className="level-dot"
+              style={{
+                background: color,
+              }}
+            >
+              {_levelCost.length ? _levelCost[index] : _levelCost}
+            </span>
           </span>
         ))}
       </div>
