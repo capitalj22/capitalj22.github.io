@@ -532,6 +532,53 @@
         "slots": 2,
         "spells": 1
       }
+    },
+    {
+      "name": "Illusion",
+      "id": "illusion",
+      "description": "You can cast Illusion Spells\n\nSpell Slots: %slots%\nSpells per Day: %spells%",
+      "tags": ["illusion"],
+      "type": "school",
+      "params": {
+        "slots": 2,
+        "spells": 1
+      }
+    },
+    {
+      "name": "Hallucinatory Terrain",
+      "id": "halluc-terrain",
+      "description": "you can make %numHexes% hexes of land look like another terrain type.\n\nTerrain Types:\n- Grass\n- Forrest\n- Hill\n- Mountain\n- Water\n- Ocean\n- Wall/building",
+      "tags": ["illusion", "spell"],
+      "type": "action",
+      "params": {
+        "numHexes": 2
+      }
+    },
+    {
+      "name": "Project Image",
+      "id": "project-image",
+      "description": "make %numHexes% hex of land look like it contains a unit. You pick the unit from a list of units your character has seen. The imaged unit has AC0 and HP4. Allied units can pass through the image (if the DM rules that its reasonable that they would know they are illusions), but enemies cannot. This unit lasts for 4 turns or until destroyed.",
+      "tags": ["illusion", "spell"],
+      "type": "action",
+      "params": {
+        "numHexes": 1
+      }
+    },
+    {
+      "name": "Magical Disguise",
+      "id": "magical-disguise",
+      "description": "you make a unit of the one type look like an enemy unit of the same type (or allied). While disguised, they will not be attacked by enemy units, but could be attacked by friendly units (at the DM's discretion). Disguised units take their turns with the enemy. Units stay disguised until:\n- they make an attack\n- Disguised units breaking their disguise to attack an enemy gain +1 on their first attack. \n",
+      "tags": ["illusion", "spell"],
+      "type": "action",
+      "params": {}
+    },
+    {
+      "name": "Invisiblity",
+      "id": "invisibility",
+      "description": "you make a unit invisible. Units stay invisible until:\n- they make an attack\n- are in a hex that an enemy is trying to pass through their hex\n\t- Note this triggers an Ambush\n- Concentration of the caster is lost\nInvisible units breaking invisibility to make an attack gain +2 damage on their first attack.",
+      "tags": ["illusion", "spell", "concentration"],
+      "type": "action",
+      "params": {}
     }
   ],
   "abilityTypes": [
@@ -2899,6 +2946,357 @@
         "selected": "#d9203a"
       },
       "cost": 1
+    },
+    {
+      "id": "transmutation",
+      "name": "Transmutation",
+      "requires": [
+        {
+          "id": "basic-magic",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "globalParams": [],
+      "colors": {
+        "unavailable": "#cfa255",
+        "selected": "#cd8528"
+      },
+      "cost": 1
+    },
+    {
+      "id": "animate-objects",
+      "name": "Animate Objects",
+      "requires": [
+        {
+          "id": "transmutation",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "globalParams": [],
+      "colors": {
+        "unavailable": "#cfa255",
+        "selected": "#cd8528"
+      },
+      "cost": 1
+    },
+    {
+      "id": "shape-terrain",
+      "name": "Shape Terrain",
+      "requires": [
+        {
+          "id": "transmutation",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "globalParams": [],
+      "colors": {
+        "unavailable": "#cfa255",
+        "selected": "#cd8528"
+      },
+      "cost": 1
+    },
+    {
+      "id": "polymorph",
+      "name": "Polymorph",
+      "requires": [
+        {
+          "id": "transmutation",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "globalParams": [],
+      "colors": {
+        "unavailable": "#cfa255",
+        "selected": "#cd8528"
+      },
+      "cost": 1
+    },
+    {
+      "id": "polymorph-disable",
+      "name": "Disabling Polymorph",
+      "requires": [
+        {
+          "id": "polymorph",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "globalParams": [],
+      "colors": {
+        "unavailable": "#cfa255",
+        "selected": "#cd8528"
+      },
+      "cost": 1
+    },
+    {
+      "id": "polymorph-careful",
+      "name": "Careful Polymorph",
+      "requires": [
+        {
+          "id": "polymorph",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "globalParams": [],
+      "colors": {
+        "unavailable": "#cfa255",
+        "selected": "#cd8528"
+      },
+      "cost": 1
+    },
+    {
+      "id": "polymorph-mobility",
+      "name": "Mobility Polymorph",
+      "requires": [
+        {
+          "id": "polymorph",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "globalParams": [],
+      "colors": {
+        "unavailable": "#cfa255",
+        "selected": "#cd8528"
+      },
+      "cost": 1
+    },
+    {
+      "id": "polymorph-danger",
+      "name": "Dangerous Polymorph",
+      "requires": [
+        {
+          "id": "polymorph",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "globalParams": [],
+      "colors": {
+        "unavailable": "#cfa255",
+        "selected": "#cd8528"
+      },
+      "cost": 1
+    },
+    {
+      "id": "illusion",
+      "name": "Illusion",
+      "requires": [
+        {
+          "id": "basic-magic",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "globalParams": [],
+      "colors": {
+        "unavailable": "#6fa9c2",
+        "selected": "#517fe1"
+      },
+      "cost": 1,
+      "providedAbilities": [
+        {
+          "id": "illusion",
+          "modifier": 1,
+          "modifiers": [],
+          "gain": true
+        },
+        {
+          "id": "invisibility",
+          "modifier": 1,
+          "modifiers": [],
+          "gain": true
+        },
+        {
+          "id": "magical-disguise",
+          "modifier": 1,
+          "modifiers": [],
+          "gain": true
+        },
+        {
+          "id": "project-image",
+          "modifier": 1,
+          "modifiers": [],
+          "gain": true
+        }
+      ]
+    },
+    {
+      "id": "greater-invis",
+      "name": "Greater Invisibility",
+      "requires": [
+        {
+          "id": "illusion",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "globalParams": [],
+      "colors": {
+        "unavailable": "#6fa9c2",
+        "selected": "#517fe1"
+      },
+      "cost": 1
+    },
+    {
+      "id": "mass-invis",
+      "name": "Mass Invisibility",
+      "requires": [
+        {
+          "id": "greater-invis",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "globalParams": [],
+      "colors": {
+        "unavailable": "#6fa9c2",
+        "selected": "#517fe1"
+      },
+      "cost": 1
+    },
+    {
+      "id": "superior-invis",
+      "name": "Superior Invisibilty",
+      "requires": [
+        {
+          "id": "greater-invis",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "globalParams": [],
+      "colors": {
+        "unavailable": "#6fa9c2",
+        "selected": "#517fe1"
+      },
+      "cost": 1
+    },
+    {
+      "id": "project-image-plus",
+      "name": "Project Image+",
+      "requires": [
+        {
+          "id": "illusion",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "globalParams": [],
+      "colors": {
+        "unavailable": "#6fa9c2",
+        "selected": "#517fe1"
+      },
+      "cost": 1
+    },
+    {
+      "id": "hallucinatory-terrain",
+      "name": "Hallucinatory Terrain",
+      "requires": [
+        {
+          "id": "project-image-plus",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "globalParams": [],
+      "colors": {
+        "unavailable": "#6fa9c2",
+        "selected": "#517fe1"
+      },
+      "levels": 2,
+      "levelCost": [1, 1]
+    },
+    {
+      "id": "magical-disguise-plus",
+      "name": "Magical Disguise+",
+      "requires": [
+        {
+          "id": "illusion",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "globalParams": [],
+      "colors": {
+        "unavailable": "#6fa9c2",
+        "selected": "#517fe1"
+      },
+      "cost": 1
+    },
+    {
+      "id": "horrifying-disguise",
+      "name": "Horrifying Disguise",
+      "requires": [
+        {
+          "id": "magical-disguise-plus",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "globalParams": [],
+      "colors": {
+        "unavailable": "#6fa9c2",
+        "selected": "#517fe1"
+      },
+      "cost": 1
+    },
+    {
+      "id": "commander-disguise",
+      "name": "Commander Disguise",
+      "requires": [
+        {
+          "id": "magical-disguise-plus",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "globalParams": [],
+      "colors": {
+        "unavailable": "#6fa9c2",
+        "selected": "#517fe1"
+      },
+      "cost": 1
+    },
+    {
+      "id": "illusion-proficiency",
+      "name": "Illusion Profiency",
+      "requires": [
+        {
+          "id": "illusion",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "globalParams": [],
+      "colors": {
+        "unavailable": "#6fa9c2",
+        "selected": "#517fe1"
+      },
+      "levels": 3,
+      "levelCost": [1, 1, 1]
+    },
+    {
+      "id": "illusionist",
+      "name": "Illusionist",
+      "requires": [
+        {
+          "id": "illusion-proficiency",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "globalParams": [],
+      "colors": {
+        "unavailable": "#6fa9c2",
+        "selected": "#517fe1"
+      },
+      "cost": 1
     }
   ],
   "tagColors": {
@@ -2918,7 +3316,8 @@
     "mustering": "#dca542",
     "necromancy": "#aded23",
     "spell": "#3579cf",
-    "evocation": "#d91949"
+    "evocation": "#d91949",
+    "illusion": "#3d72e6"
   },
   "stats": [
     {
