@@ -2578,7 +2578,7 @@
         }
       ],
       "colors": {
-        "unavailable": "#520505",
+        "unavailable": "#B65757",
         "selected": "#d81b1b"
       },
       "levels": 4,
@@ -2619,7 +2619,7 @@
         }
       ],
       "colors": {
-        "unavailable": "#520505",
+        "unavailable": "#B65757",
         "selected": "#d81b1b"
       },
       "levels": 2,
@@ -2650,7 +2650,7 @@
       ],
       "requirementType": "and",
       "colors": {
-        "unavailable": "#520505",
+        "unavailable": "#B65757",
         "selected": "#d81b1b"
       },
       "levels": 2,
@@ -2700,7 +2700,7 @@
         }
       ],
       "colors": {
-        "unavailable": "#330722",
+        "unavailable": "#9F4B7F",
         "selected": "#831256"
       },
       "levels": 4,
@@ -2730,7 +2730,7 @@
         }
       ],
       "colors": {
-        "unavailable": "#330722",
+        "unavailable": "#9F4B7F",
         "selected": "#831256"
       },
       "levels": 5,
@@ -2759,7 +2759,7 @@
         }
       ],
       "colors": {
-        "unavailable": "#330722",
+        "unavailable": "#9F4B7F",
         "selected": "#831256"
       },
       "cost": 1,

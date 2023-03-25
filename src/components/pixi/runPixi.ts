@@ -278,6 +278,7 @@ export function runGraphPixi(
     if (!node.colors) {
       node.colors = {};
     }
+
     addNodeGfx(node);
 
     currentlyEditing = node.id;
@@ -287,9 +288,17 @@ export function runGraphPixi(
     });
     redrawNodes();
     redrawLinks();
-    updateForces();
+    nudge();
     updateNodes(nodes, graphEvents);
     updateInfo(node, nodeMeta, nodes, infoUpdated$);
+    setTimeout(() => {
+      viewport.follow(node as any, { acceleration: 0.4 });
+      viewport.setZoom(1.4);
+
+      setTimeout(() => {
+        viewport.plugins.remove("follow");
+      }, 200);
+    }, 100);
   }
 
   function changeMode(newMode: string) {
@@ -329,7 +338,7 @@ export function runGraphPixi(
       updateInfo(node, nodeMeta, nodes, infoUpdated$);
 
       const selectionChanged = isNodeSelected(node, nodeMeta) !== selection;
-      nudge();
+      // nudge();
       redrawNodes(selectionChanged ? node.id : null);
       redrawLinks();
     } else if (mode === "edit") {
@@ -340,10 +349,10 @@ export function runGraphPixi(
   }
 
   function nudge() {
-    simulation.velocityDecay(0.8).alpha(0.05).restart();
+    updateForces(4, 0.7);
   }
 
-  function updateForces() {
+  function updateForces(iterations?: number, decay?: number) {
     if (forces) {
       simulation
         .nodes(nodes as d3Node[])
@@ -351,36 +360,43 @@ export function runGraphPixi(
           "link",
           d3
             .forceLink(links)
-            .strength((d) =>
-              isNodeSelected(d.target as INode, nodeMeta)
-                ? forces.f2 * 0.025
-                : forces.f2 * 0.01
-            )
+            .strength((d: any) => {
+              const modifier = !d.source.requires.length ? -0.2 : 0.1;
+
+              return isNodeSelected(d.target as INode, nodeMeta)
+                ? forces.f2 * 0.015 + modifier
+                : forces.f2 * 0.013 + modifier;
+            })
             .id((d) => {
               return (d as any).id;
             })
             .distance((d: any) => {
+              let modifier = !d.source.requires.length ? 6 : 1;
+              if (!d.target.requires.length) {
+                modifier += 10;
+              }
+
               if (d.source.levels || d.target.levels) {
                 return isNodeSelected(d.source as INode, nodeMeta)
-                  ? forces.f1 + 12
-                  : forces.f1 + 17;
+                  ? forces.f1 + 18 + modifier
+                  : forces.f1 + 20 + modifier;
               } else {
                 return isNodeSelected(d.source as INode, nodeMeta)
-                  ? forces.f1 + 5
-                  : forces.f1 + 10;
+                  ? forces.f1 + 10 + modifier
+                  : forces.f1 + 14 + modifier;
               }
             })
         )
         .force("charge", d3.forceManyBody().strength(-(forces.f3 * 6))) // This adds repulsion (if it's negative) between nodes.
-        .force("center", d3.forceCenter(width / 4, height / 4))
+        .force("center", d3.forceCenter(width / 3, height / 2))
         .force(
           "collision",
           d3
             .forceCollide()
             .radius((d) => forces.f3)
-            .iterations(4)
+            .iterations(iterations || 1)
         )
-        .velocityDecay(forces.f4 * 0.01);
+        .velocityDecay(decay ? decay : forces.f4 * 0.01);
 
       simulation.alpha(1).restart();
     }
@@ -619,6 +635,8 @@ export function runGraphPixi(
 
       events: app.renderer.plugins.interaction,
     });
+
+    viewport.setZoom(0.6, true);
 
     app.stage.addChild(viewport);
 
