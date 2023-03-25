@@ -216,7 +216,10 @@ export function runGraphPixi(
     node.requires = newNode.requires;
     node.requirementType = newNode.requirementType;
 
-    if (oldRequires !== newNode.requires || oldRequirementType !== newNode.requirementType) {
+    if (
+      oldRequires !== newNode.requires ||
+      oldRequirementType !== newNode.requirementType
+    ) {
       recreateLinks();
     }
 
@@ -733,12 +736,18 @@ export function runGraphPixi(
     destroy: () => {
       simulation.stop();
       nodes.forEach((node) => {
-        node.gfx.clear();
-        node.gfx.removeChildren();
-        node.gfx.destroy();
+        if (node.gfx) {
+          node.gfx.clear();
+          node.gfx.removeChildren();
+          node.gfx.destroy();
+        }
       });
+      if (visualLinks) {
+      }
+      visualLinks.clear();
       visualLinks.clear();
       graphSub.unsubscribe();
+      app.destroy();
     },
   };
 }

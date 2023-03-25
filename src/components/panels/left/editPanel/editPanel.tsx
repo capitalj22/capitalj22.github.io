@@ -52,6 +52,8 @@ export function EditPanel({ graphEvents }: Props) {
     node.globalParams || []
   );
   const nameInputRef = useRef<HTMLInputElement>(null);
+  const idRef = useRef(node.id);
+
 
   useEffect(() => {
     setNode(find(nodes, { id: selectedNodeId }) || {});
@@ -60,6 +62,7 @@ export function EditPanel({ graphEvents }: Props) {
 
   const IdUpdated = (event) => {
     setId(event.target.value);
+    idRef.current = event.target.value;
     setUnsavedData(true);
   };
 
@@ -80,10 +83,12 @@ export function EditPanel({ graphEvents }: Props) {
       some(node.requires, { id: node.id })
     )?.length;
 
+    console.log(idRef.current)
+
     let newNode = {
       name: "NEW NODE",
-      requires: [{ id: selectedNodeId, levels: 1 }],
-      id: `${node.id}-${numChildren + 1}-${sample([
+      requires: [{ id: idRef.current, levels: 1 }],
+      id: `${idRef.current}-${numChildren + 1}-${sample([
         "a",
         "b",
         "c",
@@ -91,7 +96,7 @@ export function EditPanel({ graphEvents }: Props) {
         "e",
       ])}${sample(["x", "z", "y", "v", "d"])}`,
 
-      colors: node.colors,
+      colors: colors,
     };
 
     setNodes({ type: "add", node: newNode });
@@ -147,6 +152,7 @@ export function EditPanel({ graphEvents }: Props) {
         node: newNode,
       },
     });
+
     setUnsavedData(false);
     setNodes({ type: "update", node: newNode, targetId: oldId });
   };
@@ -186,6 +192,7 @@ export function EditPanel({ graphEvents }: Props) {
   React.useEffect(() => {
     setColors(node.colors || {});
     setId(node.id);
+    idRef.current = node.id;
     setName(node.name);
     setDescription(node.description);
     setLevels(node.levels || 1);
