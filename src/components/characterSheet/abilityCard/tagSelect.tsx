@@ -73,6 +73,8 @@ export function TagSelect({ tags, type, tagsChanged, typeChanged }) {
       <AbilityTypeSelect defaultValue={type} valueChanged={typeSelected} />
       {_tags?.map((tag, index) => (
         <span
+        
+          key={index}
           className="stat-tag form-control"
           style={{ borderColor: tagColors[tag] }}
         >

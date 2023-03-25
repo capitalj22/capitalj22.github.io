@@ -48,7 +48,7 @@ export function RequiresEdit({ value, requirementType, valueChanged, nodeId }) {
   return (
     <div className="require-select">
       {map(mappedValue, (requirement, index) => (
-        <div className="requirement">
+        <div className="requirement" key={index}>
           <div className="select">
             <NodeSelect
               defaultValue={requirement.id}

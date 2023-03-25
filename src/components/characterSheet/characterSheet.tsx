@@ -132,6 +132,7 @@ function CharacterSheet() {
         ></StatLine>
         {map(stats, (stat, key) => (
           <StatLine
+            key={key}
             label={stat.name}
             value={build.stats[stat.id] || 0}
           ></StatLine>
@@ -170,8 +171,8 @@ function CharacterSheet() {
                 {filterAbilities(
                   knownAbilities[type.id],
                   filters[type.id]
-                )?.map((knownAbility) => (
-                  <div>
+                )?.map((knownAbility, index) => (
+                  <div key={index}>
                     {knownAbility?.ability && (
                       <AbilityCard
                         ability={knownAbility.ability}

@@ -135,7 +135,7 @@ export function AbilityEditor() {
             </button>
           </div>
           {filterAbilities(abilities, filters).map((ability, index) => (
-            <div className="card-wrapper">
+            <div className="card-wrapper" key={index}>
               <AbilityCard
                 key={index}
                 ability={ability}

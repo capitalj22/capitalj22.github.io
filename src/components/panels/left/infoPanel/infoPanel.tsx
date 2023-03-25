@@ -99,6 +99,7 @@ export function InfoPanel() {
     <span className="cost">
       {times(node?.levels, (index) => (
         <span
+          key={index}
           className="level-points"
           style={{
             background:
@@ -142,6 +143,7 @@ export function InfoPanel() {
             {relatedAbilities &&
               relatedAbilities.map((ability) => (
                 <AbilityCard
+                  key={ability.id}
                   ability={ability}
                   modifiers={formattedModifiers[ability.id]}
                 ></AbilityCard>

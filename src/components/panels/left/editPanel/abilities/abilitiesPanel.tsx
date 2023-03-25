@@ -82,7 +82,7 @@ export function AbilitiesPanel({
     <div className="abilities-panel">
       {_providedAbilities.length
         ? map(_providedAbilities, (ability, index) => (
-            <div className="stat-edit-line">
+            <div className="stat-edit-line" key={index}>
               <div className="ability-select">
                 <button
                   className="remove-ability-button"

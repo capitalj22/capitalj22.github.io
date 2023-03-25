@@ -19,8 +19,6 @@ import "./abilityCard.scss";
 import { EditableAbilityCard } from "./editableAbilityCard";
 
 function applyParamsToDescription(description, params, globalParams) {
-  console.log(globalParams);
-
   let editedDescription = description;
   each(Object.keys(params), (key) => {
     let value = params[key];
@@ -200,6 +198,7 @@ export function AbilityCard({
                 {!expanded &&
                   map(ability.tags, (tag) => (
                     <span
+                      key={tag}
                       className="dot"
                       style={{ backgroundColor: tagColors[tag] }}
                     ></span>
@@ -233,7 +232,7 @@ export function AbilityCard({
                 ></StatTag>
                 {uniq([...(ability.tags || []), ...(tags || [])])?.map(
                   (tag) => (
-                    <StatTag label={tag}></StatTag>
+                    <StatTag key={tag} label={tag}></StatTag>
                   )
                 )}
               </div>

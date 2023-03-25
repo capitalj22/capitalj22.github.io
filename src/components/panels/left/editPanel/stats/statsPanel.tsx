@@ -60,7 +60,7 @@ export function StatsPanel({
     <div className="stats-panel">
       {providedStats?.length
         ? map(providedStats, (stat, index) => (
-            <div className="stat-edit-line">
+            <div className="stat-edit-line" key={index}>
               <button
                 className="remove"
                 onClick={(e) => removeStatClicked(e, index)}
@@ -71,7 +71,7 @@ export function StatsPanel({
               <Select
                 classNames={{
                   control: () => "select",
-                  singleValue: () => "single-value",
+                singleValue: () => "single-value",
                   menu: () => "select-menu",
                 }}
                 options={getAvailableOptions(providedStats, options)}

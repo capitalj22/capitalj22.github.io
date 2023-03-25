@@ -75,7 +75,7 @@ export function CostPanel({ levels, levelCost, cost, color, levelsChanged }) {
       </button>
       <div className="levels">
         {times(_levels, (index) => (
-          <span onClick={(e) => costClicked(e, index)} className="level-points">
+          <span key={index} onClick={(e) => costClicked(e, index)} className="level-points">
             <span
               className="level-dot"
               style={{

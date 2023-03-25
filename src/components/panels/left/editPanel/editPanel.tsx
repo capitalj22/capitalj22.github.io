@@ -240,16 +240,6 @@ export function EditPanel({ graphEvents }: Props) {
           </div>
         </div>
 
-        <div className="requires">
-          Requires{" "}
-          <RequiresEdit
-            requirementType={requirementType}
-            value={requires}
-            valueChanged={requiredChanged}
-            nodeId={id}
-          />
-        </div>
-
         <div className="form-control node-description">
           <TextareaAutosize
             rows={6}
@@ -258,6 +248,16 @@ export function EditPanel({ graphEvents }: Props) {
           />
         </div>
         <div className="accordions">
+          <Accordion name="Requires" startOpen={false}>
+            <div className="requires">
+              <RequiresEdit
+                requirementType={requirementType}
+                value={requires}
+                valueChanged={requiredChanged}
+                nodeId={id}
+              />
+            </div>
+          </Accordion>
           <Accordion name="Stats" startOpen={false}>
             <StatsPanel
               providedStats={providedStats as any}

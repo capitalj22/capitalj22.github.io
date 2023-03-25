@@ -52,7 +52,7 @@ export function GlobalParamsEditor() {
     <div className="param-editor">
       {_params &&
         map(_params, (param, index) => (
-          <div className="param-line">
+          <div className="param-line" key={index}>
             <SmolButton color="danger" clicked={() => removePressed(index)}>
               <Trash2 size="18" />
             </SmolButton>
