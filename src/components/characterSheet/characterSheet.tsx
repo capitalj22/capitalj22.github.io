@@ -166,7 +166,7 @@ function CharacterSheet() {
           <AbilityFilterPanel
             name="filter all"
             tags={allAbilityTags}
-            expanded={false}
+            expanded={true}
             filtersUpdated={globalFiltersUpdated}
           />
         </AbilityFiltersProvider>
