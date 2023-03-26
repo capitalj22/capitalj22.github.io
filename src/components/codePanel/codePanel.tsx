@@ -1,5 +1,10 @@
 import { useContext, useState } from "react";
-import { Download, RefreshCcw, Save, Shield } from "react-feather";
+import {
+  CloudLightning,
+  Download,
+  RefreshCcw,
+  Save,
+} from "react-feather";
 import { AbilitiesContext } from "../../providers/abilities/abilitiesProvider";
 import { BuildContext } from "../../providers/build/buildProvider";
 import { NodesContext } from "../../providers/nodes/nodesProvider";
@@ -213,14 +218,21 @@ export function CodePanel() {
       <Accordion name="Defaults" startOpen={true}>
         <div className="reset">
           <SmolButton color="info" clicked={defaultClicked}>
-            <Shield />
-            Load Defaults
+            <CloudLightning />
+            Load Ed's Latest Build
           </SmolButton>
+
           <br />
           <SmolButton color="danger" clicked={resetClicked}>
             <RefreshCcw />
             Reset Build, Trees, and Abilities
           </SmolButton>
+        </div>
+        <div className="version">
+          <span>
+            Ed's latest version:{" "}
+            <span className="version-number">{exampleJson.version}</span>
+          </span>
         </div>
       </Accordion>
     </div>

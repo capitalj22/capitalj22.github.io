@@ -39,4 +39,19 @@
     display: flex;
     gap: 2rem;
   }
+  .version {
+    > span {
+      color: var(--mutedText);
+      padding: 1rem;
+      background: var(--panelColor2);
+      border-radius: 7px;
+    }
+
+    .version-number {
+      color: var(--textColor);
+      font-weight: 700;
+    }
+    text-align: left;
+    margin-left: 2rem;
+  }
 }
