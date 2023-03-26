@@ -1,5 +1,5 @@
 import reactCSS from "reactcss";
-import { ChromePicker } from "react-color";
+import { ChromePicker, CirclePicker } from "react-color";
 import { useEffect, useRef, useState } from "react";
 import "./colorPicker.scss";
 
@@ -17,7 +17,12 @@ function useOutsideAlerter(ref, callback) {
   }, [ref]);
 }
 
-export function ColorPicker({ color, colorChanged }) {
+export function ColorPicker({
+  color,
+  colorChanged,
+  type = "chrome",
+  colorOptions = ["#3bac99"],
+}) {
   const [displayColorPicker, setDisplayColorPicker] = useState(false);
   const [_color, setColor] = useState(color || "#ffffff");
   const popoverRef = useRef(null);
@@ -73,11 +78,16 @@ export function ColorPicker({ color, colorChanged }) {
       <div className="swatch" style={styles.color} onClick={handleClick}></div>
       {displayColorPicker ? (
         <div style={styles.popover}>
-          <ChromePicker
-            color={_color}
-            onChange={handleChange}
-            disableAlpha={true}
-          />
+          {type === "chrome" && (
+            <ChromePicker
+              color={_color}
+              onChange={handleChange}
+              disableAlpha={true}
+            />
+          )}
+          {type === "circle" && (
+            <CirclePicker colors={colorOptions} onChange={handleChange} />
+          )}
         </div>
       ) : null}
     </div>

@@ -51,7 +51,9 @@ export function RightPanel() {
                 <AbilityTypeEditor></AbilityTypeEditor>
               </Accordion>
               <Accordion name="Global Params" startOpen={false}>
-                <GlobalParamsEditor></GlobalParamsEditor>
+                <div className="padding-md">
+                  <GlobalParamsEditor></GlobalParamsEditor>
+                </div>
               </Accordion>
               <Accordion name="Stats" startOpen={false}>
                 <StatEditor></StatEditor>
