@@ -62,8 +62,9 @@ export function PixiGraph({ infoUpdated, graphEvents }) {
             globalParamsref.current
           ),
         });
-
-        setNodeMeta(data.nodeMeta);
+        if (data.nodeMeta) {
+          setNodeMeta(data.nodeMeta);
+        }
       },
     });
 

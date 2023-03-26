@@ -55,11 +55,15 @@ export function runGraphPixi(
         case "nodeDeleted":
           deleteNode(e.data.id);
           break;
+        case "nodeAcquisitionChanged":
+          editNodeAcquisition(e.data.id, e.data.acquired);
+          break;
         case "nodeEdited":
           editNode(e.data.id, e.data.node);
           break;
         case "themeChanged":
           setTheme(e.data);
+          break;
       }
     },
   });
@@ -136,6 +140,7 @@ export function runGraphPixi(
         selected: isNodeSelected(n, nodeMeta),
         acquired: nodeMeta.acquired[n.id],
       })),
+      nodeMeta: nodeMeta,
     });
   }
 
@@ -197,6 +202,37 @@ export function runGraphPixi(
         nodeMeta.available[n.id] = true;
       }
     });
+  }
+
+  function editNodeAcquisition(nodeId, acquired) {
+    let node = find(nodes, { id: nodeId }) as INode;
+    let oldAcquired = nodeMeta.acquired[nodeId];
+
+    console.log("old", oldAcquired);
+    console.log("new", acquired);
+
+    if (node.levels && node.levels > 1) {
+      nodeMeta = acquiredselectNodeAndReturnNewMeta(
+        node,
+        nodes,
+        nodeMeta,
+        acquired
+      );
+    } else {
+      nodeMeta = acquiredselectNodeAndReturnNewMeta(node, nodes, nodeMeta);
+    }
+
+    nodesUpdated$.next({
+      nodes: map(nodes, (n) => ({
+        ...n,
+        selected: isNodeSelected(n, nodeMeta),
+        acquired: nodeMeta.acquired[n.id],
+      })),
+      nodeMeta,
+    });
+
+    updateInfo(node, nodeMeta, nodes, infoUpdated$);
+    redrawNodes();
   }
 
   function editNode(nodeId, newNode) {
@@ -320,12 +356,18 @@ export function runGraphPixi(
     if (mode === "build-fast") {
       const selection = isNodeSelected(node, nodeMeta);
 
-      nodeMeta = acquiredselectNodeAndReturnNewMeta(
-        node,
-        nodes,
-        nodeMeta,
-        e.nativeEvent.shiftKey
-      );
+      if (node.levels && node.levels > 1) {
+        nodeMeta = acquiredselectNodeAndReturnNewMeta(
+          node,
+          nodes,
+          nodeMeta,
+          e.nativeEvent.shiftKey
+            ? nodeMeta.acquired[node.id] - 1
+            : nodeMeta.acquired[node.id] + 1
+        );
+      } else {
+        nodeMeta = acquiredselectNodeAndReturnNewMeta(node, nodes, nodeMeta);
+      }
 
       nodesUpdated$.next({
         nodes: map(nodes, (n) => ({
@@ -732,6 +774,14 @@ export function runGraphPixi(
     };
 
     simulation.on("tick", ticked);
+    nodesUpdated$.next({
+      nodes: map(nodes, (n) => ({
+        ...n,
+        selected: isNodeSelected(n, nodeMeta),
+        acquired: nodeMeta.acquired[n.id],
+      })),
+      nodeMeta,
+    });
 
     setTheme(theme);
   }

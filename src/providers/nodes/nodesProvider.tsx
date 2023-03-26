@@ -1,6 +1,5 @@
 import { clone, filter, map } from "lodash-es";
 import { createContext, useReducer, useState } from "react";
-import exampleJson from "../../data/example-config.json";
 export const NodesContext = createContext({} as any);
 
 function getNodes() {

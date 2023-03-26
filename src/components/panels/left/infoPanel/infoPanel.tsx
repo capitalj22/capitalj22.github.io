@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { each, find, isUndefined, map, reduce, times } from "lodash-es";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { AbilitiesContext } from "../../../../providers/abilities/abilitiesProvider";
 import { BuildContext } from "../../../../providers/build/buildProvider";
 import { NodesContext } from "../../../../providers/nodes/nodesProvider";
@@ -19,11 +19,14 @@ export const isNodeSelected = (node, nodeMeta) => {
 };
 
 function getAcquired(node, nodeMeta) {
-  if (node.levels && node.levels > 1) {
-    return nodeMeta?.acquired[node.id];
-  } else {
-    return nodeMeta?.selected[node.id] ? 1 : 0;
+  if (node) {
+    if (node.levels && node.levels > 1) {
+      return nodeMeta?.acquired[node.id];
+    } else {
+      return nodeMeta?.selected[node.id] ? 1 : 0;
+    }
   }
+  return [];
 }
 
 function getRelatedAbilities(node, abilities) {
@@ -50,10 +53,12 @@ function formatNodeModifiers(providedAbilities, build, selected) {
   return abilities;
 }
 
-function getRequiredText(requires, nodes) {
-  if (requires?.length) {
-    return reduce(
-      requires,
+function getRequiredText(node, nodes) {
+  let requiredText = "";
+
+  if (node?.requires?.length) {
+    requiredText = reduce(
+      node.requires,
       (acc, required) => {
         const node = find(nodes, { id: required.id });
         let text;
@@ -62,11 +67,13 @@ function getRequiredText(requires, nodes) {
         } else {
           text = node?.name;
         }
-        return [...acc, text];
+        return [...acc, `${text}`];
       },
       [] as string[]
-    ).join(" + ");
+    ).join(node.requirementType === "or" ? " or " : " and ");
   }
+  console.log(requiredText);
+  return `${requiredText}`;
 }
 
 export function InfoPanel({ graphEvents }) {
@@ -83,10 +90,10 @@ export function InfoPanel({ graphEvents }) {
       : {}
   );
   const [requiredText, setRequiredText] = useState(
-    getRequiredText(node?.requires, nodes)
+    getRequiredText(node, nodes)
   );
   const [acquired, setAcquired] = useState(getAcquired(node, nodeMeta));
-
+  const requiredTextRef = useRef(requiredText);
   let nodeColor = node?.colors?.selected;
 
   useEffect(() => {
@@ -101,26 +108,40 @@ export function InfoPanel({ graphEvents }) {
       setFormattedModifiers(
         formatNodeModifiers(node?.providedAbilities, build, node?.selected)
       );
-      setRequiredText(getRequiredText(node?.requires, nodes));
+      setRequiredText(getRequiredText(node, node));
+      requiredTextRef.current = getRequiredText(node, nodes);
     }
   }, [node]);
 
-  const costPressed = (index?) => {
-    if (node.levels && node.levels > 1) {
-      if (acquired === index + 1) {
-        setAcquired(index);
-      } else {
-        setAcquired(index + 1);
-      }
-    } else {
-      setAcquired(acquired ? 0 : 1);
-    }
+  useEffect(() => {
+    setAcquired(getAcquired(node, nodeMeta));
+    requiredTextRef.current = getRequiredText(node, nodes);
+  }, [nodeMeta]);
 
-    graphEvents.next({
-      event: "nodeAcquisitionChanged",
-      id: selectedNodeId,
-      acquired,
-    });
+  const costPressed = (index?) => {
+    if (nodeMeta.available[selectedNodeId]) {
+      let newAcquired = acquired;
+
+      if (node.levels && node.levels > 1) {
+        if (acquired === index + 1) {
+          newAcquired = index;
+        } else {
+          newAcquired = index + 1;
+        }
+      } else {
+        newAcquired = !newAcquired;
+      }
+
+      setAcquired(newAcquired);
+
+      graphEvents.next({
+        event: "nodeAcquisitionChanged",
+        data: {
+          id: selectedNodeId,
+          acquired: newAcquired,
+        },
+      });
+    }
   };
 
   if (node) {
@@ -134,6 +155,7 @@ export function InfoPanel({ graphEvents }) {
                   onClick={() => costPressed(index)}
                   key={index}
                   className={classNames({
+                    unavailable: !nodeMeta.available[selectedNodeId],
                     "level-points": true,
                     "not-acquired": acquired < index + 1,
                   })}
@@ -150,6 +172,7 @@ export function InfoPanel({ graphEvents }) {
               <span
                 onClick={() => costPressed()}
                 className={classNames({
+                  unavailable: !nodeMeta.available[selectedNodeId],
                   "level-points": true,
                   "not-acquired": !acquired,
                 })}
@@ -166,7 +189,7 @@ export function InfoPanel({ graphEvents }) {
         <div className="divider" style={{ backgroundColor: nodeColor }}></div>
         {!nodeMeta?.available[node?.id] ? (
           <div className="requires">
-            Requires <span className="skill">{requiredText}</span>
+            Requires <span className="skill">{requiredTextRef.current}</span>
           </div>
         ) : null}
         <div className="info-description">{node?.description}</div>

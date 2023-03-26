@@ -17,7 +17,7 @@ export const acquiredselectNodeAndReturnNewMeta = (
   selectedNode: INode,
   allNodes: INode[],
   nodeMeta,
-  shiftKey: boolean
+  acquired: number = 1
 ) => {
   let newMeta = nodeMeta;
   if (newMeta.available[selectedNode.id]) {
@@ -26,10 +26,11 @@ export const acquiredselectNodeAndReturnNewMeta = (
         newMeta.acquired[selectedNode.id] = 0;
       }
 
-      if (shiftKey && newMeta.acquired[selectedNode.id] > 0) {
-        newMeta.acquired[selectedNode.id]--;
-      } else if (newMeta.acquired[selectedNode.id] < selectedNode.levels) {
-        newMeta.acquired[selectedNode.id]++;
+      if (
+        acquired >= 0 &&
+        acquired <= selectedNode.levels
+      ) {
+        newMeta.acquired[selectedNode.id] = acquired;
       }
     } else {
       newMeta.selected[selectedNode.id] = !newMeta.selected[selectedNode.id];
