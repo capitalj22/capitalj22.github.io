@@ -215,7 +215,7 @@ export function CodePanel() {
           </div>
         </div>
       </Accordion>
-      <Accordion name="Defaults" startOpen={true}>
+      <Accordion name="Presets" startOpen={true}>
         <div className="reset">
           <SmolButton color="info" clicked={defaultClicked}>
             <CloudLightning />
@@ -223,10 +223,6 @@ export function CodePanel() {
           </SmolButton>
 
           <br />
-          <SmolButton color="danger" clicked={resetClicked}>
-            <RefreshCcw />
-            Reset Build, Trees, and Abilities
-          </SmolButton>
         </div>
         <div className="version">
           <span>
@@ -245,6 +241,13 @@ export function CodePanel() {
               {version}
             </span>{" "}
           </span>
+        </div>
+        <div></div>
+        <div className="reset">
+          <SmolButton color="danger" clicked={resetClicked}>
+            <RefreshCcw />
+            Start from Scratch
+          </SmolButton>
         </div>
       </Accordion>
     </div>
