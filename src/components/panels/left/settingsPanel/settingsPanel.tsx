@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import ReactSlider from "react-slider";
+import { ColorPicker } from "../../../common/color-picker/colorPicker";
 import "./settingsPanel.scss";
-
-function updateForces(forces, setForces) {}
 
 export function SettingsPanel({ graphEvents$ }) {
   const [force1, setForce1] = useState(50);
@@ -44,8 +43,15 @@ export function SettingsPanel({ graphEvents$ }) {
     });
   };
 
+  const colorChanged = (color) => {
+    document.documentElement.style.setProperty("--themeColor", color);
+  };
+
   return (
     <div>
+      <div className="colorpicker">
+        <ColorPicker color="#ffffff" colorChanged={colorChanged} />
+      </div>
       <div className="slider">
         <ReactSlider
           min={0}
