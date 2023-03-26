@@ -15,6 +15,7 @@ import { includes } from "lodash-es";
 export interface IGraphEvent {
   event:
     | "nodeAcquisitionChanged"
+    | "nodeMetaUpdated"
     | "forcesUpdated"
     | "modeChanged"
     | "nodeAdded"

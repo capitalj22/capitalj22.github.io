@@ -94,9 +94,21 @@ export function InfoPanel({ graphEvents }) {
   const [acquired, setAcquired] = useState(getAcquired(node, nodeMeta));
   const requiredTextRef = useRef(requiredText);
   let nodeColor = node?.colors?.selected;
+  const nodeRef = useRef(node);
+
+  useEffect(() => {
+    graphEvents.subscribe({
+      next: (event) => {
+        if (event.event === "nodeMetaUpdated") {
+          setAcquired(getAcquired(nodeRef.current, event.data.nodeMeta));
+        }
+      },
+    });
+  }, []);
 
   useEffect(() => {
     setNode(find(nodes, { id: selectedNodeId }));
+    nodeRef.current = find(nodes, { id: selectedNodeId });
   }, [selectedNodeId]);
 
   useEffect(() => {
@@ -112,10 +124,10 @@ export function InfoPanel({ graphEvents }) {
     }
   }, [node]);
 
-  useEffect(() => {
-    setAcquired(getAcquired(node, nodeMeta));
-    requiredTextRef.current = getRequiredText(node, nodes);
-  }, [nodeMeta]);
+  // useEffect(() => {
+  //   setAcquired(getAcquired(node, nodeMeta));
+  //   requiredTextRef.current = getRequiredText(node, nodes);
+  // }, [nodeMeta]);
 
   const costPressed = (index?) => {
     if (nodeMeta.available[selectedNodeId]) {
