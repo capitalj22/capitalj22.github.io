@@ -208,9 +208,6 @@ export function runGraphPixi(
     let node = find(nodes, { id: nodeId }) as INode;
     let oldAcquired = nodeMeta.acquired[nodeId];
 
-    console.log("old", oldAcquired);
-    console.log("new", acquired);
-
     if (node.levels && node.levels > 1) {
       nodeMeta = acquiredselectNodeAndReturnNewMeta(
         node,
@@ -338,7 +335,6 @@ export function runGraphPixi(
   }
 
   function changeMode(newMode: string) {
-    console.log(newMode);
     let oldMode = mode;
 
     mode = newMode;
@@ -379,13 +375,14 @@ export function runGraphPixi(
       });
 
       updateInfo(node, nodeMeta, nodes, infoUpdated$);
-
+      graphEvents.next({ event: "nodeMetaUpdated", data: { nodeMeta } });
       const selectionChanged = isNodeSelected(node, nodeMeta) !== selection;
       // nudge();
       redrawNodes(selectionChanged ? node.id : null);
       redrawLinks();
     } else if (mode === "build-slow") {
       updateInfo(node, nodeMeta, nodes, infoUpdated$);
+      redrawLinks();
     } else if (mode === "edit") {
       currentlyEditing = node.id;
       updateInfo(node, nodeMeta, nodes, infoUpdated$);
