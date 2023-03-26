@@ -1,12 +1,17 @@
 import { useContext, useEffect, useState } from "react";
-import { ChevronUp, Minus, Plus, RotateCcw } from "react-feather";
+import { Minus, Plus, RotateCcw } from "react-feather";
 import { TagFilters } from "../../characterSheet/tagFilters/tagFilters";
 import { SmolButton } from "../buttons/smolButton";
 import { FancyTextInput } from "../tag-input/fancyTextInput";
 import "./abilityFilterPanel.scss";
 import { abilityFiltersContext } from "./abilityFilterProvider";
 
-export function AbilityFilterPanel({ tags, expanded, filtersUpdated }) {
+export function AbilityFilterPanel({
+  tags,
+  expanded,
+  filtersUpdated,
+  name = "filters",
+}) {
   const { filters, setFilters } = useContext(abilityFiltersContext);
   const [isExpanded, setIsExpanded] = useState(expanded);
 
@@ -55,7 +60,7 @@ export function AbilityFilterPanel({ tags, expanded, filtersUpdated }) {
     return (
       <div className="ability-filters closed">
         <button onClick={() => setIsExpanded(!isExpanded)} className="controls">
-          filters
+          {name}
           <Plus size={18} />
         </button>
       </div>

@@ -24,16 +24,13 @@ import { AbilityFilterPanel } from "../common/filters/abilityFilterPanel";
 import { AbilityFiltersProvider } from "../common/filters/abilityFilterProvider";
 
 function getKnownAbilities(build) {
-  return groupBy(
-    map(
-      filter(build.abilities, (ability) => {
-        return !ability.replaced && ability.learned;
-      }),
-      (ability) => ({
-        ...ability,
-      })
-    ),
-    "type"
+  return map(
+    filter(build.abilities, (ability) => {
+      return !ability.replaced && ability.learned;
+    }),
+    (ability) => ({
+      ...ability,
+    })
   );
 }
 
@@ -83,10 +80,17 @@ function getColumns(active) {
 
 function formatKnownAbilitiesAndTags(build, abilities) {
   let knownAbilities = getKnownAbilities(build);
+  let knownAbilitiesByType = groupBy(knownAbilities, "type");
   let abilityTags = {};
-  each(Object.keys(knownAbilities), (typeName) => {
+  let allAbilityTags: string[] = [];
+
+  each(knownAbilities, (ability) => {
+    abilityTags[ability.name] = ability.tags;
+  });
+
+  each(Object.keys(knownAbilitiesByType), (typeName) => {
     let tags: string[] = [];
-    each(knownAbilities[typeName], (knownAbility) => {
+    each(knownAbilitiesByType[typeName], (knownAbility) => {
       const id = knownAbility.id;
       knownAbility.ability = find(abilities as any, { id });
 
@@ -94,32 +98,50 @@ function formatKnownAbilitiesAndTags(build, abilities) {
         tags = uniq([...tags, ...knownAbility.tags]);
       }
     });
+    allAbilityTags = uniq([...allAbilityTags, ...tags]);
     abilityTags[typeName] = sortBy(tags);
   });
 
-  return { abilityTags, knownAbilities };
+  return { abilityTags, knownAbilities, knownAbilitiesByType, allAbilityTags };
 }
 
 function CharacterSheet() {
   const { build } = useContext(BuildContext);
   const { abilityTypes, abilities } = useContext(AbilitiesContext);
   const [knownAbilities, setKnownAbilities] = useState({});
+  const [knownAbilitiesByType, setKnownAbilitiesByType] = useState({});
   const [abilityTags, setAbilityTags] = useState({});
+  const [allAbilityTags, setAllAbilityTags] = useState([] as string[]);
   const { stats } = useContext(StatsContext);
   const [filters, setFilters] = useState({});
+  const [globalFilters, setGlobalFilters] = useState({});
   const { ref, active, width } = useContainerQueries({
     breakpoints: breakpoints as any,
   });
+  const {
+    ref: ref2,
+    active: active2
+  } = useContainerQueries({
+    breakpoints: breakpoints as any,
+  });
   const [allExpanded, setAllExpanded] = useState({});
+  const [globalFilterActive, setGlobalFilterActive] = useState(false);
 
   const toggleExpandAll = (key) => {
     setAllExpanded({ ...allExpanded, ...{ [key]: !allExpanded[key] } });
   };
 
+  const globalFiltersUpdated = (filters) => {
+    setGlobalFilterActive(filters.tags.length || filters.textFilter.length);
+    setGlobalFilters(filters);
+  };
+
   useEffect(() => {
     const result = formatKnownAbilitiesAndTags(build, abilities);
     setKnownAbilities(result.knownAbilities);
+    setKnownAbilitiesByType(result.knownAbilitiesByType);
     setAbilityTags(result.abilityTags);
+    setAllAbilityTags(result.allAbilityTags);
   }, [build, abilities]);
 
   return (
@@ -140,38 +162,75 @@ function CharacterSheet() {
       </div>
       <div className="abilities">
         <div className="title">Abilities</div>
-        {sortBy(abilityTypes, "name").map((type, index) => (
-          <Accordion
-            key={index}
-            startOpen={false}
-            name={type.name}
-            disabled={!knownAbilities[type.id]?.length}
-          >
-            <AbilityFiltersProvider>
-              <AbilityFilterPanel
-                expanded={false}
-                tags={abilityTags[type.id] || []}
-                filtersUpdated={(e) => setFilters({ ...filters, [type.id]: e })}
-              />
-            </AbilityFiltersProvider>
-            <div ref={ref} className="ability-cards">
-              <div className="expand-button">
-                <SmolButton
-                  color="theme"
-                  clicked={() => toggleExpandAll(type.id)}
-                >
-                  {!!allExpanded[type.id] ? (
-                    <ChevronsUp size={30} />
-                  ) : (
-                    <ChevronsDown size={30} />
-                  )}
-                </SmolButton>
-              </div>
-              <Masonry columns={getColumns(active)} spacing={2}>
-                {filterAbilities(
-                  knownAbilities[type.id],
-                  filters[type.id]
-                )?.map((knownAbility, index) => (
+        <AbilityFiltersProvider>
+          <AbilityFilterPanel
+            name="filter all"
+            tags={allAbilityTags}
+            expanded={false}
+            filtersUpdated={globalFiltersUpdated}
+          />
+        </AbilityFiltersProvider>
+        {!globalFilterActive && (
+          <div className="accordions">
+            {sortBy(abilityTypes, "name").map((type, index) => (
+              <Accordion
+                key={index}
+                startOpen={false}
+                name={type.name}
+                disabled={!knownAbilitiesByType[type.id]?.length}
+              >
+                <AbilityFiltersProvider>
+                  <AbilityFilterPanel
+                    expanded={false}
+                    tags={abilityTags[type.id] || []}
+                    filtersUpdated={(e) =>
+                      setFilters({ ...filters, [type.id]: e })
+                    }
+                  />
+                </AbilityFiltersProvider>
+                <div ref={ref} className="ability-cards">
+                  <div className="expand-button">
+                    <SmolButton
+                      color="theme"
+                      clicked={() => toggleExpandAll(type.id)}
+                    >
+                      {!!allExpanded[type.id] ? (
+                        <ChevronsUp size={30} />
+                      ) : (
+                        <ChevronsDown size={30} />
+                      )}
+                    </SmolButton>
+                  </div>
+                  <Masonry columns={getColumns(active)} spacing={2}>
+                    {filterAbilities(
+                      knownAbilitiesByType[type.id],
+                      filters[type.id]
+                    )?.map((knownAbility, index) => (
+                      <div key={index}>
+                        {knownAbility?.ability && (
+                          <AbilityCard
+                            ability={knownAbility.ability}
+                            isPlayerAbility={true}
+                            modifiers={knownAbility.modifiers}
+                            tags={knownAbility.tags}
+                            playerGlobalParams={build.globalParams}
+                            startOpen={false}
+                            isExpanded={!!allExpanded[type.id]}
+                          ></AbilityCard>
+                        )}
+                      </div>
+                    ))}
+                  </Masonry>
+                </div>
+              </Accordion>
+            ))}
+          </div>
+        )}
+        {!!globalFilterActive && (
+          <div ref={ref2} className="ability-cards">
+            <Masonry columns={getColumns(active2)} spacing={1.5}>
+              {filterAbilities(knownAbilities, globalFilters)?.map(
+                (knownAbility, index) => (
                   <div key={index}>
                     {knownAbility?.ability && (
                       <AbilityCard
@@ -180,16 +239,15 @@ function CharacterSheet() {
                         modifiers={knownAbility.modifiers}
                         tags={knownAbility.tags}
                         playerGlobalParams={build.globalParams}
-                        startOpen={false}
-                        isExpanded={!!allExpanded[type.id]}
+                        startOpen={true}
                       ></AbilityCard>
                     )}
                   </div>
-                ))}
-              </Masonry>
-            </div>
-          </Accordion>
-        ))}
+                )
+              )}
+            </Masonry>
+          </div>
+        )}
       </div>
     </div>
   );
