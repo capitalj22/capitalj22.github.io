@@ -4,6 +4,7 @@ import { PlusSquare, XCircle } from "react-feather";
 import { Ability } from "../../../../../entities/abilities/abilities";
 import { AbilitiesContext } from "../../../../../providers/abilities/abilitiesProvider";
 import { AbilityCard } from "../../../../characterSheet/abilityCard/abilityCard";
+import { BigButton } from "../../../../common/buttons/bigButton";
 import { AbilitySelect } from "../../../../common/selects/abilitySelect";
 import { StatsPanel } from "../stats/statsPanel";
 import "./abilitiesPanel.scss";
@@ -91,7 +92,14 @@ export function AbilitiesPanel({
                   <XCircle />
                 </button>
                 <AbilitySelect
-                  usedOptions={map(_providedAbilities, "id")}
+                  usedOptions={
+                    ability.id
+                      ? map(
+                          filter(_providedAbilities, { id: !ability.id }),
+                          "id"
+                        )
+                      : map(_providedAbilities, "id")
+                  }
                   defaultValue={ability.id}
                   valueChanged={(e) => abilityChanged(e, index)}
                 />
@@ -139,11 +147,11 @@ export function AbilitiesPanel({
             </div>
           ))
         : ""}
-      <div className="add-button">
-        <button onClick={addbuttonClicked}>
-          Add Ability
+      <div className="padding-md">
+        <BigButton type="outline" color="info" clicked={addbuttonClicked}>
+          Add Related Ability
           <PlusSquare />
-        </button>
+        </BigButton>
       </div>
     </div>
   );

@@ -85,7 +85,7 @@ export function RequiresEdit({ value, requirementType, valueChanged, nodeId }) {
         </div>
       )}
       <SmolButton color="mutdWhite" clicked={addPressed}>
-        <PlusSquare />
+        <PlusSquare /> Add requirement
       </SmolButton>
     </div>
   );

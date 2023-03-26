@@ -10,6 +10,10 @@
     display: flex;
     flex: 2;
     gap: 0.5rem;
+
+    .select {
+      min-width: 10rem;
+    }
   }
   .requirementType {
     cursor: pointer;
