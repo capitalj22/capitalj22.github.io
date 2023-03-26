@@ -19,8 +19,15 @@ import { StatTag } from "../statTag/statTag";
 import "./abilityCard.scss";
 import { EditableAbilityCard } from "./editableAbilityCard";
 
+function mapGlobalParams(params) {
+  let globalParams = {};
+  each(params, (param) => {
+    globalParams[param.id] = param.modifier;
+  });
+}
 function applyParamsToDescription(description, params, globalParams) {
   let editedDescription = description;
+
   each(Object.keys(params), (key) => {
     let value = params[key];
 
@@ -41,7 +48,6 @@ function applyParamsToDescription(description, params, globalParams) {
       value
     );
   });
-
   if (globalParams) {
     each(Object.keys(globalParams), (key) => {
       let value = globalParams[key];
@@ -113,7 +119,6 @@ type Props = {
 export function AbilityCard({
   ability,
   modifiers,
-  playerGlobalParams,
   tags,
   startOpen = true,
   editable = false,
@@ -122,11 +127,15 @@ export function AbilityCard({
   forceIsEditing = false,
   isExpanded,
 }: Props) {
-  const { abilityTypes } = useContext(AbilitiesContext);
+  const { abilityTypes, globalParams } = useContext(AbilitiesContext);
   const { build } = useContext(BuildContext);
   const { abilities } = useContext(AbilitiesContext);
   const { tagColors, setTagColors } = useContext(TagsContext);
-  const [_globalParams, setGlobalParams] = useState(playerGlobalParams);
+  const [_globalParams, setGlobalParams] = useState(
+    isUndefined(build?.globalParams)
+      ? mapGlobalParams(globalParams)
+      : build.globalParams
+  );
   const [description, setDescription] = useState(
     getDescription(ability, modifiers, _globalParams)
   );
@@ -167,7 +176,7 @@ export function AbilityCard({
   };
 
   useEffect(() => {
-    setDescription(getDescription(ability, modifiers, playerGlobalParams));
+    setDescription(getDescription(ability, modifiers, _globalParams));
   }, [ability, modifiers]);
 
   if (isEditing) {

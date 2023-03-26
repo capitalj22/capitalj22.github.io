@@ -72,7 +72,6 @@ function getRequiredText(node, nodes) {
       [] as string[]
     ).join(node.requirementType === "or" ? " or " : " and ");
   }
-  console.log(requiredText);
   return `${requiredText}`;
 }
 

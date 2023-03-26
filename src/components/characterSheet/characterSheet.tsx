@@ -211,7 +211,6 @@ function CharacterSheet() {
                             isPlayerAbility={true}
                             modifiers={knownAbility.modifiers}
                             tags={knownAbility.tags}
-                            playerGlobalParams={build.globalParams}
                             startOpen={false}
                             isExpanded={!!allExpanded[type.id]}
                           ></AbilityCard>
@@ -236,7 +235,6 @@ function CharacterSheet() {
                         isPlayerAbility={true}
                         modifiers={knownAbility.modifiers}
                         tags={knownAbility.tags}
-                        playerGlobalParams={build.globalParams}
                         startOpen={true}
                       ></AbilityCard>
                     )}
