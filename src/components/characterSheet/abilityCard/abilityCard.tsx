@@ -5,6 +5,7 @@ import {
   isFunction,
   isUndefined,
   map,
+  sortBy,
   uniq,
 } from "lodash-es";
 import { useContext, useEffect, useState } from "react";
@@ -230,7 +231,7 @@ export function AbilityCard({
                   label={find(abilityTypes, { id: ability.type })?.name}
                   emphasize={true}
                 ></StatTag>
-                {uniq([...(ability.tags || []), ...(tags || [])])?.map(
+                {sortBy(uniq([...(ability.tags || []), ...(tags || [])]))?.map(
                   (tag) => (
                     <StatTag key={tag} label={tag}></StatTag>
                   )

@@ -118,10 +118,7 @@ function CharacterSheet() {
   const { ref, active, width } = useContainerQueries({
     breakpoints: breakpoints as any,
   });
-  const {
-    ref: ref2,
-    active: active2
-  } = useContainerQueries({
+  const { ref: ref2, active: active2 } = useContainerQueries({
     breakpoints: breakpoints as any,
   });
   const [allExpanded, setAllExpanded] = useState({});
@@ -181,6 +178,7 @@ function CharacterSheet() {
               >
                 <AbilityFiltersProvider>
                   <AbilityFilterPanel
+                    name={"filter " + type.name + " abilities"}
                     expanded={false}
                     tags={abilityTags[type.id] || []}
                     filtersUpdated={(e) =>
