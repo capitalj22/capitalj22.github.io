@@ -32,21 +32,36 @@ export function Main() {
   const { setSelectedNodeId } = useContext(NodesContext);
   const { build } = useContext(BuildContext);
   const { theme } = useContext(ThemeContext);
-  const { appMode, setAppMode, buildMode } = useContext(stateContext);
+  const { appMode, setAppMode, buildMode, setBuildMode } =
+    useContext(stateContext);
   const appModeRef = useRef(appMode);
+  const buildModeRef = useRef(buildMode);
 
   useEffect(() => {
     appModeRef.current = appMode;
   }, [appMode]);
 
+  useEffect(() => {
+    buildModeRef.current = buildMode;
+  }, [buildMode]);
+
   const handleKeyPress = useCallback((event) => {
     const forbiddenTags = ["INPUT", "SELECT", "TEXTAREA"];
     if (
       event.shiftKey &&
-      event.key === "E" &&
       !includes(forbiddenTags, document.activeElement?.tagName)
     ) {
-      setAppMode(appModeRef.current === "edit" ? buildMode : "edit");
+      if (event.key === "E") {
+        setAppMode(appModeRef.current === "edit" ? buildMode : "edit");
+      } else if (event.key === "F") {
+        if (buildModeRef.current === "build-slow") {
+          setAppMode("build-fast");
+          setBuildMode("build-fast");
+        } else {
+          setAppMode("build-slow");
+          setBuildMode("build-slow");
+        }
+      }
     }
   }, []);
 
