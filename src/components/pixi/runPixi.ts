@@ -86,10 +86,10 @@ export function runGraphPixi(
   let currentlyEditing;
 
   let forces = {
-    f1: 10,
-    f2: 44,
-    f3: 40,
-    f4: 10,
+    f1: 20,
+    f2: 18,
+    f3: 50,
+    f4: 7,
   };
 
   function setTheme(theme: string) {
