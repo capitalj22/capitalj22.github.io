@@ -764,7 +764,7 @@
         "defense",
         "spell"
       ],
-      "type": "action",
+      "type": "reaction",
       "params": {
         "shield_armor": 1,
         "shield_count": 1,
@@ -816,7 +816,7 @@
     },
     {
       "name": "Magical Deflection",
-      "id": "Magical-Deflection-id-57",
+      "id": "magical-deflection",
       "description": "As a reaction in response to projectiles or spells targeting you. You create a magical shield that deflects projectiles.  This causes %mdef_count% ranged attack(s) made against you to miss.\n{redirect} Any deflected attack can be redirected, use the original attack's stats {/redirect}",
       "tags": [
         "abjuration",
@@ -827,6 +827,64 @@
       "params": {
         "mdef_count": 1,
         "redirect": 0
+      }
+    },
+    {
+      "name": "Divination Casting",
+      "id": "divination-casting",
+      "description": "You can cast divination spells.\n\nSpell Slots: %div_slots%\nSpells Per action: %div_spells%",
+      "tags": [
+        "divination"
+      ],
+      "type": "school",
+      "params": {
+        "div_slots": 2,
+        "div_spells": 1
+      }
+    },
+    {
+      "name": "Gift of Foresight",
+      "id": "gift-of-foresight",
+      "description": "Choose %gof_num% ally within spell range and grant them %gof_ac% AC. {gof_atk} Also give them +1 on their dice rolls. {/gof_atk} {gof_react} A unit with the Gift of Forsight on them can, as a reaction to another unit becoming adjacent, move %gof_react% hex away. They can only do this once. This movement would never provoke and attack of oppourtunity. {/gof_react}",
+      "tags": [
+        "divination",
+        "concentration"
+      ],
+      "type": "action",
+      "params": {
+        "gof_ac": 1,
+        "gof_atk": 0,
+        "gof_num": 1,
+        "gof_react": 0
+      }
+    },
+    {
+      "name": "Portent",
+      "id": "portent",
+      "description": "Before a battle, roll %Port_num%x1d6 and save that roll. You can replace any attack roll within spell range by yourself, an ally, or enemy with this number. Uses a reaction if used to replace an enemy roll. Within magical range.",
+      "tags": [
+        "divination"
+      ],
+      "type": "action",
+      "params": {
+        "Port_num": 1
+      }
+    },
+    {
+      "name": "Phantom Sight",
+      "id": "phantom-sight",
+      "description": "Choose %ps-num% of enemy unit(s). {base1}The DM will tell you what action they will use on their next turn. {/base1} {ps-adv} The DM will tell you what movement and action they will use on their next turn. {/ps-adv} {base2} Only effective on non-command units {/base2} {ps-comm} Effective on all unit types. {/ps-comm}",
+      "tags": [
+        "divination",
+        "spell"
+      ],
+      "type": "bonus action",
+      "params": {
+        "base1": 1,
+        "base2": 1,
+        "ps-num": 1,
+        "ps-comm": 0,
+        "ps-adv": 0
       }
     }
   ],
@@ -914,6 +972,7 @@
       "requirementType": "and",
       "description": "Grants your unit the ability to cast spells",
       "globalParams": [],
+      "exclusiveWith": [],
       "colors": {
         "unavailable": "#878787",
         "selected": "#96b7bd"
@@ -2775,6 +2834,9 @@
           "set": false
         }
       ],
+      "exclusiveWith": [
+        "paladin"
+      ],
       "colors": {
         "unavailable": "#C5B986",
         "selected": "#e2c846"
@@ -2814,7 +2876,12 @@
           "levels": 2
         }
       ],
+      "requirementType": "and",
       "description": "Holy spells deal +1 damage",
+      "globalParams": [],
+      "exclusiveWith": [
+        "cleric"
+      ],
       "colors": {
         "unavailable": "#C5B986",
         "selected": "#e2c846"
@@ -3645,8 +3712,8 @@
       "description": "You can now cast abjuration spells.",
       "globalParams": [],
       "colors": {
-        "unavailable": "#080837",
-        "selected": "#141487"
+        "unavailable": "#6262CF",
+        "selected": "#483CE3"
       },
       "cost": 1,
       "providedAbilities": [
@@ -3669,7 +3736,7 @@
           "gain": true
         },
         {
-          "id": "Magical-Deflection-id-57",
+          "id": "magical-deflection",
           "modifier": 1,
           "modifiers": [],
           "gain": true
@@ -3701,8 +3768,8 @@
       "description": "You can cast more abjuration spells.",
       "globalParams": [],
       "colors": {
-        "unavailable": "#080837",
-        "selected": "#141487"
+        "unavailable": "#6262CF",
+        "selected": "#483CE3"
       },
       "levels": 4,
       "levelCost": [
@@ -3738,8 +3805,8 @@
       "description": "Shield and magical deflection are upgraded.",
       "globalParams": [],
       "colors": {
-        "unavailable": "#080837",
-        "selected": "#141487"
+        "unavailable": "#6262CF",
+        "selected": "#483CE3"
       },
       "levels": 2,
       "levelCost": [
@@ -3764,7 +3831,7 @@
           ]
         },
         {
-          "id": "Magical-Deflection-id-57",
+          "id": "magical-deflection",
           "modifier": 1,
           "modifiers": [
             {
@@ -3789,13 +3856,13 @@
       "description": "Ranged returned to sender.",
       "globalParams": [],
       "colors": {
-        "unavailable": "#080837",
-        "selected": "#141487"
+        "unavailable": "#6262CF",
+        "selected": "#483CE3"
       },
       "cost": 1,
       "providedAbilities": [
         {
-          "id": "Magical-Deflection-id-57",
+          "id": "magical-deflection",
           "modifier": 1,
           "modifiers": [
             {
@@ -3820,8 +3887,8 @@
       "description": "Attacks fully absorbed by shield (reg. armor + shield armor) hurt the attacker.",
       "globalParams": [],
       "colors": {
-        "unavailable": "#080837",
-        "selected": "#141487"
+        "unavailable": "#6262CF",
+        "selected": "#483CE3"
       },
       "cost": 1,
       "providedAbilities": [
@@ -3851,8 +3918,8 @@
       "description": "Upgrade your magical armor.",
       "globalParams": [],
       "colors": {
-        "unavailable": "#080837",
-        "selected": "#141487"
+        "unavailable": "#6262CF",
+        "selected": "#483CE3"
       },
       "levels": 2,
       "levelCost": [
@@ -3897,8 +3964,8 @@
       "description": "Mage armor lasts longer",
       "globalParams": [],
       "colors": {
-        "unavailable": "#080837",
-        "selected": "#141487"
+        "unavailable": "#6262CF",
+        "selected": "#483CE3"
       },
       "levels": 3,
       "levelCost": [
@@ -3933,8 +4000,8 @@
       "description": "Armor of agathys is more effective.",
       "globalParams": [],
       "colors": {
-        "unavailable": "#080837",
-        "selected": "#141487"
+        "unavailable": "#6262CF",
+        "selected": "#483CE3"
       },
       "levels": 2,
       "levelCost": [
@@ -3966,15 +4033,18 @@
       "requires": [
         {
           "id": "basic-magic-1-by-1-ex",
-          "levels": 1
+          "levels": 2
         }
       ],
       "requirementType": "and",
       "description": "Makes shield and magical deflection at the cost of mage armor and armor of agathys.",
       "globalParams": [],
+      "exclusiveWith": [
+        "basic-magic-1-by-1-ex-1-ey"
+      ],
       "colors": {
-        "unavailable": "#080837",
-        "selected": "#141487"
+        "unavailable": "#6262CF",
+        "selected": "#483CE3"
       },
       "cost": 1,
       "providedAbilities": [
@@ -4012,7 +4082,7 @@
           ]
         },
         {
-          "id": "Magical-Deflection-id-57",
+          "id": "magical-deflection",
           "modifier": 1,
           "modifiers": [
             {
@@ -4030,15 +4100,18 @@
       "requires": [
         {
           "id": "basic-magic-1-by-1-ex",
-          "levels": 1
+          "levels": 2
         }
       ],
       "requirementType": "and",
       "description": "Improve Mage armor and armor of agathys at the cost of reactive shielding.",
       "globalParams": [],
+      "exclusiveWith": [
+        "basic-magic-1-by-1-ex-1-dy"
+      ],
       "colors": {
-        "unavailable": "#080837",
-        "selected": "#141487"
+        "unavailable": "#6262CF",
+        "selected": "#483CE3"
       },
       "cost": 1,
       "providedAbilities": [
@@ -4081,7 +4154,7 @@
           ]
         },
         {
-          "id": "Magical-Deflection-id-57",
+          "id": "magical-deflection",
           "modifier": 1,
           "modifiers": [
             {
@@ -4090,6 +4163,341 @@
               "set": false
             }
           ]
+        }
+      ]
+    },
+    {
+      "id": "divination",
+      "name": "Divination",
+      "requires": [
+        {
+          "id": "basic-magic",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "globalParams": [],
+      "exclusiveWith": [],
+      "colors": {
+        "unavailable": "#878787",
+        "selected": "#96b7bd"
+      },
+      "cost": 1,
+      "providedAbilities": [
+        {
+          "id": "divination-casting",
+          "modifier": 1,
+          "modifiers": [],
+          "gain": true
+        },
+        {
+          "id": "gift-of-foresight",
+          "modifier": 1,
+          "modifiers": [],
+          "gain": true
+        },
+        {
+          "id": "portent",
+          "modifier": 1,
+          "modifiers": [],
+          "gain": true
+        },
+        {
+          "id": "phantom-sight",
+          "modifier": 1,
+          "modifiers": [],
+          "gain": true
+        }
+      ]
+    },
+    {
+      "id": "divination-prof",
+      "name": "Divination Proficiency",
+      "requires": [
+        {
+          "id": "divination",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "You can cast more divination spells.",
+      "globalParams": [],
+      "exclusiveWith": [],
+      "colors": {
+        "unavailable": "#878787",
+        "selected": "#96b7bd"
+      },
+      "levels": 4,
+      "levelCost": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "providedAbilities": [
+        {
+          "id": "divination-casting",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "div_slots",
+              "modifier": 1,
+              "set": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gift-of-foresight",
+      "name": "Gift of Foresight",
+      "requires": [
+        {
+          "id": "divination",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Improved gift of foresight.",
+      "globalParams": [],
+      "exclusiveWith": [],
+      "colors": {
+        "unavailable": "#878787",
+        "selected": "#96b7bd"
+      },
+      "cost": 1,
+      "providedAbilities": [
+        {
+          "id": "gift-of-foresight",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "gof_ac",
+              "modifier": 1,
+              "set": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "foresight-advantage",
+      "name": "Advantage of Foresight",
+      "requires": [
+        {
+          "id": "gift-of-foresight",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Gift of foresight now grains bonuses to attacking.",
+      "globalParams": [],
+      "exclusiveWith": [],
+      "colors": {
+        "unavailable": "#878787",
+        "selected": "#96b7bd"
+      },
+      "cost": 1,
+      "providedAbilities": [
+        {
+          "id": "gift-of-foresight",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "gof_atk",
+              "modifier": 1,
+              "set": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "foresight-multi",
+      "name": "Multiple foresight",
+      "requires": [
+        {
+          "id": "gift-of-foresight",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "globalParams": [],
+      "exclusiveWith": [],
+      "colors": {
+        "unavailable": "#878787",
+        "selected": "#96b7bd"
+      },
+      "cost": 1,
+      "providedAbilities": [
+        {
+          "id": "gift-of-foresight",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "gof_num",
+              "modifier": 1,
+              "set": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "foresight-reaction",
+      "name": "Gift of reaction",
+      "requires": [
+        {
+          "id": "foresight-multi",
+          "levels": 1
+        },
+        {
+          "levels": "1",
+          "id": "foresight-advantage"
+        }
+      ],
+      "requirementType": "or",
+      "description": "Gift of foresight now allows a unit to move away from an enemy.",
+      "globalParams": [],
+      "exclusiveWith": [],
+      "colors": {
+        "unavailable": "#878787",
+        "selected": "#96b7bd"
+      },
+      "cost": 1,
+      "providedAbilities": [
+        {
+          "id": "gift-of-foresight",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "gof_react",
+              "modifier": 1,
+              "set": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "deep-portent",
+      "name": "Deep Portent",
+      "requires": [
+        {
+          "id": "divination",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Reroll more dice from portent.",
+      "globalParams": [],
+      "exclusiveWith": [],
+      "colors": {
+        "unavailable": "#878787",
+        "selected": "#96b7bd"
+      },
+      "levels": 2,
+      "levelCost": [
+        1,
+        1
+      ],
+      "providedAbilities": [
+        {
+          "id": "portent",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "Port_num",
+              "modifier": 1,
+              "set": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "spectre-sight",
+      "name": "Spectre Sight",
+      "requires": [
+        {
+          "id": "divination",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Improved Phantom sight.",
+      "globalParams": [],
+      "exclusiveWith": [],
+      "colors": {
+        "unavailable": "#878787",
+        "selected": "#96b7bd"
+      },
+      "cost": 1,
+      "providedAbilities": [
+        {
+          "id": "phantom-sight",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "ps-num",
+              "modifier": 1,
+              "set": false
+            },
+            {
+              "id": "base1",
+              "modifier": -1,
+              "set": false
+            },
+            {
+              "id": "ps-adv",
+              "modifier": 1,
+              "set": false
+            }
+          ],
+          "gain": true
+        }
+      ]
+    },
+    {
+      "id": "command-sight",
+      "name": "Command Sight",
+      "requires": [
+        {
+          "id": "spectre-sight",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Improved phantom sight for command units.",
+      "globalParams": [],
+      "exclusiveWith": [],
+      "colors": {
+        "unavailable": "#878787",
+        "selected": "#96b7bd"
+      },
+      "cost": 1,
+      "providedAbilities": [
+        {
+          "id": "phantom-sight",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "base2",
+              "modifier": -1,
+              "set": false
+            },
+            {
+              "id": "ps-comm",
+              "modifier": 1,
+              "set": false
+            },
+            {
+              "id": "ps-num",
+              "modifier": 1,
+              "set": false
+            }
+          ],
+          "gain": false
         }
       ]
     }
@@ -4113,7 +4521,8 @@
     "necromancy": "#aded23",
     "spell": "#3579cf",
     "evocation": "#ff0000",
-    "abjuration": "#08084c"
+    "abjuration": "#08084c",
+    "divination": "#05def7"
   },
   "stats": [
     {
