@@ -1,6 +1,8 @@
 import { clone, filter, find, includes, map } from "lodash-es";
 import { Lock, PlusSquare, XCircle } from "react-feather";
 import Select from "react-select";
+import { BigButton } from "../../../../common/buttons/bigButton";
+import { SmolButton } from "../../../../common/buttons/smolButton";
 import "./statsPanel.scss";
 
 function getAvailableOptions(providedStats, options) {
@@ -71,7 +73,7 @@ export function StatsPanel({
               <Select
                 classNames={{
                   control: () => "select",
-                singleValue: () => "single-value",
+                  singleValue: () => "single-value",
                   menu: () => "select-menu",
                 }}
                 options={getAvailableOptions(providedStats, options)}
@@ -85,18 +87,23 @@ export function StatsPanel({
               ></input>
               <button
                 onClick={(e) => lockToggled(index)}
-                style={{ color: stat?.set ? "#fff" : "#222" }}
+                style={{ color: stat?.set ? "#fff" : "#444" }}
               >
                 <Lock />
               </button>
             </div>
           ))
         : ""}
-      <div className="add-button">
-        <button onClick={addbuttonClicked}>
-          Add {name}
+      <div>
+        <SmolButton
+          disabled={getAvailableOptions(providedStats, options).length === 0}
+          type="outline"
+          color="white"
+          clicked={addbuttonClicked}
+        >
           <PlusSquare />
-        </button>
+          Add {name}
+        </SmolButton>
       </div>
     </div>
   );

@@ -1,4 +1,8 @@
 .stats-panel {
+  background: var(--panelColor);
+  padding: 0.5rem;
+  border-radius: 8px;
+
   .stats-title {
     font-weight: 300;
     font-size: 1.5em;
@@ -11,7 +15,7 @@
   gap: 1rem;
 
   .stat-edit-line {
-    background: #151515;
+    background: var(--panelColor2);
     border-radius: 8px;
     padding: 1rem;
 
@@ -31,22 +35,11 @@
       font-size: 1em;
       font-weight: bold;
       width: 4rem;
-      background-color: transparent;
+      background-color: var(--panelColor);
       border: none;
     }
     color: #222;
     display: flex;
     justify-content: space-between;
-  }
-
-  .add-button {
-    button {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: var(--themeColor);
-      border-radius: 8px;
-      width: 100%;
-    }
   }
 }

@@ -20,7 +20,7 @@
   }
 
   &.open > .accordion-button {
-    background: linear-gradient(45deg, #7878ff 0%, #898ff5 100%),
+    background: linear-gradient(45deg, var(--themeColorMod) 0%, var(--themeColor) 100%),
       radial-gradient(
           at top center,
           rgba(70, 70, 70, 0.5019607843) 0%,

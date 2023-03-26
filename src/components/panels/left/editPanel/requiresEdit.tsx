@@ -74,7 +74,7 @@ export function RequiresEdit({ value, requirementType, valueChanged, nodeId }) {
 
       {mappedValue.length > 1 && (
         <div className="requirementType">
-          <label>
+          <label className="checkbox">
             <input
               type="checkbox"
               checked={isOr}

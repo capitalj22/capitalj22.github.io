@@ -1,8 +1,8 @@
 :root {
   --fontFamily: font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  --themeColor: #535bf2;
-  --themeColorMod: #4148db;
-  --themeColorText: #b0b2ec;
+  --themeColor: #3bac99;
+  --themeColorMod: #2f808f;
+  --themeColorText: #a4dbe2;
   --panelColor: rgba(26, 26, 28);
   --panelColor2: #2e2e34;
   --panelBorder: 1px solid #292929;
@@ -159,4 +159,10 @@
 
 .help {
   background-color: var(--panelColor2);
+}
+
+.checkbox {
+  display: flex;
+  gap: 0.5rem;
+  align-items: baseline;
 }

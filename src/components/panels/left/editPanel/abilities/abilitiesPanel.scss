@@ -12,9 +12,11 @@
   flex-direction: column;
   gap: 1rem;
 
-  .stat-edit-line {
-    background: #151515;
+  .ability-line {
+    background: var(--panelColor);
     border-radius: 8px;
+    border: 1px solid var(--supermutedText);
+    box-shadow: var(--boxShadowBlackSmall);
     padding: 1rem;
 
     .ability-select {
