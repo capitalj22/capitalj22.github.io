@@ -1,10 +1,5 @@
 import { useContext, useState } from "react";
-import {
-  CloudLightning,
-  Download,
-  RefreshCcw,
-  Save,
-} from "react-feather";
+import { CloudLightning, Download, RefreshCcw, Save } from "react-feather";
 import { AbilitiesContext } from "../../providers/abilities/abilitiesProvider";
 import { BuildContext } from "../../providers/build/buildProvider";
 import { NodesContext } from "../../providers/nodes/nodesProvider";
@@ -17,6 +12,8 @@ import { Accordion } from "../layout/accordion/accordion";
 import { isString } from "lodash-es";
 import { SmolButton } from "../common/buttons/smolButton";
 import { FancyTextInput } from "../common/tag-input/fancyTextInput";
+import { stateContext } from "../../providers/state/stateProvider";
+import classNames from "classnames";
 
 export function CodePanel() {
   const { build, setSavedBuild } = useContext(BuildContext);
@@ -31,6 +28,7 @@ export function CodePanel() {
     setGlobalParams,
   } = useContext(AbilitiesContext);
   const { nodes, setNodes } = useContext(NodesContext);
+  const { version, setVersion } = useContext(stateContext);
 
   const [buildFile, setBuildFile] = useState("");
   const [treeFile, setTreeFile] = useState("");
@@ -145,6 +143,7 @@ export function CodePanel() {
 
   const defaultClicked = (event) => {
     const defaults = exampleJson;
+    setVersion({ type: "set", version: defaults.version });
     setNodes({ type: "set", nodes: defaults.nodes });
     setStats({ type: "set", stats: defaults.stats });
     setAbilityTypes({ type: "set", abilityTypes: defaults.abilityTypes });
@@ -232,6 +231,18 @@ export function CodePanel() {
           <span>
             Ed's latest version:{" "}
             <span className="version-number">{exampleJson.version}</span>
+          </span>
+          <span>
+            Your Version:{" "}
+            <span
+              className={classNames({
+                "version-number": true,
+                success: version === exampleJson.version,
+                outdated: version !== exampleJson.version,
+              })}
+            >
+              {version}
+            </span>{" "}
           </span>
         </div>
       </Accordion>

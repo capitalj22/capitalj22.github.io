@@ -40,6 +40,8 @@
     gap: 2rem;
   }
   .version {
+    display: flex;
+    gap: 1rem;
     > span {
       color: var(--mutedText);
       padding: 1rem;
@@ -50,6 +52,13 @@
     .version-number {
       color: var(--textColor);
       font-weight: 700;
+
+      &.success {
+        color: var(--successColor);
+      }
+      &.outdated {
+        color: var(--dangerColor);
+      }
     }
     text-align: left;
     margin-left: 2rem;
