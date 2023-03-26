@@ -78,7 +78,7 @@ export function runGraphPixi(
   let links;
   let width, height;
   let viewport: Viewport;
-  let mode = "build";
+  let mode = "build-slow";
   let currentlyEditing;
 
   let forces = {
@@ -302,13 +302,14 @@ export function runGraphPixi(
   }
 
   function changeMode(newMode: string) {
+    console.log(newMode);
     let oldMode = mode;
 
     mode = newMode;
 
     if (oldMode !== newMode) {
-      if (mode === "build") {
-        // currentlyEditing = null;
+      if (mode === "build-slow" || mode === "build-fast") {
+        currentlyEditing = null;
       }
       redrawNodes();
       redrawLinks();
@@ -316,7 +317,7 @@ export function runGraphPixi(
   }
 
   function onPress(e, node: any) {
-    if (mode === "build") {
+    if (mode === "build-fast") {
       const selection = isNodeSelected(node, nodeMeta);
 
       nodeMeta = acquiredselectNodeAndReturnNewMeta(
@@ -341,6 +342,8 @@ export function runGraphPixi(
       // nudge();
       redrawNodes(selectionChanged ? node.id : null);
       redrawLinks();
+    } else if (mode === "build-slow") {
+      updateInfo(node, nodeMeta, nodes, infoUpdated$);
     } else if (mode === "edit") {
       currentlyEditing = node.id;
       updateInfo(node, nodeMeta, nodes, infoUpdated$);
@@ -470,7 +473,7 @@ export function runGraphPixi(
       node.gfx.clear();
       let cost = node.cost || 1;
 
-      if (mode === "build") {
+      if (mode === "build-slow") {
         node.gfx.cursor = available ? "pointer" : "default";
       } else {
         node.gfx.cursor = "pointer";
@@ -763,7 +766,7 @@ export function runGraphPixi(
       .on("click", (e) => boundPress(e, node));
 
     gfx.on("mouseover", (mouseData) => {
-      if (mode === "build") {
+      if (mode === "build-fast") {
         updateInfo(node, nodeMeta, nodes, infoUpdated$);
       }
     });

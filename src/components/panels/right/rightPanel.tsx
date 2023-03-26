@@ -41,7 +41,7 @@ export function RightPanel() {
     <SidebarRight itemSelected={handleItemSelected} title={menuTitle}>
       {selectedItem === "sheet" && (
         <div>
-          {appMode === "build" ? (
+          {appMode === "build-slow" || appMode === "build-fast" ? (
             <CharacterSheet></CharacterSheet>
           ) : (
             <div>

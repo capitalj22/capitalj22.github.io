@@ -9,6 +9,7 @@ import {
   Edit,
   User,
   Book,
+  Zap,
 } from "react-feather";
 import { stateContext } from "../../../providers/state/stateProvider";
 import { ThemeContext } from "../../../providers/theme.provider";
@@ -18,10 +19,21 @@ import "./rightMenu.scss";
 
 export function RightMenu({ itemSelected, selectedItem }) {
   const { theme, setTheme } = useContext(ThemeContext);
-  const { appMode, setAppMode } = useContext(stateContext);
+  const { appMode, setAppMode, buildMode, setBuildMode } =
+    useContext(stateContext);
+
+  const zapClicked = () => {
+    if (buildMode === "build-fast") {
+      setBuildMode("build-slow");
+      setAppMode("build-slow");
+    } else {
+      setAppMode("build-fast");
+      setBuildMode("build-fast");
+    }
+  };
   return (
     <div className="right-menu">
-      {appMode === "build" ? (
+      {appMode === "build-slow" || appMode === "build-fast" ? (
         <button
           type="button"
           className={selectedItem === "sheet" ? "selected" : ""}
@@ -53,16 +65,23 @@ export function RightMenu({ itemSelected, selectedItem }) {
         <HelpCircle />
       </button>
       <hr />
-      <button
-        onClick={() =>
+      <SmolButton
+        color="info"
+        clicked={() =>
           setTheme({ type: "set", theme: theme === "light" ? "dark" : "light" })
         }
       >
         {theme === "light" ? <Moon /> : <Sun />}
-      </button>
+      </SmolButton>
       <SmolButton
-        color={appMode === "edit" ? "success" : "theme"}
-        clicked={() => setAppMode(appMode === "edit" ? "build" : "edit")}
+        color={buildMode === "build-fast" ? "success" : "mutedText"}
+        clicked={zapClicked}
+      >
+        <Zap />
+      </SmolButton>
+      <SmolButton
+        color={appMode === "edit" ? "success" : "mutedText"}
+        clicked={() => setAppMode(appMode === "edit" ? buildMode : "edit")}
       >
         <Edit />
       </SmolButton>

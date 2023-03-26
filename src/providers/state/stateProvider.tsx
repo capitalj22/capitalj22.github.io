@@ -7,7 +7,6 @@ function getVersion() {
   const version = window.localStorage.getItem("dragon-config-version");
   if (version) {
     try {
-      console.log(version);
       return JSON.parse(version);
     } catch (e) {
       return "0.0.0";
@@ -30,7 +29,8 @@ function versionReducer(state, action) {
 }
 
 export const StateProvider = ({ children }) => {
-  const [appMode, setAppMode] = useState("build");
+  const [appMode, setAppMode] = useState("build-slow");
+  const [buildMode, setBuildMode] = useState("build-slow");
   const [rightExpanded, setRightExpanded] = useState(true);
   const [leftExpanded, setLeftExpanded] = useState(true);
   const [version, setVersion] = useReducer(versionReducer, getVersion());
@@ -46,6 +46,8 @@ export const StateProvider = ({ children }) => {
         setLeftExpanded,
         version,
         setVersion,
+        buildMode,
+        setBuildMode,
       }}
     >
       {children}

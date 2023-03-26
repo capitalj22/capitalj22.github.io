@@ -1,11 +1,10 @@
-import { Disc, Edit, Info, Settings, Sliders } from "react-feather";
+import { Disc, Sliders } from "react-feather";
 
 import "./leftMenu.scss";
 
 export function LeftMenu({ itemSelected }) {
   const handleInfoSelected = (event) => itemSelected(event, "info");
   const handleSettingsSelected = (event) => itemSelected(event, "settings");
-  const handleEditSelected = (event) => itemSelected(event, "edit");
 
   return (
     <div className="left-menu">

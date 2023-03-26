@@ -31,7 +31,7 @@ export function Main() {
   const { setSelectedNodeId } = useContext(NodesContext);
   const { build } = useContext(BuildContext);
   const { theme } = useContext(ThemeContext);
-  const { appMode, setAppMode } = useContext(stateContext);
+  const { appMode, setAppMode, buildMode } = useContext(stateContext);
   const appModeRef = useRef(appMode);
 
   useEffect(() => {
@@ -45,7 +45,7 @@ export function Main() {
       event.key === "E" &&
       !includes(forbiddenTags, document.activeElement?.tagName)
     ) {
-      setAppMode(appModeRef.current === "build" ? "edit" : "build");
+      setAppMode(appModeRef.current === "edit" ? buildMode : "edit");
     }
   }, []);
 
