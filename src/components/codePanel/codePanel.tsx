@@ -132,6 +132,7 @@ export function CodePanel() {
     setNodes({
       type: "reset",
     });
+    setVersion({ type: "set", version: "0.0.0" });
     setAbilities({ type: "set", abilities: [] });
     setAbilityTypes({ type: "set", abilityTypes: [] });
     setTagColors({ type: "set", tagColors: {} });

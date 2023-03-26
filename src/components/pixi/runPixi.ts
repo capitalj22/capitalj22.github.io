@@ -515,7 +515,7 @@ export function runGraphPixi(
       node.gfx.clear();
       let cost = node.cost || 1;
 
-      if (mode === "build-slow") {
+      if (mode === "build-fast") {
         node.gfx.cursor = available ? "pointer" : "default";
       } else {
         node.gfx.cursor = "pointer";
