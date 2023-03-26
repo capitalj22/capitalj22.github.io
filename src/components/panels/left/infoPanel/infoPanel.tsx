@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { each, find, isUndefined, map, reduce, times } from "lodash-es";
 import { useContext, useEffect, useState } from "react";
 import { AbilitiesContext } from "../../../../providers/abilities/abilitiesProvider";
@@ -16,6 +17,14 @@ export const isNodeSelected = (node, nodeMeta) => {
     }
   }
 };
+
+function getAcquired(node, nodeMeta) {
+  if (node.levels && node.levels > 1) {
+    return nodeMeta?.acquired[node.id];
+  } else {
+    return nodeMeta?.selected[node.id] ? 1 : 0;
+  }
+}
 
 function getRelatedAbilities(node, abilities) {
   return map(node?.providedAbilities, (ability) => {
@@ -60,7 +69,7 @@ function getRequiredText(requires, nodes) {
   }
 }
 
-export function InfoPanel() {
+export function InfoPanel({ graphEvents }) {
   const { selectedNodeId, nodes, nodeMeta } = useContext(NodesContext);
   const { build } = useContext(BuildContext);
   const { abilities } = useContext(AbilitiesContext);
@@ -76,7 +85,7 @@ export function InfoPanel() {
   const [requiredText, setRequiredText] = useState(
     getRequiredText(node?.requires, nodes)
   );
-  const [isEditing, setIsEditing] = useState(false);
+  const [acquired, setAcquired] = useState(getAcquired(node, nodeMeta));
 
   let nodeColor = node?.colors?.selected;
 
@@ -86,6 +95,7 @@ export function InfoPanel() {
 
   useEffect(() => {
     if (node) {
+      setAcquired(getAcquired(node, nodeMeta));
       nodeColor = node?.colors?.selected;
       setRelatedAbilities(getRelatedAbilities(node, abilities));
       setFormattedModifiers(
@@ -95,39 +105,62 @@ export function InfoPanel() {
     }
   }, [node]);
 
-  const cost = node?.levels ? (
-    <span className="cost">
-      {times(node?.levels, (index) => (
-        <span
-          key={index}
-          className="level-points"
-          style={{
-            background:
-              nodeMeta?.acquired[node?.id] > index ? nodeColor : "#666",
-          }}
-        >
-          {node?.levelCost?.length ? node?.levelCost[index] : node?.levelCost}
-        </span>
-      ))}
-    </span>
-  ) : (
-    <span className="cost">
-      <span
-        className="level-points"
-        style={{
-          background: isNodeSelected(node, nodeMeta) ? nodeColor : "#666",
-        }}
-      >
-        {node?.cost > 1 ? node?.cost : ""}
-      </span>
-    </span>
-  );
+  const costPressed = (index?) => {
+    if (node.levels && node.levels > 1) {
+      if (acquired === index + 1) {
+        setAcquired(index);
+      } else {
+        setAcquired(index + 1);
+      }
+    } else {
+      setAcquired(acquired ? 0 : 1);
+    }
+
+    graphEvents.next({
+      event: "nodeAcquisitionChanged",
+      id: selectedNodeId,
+      acquired,
+    });
+  };
 
   if (node) {
     return (
       <div className="info-panel">
-        <div className="edit"></div>
-        {cost}
+        <div>
+          {node?.levels ? (
+            <span className="cost">
+              {times(node?.levels, (index) => (
+                <span
+                  onClick={() => costPressed(index)}
+                  key={index}
+                  className={classNames({
+                    "level-points": true,
+                    "not-acquired": acquired < index + 1,
+                  })}
+                  style={acquired > index ? { background: nodeColor } : {}}
+                >
+                  {node?.levelCost?.length
+                    ? node?.levelCost[index]
+                    : node?.levelCost}
+                </span>
+              ))}
+            </span>
+          ) : (
+            <span className="cost">
+              <span
+                onClick={() => costPressed()}
+                className={classNames({
+                  "level-points": true,
+                  "not-acquired": !acquired,
+                })}
+                style={acquired ? { background: nodeColor } : {}}
+              >
+                {node?.cost > 1 ? node?.cost : ""}
+              </span>
+            </span>
+          )}
+        </div>
+
         <div className="title">{node?.name} </div>
 
         <div className="divider" style={{ backgroundColor: nodeColor }}></div>

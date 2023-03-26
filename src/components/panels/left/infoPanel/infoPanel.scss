@@ -21,6 +21,8 @@
     padding: 1rem;
 
     .level-points {
+      user-select: none;
+      cursor: pointer;
       color: var(--panelColor);
       display: inline-flex;
       font-weight: 600;
@@ -30,6 +32,13 @@
       height: 1.5rem;
       border-radius: 100%;
       font-size: 14px;
+
+      &.not-acquired {
+        color: var(--textcolor);
+        background: rgb(102 102 102 / 0%);
+        box-shadow: inset 0px 0px 3px 2px #03030391;
+        outline: 1px solid #464646;
+      }
     }
   }
 
