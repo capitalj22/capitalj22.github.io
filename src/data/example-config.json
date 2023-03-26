@@ -124,12 +124,17 @@
     },
     {
       "id": "cantrip-barrage",
-      "name": "Cantrip Barrage",
-      "description": "Deal 1d6 damage to an enemy.",
+      "name": "Cantrip Strike",
+      "description": "Deal 1d6+%can_dmg% damage to an enemy.\n\n{can_pierce} This attack always does %can_dmg% {/can_pierce}",
       "type": "action",
       "tags": [
-        "magic"
-      ]
+        "magic",
+        "evocation"
+      ],
+      "params": {
+        "can_dmg": 0,
+        "can_pierce": 0
+      }
     },
     {
       "id": "charge",
@@ -713,7 +718,7 @@
     {
       "name": "Evocation Casting",
       "id": "id-33",
-      "description": "You can cast holy spells.\n\nSpell Slots: %evo_slots%\nSpells Per action: %evo_spells%",
+      "description": "You can cast evocation spells.\n\nSpell Slots: %evo_slots%\nSpells Per action: %evo_spells%",
       "tags": [
         "evocation",
         "spell"
@@ -749,6 +754,80 @@
       ],
       "type": "action",
       "params": {}
+    },
+    {
+      "name": "Shield",
+      "id": "shield-id-152",
+      "description": "As a reaction, cast shield on an ally that is within your spell casting range. They gain %shield_armor% armor against the %shield_count% attack. {shield_dmg} If an attack fails to do damage, the absorbed damage is done to the attacker's hp pool. {/shield_dmg}",
+      "tags": [
+        "abjuration",
+        "defense",
+        "spell"
+      ],
+      "type": "action",
+      "params": {
+        "shield_armor": 1,
+        "shield_count": 1,
+        "shield_dmg": 0
+      }
+    },
+    {
+      "name": "Abjuration Casting",
+      "id": "abjuration-id-11",
+      "description": "You can cast abjuration spells.\n\nSpell Slots: %abju_slots%\nSpells Per action: %abju_spells%",
+      "tags": [
+        "abjuration"
+      ],
+      "type": "school",
+      "params": {
+        "abju_slots": 2,
+        "abju_spells": 1
+      }
+    },
+    {
+      "name": "Armor of Agathys",
+      "id": "id-4",
+      "description": "As an action, cast Armor of Agathys on an ally (or self). That entity gains %temp_hp% temp HP and when hit by another creature (and still has at least 1 temp HP) it does damge to the attacker equal to the current (pre-hit) temp hp. {Aga_effect} Enemies that take damage by this effect gain the frostbite effect (lose 1 movement) {/aga_effect}",
+      "tags": [
+        "abjuration",
+        "spell",
+        "defense"
+      ],
+      "type": "action",
+      "params": {
+        "temp_hp": 2,
+        "aga_effect": 0
+      }
+    },
+    {
+      "name": "Mage Armor",
+      "id": "Mage-armor-id-92",
+      "description": "As an action, cast Mage armor on self. Gains %m_armor% armor for %m-armor-turns% turns.",
+      "tags": [
+        "abjuration",
+        "spell",
+        "defense"
+      ],
+      "type": "action",
+      "params": {
+        "m_armor": 1,
+        "m-armor-turns": 3
+      }
+    },
+    {
+      "name": "Magical Deflection",
+      "id": "Magical-Deflection-id-57",
+      "description": "As a reaction in response to projectiles or spells targeting you. You create a magical shield that deflects projectiles.  This causes %mdef_count% ranged attack(s) made against you to miss.\n{redirect} Any deflected attack can be redirected, use the original attack's stats {/redirect}",
+      "tags": [
+        "abjuration",
+        "spell",
+        "defense"
+      ],
+      "type": "reaction",
+      "params": {
+        "mdef_count": 1,
+        "redirect": 0
+      }
     }
   ],
   "abilityTypes": [
@@ -3428,7 +3507,7 @@
     },
     {
       "id": "basic-magic-1-ev-1-dv-1-bz",
-      "name": "DOT boi",
+      "name": "Lasting magics",
       "requires": [
         {
           "id": "basic-magic-1-ev-1-cd",
@@ -3464,7 +3543,7 @@
     },
     {
       "id": "basic-magic-1-ev-1-cd-1-ez",
-      "name": "Dmg lad",
+      "name": "Powerful Magics",
       "requires": [
         {
           "id": "basic-magic-1-ev-1-cd",
@@ -3491,6 +3570,528 @@
           ]
         }
       ]
+    },
+    {
+      "id": "basic-magic-1-ev-1-az",
+      "name": "Enhanced Cantrip Strike",
+      "requires": [
+        {
+          "id": "basic-magic-1-ev",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Increases the potency of Cantrip Strike.",
+      "globalParams": [],
+      "colors": {
+        "unavailable": "#850202",
+        "selected": "#ff0004"
+      },
+      "levels": 3,
+      "levelCost": [
+        1,
+        1,
+        1
+      ],
+      "providedAbilities": [
+        {
+          "id": "cantrip-barrage",
+          "modifier": 1,
+          "modifiers": []
+        }
+      ]
+    },
+    {
+      "id": "basic-magic-1-ev-1-az-1-dy",
+      "name": "Piercing Cantrip Strike",
+      "requires": [
+        {
+          "id": "basic-magic-1-ev-1-az",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Cantrip strike now does piercing damage.",
+      "globalParams": [],
+      "colors": {
+        "unavailable": "#850202",
+        "selected": "#ff0004"
+      },
+      "cost": 1,
+      "providedAbilities": [
+        {
+          "id": "cantrip-barrage",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "can_pierce",
+              "modifier": 1,
+              "set": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "basic-magic-1-by",
+      "name": "Abjuration",
+      "requires": [
+        {
+          "id": "basic-magic",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "You can now cast abjuration spells.",
+      "globalParams": [],
+      "colors": {
+        "unavailable": "#080837",
+        "selected": "#141487"
+      },
+      "cost": 1,
+      "providedAbilities": [
+        {
+          "id": "abjuration-id-11",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "",
+              "modifier": 1,
+              "set": false
+            }
+          ],
+          "gain": true
+        },
+        {
+          "id": "shield-id-152",
+          "modifier": 1,
+          "modifiers": [],
+          "gain": true
+        },
+        {
+          "id": "Magical-Deflection-id-57",
+          "modifier": 1,
+          "modifiers": [],
+          "gain": true
+        },
+        {
+          "id": "id-4",
+          "modifier": 1,
+          "modifiers": [],
+          "gain": true
+        },
+        {
+          "id": "Mage-armor-id-92",
+          "modifier": 1,
+          "modifiers": [],
+          "gain": true
+        }
+      ]
+    },
+    {
+      "id": "basic-magic-1-by-1-ex",
+      "name": "Abjuration Proficiency",
+      "requires": [
+        {
+          "id": "basic-magic-1-by",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "You can cast more abjuration spells.",
+      "globalParams": [],
+      "colors": {
+        "unavailable": "#080837",
+        "selected": "#141487"
+      },
+      "levels": 4,
+      "levelCost": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "providedAbilities": [
+        {
+          "id": "abjuration-id-11",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "abju_slots",
+              "modifier": 2,
+              "set": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "basic-magic-1-by-1-ey",
+      "name": "Magical Shielding",
+      "requires": [
+        {
+          "id": "basic-magic-1-by",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Shield and magical deflection are upgraded.",
+      "globalParams": [],
+      "colors": {
+        "unavailable": "#080837",
+        "selected": "#141487"
+      },
+      "levels": 2,
+      "levelCost": [
+        2,
+        3
+      ],
+      "providedAbilities": [
+        {
+          "id": "shield-id-152",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "shield_armor",
+              "modifier": 1,
+              "set": false
+            },
+            {
+              "id": "shield_count",
+              "modifier": 1,
+              "set": false
+            }
+          ]
+        },
+        {
+          "id": "Magical-Deflection-id-57",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "mdef_count",
+              "modifier": 2,
+              "set": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "basic-magic-1-by-1-ey-1-ey",
+      "name": "Magical redirection",
+      "requires": [
+        {
+          "id": "basic-magic-1-by-1-ey",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Ranged returned to sender.",
+      "globalParams": [],
+      "colors": {
+        "unavailable": "#080837",
+        "selected": "#141487"
+      },
+      "cost": 1,
+      "providedAbilities": [
+        {
+          "id": "Magical-Deflection-id-57",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "redirect",
+              "modifier": 1,
+              "set": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "basic-magic-1-by-1-ey-1-ez",
+      "name": "Volitile Shield",
+      "requires": [
+        {
+          "id": "basic-magic-1-by-1-ey",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Attacks fully absorbed by shield (reg. armor + shield armor) hurt the attacker.",
+      "globalParams": [],
+      "colors": {
+        "unavailable": "#080837",
+        "selected": "#141487"
+      },
+      "cost": 1,
+      "providedAbilities": [
+        {
+          "id": "shield-id-152",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "shield_dmg",
+              "modifier": 1,
+              "set": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "basic-magic-1-by-1-by",
+      "name": "Magical Armor",
+      "requires": [
+        {
+          "id": "basic-magic-1-by",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Upgrade your magical armor.",
+      "globalParams": [],
+      "colors": {
+        "unavailable": "#080837",
+        "selected": "#141487"
+      },
+      "levels": 2,
+      "levelCost": [
+        2,
+        2
+      ],
+      "providedAbilities": [
+        {
+          "id": "id-4",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "temp_hp",
+              "modifier": 1,
+              "set": false
+            }
+          ]
+        },
+        {
+          "id": "Mage-armor-id-92",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "m_armor",
+              "modifier": 1,
+              "set": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "basic-magic-1-by-1-by-1-cd",
+      "name": "Lasting Armor",
+      "requires": [
+        {
+          "id": "basic-magic-1-by-1-by",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Mage armor lasts longer",
+      "globalParams": [],
+      "colors": {
+        "unavailable": "#080837",
+        "selected": "#141487"
+      },
+      "levels": 3,
+      "levelCost": [
+        1,
+        1,
+        1
+      ],
+      "providedAbilities": [
+        {
+          "id": "Mage-armor-id-92",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "m-armor-turns",
+              "modifier": 1,
+              "set": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "basic-magic-1-by-1-by-1-ex",
+      "name": "Subzero Armor",
+      "requires": [
+        {
+          "id": "basic-magic-1-by-1-by",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Armor of agathys is more effective.",
+      "globalParams": [],
+      "colors": {
+        "unavailable": "#080837",
+        "selected": "#141487"
+      },
+      "levels": 2,
+      "levelCost": [
+        1,
+        2
+      ],
+      "providedAbilities": [
+        {
+          "id": "id-4",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "temp_hp",
+              "modifier": 1,
+              "set": false
+            },
+            {
+              "id": "aga_effect",
+              "modifier": 1,
+              "set": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "basic-magic-1-by-1-ex-1-dy",
+      "name": "Reactive Abjurer",
+      "requires": [
+        {
+          "id": "basic-magic-1-by-1-ex",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Makes shield and magical deflection at the cost of mage armor and armor of agathys.",
+      "globalParams": [],
+      "colors": {
+        "unavailable": "#080837",
+        "selected": "#141487"
+      },
+      "cost": 1,
+      "providedAbilities": [
+        {
+          "id": "Mage-armor-id-92",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "m_armor",
+              "modifier": -1,
+              "set": false
+            }
+          ]
+        },
+        {
+          "id": "id-4",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "temp_hp",
+              "modifier": -2,
+              "set": false
+            }
+          ]
+        },
+        {
+          "id": "shield-id-152",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "shield_armor",
+              "modifier": 3,
+              "set": false
+            }
+          ]
+        },
+        {
+          "id": "Magical-Deflection-id-57",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "mdef_count",
+              "modifier": 3,
+              "set": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "basic-magic-1-by-1-ex-1-ey",
+      "name": "Prepared Abjurer",
+      "requires": [
+        {
+          "id": "basic-magic-1-by-1-ex",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Improve Mage armor and armor of agathys at the cost of reactive shielding.",
+      "globalParams": [],
+      "colors": {
+        "unavailable": "#080837",
+        "selected": "#141487"
+      },
+      "cost": 1,
+      "providedAbilities": [
+        {
+          "id": "id-4",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "temp_hp",
+              "modifier": 2,
+              "set": false
+            }
+          ]
+        },
+        {
+          "id": "Mage-armor-id-92",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "m_armor",
+              "modifier": 1,
+              "set": false
+            },
+            {
+              "id": "m-armor-turns",
+              "modifier": 1,
+              "set": false
+            }
+          ]
+        },
+        {
+          "id": "shield-id-152",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "shield_armor",
+              "modifier": -1,
+              "set": false
+            }
+          ]
+        },
+        {
+          "id": "Magical-Deflection-id-57",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "mdef_count",
+              "modifier": -1,
+              "set": false
+            }
+          ]
+        }
+      ]
     }
   ],
   "tagColors": {
@@ -3511,7 +4112,8 @@
     "mustering": "#dca542",
     "necromancy": "#aded23",
     "spell": "#3579cf",
-    "evocation": "#ff0000"
+    "evocation": "#ff0000",
+    "abjuration": "#08084c"
   },
   "stats": [
     {
