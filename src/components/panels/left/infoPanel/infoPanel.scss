@@ -37,12 +37,12 @@
         color: var(--textcolor);
         background-color: var(--panelColor2);
         box-shadow: inset 0px 0px 3px 2px #03030391;
-        outline: 1px solid var(--supermutedText);
+        outline: 1px solid var(--successColorMuted);
       }
 
       &.unavailable {
         cursor: default;
-        outline: 1px solid var(--disabledText);
+        outline: 1px solid var(--dangerColorMuted);
 
         background: var(--panelColor);
       }

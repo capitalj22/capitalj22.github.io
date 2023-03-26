@@ -206,7 +206,6 @@ export function runGraphPixi(
 
   function editNodeAcquisition(nodeId, acquired) {
     let node = find(nodes, { id: nodeId }) as INode;
-    let oldAcquired = nodeMeta.acquired[nodeId];
 
     if (node.levels && node.levels > 1) {
       nodeMeta = acquiredselectNodeAndReturnNewMeta(
@@ -230,6 +229,7 @@ export function runGraphPixi(
 
     updateInfo(node, nodeMeta, nodes, infoUpdated$);
     redrawNodes();
+    redrawLinks();
   }
 
   function editNode(nodeId, newNode) {
