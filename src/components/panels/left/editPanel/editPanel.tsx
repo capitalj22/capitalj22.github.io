@@ -13,6 +13,7 @@ import { BigButton } from "../../../common/buttons/bigButton";
 import { NodesContext } from "../../../../providers/nodes/nodesProvider";
 import { RequiresEdit } from "./requiresEdit";
 import { AbilitiesContext } from "../../../../providers/abilities/abilitiesProvider";
+import { ExclusiveEdit } from "./exclusiveEdit/exclusiveEdit";
 
 interface Props {
   graphEvents?: any;
@@ -53,7 +54,7 @@ export function EditPanel({ graphEvents }: Props) {
   );
   const nameInputRef = useRef<HTMLInputElement>(null);
   const idRef = useRef(node.id);
-
+  const [exclusiveWith, setExclusiveWith] = useState(node.exclusiveWith || []);
 
   useEffect(() => {
     setNode(find(nodes, { id: selectedNodeId }) || {});
@@ -82,8 +83,6 @@ export function EditPanel({ graphEvents }: Props) {
     const numChildren = filter(nodes, (node) =>
       some(node.requires, { id: node.id })
     )?.length;
-
-    console.log(idRef.current)
 
     let newNode = {
       name: "NEW NODE",
@@ -124,6 +123,7 @@ export function EditPanel({ graphEvents }: Props) {
       requirementType: requires.length < 2 ? "and" : requirementType,
       description: description,
       globalParams: nodeGlobalParams,
+      exclusiveWith: exclusiveWith,
       colors,
     } as any;
 
@@ -189,6 +189,11 @@ export function EditPanel({ graphEvents }: Props) {
     setUnsavedData(true);
   };
 
+  const exclusionChanged = (event) => {
+    setExclusiveWith(event);
+    setUnsavedData(true);
+  };
+
   React.useEffect(() => {
     setColors(node.colors || {});
     setId(node.id);
@@ -204,6 +209,7 @@ export function EditPanel({ graphEvents }: Props) {
     setRequires(node.requires || []);
     setRequirementType(node.requirementType || "and");
     setNodeGlobalParams(node.globalParams || []);
+    setExclusiveWith(node.exclusiveWith || []);
   }, [node]);
 
   if (node.id) {
@@ -261,6 +267,15 @@ export function EditPanel({ graphEvents }: Props) {
                 requirementType={requirementType}
                 value={requires}
                 valueChanged={requiredChanged}
+                nodeId={id}
+              />
+            </div>
+          </Accordion>
+          <Accordion name="Excludes" startOpen={false}>
+            <div className="excludes">
+              <ExclusiveEdit
+                value={exclusiveWith}
+                valueChanged={exclusionChanged}
                 nodeId={id}
               />
             </div>

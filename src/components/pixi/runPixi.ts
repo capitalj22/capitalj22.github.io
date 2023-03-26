@@ -455,6 +455,13 @@ export function runGraphPixi(
   }
 
   function redrawNodes(targetNodeId?: string) {
+    const drawTriangle = (gfx, size) => {
+      gfx.moveTo(size, -(size / 2));
+      gfx.lineTo(0, size * 1.5);
+      gfx.lineTo(-size, -(size / 2));
+      gfx.lineTo(size, -(size / 2));
+    };
+
     nodes.forEach((node: INode) => {
       const isEditing = currentlyEditing === node.id;
 
@@ -469,7 +476,32 @@ export function runGraphPixi(
         node.gfx.cursor = "pointer";
       }
 
-      if (
+      if (node.exclusiveWith?.length > 0) {
+        if (isEditing && mode === "edit") {
+          node.gfx.beginFill(getNodeColor(node, nodeMeta, "selected"));
+          drawTriangle(node.gfx, 8);
+          node.gfx.endFill();
+        } else if (selected) {
+          node.gfx.beginFill(getNodeColor(node, nodeMeta));
+          drawTriangle(node.gfx, 8);
+          node.gfx.endFill();
+        } else if (available) {
+          node.gfx.lineStyle(1, getNodeColor(node, nodeMeta), 1);
+          drawTriangle(node.gfx, 8);
+          node.gfx.endFill();
+
+          node.gfx.beginFill(0xffffff);
+          node.gfx.lineStyle();
+          drawTriangle(node.gfx, 4);
+          node.gfx.endFill();
+        } else {
+          node.gfx.beginFill(getNodeColor(node, nodeMeta));
+          drawTriangle(node.gfx, 6);
+
+          node.gfx.endFill();
+        }
+        node.gfx.hitArea = new PIXI.Circle(0, 0, 12 + 10);
+      } else if (
         !targetNodeId ||
         node.id !== targetNodeId ||
         node.levels ||
@@ -582,6 +614,7 @@ export function runGraphPixi(
           }
         }, 5);
       }
+
       addNodeLabel(node.gfx, node.name);
       node.gfx.interactive = true;
     });

@@ -96,6 +96,14 @@ export const updateAvailability = (nodes, nodeMeta) => {
 
       nodeMeta.available[node.id] = available;
     }
+
+    if (node.exclusiveWith?.length) {
+      let passes = true;
+      each(node.exclusiveWith, (id) => {
+        passes = !nodeMeta.selected[id] && !nodeMeta.acquired[id];
+      });
+      nodeMeta.available[node.id] = passes && nodeMeta.available[node.id];
+    }
   });
 
   return nodeMeta;

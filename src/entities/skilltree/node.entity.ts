@@ -4,6 +4,7 @@ export interface SkillNode {
   description?: string;
   requires?: Array<{ id: string; levels?: number }>;
   requirementType?: "and" | "or";
+  exclusiveWith: string[];
   colors?: {
     selected?: any;
     unavailable?: any;
