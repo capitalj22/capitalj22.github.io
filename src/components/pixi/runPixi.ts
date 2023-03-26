@@ -353,7 +353,7 @@ export function runGraphPixi(
   }
 
   function onPress(e, node: any) {
-    if (mode === "build-fast") {
+    if (mode === "build-fast" || e.ctrlKey) {
       const selection = isNodeSelected(node, nodeMeta);
 
       if (node.levels && node.levels > 1) {
