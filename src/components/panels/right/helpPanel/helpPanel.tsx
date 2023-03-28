@@ -32,16 +32,14 @@ export function HelpPanel() {
       </Accordion>
       <Accordion name="Hotkeys" startOpen={true}>
         <div className="padding-md" style={{ textAlign: "left" }}>
-          <p>
-            <ul>
-              <li>
-                <span className="bold">Shift + E</span> - Toggle Edit Mode
-              </li>
-              <li>
-                <span className="bold">Shift + F</span> - Toggle Fast Build Mode
-              </li>
-            </ul>
-          </p>
+          <ul>
+            <li>
+              <span className="bold">Shift + E</span> - Toggle Edit Mode
+            </li>
+            <li>
+              <span className="bold">Shift + F</span> - Toggle Fast Build Mode
+            </li>
+          </ul>
         </div>
       </Accordion>
     </div>

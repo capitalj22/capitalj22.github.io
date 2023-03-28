@@ -19,7 +19,6 @@ function getAbilityOptions(abilities, abilityTypes) {
     };
   });
 
-  console.log(options);
   return options;
 }
 

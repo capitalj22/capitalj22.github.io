@@ -50,7 +50,6 @@ export function SettingsPanel({ graphEvents$ }) {
   };
 
   const colorChanged = (color) => {
-    console.log(color);
     each(Object.keys(COLOR_THEMES), (key) => {
       if (color === COLOR_THEMES[key]["--themeColor"]) {
         setColorTheme({ type: "set", theme: key });

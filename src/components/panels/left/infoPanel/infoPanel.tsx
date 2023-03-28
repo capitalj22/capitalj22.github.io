@@ -35,17 +35,26 @@ function getRelatedAbilities(node, abilities) {
   });
 }
 
-function formatNodeModifiers(providedAbilities, build, selected) {
+function formatNodeModifiers(providedAbilities, build, node, nodeMeta) {
   let abilities = {};
-
   each(providedAbilities, (ability) => {
     let modifiers = { ...build?.abilities[ability?.id]?.modifiers } || {};
 
     each(ability.modifiers, (modifier) => {
-      if (!selected) {
-        if (isUndefined(modifiers[modifier.id])) {
-          modifiers[modifier.id] = modifier.modifier;
-        } else modifiers[modifier.id] += modifier.modifier;
+      if (node.levels && node.levels > 1) {
+        if (!nodeMeta.acquired[node.id]) {
+          if (isUndefined(modifiers[modifier.id])) {
+            modifiers[modifier.id] = modifier.modifier;
+          } else
+            modifiers[modifier.id] +=
+              modifier.modifier * nodeMeta.acquired[node.id];
+        }
+      } else {
+        if (!nodeMeta.selected[node.id]) {
+          if (isUndefined(modifiers[modifier.id])) {
+            modifiers[modifier.id] = modifier.modifier;
+          } else modifiers[modifier.id] += modifier.modifier;
+        }
       }
     });
     abilities[ability.id] = modifiers;
@@ -83,14 +92,17 @@ export function InfoPanel({ graphEvents }) {
   const [relatedAbilities, setRelatedAbilities] = useState(
     getRelatedAbilities(node, abilities)
   );
+
   const [formattedModifiers, setFormattedModifiers] = useState(
     node
-      ? formatNodeModifiers(node?.providedAbilities, build, node?.selected)
+      ? formatNodeModifiers(node?.providedAbilities, build, node, nodeMeta)
       : {}
   );
+
   const [requiredText, setRequiredText] = useState(
     getRequiredText(node, nodes)
   );
+
   const [acquired, setAcquired] = useState(getAcquired(node, nodeMeta));
   const requiredTextRef = useRef(requiredText);
   let nodeColor = node?.colors?.selected;
@@ -107,6 +119,17 @@ export function InfoPanel({ graphEvents }) {
   }, []);
 
   useEffect(() => {
+    setFormattedModifiers(
+      formatNodeModifiers(
+        nodeRef.current?.providedAbilities,
+        build,
+        nodeRef.current,
+        nodeMeta
+      )
+    );
+  }, [build]);
+
+  useEffect(() => {
     setNode(find(nodes, { id: selectedNodeId }));
     nodeRef.current = find(nodes, { id: selectedNodeId });
   }, [selectedNodeId]);
@@ -117,7 +140,7 @@ export function InfoPanel({ graphEvents }) {
       nodeColor = node?.colors?.selected;
       setRelatedAbilities(getRelatedAbilities(node, abilities));
       setFormattedModifiers(
-        formatNodeModifiers(node?.providedAbilities, build, node?.selected)
+        formatNodeModifiers(node?.providedAbilities, build, node, nodeMeta)
       );
       setRequiredText(getRequiredText(node, node));
       requiredTextRef.current = getRequiredText(node, nodes);
