@@ -9,6 +9,7 @@ export const COLOR_THEMES = {
     "--themeColorText": "#a4dbe2",
     "--panelColor": "#1b1b1d",
     "--panelColor2": "#2e2e34",
+    "--panelColor3": "#25262c",
   },
   alt1: {
     "--themeColor": "#6d63f8",
@@ -16,6 +17,7 @@ export const COLOR_THEMES = {
     "--themeColorText": "#a08dcc",
     "--panelColor": "#1b1b1d",
     "--panelColor2": "#2e2e34",
+    "--panelColor3": "#25262c",
   },
   alt2: {
     "--themeColor": "#c155ac",
@@ -23,6 +25,7 @@ export const COLOR_THEMES = {
     "--themeColorText": "#df82d5",
     "--panelColor": "#22262f",
     "--panelColor2": "#2c3139",
+    "--panelColor3": "#2c353e",
   },
   autumn: {
     "--themeColor": "#e34841",
@@ -30,6 +33,15 @@ export const COLOR_THEMES = {
     "--themeColorText": "#fbb87e",
     "--panelColor": "#22292f",
     "--panelColor2": "#222224",
+    "--panelColor3": "#2b2c32",
+  },
+  steel: {
+    "--themeColor": "#405185",
+    "--themeColorMod": "#313f68",
+    "--themeColorText": "#cd725a",
+    "--panelColor": "#1a1d26",
+    "--panelColor2": "#282d34",
+    "--panelColor3": "#2d3234",
   },
 };
 

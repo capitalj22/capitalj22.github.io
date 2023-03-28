@@ -122,7 +122,7 @@ export function SettingsPanel({ graphEvents$ }) {
           ></ReactSlider>
         </div>
       </div>
-      <div className="theme">
+      <div className="theme-panel">
         Theme
         <div className="colorpicker">
           <ColorPicker

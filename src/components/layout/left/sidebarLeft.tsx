@@ -22,13 +22,16 @@ export function SidebarLeft({ children, itemSelected, expanded }) {
   if (!leftExpanded) {
     return (
       <div className="sidebar-left">
-        <LeftMenu itemSelected={handleItemSelected}></LeftMenu>
+        <LeftMenu
+          itemSelected={handleItemSelected}
+          selectedItem={null}
+        ></LeftMenu>
       </div>
     );
   } else
     return (
       <div className="sidebar-left">
-        <LeftMenu itemSelected={handleItemSelected}></LeftMenu>
+        <LeftMenu itemSelected={handleItemSelected} selectedItem={selectedPage}></LeftMenu>
         <div className="sidebar-left-panel">{children}</div>
       </div>
     );

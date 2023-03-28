@@ -3,11 +3,9 @@ import {
   BookOpen,
   HelpCircle,
   Download,
-  Edit3,
   Moon,
   Sun,
   Edit,
-  User,
   Book,
   Zap,
 } from "react-feather";
