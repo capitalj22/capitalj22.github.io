@@ -66,7 +66,7 @@ export function CodePanel() {
     } else if (type === "trees") {
       const name = treeFileName || "dragon-trees";
 
-      data = { abilities, abilityTypes, globalParams, nodes, tagColors, stats };
+      data = { version, abilities, abilityTypes, globalParams, nodes, tagColors, stats };
       filename = `${name}.json`;
     }
 
