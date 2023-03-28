@@ -20,7 +20,7 @@ const color = {
 };
 
 const bgColor = {
-  backgroundColor: "transparent",
+  backgroundColor: "var(--panelColor2)",
 };
 
 export const selectStyles: (options?: {
@@ -28,11 +28,16 @@ export const selectStyles: (options?: {
   colorProp: string;
 }) => StylesConfig<any> = (options?) => ({
   menu: (styles) => ({ ...styles, ...color, ...bgColor }),
-  valueContainer: (styles) => ({ ...styles, ...bgColor, ...color }),
+  valueContainer: (styles) => ({
+    ...styles,
+    backgroundColor: "transparent",
+    ...color,
+  }),
+  indicatorSeparator: (styles) => ({ ...styles, backgroundColor: "var(--supermutedText)" }),
   control: (styles) => ({
     ...styles,
     ...color,
-    ...bgColor,
+    backgroundColor: "transparent",
     borderColor: "var(--supermutedText)",
   }),
   option: (styles, { data, isDisabled, isFocused, isSelected }) => {
