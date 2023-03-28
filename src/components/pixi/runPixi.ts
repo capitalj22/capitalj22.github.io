@@ -695,7 +695,7 @@ export function runGraphPixi(
       resizeTo: window,
       backgroundColor: bgColor,
       backgroundAlpha: 1,
-      resolution: 4,
+      resolution: 2,
     });
 
     container.appendChild(app.view);
