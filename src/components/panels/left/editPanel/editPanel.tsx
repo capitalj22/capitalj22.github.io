@@ -260,7 +260,7 @@ export function EditPanel({ graphEvents }: Props) {
             value={description || ""}
           />
         </div>
-        <div className="accordions">
+        <div className="edit-panel-accordions">
           <Accordion name="Requires" startOpen={false}>
             <div className="requires">
               <RequiresEdit
