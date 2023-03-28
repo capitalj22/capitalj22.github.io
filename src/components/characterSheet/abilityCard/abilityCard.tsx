@@ -10,6 +10,7 @@ import {
 } from "lodash-es";
 import { useContext, useEffect, useState } from "react";
 import { ChevronDown, ChevronUp, Edit } from "react-feather";
+import ReactMarkdown from "react-markdown";
 import { Ability } from "../../../entities/abilities/abilities";
 import { AbilitiesContext } from "../../../providers/abilities/abilitiesProvider";
 import { BuildContext } from "../../../providers/build/buildProvider";
@@ -48,6 +49,7 @@ function applyParamsToDescription(description, params, globalParams) {
       value
     );
   });
+
   if (globalParams) {
     each(Object.keys(globalParams), (key) => {
       let value = globalParams[key];
@@ -229,7 +231,28 @@ export function AbilityCard({
                   <span>{find(abilities, { id: ability.replaces })?.name}</span>
                 </div>
               )}
-              <p className="description">{description}</p>
+              <ReactMarkdown
+                className="description"
+                components={{
+                  p: ({ node, ...props }) => (
+                    <p style={{ margin: "0" }} {...props} />
+                  ),
+                  strong: ({ node, ...props }) => (
+                    <strong
+                      style={{ color: "var(--textColor)", fontWeight: 700 }}
+                      {...props}
+                    />
+                  ),
+                  em: ({ node, ...props }) => (
+                    <i
+                      style={{ color: "var(--infoColor)", fontWeight: 400 }}
+                      {...props}
+                    />
+                  ),
+                }}
+              >
+                {description}
+              </ReactMarkdown>
             </div>
             <div className="bottom">
               <div className="tags">
