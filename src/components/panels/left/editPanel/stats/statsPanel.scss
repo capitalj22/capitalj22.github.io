@@ -1,8 +1,4 @@
 .stats-panel {
-  background: var(--panelColor);
-  padding: 0.5rem;
-  border-radius: 8px;
-
   .stats-title {
     font-weight: 300;
     font-size: 1.5em;
@@ -15,31 +11,26 @@
   gap: 1rem;
 
   .stat-edit-line {
-    background: var(--panelColor2);
+    display: flex;
+    justify-content: space-between;
+    background: var(--cardBg);
+    border: var(--cardBorder);
+    box-shadow: var(--cardShadow);
     border-radius: 8px;
     padding: 1rem;
 
-    button {
-      background: transparent;
-      padding: 0.25rem;
+    > .left {
+      display: flex;
+      gap: 0.5rem;
+      flex: 2;
+      align-items: baseline;
 
-      &.remove {
-        color: var(--dangerColor);
+      > .stat-select {
+        flex: 2;
       }
     }
-    > div {
-      width: 12rem;
+    .form-control {
+      box-shadow: var(--boxShadowInsetBlackSmall);
     }
-
-    input {
-      font-size: 1em;
-      font-weight: bold;
-      width: 4rem;
-      background-color: var(--panelColor);
-      border: none;
-    }
-    color: #222;
-    display: flex;
-    justify-content: space-between;
   }
 }

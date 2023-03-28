@@ -3,6 +3,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import Select from "react-select";
 import { NodesContext } from "../../../providers/nodes/nodesProvider";
 import "./nodeSelect.scss";
+import { selectStyles } from "./select-styles";
 
 function getOption(nodeOptions, val, isMulti) {
   if (isMulti) {
@@ -14,7 +15,7 @@ function getOption(nodeOptions, val, isMulti) {
 
 function getNodeOptions(nodes) {
   return map(nodes, (node) => {
-    return { value: node.id, label: node.name };
+    return { value: node.id, label: node.name, color: node.colors.selected };
   });
 }
 
@@ -75,15 +76,21 @@ export function NodeSelect({
       valueChanged(event.value);
     }
   };
+  function colorStyles():
+    | import("react-select").StylesConfig<
+        any,
+        boolean,
+        import("react-select").GroupBase<any>
+      >
+    | undefined {
+    throw new Error("Function not implemented.");
+  }
+
   return (
     <Select
       isMulti={isMulti}
       className="node-select"
-      classNames={{
-        control: () => "select",
-        singleValue: () => "single-value",
-        menu: () => "select-menu",
-      }}
+      styles={selectStyles({ dot: true, colorProp: "color" })}
       options={nodeOptions}
       onChange={handleNewValueSelected}
       defaultValue={selectedValue}

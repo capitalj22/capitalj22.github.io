@@ -3,16 +3,35 @@
     display: flex;
     gap: 1rem;
     justify-content: space-between;
-    padding: 0.5rem 0;
+    padding: 1rem;
+    background: var(--cardBg);
+    border: var(--cardBorder);
+    border-radius: 8px;
+    margin: 1rem 0;
+    box-shadow: var(--boxShadowBlackSmall);
+  }
+
+  .checkbox {
+    margin-left: 0.25rem;
+    padding: 1rem 0;
+    padding-top: 0;
   }
 
   .select {
     display: flex;
     flex: 2;
+    align-items: baseline;
     gap: 0.5rem;
 
-    .select {
-      min-width: 10rem;
+    .node-select {
+      flex: 2;
+    }
+
+    .form-control {
+      box-shadow: var(--boxShadowInsetBlackSmall);
+
+      color: var(--textColor);
+      background: var(--panelColor2);
     }
   }
   .requirementType {

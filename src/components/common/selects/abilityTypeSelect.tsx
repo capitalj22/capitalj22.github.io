@@ -3,6 +3,7 @@ import { useContext, useState } from "react";
 import Select from "react-select";
 import { AbilitiesContext } from "../../../providers/abilities/abilitiesProvider";
 import "./abilitySelect.scss";
+import { selectStyles } from "./select-styles";
 
 function getOption(abilityOptions, id) {
   return find(abilityOptions, { value: id });
@@ -27,11 +28,7 @@ export function AbilityTypeSelect({ valueChanged, defaultValue }: Props) {
   return (
     <Select
       className="ability-select"
-      classNames={{
-        control: () => "select",
-        singleValue: () => "single-value",
-        menu: () => "select-menu",
-      }}
+      styles={selectStyles()}
       options={abilityOptions}
       onChange={(e) => valueChanged(e?.value)}
       defaultValue={

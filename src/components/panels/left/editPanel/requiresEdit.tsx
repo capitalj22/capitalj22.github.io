@@ -1,6 +1,6 @@
 import { find, map } from "lodash-es";
 import { useContext, useEffect, useState } from "react";
-import { PlusSquare, Trash } from "react-feather";
+import { PlusSquare, Trash, Trash2 } from "react-feather";
 import { NodesContext } from "../../../../providers/nodes/nodesProvider";
 import { SmolButton } from "../../../common/buttons/smolButton";
 import { NodeSelect } from "../../../common/selects/nodeSelect";
@@ -67,7 +67,7 @@ export function RequiresEdit({ value, requirementType, valueChanged, nodeId }) {
             )}
           </div>
           <SmolButton clicked={(e) => removed(index)} color="danger">
-            <Trash />
+            <Trash2 />
           </SmolButton>
         </div>
       ))}
@@ -84,7 +84,7 @@ export function RequiresEdit({ value, requirementType, valueChanged, nodeId }) {
           </label>
         </div>
       )}
-      <SmolButton color="mutdWhite" clicked={addPressed}>
+      <SmolButton color="info" clicked={addPressed}>
         <PlusSquare /> Add requirement
       </SmolButton>
     </div>

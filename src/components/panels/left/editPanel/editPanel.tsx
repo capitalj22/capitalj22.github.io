@@ -262,7 +262,7 @@ export function EditPanel({ graphEvents }: Props) {
         </div>
         <div className="edit-panel-accordions">
           <Accordion name="Requires" startOpen={false}>
-            <div className="requires">
+            <div className="edit-panel-accordion-container">
               <RequiresEdit
                 requirementType={requirementType}
                 value={requires}
@@ -272,7 +272,7 @@ export function EditPanel({ graphEvents }: Props) {
             </div>
           </Accordion>
           <Accordion name="Excludes" startOpen={false}>
-            <div className="excludes">
+            <div className="edit-panel-accordion-container">
               <ExclusiveEdit
                 value={exclusiveWith}
                 valueChanged={exclusionChanged}
@@ -281,26 +281,32 @@ export function EditPanel({ graphEvents }: Props) {
             </div>
           </Accordion>
           <Accordion name="Stats" startOpen={false}>
-            <StatsPanel
-              providedStats={providedStats as any}
-              providedStatsChanged={providedStatsChanged}
-              options={getStatOptions(stats)}
-              name="Stat"
-            ></StatsPanel>
+            <div className="edit-panel-accordion-container">
+              <StatsPanel
+                providedStats={providedStats as any}
+                providedStatsChanged={providedStatsChanged}
+                options={getStatOptions(stats)}
+                name="Stat"
+              ></StatsPanel>
+            </div>
           </Accordion>
           <Accordion name="Abilities" startOpen={false}>
-            <AbilitiesPanel
-              providedAbilities={providedAbilities}
-              providedAbilitiesChanged={providedAbilitiesChanged}
-            ></AbilitiesPanel>
+            <div className="edit-panel-accordion-container">
+              <AbilitiesPanel
+                providedAbilities={providedAbilities}
+                providedAbilitiesChanged={providedAbilitiesChanged}
+              ></AbilitiesPanel>
+            </div>
           </Accordion>
           <Accordion name="Global Params" startOpen={false}>
-            <StatsPanel
-              providedStats={nodeGlobalParams as any}
-              providedStatsChanged={nodeGlobalParamsChanged}
-              options={getGlobalParamOptions(globalParams)}
-              name="Stat"
-            ></StatsPanel>
+            <div className="edit-panel-accordion-container">
+              <StatsPanel
+                providedStats={nodeGlobalParams as any}
+                providedStatsChanged={nodeGlobalParamsChanged}
+                options={getGlobalParamOptions(globalParams)}
+                name="Global Param"
+              ></StatsPanel>
+            </div>
           </Accordion>
         </div>
 

@@ -1,8 +1,10 @@
 import { clone, filter, find, includes, map } from "lodash-es";
-import { Lock, PlusSquare, XCircle } from "react-feather";
+import { Lock, PlusSquare, Trash2, XCircle } from "react-feather";
 import Select from "react-select";
 import { BigButton } from "../../../../common/buttons/bigButton";
 import { SmolButton } from "../../../../common/buttons/smolButton";
+import { selectStyles } from "../../../../common/selects/select-styles";
+import { FancyNumberInput } from "../../../../common/tag-input/fancyNumberInput";
 import "./statsPanel.scss";
 
 function getAvailableOptions(providedStats, options) {
@@ -63,34 +65,33 @@ export function StatsPanel({
       {providedStats?.length
         ? map(providedStats, (stat, index) => (
             <div className="stat-edit-line" key={index}>
-              <button
-                className="remove"
-                onClick={(e) => removeStatClicked(e, index)}
-              >
-                <XCircle />
-              </button>
-
-              <Select
-                classNames={{
-                  control: () => "select",
-                  singleValue: () => "single-value",
-                  menu: () => "select-menu",
-                }}
-                options={getAvailableOptions(providedStats, options)}
-                onChange={(e) => statIdChanged(e, index)}
-                value={find(options, { value: stat.id })}
-              ></Select>
-              <input
-                type="number"
-                value={stat?.modifier}
-                onChange={(e) => statModifierChanged(e, index)}
-              ></input>
-              <button
-                onClick={(e) => lockToggled(index)}
-                style={{ color: stat?.set ? "#fff" : "#444" }}
-              >
-                <Lock />
-              </button>
+              <div className="left">
+                <Select
+                  className="stat-select"
+                  styles={selectStyles()}
+                  options={getAvailableOptions(providedStats, options)}
+                  onChange={(e) => statIdChanged(e, index)}
+                  value={find(options, { value: stat.id })}
+                ></Select>
+                <FancyNumberInput
+                  value={stat?.modifier}
+                  valueChanged={(e) => statModifierChanged(e, index)}
+                ></FancyNumberInput>
+              </div>
+              <div className="right">
+                <SmolButton
+                  clicked={(e) => lockToggled(index)}
+                  color={stat?.set ? "white" : "mutedText"}
+                >
+                  <Lock />
+                </SmolButton>
+                <SmolButton
+                  color="danger"
+                  clicked={(e) => removeStatClicked(e, index)}
+                >
+                  <Trash2 />
+                </SmolButton>
+              </div>
             </div>
           ))
         : ""}
@@ -98,7 +99,7 @@ export function StatsPanel({
         <SmolButton
           disabled={getAvailableOptions(providedStats, options).length === 0}
           type="outline"
-          color="white"
+          color="info"
           clicked={addbuttonClicked}
         >
           <PlusSquare />

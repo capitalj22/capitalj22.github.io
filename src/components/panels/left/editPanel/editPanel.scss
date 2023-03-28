@@ -2,7 +2,13 @@
   text-align: left;
 
   .edit-panel-accordions {
-    margin: 0 -1.5rem;
+    margin: 0 -2rem;
+    margin-left: -4rem;
+
+    .edit-panel-accordion-container {
+      background: var(--panelColor3);
+      padding: 1rem 0.5rem;
+    }
   }
 
   .node-description {
@@ -59,10 +65,7 @@
   }
 
   .requires {
-    padding: 0.5rem 2rem;
-    font-style: italic;
-    border-radius: 6px;
-    margin-top: 2rem;
+    padding: 1rem 0;
     width: 100%;
     color: #ff7575;
 

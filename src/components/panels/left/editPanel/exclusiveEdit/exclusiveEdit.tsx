@@ -15,17 +15,13 @@ export function ExclusiveEdit({ value, valueChanged, nodeId }) {
   };
 
   return (
-    <div className="require-select">
-      <div className="requirement">
-        <div className="select">
-          <NodeSelect
-            defaultValue={mappedValue}
-            usedOptions={[nodeId]}
-            valueChanged={changed}
-            isMulti={true}
-          />
-        </div>
-      </div>
+    <div className="excludes-select">
+      <NodeSelect
+        defaultValue={mappedValue}
+        usedOptions={[nodeId]}
+        valueChanged={changed}
+        isMulti={true}
+      />
     </div>
   );
 }
