@@ -1,5 +1,5 @@
 {
-  "version": "0.0.12",
+  "version": "0.0.13",
   "abilities": [
     {
       "id": "advanced-flying",
@@ -518,7 +518,7 @@
     },
     {
       "name": "Ranged Attack",
-      "id": "id-44",
+      "id": "ranged-attack",
       "description": "You make 1 ranged attack against an enemy. First roll 1d6{range}+%range%{/range} against the number of hexes between you and the target. Must beat this distance. For each success now roll 1d6{dmg}+%dmg%{/dmg} and do that much damage.\n\n{dmg2} This attack always does at least %dmg2% damage {/dmg2}",
       "tags": [],
       "type": "action",
@@ -558,7 +558,7 @@
     },
     {
       "name": "Hurl",
-      "id": "id-43",
+      "id": "hurl",
       "description": "This unit can now throw entities from adjacent units at targets within %hurl_range% hexes. This attack does %hurl_dmg% of which 1 is piercing.",
       "tags": ["attack", "ranged"],
       "type": "action",
@@ -580,7 +580,7 @@
     },
     {
       "name": "Evocation Casting",
-      "id": "id-33",
+      "id": "evocation-casting",
       "description": "You can cast evocation spells.\n\nSpell Slots: %evo_slots%\nSpells Per action: %evo_spells%",
       "tags": ["evocation", "spell"],
       "type": "school",
@@ -635,7 +635,7 @@
     },
     {
       "name": "Armor of Agathys",
-      "id": "id-4",
+      "id": "armor-of-agathys",
       "description": "As an action, cast Armor of Agathys on an ally (or self). That entity gains %temp_hp% temp HP and when hit by another creature (and still has at least 1 temp HP) it does damge to the attacker equal to the current (pre-hit) temp hp. {Aga_effect} Enemies that take damage by this effect gain the frostbite effect (lose 1 movement) {/aga_effect}",
       "tags": ["abjuration", "spell", "defense"],
       "type": "action",
@@ -668,7 +668,7 @@
     },
     {
       "name": "Divination Casting",
-      "id": "id-57",
+      "id": "divination-casting",
       "description": "You can cast divination spells.\n\nSpell Slots: %div_slots%\nSpells Per action: %div_spells%",
       "tags": ["divination"],
       "type": "school",
@@ -743,7 +743,7 @@
     },
     {
       "name": "Entangling Ground",
-      "id": "id-111",
+      "id": "entangling-ground",
       "description": "As an action, you can choose %eg-hex% hexes of ground and {base} make it difficult terrain.{/base}  {eg-imm} impassible terrain, units can move it it but to move out requires them to spend %eg-imm% actions to free themselves.{/eg-imm}. {eg-dmg}Units that end their turn within this area take %eg-dmg%.{/eg-dmg}Hex must be within casting range.{eg-cree}Now requires concentration. Entangling ground grows by %eg-cree% hex(s) per turn.{/eg-cree}\n",
       "tags": ["conjuration", "spell", "movement"],
       "type": "action",
@@ -758,7 +758,7 @@
     },
     {
       "name": "Storm",
-      "id": "id-9",
+      "id": "storm",
       "description": "As an action, you unleash a magical storm. This storm occupies %storm-size% hex and travels %storm-mve% hex per turn around the map.{sto-high}The storm hits %sto-high% hex(s) above the ground hex. {/sto-high} It moves after your team's action phase is over. It moves again at the end of the other team's action phase. {sto-base} For each movement, roll 1d6, it moves to that adjacent hex. {/sto-base} {sto-ride} You can now control the storm. The storm moves %storm-mve% hex(s). The storm now moves during your movement phase. {/sto-ride}The storm does %storm-dmg% nonabsorbable damage to any unit it passes over / that moves through it. It only does 1 damage to units at the start of their turn. {sto-mas} You gain %sto-mas% armor while in the storm, and your regular attacks do +%sto-mas% damage. {/sto-mas} {sto-wall}The storm now cannot be moved through, and any unit that starts their turn in the storm cannot move this turn. {/sto-wall} ",
       "tags": ["conjuration", "spell"],
       "type": "action",
@@ -2827,8 +2827,8 @@
       "requirementType": "and",
       "globalParams": [],
       "colors": {
-        "unavailable": "#520505",
-        "selected": "#d81b1b"
+        "unavailable": "#DE7171",
+        "selected": "#EF3D3D"
       },
       "levels": 4,
       "levelCost": [1, 3, 4, 5],
@@ -2868,8 +2868,8 @@
         }
       ],
       "colors": {
-        "unavailable": "#520505",
-        "selected": "#d81b1b"
+        "unavailable": "#DE7171",
+        "selected": "#EF3D3D"
       },
       "levels": 2,
       "levelCost": [3, 4],
@@ -2898,8 +2898,8 @@
         }
       ],
       "colors": {
-        "unavailable": "#520505",
-        "selected": "#d81b1b"
+        "unavailable": "#DE7171",
+        "selected": "#EF3D3D"
       },
       "levels": 2,
       "levelCost": [1, 3],
@@ -2938,14 +2938,14 @@
         }
       ],
       "colors": {
-        "unavailable": "#330722",
+        "unavailable": "#9A5C82",
         "selected": "#831256"
       },
       "levels": 4,
       "levelCost": [1, 3, 4, 5],
       "providedAbilities": [
         {
-          "id": "id-44",
+          "id": "ranged-attack",
           "modifier": 1,
           "modifiers": [
             {
@@ -2968,14 +2968,14 @@
         }
       ],
       "colors": {
-        "unavailable": "#330722",
+        "unavailable": "#9A5C82",
         "selected": "#831256"
       },
       "levels": 5,
       "levelCost": [1, 2, 3, 4, 5],
       "providedAbilities": [
         {
-          "id": "id-44",
+          "id": "ranged-attack",
           "modifier": 1,
           "modifiers": [
             {
@@ -2997,13 +2997,13 @@
         }
       ],
       "colors": {
-        "unavailable": "#330722",
+        "unavailable": "#9A5C82",
         "selected": "#831256"
       },
       "cost": 1,
       "providedAbilities": [
         {
-          "id": "id-44",
+          "id": "ranged-attack",
           "modifier": 1,
           "modifiers": [
             {
@@ -3027,8 +3027,8 @@
       "requirementType": "and",
       "globalParams": [],
       "colors": {
-        "unavailable": "#521505",
-        "selected": "#d8431b"
+        "unavailable": "#DE7171",
+        "selected": "#EF3D3D"
       },
       "levels": 7,
       "levelCost": [1, 1, 1, 1, 1, 1, 1],
@@ -3059,8 +3059,8 @@
       "requirementType": "and",
       "globalParams": [],
       "colors": {
-        "unavailable": "#520505",
-        "selected": "#d81b1b"
+        "unavailable": "#DE7171",
+        "selected": "#EF3D3D"
       },
       "levels": 3,
       "levelCost": [1, 1, 1],
@@ -3092,8 +3092,8 @@
       "description": "This unit has learned how to project its enormity across the battlefield.",
       "globalParams": [],
       "colors": {
-        "unavailable": "#520505",
-        "selected": "#d81b1b"
+        "unavailable": "#DE7171",
+        "selected": "#EF3D3D"
       },
       "cost": 1,
       "providedAbilities": [
@@ -3116,14 +3116,14 @@
       "requirementType": "and",
       "globalParams": [],
       "colors": {
-        "unavailable": "#520505",
-        "selected": "#d81b1b"
+        "unavailable": "#DE7171",
+        "selected": "#EF3D3D"
       },
       "levels": 3,
       "levelCost": [1, 2, 3],
       "providedAbilities": [
         {
-          "id": "id-43",
+          "id": "hurl",
           "modifier": 1,
           "modifiers": [
             {
@@ -3184,8 +3184,8 @@
       "requirementType": "and",
       "globalParams": [],
       "colors": {
-        "unavailable": "#520505",
-        "selected": "#d81b1b"
+        "unavailable": "#DE7171",
+        "selected": "#EF3D3D"
       },
       "cost": 1,
       "providedAbilities": [
@@ -3209,8 +3209,8 @@
       "requirementType": "and",
       "globalParams": [],
       "colors": {
-        "unavailable": "#520505",
-        "selected": "#d81b1b"
+        "unavailable": "#DE7171",
+        "selected": "#EF3D3D"
       },
       "cost": 1,
       "providedAbilities": [
@@ -3251,7 +3251,7 @@
       "cost": 1,
       "providedAbilities": [
         {
-          "id": "id-33",
+          "id": "evocation-casting",
           "modifier": 1,
           "modifiers": [],
           "gain": true
@@ -3385,7 +3385,7 @@
       "levelCost": [1, 1, 1, 1],
       "providedAbilities": [
         {
-          "id": "id-33",
+          "id": "evocation-casting",
           "modifier": 1,
           "modifiers": [
             {
@@ -3533,8 +3533,8 @@
       "description": "You can now cast abjuration spells.",
       "globalParams": [],
       "colors": {
-        "unavailable": "#080837",
-        "selected": "#141487"
+        "unavailable": "#5F5F90",
+        "selected": "#5082EF"
       },
       "cost": 1,
       "providedAbilities": [
@@ -3563,7 +3563,7 @@
           "gain": true
         },
         {
-          "id": "id-4",
+          "id": "armor-of-agathys",
           "modifier": 1,
           "modifiers": [],
           "gain": true
@@ -3589,8 +3589,8 @@
       "description": "You can cast more abjuration spells.",
       "globalParams": [],
       "colors": {
-        "unavailable": "#080837",
-        "selected": "#141487"
+        "unavailable": "#5F5F90",
+        "selected": "#5082EF"
       },
       "levels": 4,
       "levelCost": [1, 1, 1, 1],
@@ -3621,8 +3621,8 @@
       "description": "Shield and magical deflection are upgraded.",
       "globalParams": [],
       "colors": {
-        "unavailable": "#080837",
-        "selected": "#141487"
+        "unavailable": "#5F5F90",
+        "selected": "#5082EF"
       },
       "levels": 2,
       "levelCost": [2, 3],
@@ -3669,8 +3669,8 @@
       "description": "Ranged returned to sender.",
       "globalParams": [],
       "colors": {
-        "unavailable": "#080837",
-        "selected": "#141487"
+        "unavailable": "#5F5F90",
+        "selected": "#5082EF"
       },
       "cost": 1,
       "providedAbilities": [
@@ -3700,8 +3700,8 @@
       "description": "Attacks fully absorbed by shield (reg. armor + shield armor) hurt the attacker.",
       "globalParams": [],
       "colors": {
-        "unavailable": "#080837",
-        "selected": "#141487"
+        "unavailable": "#5F5F90",
+        "selected": "#5082EF"
       },
       "cost": 1,
       "providedAbilities": [
@@ -3731,14 +3731,14 @@
       "description": "Upgrade your magical armor.",
       "globalParams": [],
       "colors": {
-        "unavailable": "#080837",
-        "selected": "#141487"
+        "unavailable": "#5F5F90",
+        "selected": "#5082EF"
       },
       "levels": 2,
       "levelCost": [2, 2],
       "providedAbilities": [
         {
-          "id": "id-4",
+          "id": "armor-of-agathys",
           "modifier": 1,
           "modifiers": [
             {
@@ -3774,8 +3774,8 @@
       "description": "Mage armor lasts longer",
       "globalParams": [],
       "colors": {
-        "unavailable": "#080837",
-        "selected": "#141487"
+        "unavailable": "#5F5F90",
+        "selected": "#5082EF"
       },
       "levels": 3,
       "levelCost": [1, 1, 1],
@@ -3806,14 +3806,14 @@
       "description": "Armor of agathys is more effective.",
       "globalParams": [],
       "colors": {
-        "unavailable": "#080837",
-        "selected": "#141487"
+        "unavailable": "#5F5F90",
+        "selected": "#5082EF"
       },
       "levels": 2,
       "levelCost": [1, 2],
       "providedAbilities": [
         {
-          "id": "id-4",
+          "id": "armor-of-agathys",
           "modifier": 1,
           "modifiers": [
             {
@@ -3844,8 +3844,8 @@
       "globalParams": [],
       "exclusiveWith": ["basic-magic-1-by-1-ex-1-ey"],
       "colors": {
-        "unavailable": "#080837",
-        "selected": "#141487"
+        "unavailable": "#5F5F90",
+        "selected": "#5082EF"
       },
       "cost": 1,
       "providedAbilities": [
@@ -3861,7 +3861,7 @@
           ]
         },
         {
-          "id": "id-4",
+          "id": "armor-of-agathys",
           "modifier": 1,
           "modifiers": [
             {
@@ -3909,13 +3909,13 @@
       "globalParams": [],
       "exclusiveWith": ["basic-magic-1-by-1-ex-1-dy"],
       "colors": {
-        "unavailable": "#080837",
-        "selected": "#141487"
+        "unavailable": "#5F5F90",
+        "selected": "#5082EF"
       },
       "cost": 1,
       "providedAbilities": [
         {
-          "id": "id-4",
+          "id": "armor-of-agathys",
           "modifier": 1,
           "modifiers": [
             {
@@ -3984,7 +3984,7 @@
       "cost": 1,
       "providedAbilities": [
         {
-          "id": "id-57",
+          "id": "divination-casting",
           "modifier": 1,
           "modifiers": [],
           "gain": true
@@ -4030,7 +4030,7 @@
       "levelCost": [1, 1, 1, 1],
       "providedAbilities": [
         {
-          "id": "id-57",
+          "id": "divination-casting",
           "modifier": 1,
           "modifiers": [
             {
@@ -4755,7 +4755,7 @@
           "gain": true
         },
         {
-          "id": "id-9",
+          "id": "storm",
           "modifier": 1,
           "modifiers": [],
           "gain": true
@@ -4928,7 +4928,7 @@
       "levelCost": [2, 2],
       "providedAbilities": [
         {
-          "id": "id-9",
+          "id": "storm",
           "modifier": 1,
           "modifiers": [
             {
@@ -4960,7 +4960,7 @@
       "cost": 1,
       "providedAbilities": [
         {
-          "id": "id-9",
+          "id": "storm",
           "modifier": 1,
           "modifiers": [
             {
@@ -5008,7 +5008,7 @@
       "levelCost": [1, 2, 2],
       "providedAbilities": [
         {
-          "id": "id-9",
+          "id": "storm",
           "modifier": 1,
           "modifiers": [
             {
@@ -5041,7 +5041,7 @@
       "levelCost": [1, 1, 1],
       "providedAbilities": [
         {
-          "id": "id-9",
+          "id": "storm",
           "modifier": 1,
           "modifiers": [
             {
@@ -5088,7 +5088,7 @@
       ],
       "providedAbilities": [
         {
-          "id": "id-9",
+          "id": "storm",
           "modifier": 1,
           "modifiers": [
             {
@@ -5216,7 +5216,7 @@
       "cost": 1,
       "providedAbilities": [
         {
-          "id": "id-9",
+          "id": "storm",
           "modifier": 1,
           "modifiers": [
             {
@@ -5247,7 +5247,7 @@
       "cost": 1,
       "providedAbilities": [
         {
-          "id": "id-9",
+          "id": "storm",
           "modifier": 1,
           "modifiers": [
             {
@@ -5287,7 +5287,7 @@
       "cost": 2,
       "providedAbilities": [
         {
-          "id": "id-9",
+          "id": "storm",
           "modifier": 1,
           "modifiers": [
             {
@@ -5320,7 +5320,7 @@
       "levelCost": [1, 1],
       "providedAbilities": [
         {
-          "id": "id-9",
+          "id": "storm",
           "modifier": 1,
           "modifiers": [
             {
@@ -5356,7 +5356,7 @@
       "cost": 3,
       "providedAbilities": [
         {
-          "id": "id-9",
+          "id": "storm",
           "modifier": 1,
           "modifiers": [
             {
@@ -5488,7 +5488,7 @@
       "levelCost": [1, 1, 1, 1],
       "providedAbilities": [
         {
-          "id": "id-111",
+          "id": "entangling-ground",
           "modifier": 1,
           "modifiers": [
             {
@@ -5520,7 +5520,7 @@
       "cost": 1,
       "providedAbilities": [
         {
-          "id": "id-111",
+          "id": "entangling-ground",
           "modifier": 1,
           "modifiers": [
             {
@@ -5557,7 +5557,7 @@
       "levelCost": [1, 1],
       "providedAbilities": [
         {
-          "id": "id-111",
+          "id": "entangling-ground",
           "modifier": 1,
           "modifiers": [
             {
@@ -5593,7 +5593,7 @@
       "levelCost": [2, 2],
       "providedAbilities": [
         {
-          "id": "id-111",
+          "id": "entangling-ground",
           "modifier": 1,
           "modifiers": [
             {
