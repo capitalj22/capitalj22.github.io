@@ -31,7 +31,7 @@ function versionReducer(state, action) {
 export const StateProvider = ({ children }) => {
   const [appMode, setAppMode] = useState("build-slow");
   const [buildMode, setBuildMode] = useState("build-slow");
-  const [rightExpanded, setRightExpanded] = useState(true);
+  const [rightExpanded, setRightExpanded] = useState(false);
   const [leftExpanded, setLeftExpanded] = useState(true);
   const [version, setVersion] = useReducer(versionReducer, getVersion());
 
