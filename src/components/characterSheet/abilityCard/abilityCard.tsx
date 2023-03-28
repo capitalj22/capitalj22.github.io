@@ -31,7 +31,7 @@ function applyParamsToDescription(description, params, globalParams) {
   each(Object.keys(params), (key) => {
     let value = params[key];
 
-    if (params[key]) {
+    if (params[key] && params[key] > 0) {
       editedDescription = editedDescription.replace(
         new RegExp(`\{\\b${key}\\b\}([^*]+)\\\{\/\\b${key}\\b\}`),
         "$1"
@@ -52,7 +52,7 @@ function applyParamsToDescription(description, params, globalParams) {
     each(Object.keys(globalParams), (key) => {
       let value = globalParams[key];
 
-      if (globalParams[key]) {
+      if (globalParams[key] && globalParams[key] > 0) {
         editedDescription = editedDescription.replace(
           new RegExp(`\{\@\\b${key}\\b\}([^*]+)\\\{\/\\b${key}\\b\}`),
           "$1"
