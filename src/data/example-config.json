@@ -1,15 +1,16 @@
 {
-  "version": "0.0.14",
+  "version": "0.0.16",
   "abilities": [
     {
       "id": "advanced-flying",
       "name": "Advanced Flying",
-      "description": "This unit can fly. It now can exist on three different battlefield planes. The ground, and the air level 1, and air level 2, and air level 3. It costs 1 hex of movement to move upward but not downward.\n\n    Additionally, you are immune to environmental effects.",
+      "description": "This unit can fly. It now can exist on three different battlefield planes. The ground, and the air level 1, and air level 2, and air level 3. It costs 1 hex of movement to move upward but not downward.\n\nAdditionally, you are immune to environmental effects.",
       "type": "passive",
       "tags": [
         "flying"
       ],
-      "replaces": "flying"
+      "replaces": "flying",
+      "params": {}
     },
     {
       "id": "aerial-combat",
@@ -44,7 +45,7 @@
     {
       "name": "Alter Emotions",
       "id": "alter-emotions",
-      "description": "Increase or decrease the organization (HP) of any non-elite group of soldiers by %amt%. {sooth-amt} Non-elites can instead gain %amt%+%sooth-amt% hp.{/sooth-amt}  {riot-amt} Non-elites now lose %amt%+%riot-amt% hp. {/riot}\n{spread-ae} Units with an adjacency of %spread-ae% to the target are also effected in the same way {/spread-ae}",
+      "description": "Increase or decrease the organization (HP) of any non-elite group of soldiers by %amt%. {sooth-amt} Non-elites can instead gain %amt%+%sooth-amt% hp.{/sooth-amt}  {riot} Non-elites now lose %amt%+%riot-amt% hp. {/riot}\n{spread-ae} Units with an adjacency of %spread-ae% to the target are also effected in the same way {/spread-ae}",
       "tags": [
         "enchantment",
         "spell"
@@ -54,7 +55,8 @@
         "amt": 1,
         "sooth-amt": 0,
         "riot-amt": 0,
-        "spread-ae": 0
+        "spread-ae": 0,
+        "riot": 0
       }
     },
     {
@@ -90,7 +92,7 @@
     {
       "id": "basic-attack",
       "name": "Basic Attack",
-      "description": "You make 1 melee attack against an adjacent enemy. Roll 1d6{dmg}+%dmg%{/dmg} and do that much damage.",
+      "description": "You make **1** melee attack against an adjacent enemy. Roll _1d6{dmg}+%dmg%{/dmg}_ and do that much damage.",
       "type": "action",
       "params": {
         "dmg": -1
@@ -132,15 +134,15 @@
     {
       "id": "cantrip-barrage",
       "name": "Cantrip Strike",
-      "description": "Deal 1d6+%can_dmg% damage to an enemy.\n\n{can_pierce} This attack always does %can_dmg% {/can_pierce}",
+      "description": "Deal _1d6+%can_dmg%_ damage to an enemy.\n\n{can_pierce} This attack always does %can_dmg% {/can_pierce}",
       "type": "action",
       "tags": [
-        "magic",
         "evocation"
       ],
       "params": {
         "can_dmg": 0,
-        "can_pierce": 0
+        "can_pierce": 0,
+        "tag-piercing": 0
       }
     },
     {
@@ -279,11 +281,12 @@
     {
       "id": "flying",
       "name": "Flying",
-      "description": "This unit can fly. It now can exist on two different battlefield planes. The ground, and the air level 1. It costs 1 hex of movement to move upward but not downward.\n\n    Additionally, you are immune to environmental effects.",
+      "description": "This unit can fly. It now can exist on two different battlefield planes. The ground, and the air level 1. It costs 1 hex of movement to move upward but not downward.\n\nAdditionally, you are immune to environmental effects.",
       "type": "passive",
       "tags": [
         "flying"
-      ]
+      ],
+      "params": {}
     },
     {
       "id": "greater-knitting",
@@ -359,7 +362,7 @@
     {
       "id": "multi-attack",
       "name": "Multi Attack",
-      "description": "You make %numatks% melee attack against an adjacent enemy.\n      \n      Each Attack: 1d6{dmg}+%dmg%{/dmg}  \n\n{dmg2} This attack always does at least %dmg2% damage {/dmg2}\n ",
+      "description": "You make %numatks% melee attack against an adjacent enemy.\n      \nEach Attack: 1d6{dmg}+%dmg%{/dmg}  \n\n{dmg2} This attack always does at least %dmg2% damage {/dmg2}\n ",
       "type": "action",
       "replaces": "Attack_norm",
       "params": {
@@ -630,7 +633,7 @@
     {
       "name": "Holy Casting",
       "id": "holy-casting",
-      "description": "You can cast holy spells.\n\nSpell Slots: %slots%\nSpells Per action: %spells%",
+      "description": "You can cast holy spells.\n\n_Spell Slots: **%slots%**_\n_Spells Per action: **%spells%**_",
       "tags": [
         "holy"
       ],
@@ -726,10 +729,9 @@
     {
       "name": "Evocation Casting",
       "id": "evocation-casting",
-      "description": "You can cast evocation spells.\n\nSpell Slots: %evo_slots%\nSpells Per action: %evo_spells%",
+      "description": "You can cast evocation spells.\n\n_Spell Slots: **%evo_slots%**_\n_Spells Per action: **%evo_spells%**_",
       "tags": [
-        "evocation",
-        "spell"
+        "evocation"
       ],
       "type": "school",
       "params": {
@@ -740,7 +742,7 @@
     {
       "name": "Magical Barrage",
       "id": "magic-barrageid-22",
-      "description": "As an action, you unleash a magical barrage against a unit within range. This attack deals %mb_dmg% absorbable damage. {mb_con}\n \nOr, when you cast Magical Barrage you can choose to instead {mb_con2} take no action and {/mb_con2} deal no damage but cause the enemy to be unable to move on their next turn. {/mb_con}\n{mb_effect} \nWhen you cast the Magical Barrage Spell you can add one of the following effects to the target unit:\n1. Frostbite - units loses %mb_effect%  movement\n2. Burning - unit loses %mb_effect% hp\n3. Weakened - minus %mb_effect% damage\n4. Armor Sundered - loses %mb_effect% armor\n{/mb_effect}",
+      "description": "You unleash a magical barrage against a unit within range. This attack deals **%mb_dmg%** absorbable damage. {mb_con}\n \nOr, when you cast _Magical Barrage_ you can choose to instead {mb_con2} take no action and {/mb_con2} deal no damage but cause the enemy to be unable to move on their next turn. {/mb_con}\n\n{mb_effect} \nWhen you cast the _Magical Barrage_ you can add one of the following effects to the target unit:\n\n1. _Frostbite_ - units loses %mb_effect%  movement\n1. _Burning_ - unit loses %mb_effect% hp\n1. _Weakened_ - minus %mb_effect% damage\n1. _Armor Sundered_ - loses %mb_effect% armor\n\n{/mb_effect}",
       "tags": [
         "spell",
         "evocation"
@@ -752,16 +754,6 @@
         "mb_con2": -1,
         "mb_effect": 0
       }
-    },
-    {
-      "name": "New Ability",
-      "id": "id-195",
-      "description": "",
-      "tags": [
-        "evocation"
-      ],
-      "type": "action",
-      "params": {}
     },
     {
       "name": "Shield",
@@ -782,7 +774,7 @@
     {
       "name": "Abjuration Casting",
       "id": "abjuration-id-11",
-      "description": "You can cast abjuration spells.\n\nSpell Slots: %abju_slots%\nSpells Per action: %abju_spells%",
+      "description": "You can cast abjuration spells.\n\n_Spell Slots: **%abju_slots%**_\n_Spells Per action: **%abju_spells%**_",
       "tags": [
         "abjuration"
       ],
@@ -840,7 +832,7 @@
     {
       "name": "Divination Casting",
       "id": "divination-casting",
-      "description": "You can cast divination spells.\n\nSpell Slots: %div_slots%\nSpells Per action: %div_spells%",
+      "description": "You can cast divination spells.\n\n_Spell Slots: **%div_slots%**_\n_Spells Per action: **%div_spells%**_",
       "tags": [
         "divination"
       ],
@@ -900,7 +892,7 @@
     {
       "name": "Enchantment Casting",
       "id": "Enchan-casting-id-26",
-      "description": "You can cast %enc-slots% spells per day.\n\nYou can cast %enc-spells% spells per action.",
+      "description": "You can cast enchantment spells.\n\n_Spell slots: **%enc-slots%**_\n_Spells per action: **%enc-spells%**_",
       "tags": [
         "enchantment"
       ],
@@ -970,7 +962,7 @@
     },
     {
       "name": "Conjure Entites",
-      "id": "id-160",
+      "id": "conjure-entities",
       "description": "As an action you summon %sum-num% unit of wild beasts. Summon these entities within spell range.\n\n{sum1} You can now summon %sum-num% unit of x {/sum1}\n\n{sum2} You can now summon %sum-num% unit of x {/sum2}\n\n{sum3} You can now summon %sum-num% unit of x {/sum3}\n\n{sum4} You can now summon %sum-num% unit of x {/sum4}\n\n{sum5} You can now summon %sum-num% unit of x {/sum5}",
       "tags": [
         "conjuration"
@@ -987,7 +979,7 @@
     },
     {
       "name": "Conjuration Casting",
-      "id": "id-56",
+      "id": "conjuration-casting",
       "description": "You can now cast conjuration spells. \nYou can cast %con-num% spells per day.",
       "tags": [
         "conjuration"
@@ -1045,7 +1037,10 @@
       "id": "basic",
       "name": "Basic",
       "requires": [],
+      "requirementType": "and",
       "description": "Congrats! You are a unit.",
+      "globalParams": [],
+      "exclusiveWith": [],
       "colors": {
         "unavailable": "#121212",
         "selected": "#d2d2d2"
@@ -1059,6 +1054,11 @@
         {
           "id": "armor",
           "modifier": 2
+        },
+        {
+          "id": "movement",
+          "modifier": 1,
+          "set": false
         }
       ],
       "providedAbilities": [
@@ -3761,6 +3761,7 @@
       "requirementType": "and",
       "description": "Increases the potency of Cantrip Strike.",
       "globalParams": [],
+      "exclusiveWith": [],
       "colors": {
         "unavailable": "#850202",
         "selected": "#ff0004"
@@ -3775,7 +3776,13 @@
         {
           "id": "cantrip-barrage",
           "modifier": 1,
-          "modifiers": []
+          "modifiers": [
+            {
+              "id": "can_dmg",
+              "modifier": 1,
+              "set": false
+            }
+          ]
         }
       ]
     },
@@ -3791,6 +3798,7 @@
       "requirementType": "and",
       "description": "Cantrip strike now does piercing damage.",
       "globalParams": [],
+      "exclusiveWith": [],
       "colors": {
         "unavailable": "#850202",
         "selected": "#ff0004"
@@ -3803,6 +3811,11 @@
           "modifiers": [
             {
               "id": "can_pierce",
+              "modifier": 1,
+              "set": false
+            },
+            {
+              "id": "tag-piercing",
               "modifier": 1,
               "set": false
             }
@@ -5077,13 +5090,13 @@
       "cost": 1,
       "providedAbilities": [
         {
-          "id": "id-56",
+          "id": "conjuration-casting",
           "modifier": 1,
           "modifiers": [],
           "gain": true
         },
         {
-          "id": "id-160",
+          "id": "conjure-entities",
           "modifier": 1,
           "modifiers": [],
           "gain": true
@@ -5128,7 +5141,7 @@
       ],
       "providedAbilities": [
         {
-          "id": "id-56",
+          "id": "conjuration-casting",
           "modifier": 1,
           "modifiers": [
             {
@@ -5498,7 +5511,7 @@
       ],
       "providedAbilities": [
         {
-          "id": "id-160",
+          "id": "conjure-entities",
           "modifier": 1,
           "modifiers": [
             {
@@ -5554,7 +5567,7 @@
       ],
       "providedAbilities": [
         {
-          "id": "id-160",
+          "id": "conjure-entities",
           "modifier": 1,
           "modifiers": [
             {

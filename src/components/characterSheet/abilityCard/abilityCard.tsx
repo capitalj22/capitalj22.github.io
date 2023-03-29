@@ -234,6 +234,9 @@ export function AbilityCard({
               <ReactMarkdown
                 className="description"
                 components={{
+                  ol: ({ node, ...props }) => (
+                    <ol style={{ margin: 0, padding: "0 1.5rem" }} {...props} />
+                  ),
                   p: ({ node, ...props }) => (
                     <p style={{ margin: "0" }} {...props} />
                   ),
