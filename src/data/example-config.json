@@ -1,5 +1,5 @@
 {
-  "version": "0.0.16",
+  "version": "0.0.17",
   "abilities": [
     {
       "id": "advanced-flying",
@@ -16,7 +16,7 @@
       "id": "aerial-combat",
       "name": "Aerial Combat",
       "type": "passive",
-      "description": "Gains +1 on attacks made against flying units.",
+      "description": "Gains __+1__ on attacks made against flying units.",
       "tags": [
         "flying"
       ]
@@ -25,27 +25,29 @@
       "id": "aerial-evasion",
       "name": "Aerial Evasion",
       "type": "passive",
-      "description": "Gains +1 to AC while in the air.",
+      "description": "Gains **+1** to _AC_ while in the air.",
       "tags": [
         "flying",
         "defense"
-      ]
+      ],
+      "params": {}
     },
     {
       "id": "alert",
       "name": "Alert",
       "type": "movement",
-      "description": "This unit always musters and can muster 1 adjacent unit (during movement).",
+      "description": "This unit always musters and can muster **1** adjacent unit (during movement).",
       "replaces": "attentive",
       "tags": [
         "defense",
         "mustering"
-      ]
+      ],
+      "params": {}
     },
     {
       "name": "Alter Emotions",
       "id": "alter-emotions",
-      "description": "Increase or decrease the organization (HP) of any non-elite group of soldiers by %amt%. {sooth-amt} Non-elites can instead gain %amt%+%sooth-amt% hp.{/sooth-amt}  {riot} Non-elites now lose %amt%+%riot-amt% hp. {/riot}\n{spread-ae} Units with an adjacency of %spread-ae% to the target are also effected in the same way {/spread-ae}",
+      "description": "Increase or decrease the `organization` (HP) of any `non-elite` group of soldiers by __%amt%__. {sooth-amt} Non-elites can instead gain __%amt%+%sooth-amt%__ `hp`.{/sooth-amt}  {riot} Non-elites now lose __%amt%+%riot-amt%__ `hp`. {/riot}\n{spread-ae} Units with an adjacency of __%spread-ae%__ to the target are also affected in the same way {/spread-ae}",
       "tags": [
         "enchantment",
         "spell"
@@ -62,22 +64,24 @@
     {
       "id": "aquatic-combat",
       "name": "Aquatic Attack",
-      "description": "Add +1 to any attack made from the water.",
+      "description": "Add **+1** to any attack made from the _water_.",
       "type": "passive",
       "tags": [
         "aquatic",
         "attack"
-      ]
+      ],
+      "params": {}
     },
     {
       "id": "attack-from-the-deep",
       "name": "Attack from the Deeps",
-      "description": "Gain +2 damage on attacks made against other targets in the water that are at ground level.",
+      "description": "Gain **+2** damage on attacks made against other targets in the water that are at ground level.",
       "type": "passive",
       "tags": [
         "aquatic",
         "attack"
-      ]
+      ],
+      "params": {}
     },
     {
       "id": "attentive",
@@ -92,7 +96,7 @@
     {
       "id": "basic-attack",
       "name": "Basic Attack",
-      "description": "You make **1** melee attack against an adjacent enemy. Roll _1d6{dmg}+%dmg%{/dmg}_ and do that much damage.",
+      "description": "You make **1** melee attack against an adjacent enemy. Roll __1d6{dmg}+%dmg%{/dmg}__ and do that much damage.",
       "type": "action",
       "params": {
         "dmg": -1
@@ -104,7 +108,7 @@
     {
       "name": "Beguile",
       "id": "beguile",
-      "description": "Beguile %be-units% unit(s) into one of the following:\n\nFrightened of you - the unit cannot move towards you on its turn.\n\n{compelled}Compelled -  The unit MUST move at least 2 hexes toward you (if it can/it has to try to){/compelled}\n\n{charmed}Charmed - the unit makes %numAttacks% less attack(s) against you{/charmed}",
+      "description": "Beguile __%be-units%__ unit(s) into one of the following:\n\n_Frightened of you_ - the unit cannot move towards you on its turn.\n\n{compelled}_Compelled_ -  The unit MUST move at least __2__ hexes toward you (if it can/it has to try to){/compelled}\n\n{charmed}_Charmed_ - the unit makes __%numAttacks%__ less attack(s) against you{/charmed}",
       "tags": [
         "enchantment",
         "spell"
@@ -121,7 +125,7 @@
     {
       "id": "bless",
       "name": "Bless",
-      "description": "Buff up %bless_tars% ally(s) within range, granting them +1 on their first attack/cantrip strike of their turn.",
+      "description": "Buff up **%bless_tars%** ally(s) within range, granting them **+1** on their first attack/cantrip strike of their turn.",
       "type": "action",
       "tags": [
         "holy",
@@ -134,7 +138,7 @@
     {
       "id": "cantrip-barrage",
       "name": "Cantrip Strike",
-      "description": "Deal _1d6+%can_dmg%_ damage to an enemy.\n\n{can_pierce} This attack always does %can_dmg% {/can_pierce}",
+      "description": "Deal **1d6+%can_dmg%** damage to an enemy.\n\n{can_pierce} This attack always does %can_dmg% {/can_pierce}",
       "type": "action",
       "tags": [
         "evocation"
@@ -204,7 +208,7 @@
     {
       "id": "defend",
       "name": "Defend",
-      "description": "Gain    %hp% hp.\n\n{def_regen} You can regain up to %def_regen% hp per day.\n{/def_regen}\n\n{brace}For this turn, gain the following effects:\n\n1. You are Immune to Charge effects.\n2. Enemies that move adjacent to you take 1 damage.\n{/brace}",
+      "description": "Gain    **%hp%** _hp_.\n\n{def_regen} You can regain up to __%def_regen%__ hp per day.\n{/def_regen}\n\n{brace}For this turn, gain the following effects:\n\n1. You are Immune to Charge effects.\n2. Enemies that move adjacent to you take 1 damage.\n{/brace}",
       "type": "action",
       "params": {
         "brace": 0,
@@ -249,7 +253,7 @@
     {
       "name": "Dominate",
       "id": "dominate",
-      "description": "{base} Take control of non-elite units (so common soliders and such). The unit is under your control until the battle ends or it loses half its current health. Can only have %unit% unit(s) dominated at a time. {/base} {elite} Take control of any unit. The unit is under your control until the battle ends or it loses half its current health. Can only have %unit% unit(s) dominated at a time.{/elite}",
+      "description": "{base} Take control of `non-elite` units (so common soliders and such). The unit is under your control until the battle ends or it loses half its current health. Can only have __%units%__ unit(s) dominated at a time. {/base} {elite} Take control of any unit. The unit is under your control until the battle ends or it loses half its current health. Can only have __%unit%__ unit(s) dominated at a time.{/elite}",
       "tags": [
         "enchantment",
         "spell"
@@ -729,7 +733,7 @@
     {
       "name": "Evocation Casting",
       "id": "evocation-casting",
-      "description": "You can cast evocation spells.\n\n_Spell Slots: **%evo_slots%**_\n_Spells Per action: **%evo_spells%**_",
+      "description": "You can cast `evocation` spells.\n\n_Spell Slots: **%evo_slots%**_\n_Spells Per action: **%evo_spells%**_",
       "tags": [
         "evocation"
       ],
@@ -742,7 +746,7 @@
     {
       "name": "Magical Barrage",
       "id": "magic-barrageid-22",
-      "description": "You unleash a magical barrage against a unit within range. This attack deals **%mb_dmg%** absorbable damage. {mb_con}\n \nOr, when you cast _Magical Barrage_ you can choose to instead {mb_con2} take no action and {/mb_con2} deal no damage but cause the enemy to be unable to move on their next turn. {/mb_con}\n\n{mb_effect} \nWhen you cast the _Magical Barrage_ you can add one of the following effects to the target unit:\n\n1. _Frostbite_ - units loses %mb_effect%  movement\n1. _Burning_ - unit loses %mb_effect% hp\n1. _Weakened_ - minus %mb_effect% damage\n1. _Armor Sundered_ - loses %mb_effect% armor\n\n{/mb_effect}",
+      "description": "You unleash a magical barrage against a unit within range. This attack deals **%mb_dmg%** absorbable damage. {mb_con}\n \nOr, when you cast `Magical Barrage` you can choose to instead {mb_con2} take no action and {/mb_con2} deal no damage but cause the enemy to be unable to move on their next turn. {/mb_con}\n{mb_effect} \nWhen you cast the `Magical Barrage` you can add one of the following effects to the target unit:\n1. _Frostbite_ - units loses %mb_effect%  movement\n1. _Burning_ - unit loses %mb_effect% hp\n1. _Weakened_ - minus %mb_effect% damage\n1. _Armor Sundered_ - loses %mb_effect% armor\n{/mb_effect}",
       "tags": [
         "spell",
         "evocation"
@@ -832,7 +836,7 @@
     {
       "name": "Divination Casting",
       "id": "divination-casting",
-      "description": "You can cast divination spells.\n\n_Spell Slots: **%div_slots%**_\n_Spells Per action: **%div_spells%**_",
+      "description": "You can cast `divination` spells.\n\n_Spell Slots: **%div_slots%**_\n_Spells Per action: **%div_spells%**_",
       "tags": [
         "divination"
       ],
@@ -845,7 +849,7 @@
     {
       "name": "Gift of Foresight",
       "id": "Gift-fore-id-135",
-      "description": "Choose %gof_num% ally within spell range and grant them %gof_ac% AC. {gof_atk} Also give them +1 on their dice rolls. {/gof_atk} {gof_react} A unit with the Gift of Forsight on them can, as a reaction to another unit becoming adjacent, move %gof_react% hex away. They can only do this once. This movement would never provoke and attack of oppourtunity. {/gof_react}",
+      "description": "Choose __%gof_num%__ ally within spell range and grant them __%gof_ac%__ `AC`. {gof_atk} Also give them __+1__ on their dice rolls. {/gof_atk} {gof_react} A unit with the `Gift of Forsight` on them can, as a _reaction_ to another unit becoming adjacent, move __%gof_react%__ hex(es) away. They can only do this once. This movement would never provoke an _attack of oppourtunity_. {/gof_react}",
       "tags": [
         "divination",
         "concentration",
@@ -862,7 +866,7 @@
     {
       "name": "Portent",
       "id": "Portent-id-145",
-      "description": "Before a battle, roll %Port_num%x1d6 and save that roll. You can replace any attack roll within spell range by yourself, an ally, or enemy with this number. Uses a reaction if used to replace an enemy roll. Within magical range.",
+      "description": "Before a battle, roll __%Port_num%x1d6__ and save that roll. You can replace any attack roll within spell range by yourself, an ally, or enemy with this number. Uses a _reaction_ if used to replace an enemy roll. Within magical range.",
       "tags": [
         "divination",
         "spell"
@@ -875,7 +879,7 @@
     {
       "name": "Phantom Sight",
       "id": "Phan-sight-id-124",
-      "description": "Choose %ps-num% of enemy unit(s). {base1}The DM will tell you what action they will use on their next turn. {/base1} {ps-adv} The DM will tell you what movement and action they will use on their next turn. {/ps-adv} {base2} Only effective on non-command units {/base2} {ps-comm} Effective on all unit types. {/ps-comm}",
+      "description": "Choose __%ps-num%__  enemy unit(s). {base1}The DM will tell you what _action_ they will use on their next turn. {/base1} {ps-adv} The DM will tell you what _movement_ and _action_ they will use on their next turn. {/ps-adv} {base2} Only effective on `non-command` units {/base2} {ps-comm} Effective on `all` unit types. {/ps-comm}",
       "tags": [
         "divination",
         "spell"
@@ -892,7 +896,7 @@
     {
       "name": "Enchantment Casting",
       "id": "Enchan-casting-id-26",
-      "description": "You can cast enchantment spells.\n\n_Spell slots: **%enc-slots%**_\n_Spells per action: **%enc-spells%**_",
+      "description": "You can cast `enchantment` spells.\n\n_Spell slots: **%enc-slots%**_\n_Spells per action: **%enc-spells%**_",
       "tags": [
         "enchantment"
       ],
@@ -4807,7 +4811,20 @@
         "unavailable": "#7b5290",
         "selected": "#ab38d9"
       },
-      "cost": 1
+      "cost": 1,
+      "providedAbilities": [
+        {
+          "id": "alter-emotions",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "amt",
+              "modifier": 1,
+              "set": false
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "alter-emotions-1-1-bx",
