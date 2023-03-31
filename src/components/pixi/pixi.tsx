@@ -3,7 +3,7 @@ import { runGraphPixi } from "./runPixi";
 import styles from "./pixi.module.css";
 import { Subject } from "rxjs";
 import { BuildContext } from "../../providers/build/buildProvider";
-import { filter } from "lodash-es";
+import { filter, find } from "lodash-es";
 import { newDragonFromNodes } from "../../entities/actor/dragon.entity";
 import { AbilitiesContext } from "../../providers/abilities/abilitiesProvider";
 import { NodesContext } from "../../providers/nodes/nodesProvider";
@@ -16,7 +16,8 @@ export function PixiGraph({ infoUpdated, graphEvents }) {
   const { nodes, setNodeMeta } = useContext(NodesContext);
   const nodesUpdated$ = new Subject();
   const infoUpdated$ = new Subject();
-  const { savedBuild, setBuild } = useContext(BuildContext);
+  const { savedBuild, setBuild, selectedUnitId, customUnits, setCustomUnits } =
+    useContext(BuildContext);
   const { theme } = useContext(ThemeContext);
   const { appMode } = useContext(stateContext);
   const abilitiesRef = useRef(abilities);
@@ -54,14 +55,26 @@ export function PixiGraph({ infoUpdated, graphEvents }) {
           (node) => node.selected || node.acquired
         );
 
+        const build = newDragonFromNodes(
+          selectedNodes,
+          abilitiesRef.current,
+          globalParamsref.current
+        );
+
         setBuild({
           type: "set",
-          build: newDragonFromNodes(
-            selectedNodes,
-            abilitiesRef.current,
-            globalParamsref.current
-          ),
+          build,
         });
+
+        if (selectedUnitId && find(customUnits, { id: selectedUnitId })) {
+          const unit = find(customUnits, { id: selectedUnitId });
+
+          setCustomUnits({
+            type: "update",
+            unit: { ...unit, build: build.exportableBuild },
+          });
+        }
+
         if (data.nodeMeta) {
           setNodeMeta(data.nodeMeta);
         }

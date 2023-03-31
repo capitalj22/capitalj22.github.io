@@ -20,6 +20,81 @@ function getCustomUnits() {
   }
 }
 
+function getDefaultUnits() {
+  const units = window.localStorage.getItem("dragon-default-units");
+  if (units) {
+    try {
+      return JSON.parse(units);
+    } catch (e) {
+      return [];
+    }
+  } else {
+    return [];
+  }
+}
+
+const defaultUnitsReducer = (state, action) => {
+  const { index, unit, units, type } = action;
+  let newState = clone(state);
+
+  if (type === "save") {
+    try {
+      window.localStorage.setItem(
+        "dragon-default-units",
+        JSON.stringify(newState)
+      );
+    } catch (err) {}
+  }
+
+  if (type === "add") {
+    newState = [...newState, unit];
+    return newState;
+  }
+
+  if (type === "set") {
+    newState = units;
+    window.localStorage.setItem(
+      "dragon-default-units",
+      JSON.stringify(newState)
+    );
+    return newState;
+  }
+
+  if (type === "update") {
+    newState = map(newState, (u) => {
+      if (u.id === unit.id) {
+        return unit;
+      } else {
+        return u;
+      }
+    });
+
+    window.localStorage.setItem(
+      "dragon-default-units",
+      JSON.stringify(newState)
+    );
+
+    return newState;
+  }
+
+  if (type === "remove") {
+    const unitIdx = state.findIndex((x) => x.id === unit.id);
+
+    if (unitIdx < 0) return state;
+
+    const stateUpdate = [...state];
+
+    stateUpdate.splice(unitIdx, 1);
+
+    window.localStorage.setItem(
+      "dragon-default-units",
+      JSON.stringify(newState)
+    );
+
+    return stateUpdate;
+  }
+  return state;
+};
 const customUnitsReducer = (state, action) => {
   const { index, unit, units, type } = action;
   let newState = clone(state);
@@ -119,6 +194,11 @@ export const BuildProvider = ({ children }) => {
     getCustomUnits()
   );
 
+  const [defaultUnits, setDefaultUnits] = useReducer(
+    defaultUnitsReducer,
+    getDefaultUnits()
+  );
+
   const [selectedUnitId, setSelectedUnitId] = useState(
     customUnits?.length > 1 ? customUnits[0]?.id : null
   );
@@ -132,6 +212,8 @@ export const BuildProvider = ({ children }) => {
         setSavedBuild,
         customUnits,
         setCustomUnits,
+        defaultUnits,
+        setDefaultUnits,
         selectedUnitId,
         setSelectedUnitId,
       }}

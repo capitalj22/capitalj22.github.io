@@ -16,7 +16,8 @@ import { stateContext } from "../../providers/state/stateProvider";
 import classNames from "classnames";
 
 export function CodePanel() {
-  const { build, setSavedBuild } = useContext(BuildContext);
+  const { build, setSavedBuild, defaultUnits, setDefaultUnits } =
+    useContext(BuildContext);
   const { tagColors, setTagColors } = useContext(TagsContext);
   const { stats, setStats } = useContext(StatsContext);
   const {
@@ -66,7 +67,15 @@ export function CodePanel() {
     } else if (type === "trees") {
       const name = treeFileName || "dragon-trees";
 
-      data = { version, abilities, abilityTypes, globalParams, nodes, tagColors, stats };
+      data = {
+        version,
+        abilities,
+        abilityTypes,
+        globalParams,
+        nodes,
+        tagColors,
+        stats,
+      };
       filename = `${name}.json`;
     }
 
@@ -75,14 +84,12 @@ export function CodePanel() {
       const blob = new Blob([json], { type: "application/json" });
       const href = URL.createObjectURL(blob);
 
-      // create "a" HTLM element with href to file
       const link = document.createElement("a");
       link.href = href;
       link.download = filename;
       document.body.appendChild(link);
       link.click();
 
-      // clean up "a" element & remove ObjectURL
       document.body.removeChild(link);
       URL.revokeObjectURL(href);
     }
@@ -105,18 +112,25 @@ export function CodePanel() {
       setSavedBuild({ type: "imported", build: {} });
 
       if (config) {
+        if (config.defaultUnits) {
+          setDefaultUnits({ type: "set", nodes: config.defaultUnits });
+        }
+
         if (config.nodes) {
           setNodes({ type: "set", nodes: config.nodes });
         }
+
         if (config.abilities) {
           setAbilities({ type: "set", abilities: config.abilities });
         }
+
         if (config.tagColors) {
           setTagColors({ type: "set", colors: config.tagColors });
         }
         if (config.stats) {
           setStats({ type: "set", stats: config.stats });
         }
+
         if (config.globalParams) {
           setGlobalParams({ type: "set", params: config.globalParams });
         }
@@ -145,6 +159,7 @@ export function CodePanel() {
   const defaultClicked = (event) => {
     const defaults = exampleJson;
     setVersion({ type: "set", version: defaults.version });
+    setDefaultUnits({ type: "set", units: defaults.defaultUnits });
     setNodes({ type: "set", nodes: defaults.nodes });
     setStats({ type: "set", stats: defaults.stats });
     setAbilityTypes({ type: "set", abilityTypes: defaults.abilityTypes });

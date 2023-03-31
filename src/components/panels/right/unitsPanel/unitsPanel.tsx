@@ -8,7 +8,8 @@ import { UnitCard } from "./unitCard";
 import "./unitsPanel.scss";
 
 export function UnitsPanel() {
-  const { customUnits, setCustomUnits } = useContext(BuildContext);
+  const { customUnits, setCustomUnits, defaultUnits, setDefaultUnits } =
+    useContext(BuildContext);
   const [isEditing, setIsEditing] = useState(false);
   const addCustomPressed = () => {
     setCustomUnits({
@@ -43,7 +44,26 @@ export function UnitsPanel() {
         </div>
       </Accordion>
       <Accordion name="Default Units" startOpen={false}>
-        ed's units
+        <div className="padding-md">
+          <div>
+            <SmolButton
+              color={isEditing ? "success" : "mutedText"}
+              clicked={() => setIsEditing(!isEditing)}
+            >
+              <Edit /> Edit Units
+            </SmolButton>
+          </div>
+          <div className="unit-cards">
+            {defaultUnits.map((unit) => (
+              <UnitCard unit={unit} isEditing={isEditing} />
+            ))}
+          </div>
+          <div className="padding-md">
+            <BigButton color="info" type="outline" clicked={addCustomPressed}>
+              New Unit <Plus />
+            </BigButton>
+          </div>
+        </div>
       </Accordion>
     </div>
   );

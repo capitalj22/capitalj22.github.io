@@ -6,9 +6,7 @@
       "name": "Advanced Flying",
       "description": "This unit can fly. It now can exist on three different battlefield planes. The ground, and the air level 1, and air level 2, and air level 3. It costs 1 hex of movement to move upward but not downward.\n\nAdditionally, you are immune to environmental effects.",
       "type": "passive",
-      "tags": [
-        "flying"
-      ],
+      "tags": ["flying"],
       "replaces": "flying",
       "params": {}
     },
@@ -17,19 +15,14 @@
       "name": "Aerial Combat",
       "type": "passive",
       "description": "Gains __+1__ on attacks made against flying units.",
-      "tags": [
-        "flying"
-      ]
+      "tags": ["flying"]
     },
     {
       "id": "aerial-evasion",
       "name": "Aerial Evasion",
       "type": "passive",
       "description": "Gains **+1** to _AC_ while in the air.",
-      "tags": [
-        "flying",
-        "defense"
-      ],
+      "tags": ["flying", "defense"],
       "params": {}
     },
     {
@@ -38,20 +31,14 @@
       "type": "movement",
       "description": "This unit always musters and can muster **1** adjacent unit (during movement).",
       "replaces": "attentive",
-      "tags": [
-        "defense",
-        "mustering"
-      ],
+      "tags": ["defense", "mustering"],
       "params": {}
     },
     {
       "name": "Alter Emotions",
       "id": "alter-emotions",
       "description": "Increase or decrease the `organization` (HP) of any `non-elite` group of soldiers by __%amt%__. {sooth-amt} Non-elites can instead gain __%amt%+%sooth-amt%__ `hp`.{/sooth-amt}  {riot} Non-elites now lose __%amt%+%riot-amt%__ `hp`. {/riot}\n{spread-ae} Units with an adjacency of __%spread-ae%__ to the target are also affected in the same way {/spread-ae}",
-      "tags": [
-        "enchantment",
-        "spell"
-      ],
+      "tags": ["enchantment", "spell"],
       "type": "action",
       "params": {
         "amt": 1,
@@ -66,10 +53,7 @@
       "name": "Aquatic Attack",
       "description": "Add **+1** to any attack made from the _water_.",
       "type": "passive",
-      "tags": [
-        "aquatic",
-        "attack"
-      ],
+      "tags": ["aquatic", "attack"],
       "params": {}
     },
     {
@@ -77,10 +61,7 @@
       "name": "Attack from the Deeps",
       "description": "Gain **+2** damage on attacks made against other targets in the water that are at ground level.",
       "type": "passive",
-      "tags": [
-        "aquatic",
-        "attack"
-      ],
+      "tags": ["aquatic", "attack"],
       "params": {}
     },
     {
@@ -88,10 +69,7 @@
       "name": "Attentive",
       "type": "movement",
       "description": "This unit always musters",
-      "tags": [
-        "defense",
-        "mustering"
-      ]
+      "tags": ["defense", "mustering"]
     },
     {
       "id": "basic-attack",
@@ -101,18 +79,13 @@
       "params": {
         "dmg": -1
       },
-      "tags": [
-        "attack"
-      ]
+      "tags": ["attack"]
     },
     {
       "name": "Beguile",
       "id": "beguile",
       "description": "Beguile __%be-units%__ unit(s) into one of the following:\n\n_Frightened of you_ - the unit cannot move towards you on its turn.\n\n{compelled}_Compelled_ -  The unit MUST move at least __2__ hexes toward you (if it can/it has to try to){/compelled}\n\n{charmed}_Charmed_ - the unit makes __%numAttacks%__ less attack(s) against you{/charmed}",
-      "tags": [
-        "enchantment",
-        "spell"
-      ],
+      "tags": ["enchantment", "spell"],
       "type": "action",
       "params": {
         "frightened": 1,
@@ -127,10 +100,7 @@
       "name": "Bless",
       "description": "Buff up **%bless_tars%** ally(s) within range, granting them **+1** on their first attack/cantrip strike of their turn.",
       "type": "action",
-      "tags": [
-        "holy",
-        "spell"
-      ],
+      "tags": ["holy", "spell"],
       "params": {
         "bless_tars": 1
       }
@@ -140,9 +110,7 @@
       "name": "Cantrip Strike",
       "description": "Deal **1d6+%can_dmg%** damage to an enemy.\n\n{can_pierce} This attack always does %can_dmg% {/can_pierce}",
       "type": "action",
-      "tags": [
-        "evocation"
-      ],
+      "tags": ["evocation"],
       "params": {
         "can_dmg": 0,
         "can_pierce": 0,
@@ -167,40 +135,28 @@
       "params": {
         "movement": 2
       },
-      "tags": [
-        "movement",
-        "fast"
-      ]
+      "tags": ["movement", "fast"]
     },
     {
       "id": "dash-expert",
       "name": "Dash Expert",
       "type": "passive",
       "description": "Once per turn, you can replace any one of your attacks with movement up to your speed.",
-      "tags": [
-        "movement"
-      ]
+      "tags": ["movement"]
     },
     {
       "id": "death-bomb",
       "name": "Death Bomb",
       "type": "action",
       "description": "This unit can dive bomb and forcefully smash itself into enemy units. This kills this unit. It does 2 damage to a target's HP.",
-      "tags": [
-        "undead",
-        "flying"
-      ]
+      "tags": ["undead", "flying"]
     },
     {
       "id": "death-ward",
       "name": "Death Ward",
       "description": "Place a ward against death on a unit. If that unit is reduced to 0 HP it instead goes to %hp% HP. When this happens the spell is used up and you lose concentration on it.",
       "type": "action",
-      "tags": [
-        "concentration",
-        "holy",
-        "spell"
-      ],
+      "tags": ["concentration", "holy", "spell"],
       "params": {
         "hp": 2
       }
@@ -215,18 +171,14 @@
         "hp": 1,
         "def_regen": 5
       },
-      "tags": [
-        "healing"
-      ]
+      "tags": ["healing"]
     },
     {
       "id": "deflect",
       "name": "Deflect",
       "type": "reaction",
       "description": "Block %deflect% ranged attack that is made at you. Declare before the attack is rolled. \n\nFor magic attacks, deflect on a roll of %lowerRange% or higher.",
-      "tags": [
-        "defense"
-      ],
+      "tags": ["defense"],
       "params": {
         "lowerRange": 4,
         "deflect": 1
@@ -236,9 +188,7 @@
       "id": "dive-bomb",
       "name": "Dive Bomb",
       "type": "passive",
-      "tags": [
-        "flying"
-      ],
+      "tags": ["flying"],
       "description": "When this unit moves from a higher elevation to a lower elevation it gains +1 damage for each air level it decends through for its next attack."
     },
     {
@@ -246,18 +196,13 @@
       "name": "Diving",
       "description": "This unit can swim under water. Gain access to a -1 vertical space in water. Gain +3 to AC from units that are ground or above. You get a -2 dice roll on all attacks on units that are at ground or above.",
       "type": "movement",
-      "tags": [
-        "aquatic"
-      ]
+      "tags": ["aquatic"]
     },
     {
       "name": "Dominate",
       "id": "dominate",
       "description": "{base} Take control of `non-elite` units (so common soliders and such). The unit is under your control until the battle ends or it loses half its current health. Can only have __%units%__ unit(s) dominated at a time. {/base} {elite} Take control of any unit. The unit is under your control until the battle ends or it loses half its current health. Can only have __%unit%__ unit(s) dominated at a time.{/elite}",
-      "tags": [
-        "enchantment",
-        "spell"
-      ],
+      "tags": ["enchantment", "spell"],
       "type": "action",
       "params": {
         "units": 1,
@@ -277,19 +222,14 @@
       "name": "Ferry",
       "description": "This unit can carry other units on water. It takes 1 action to load an ally (action used during movement). No action required to disembark.",
       "type": "passive",
-      "tags": [
-        "aquatic",
-        "movement"
-      ]
+      "tags": ["aquatic", "movement"]
     },
     {
       "id": "flying",
       "name": "Flying",
       "description": "This unit can fly. It now can exist on two different battlefield planes. The ground, and the air level 1. It costs 1 hex of movement to move upward but not downward.\n\nAdditionally, you are immune to environmental effects.",
       "type": "passive",
-      "tags": [
-        "flying"
-      ],
+      "tags": ["flying"],
       "params": {}
     },
     {
@@ -298,11 +238,7 @@
       "description": "Restore %hp% HP to all adjacent undead units",
       "type": "action",
       "replaces": "knit-flesh",
-      "tags": [
-        "undead",
-        "healing",
-        "necromancy"
-      ],
+      "tags": ["undead", "healing", "necromancy"],
       "params": {
         "hp": 1
       }
@@ -312,9 +248,7 @@
       "name": "Guardian",
       "type": "reaction",
       "description": "As a reaction, can intercept %attacks% attack(s) going towards an adjacent ally. You now take that attack - also take 1 damage.",
-      "tags": [
-        "defense"
-      ],
+      "tags": ["defense"],
       "params": {
         "attacks": 1
       }
@@ -324,11 +258,7 @@
       "name": "Guiding Bolt",
       "description": "You hit an enemy with a blast of light, dealing %dmg% nonabsorbable damage. Next round, allies have +%roll% on all attacks/cantrip strikes against this target.",
       "type": "action",
-      "tags": [
-        "holy",
-        "piercing",
-        "spell"
-      ],
+      "tags": ["holy", "piercing", "spell"],
       "params": {
         "roll": 1,
         "dmg": 1
@@ -342,11 +272,7 @@
       "params": {
         "hp": 1
       },
-      "tags": [
-        "undead",
-        "healing",
-        "necromancy"
-      ]
+      "tags": ["undead", "healing", "necromancy"]
     },
     {
       "id": "mass-knitting",
@@ -354,11 +280,7 @@
       "description": "Restore %hp% HP to all undead units within 2 hexes (100m area)",
       "type": "action",
       "replaces": "greater-knitting",
-      "tags": [
-        "undead",
-        "healing",
-        "necromancy"
-      ],
+      "tags": ["undead", "healing", "necromancy"],
       "params": {
         "hp": 1
       }
@@ -374,29 +296,21 @@
         "dmg": 0,
         "numatks": 1
       },
-      "tags": [
-        "attack"
-      ]
+      "tags": ["attack"]
     },
     {
       "id": "reactive-armor",
       "name": "Reactive Armor",
       "description": "When an enemy attacks you, gain 1 AC. Lose 1 AC at the start of each turn.",
       "type": "passive",
-      "tags": [
-        "defense"
-      ]
+      "tags": ["defense"]
     },
     {
       "id": "restoration",
       "name": "Restoration",
       "description": "Heal a unit %hp%+%@holyheal% HP within spell range.{divine}\n\nRestoration can now be cast for 2 spell slots and heals 10 HP if done this way.{/divine}",
       "type": "action",
-      "tags": [
-        "holy",
-        "spell",
-        "healing"
-      ],
+      "tags": ["holy", "spell", "healing"],
       "params": {
         "hp": 3,
         "divine": 0
@@ -407,10 +321,7 @@
       "name": "Smite",
       "description": "When an attack hits (does damage to HP), you may spend 1 spell slot to make that attack do +%dmg%\n      damage",
       "type": "bonus action",
-      "tags": [
-        "holy",
-        "spell"
-      ],
+      "tags": ["holy", "spell"],
       "params": {
         "dmg": 3
       }
@@ -431,12 +342,7 @@
       "name": "Spirit Guardians",
       "description": "Call upon spiritual guardians to protect you. You gain %ac% AC and adjacent enemies take %dmg% unabsorbable damage at the start of your turn. {armor_debuff} Enemies within the zone also have their armor reduced by %armor_debuff% {/armor_debuff}",
       "type": "action",
-      "tags": [
-        "concentration",
-        "holy",
-        "piercing",
-        "spell"
-      ],
+      "tags": ["concentration", "holy", "piercing", "spell"],
       "params": {
         "dmg": 1,
         "ac": 1,
@@ -447,9 +353,7 @@
       "id": "strafing-run",
       "name": "Strafing Run",
       "type": "passive",
-      "tags": [
-        "flying"
-      ],
+      "tags": ["flying"],
       "description": "As part of movement can make a breath attack against up to %targets% target(s) (adjacent to each) that you fly over in a straight line. This costs 1 breath attack use and does half breath damage (but full effect). Costs 1 movement to initiate for each targeted hex."
     },
     {
@@ -457,19 +361,14 @@
       "name": "Submarine Transportation",
       "description": "This unit can carry other units on water and underwater. It takes 1 action to load an ally (action used during movement). No action required to disembark.",
       "type": "passive",
-      "tags": [
-        "aquatic",
-        "movement"
-      ],
+      "tags": ["aquatic", "movement"],
       "replaces": "ferry"
     },
     {
       "id": "swarm",
       "name": "Swarm",
       "type": "action",
-      "tags": [
-        "flying"
-      ],
+      "tags": ["flying"],
       "description": "Swarm around an adjacent enemy unit, co-existing in their hex, and blocking ranged attacks against targets other than itself. This unit can now move 3 hexes as a reaction to stay with its swarmed unit, any more movement breaks the swarm. In addition it can choose to be hit by ranged attacks that would pass through its hex."
     },
     {
@@ -477,19 +376,14 @@
       "name": "Swimming",
       "description": "If this unit can move up to %movement% hexes in the water. If the unit's speed is less than %movement% it can move up to its speed.",
       "type": "movement",
-      "tags": [
-        "aquatic"
-      ]
+      "tags": ["aquatic"]
     },
     {
       "id": "turn-undead",
       "name": "Turn Undead",
       "description": "Force undead on their turn to move at least %range% hex away from you and get no closer for %rounds% round.",
       "type": "action",
-      "tags": [
-        "holy",
-        "spell"
-      ],
+      "tags": ["holy", "spell"],
       "params": {
         "dmg": 1,
         "range": 1,
@@ -506,9 +400,7 @@
       "name": "Command",
       "id": "command",
       "description": "Gain a command aura of %commandRadius% m radius (every adjacent hex)",
-      "tags": [
-        "command"
-      ],
+      "tags": ["command"],
       "type": "passive",
       "params": {
         "commandRadius": 50
@@ -518,9 +410,7 @@
       "name": "Rally",
       "id": "rally",
       "description": "As an action, allied units in your command aura regain %hp% HP.\n\n{bonus}\n1 unit within your command aura can make an attack.\n{/bonus}",
-      "tags": [
-        "command"
-      ],
+      "tags": ["command"],
       "type": "action",
       "params": {
         "bonus": 0,
@@ -545,9 +435,7 @@
       "name": "Rally+",
       "id": "rally-2",
       "description": "As an action, allied units in your command aura regain %hp% HP.\n\n2 units within your command aura can make 1 attack \nOR\n1 unit within your command aura can make 2 attacks",
-      "tags": [
-        "command"
-      ],
+      "tags": ["command"],
       "type": "action",
       "params": {
         "hp": 1
@@ -558,29 +446,21 @@
       "name": "Attack of Opportunity",
       "id": "attack-of-opportunity",
       "description": "This unit can make a single melee attack (with modified damage) against any enemy that moves out of adjacency with it. The attack takes place immediately.",
-      "tags": [
-        "defense",
-        "attack"
-      ],
+      "tags": ["defense", "attack"],
       "type": "reaction"
     },
     {
       "name": "Professionals",
       "id": "professionals",
       "description": "This unit is always active (doesnt count to active unit count).",
-      "tags": [
-        "mustering"
-      ],
+      "tags": ["mustering"],
       "type": "movement"
     },
     {
       "name": "Raise Dead",
       "id": "raise-dead",
       "description": "Raise a deceased unit as a zombie horde with %raiseHp%% health.",
-      "tags": [
-        "necromancy",
-        "spell"
-      ],
+      "tags": ["necromancy", "spell"],
       "type": "action",
       "params": {
         "raiseHp": 25
@@ -590,32 +470,21 @@
       "name": "Life Drain",
       "id": "raise-dead-copy",
       "description": "Create a link between you and a target within range. Each turn as a bonus action you can tap that link (including turn 1) . Tapping the link deals 1 damage to the target's HP and gives that HP to you. \n\n This spell lasts as long as the target remains within 6 hexes of the caster.",
-      "tags": [
-        "necromancy",
-        "spell",
-        "healing",
-        "concentration"
-      ],
+      "tags": ["necromancy", "spell", "healing", "concentration"],
       "type": "action"
     },
     {
       "name": "Wither",
       "id": "wither",
       "description": "curse a target within range with:\n   \n-1 armor\n   -1 attack \n   -1 movement\n\nLasts 2 turns. This spell lasts as long as the target remains within 6 hexes of the caster.",
-      "tags": [
-        "spell",
-        "necromancy"
-      ],
+      "tags": ["spell", "necromancy"],
       "type": "action"
     },
     {
       "name": "Unrelenting Horde",
       "id": "unrelenting-horde",
       "description": "If this unit kills an adjacent unit. It spawns a new zombie unit from the dead unit. The new zombie has %hpPercent%% health",
-      "tags": [
-        "undead",
-        "necromancy"
-      ],
+      "tags": ["undead", "necromancy"],
       "type": "passive",
       "params": {
         "hpPercent": 50
@@ -625,9 +494,7 @@
       "name": "Necromancy",
       "id": "necromancy",
       "description": "You can cast Necromancy spells.\n\nSpell Slots: %slots%\nSpells Per action: %spellsPerAction%",
-      "tags": [
-        "necromancy"
-      ],
+      "tags": ["necromancy"],
       "type": "school",
       "params": {
         "slots": 1,
@@ -638,9 +505,7 @@
       "name": "Holy Casting",
       "id": "holy-casting",
       "description": "You can cast holy spells.\n\n_Spell Slots: **%slots%**_\n_Spells Per action: **%spells%**_",
-      "tags": [
-        "holy"
-      ],
+      "tags": ["holy"],
       "type": "school",
       "params": {
         "spells": 1,
@@ -656,9 +521,7 @@
         "dmg2": 0,
         "dmg": -1
       },
-      "tags": [
-        "attack"
-      ],
+      "tags": ["attack"],
       "replaces": "basic-attack"
     },
     {
@@ -697,9 +560,7 @@
       "name": "Massive",
       "id": "anti-air-180",
       "description": "This unit can attack airborne target or targets on walls with no penalty.",
-      "tags": [
-        "attack"
-      ],
+      "tags": ["attack"],
       "type": "passive",
       "params": {}
     },
@@ -707,10 +568,7 @@
       "name": "Hurl",
       "id": "hurl",
       "description": "This unit can now throw entities from adjacent units at targets within %hurl_range% hexes. This attack does %hurl_dmg% of which 1 is piercing.",
-      "tags": [
-        "attack",
-        "ranged"
-      ],
+      "tags": ["attack", "ranged"],
       "type": "action",
       "params": {
         "hurl_range": 6,
@@ -721,9 +579,7 @@
       "name": "Critical Strike",
       "id": "critical-id-98",
       "description": "{base}When you roll a 1 on an attack you may reroll that die once and add the 1 to the result.{/base}\n{explode} Explode on 1s.{/explode}",
-      "tags": [
-        "attack"
-      ],
+      "tags": ["attack"],
       "type": "passive",
       "params": {
         "base": 1,
@@ -734,9 +590,7 @@
       "name": "Evocation Casting",
       "id": "evocation-casting",
       "description": "You can cast `evocation` spells.\n\n_Spell Slots: **%evo_slots%**_\n_Spells Per action: **%evo_spells%**_",
-      "tags": [
-        "evocation"
-      ],
+      "tags": ["evocation"],
       "type": "school",
       "params": {
         "evo_slots": 2,
@@ -747,10 +601,7 @@
       "name": "Magical Barrage",
       "id": "magic-barrageid-22",
       "description": "You unleash a magical barrage against a unit within range. This attack deals **%mb_dmg%** absorbable damage. {mb_con}\n \nOr, when you cast `Magical Barrage` you can choose to instead {mb_con2} take no action and {/mb_con2} deal no damage but cause the enemy to be unable to move on their next turn. {/mb_con}\n{mb_effect} \nWhen you cast the `Magical Barrage` you can add one of the following effects to the target unit:\n1. _Frostbite_ - units loses %mb_effect%  movement\n1. _Burning_ - unit loses %mb_effect% hp\n1. _Weakened_ - minus %mb_effect% damage\n1. _Armor Sundered_ - loses %mb_effect% armor\n{/mb_effect}",
-      "tags": [
-        "spell",
-        "evocation"
-      ],
+      "tags": ["spell", "evocation"],
       "type": "action",
       "params": {
         "mb_dmg": 3,
@@ -763,11 +614,7 @@
       "name": "Shield",
       "id": "shield-id-152",
       "description": "As a reaction, cast shield on an ally that is within your spell casting range. They gain %shield_armor% armor against the %shield_count% attack. {shield_dmg} If an attack fails to do damage, the absorbed damage is done to the attacker's hp pool. {/shield_dmg}",
-      "tags": [
-        "abjuration",
-        "defense",
-        "spell"
-      ],
+      "tags": ["abjuration", "defense", "spell"],
       "type": "reaction",
       "params": {
         "shield_armor": 1,
@@ -779,9 +626,7 @@
       "name": "Abjuration Casting",
       "id": "abjuration-id-11",
       "description": "You can cast abjuration spells.\n\n_Spell Slots: **%abju_slots%**_\n_Spells Per action: **%abju_spells%**_",
-      "tags": [
-        "abjuration"
-      ],
+      "tags": ["abjuration"],
       "type": "school",
       "params": {
         "abju_slots": 2,
@@ -792,11 +637,7 @@
       "name": "Armor of Agathys",
       "id": "armor-of-agathys",
       "description": "As an action, cast Armor of Agathys on an ally (or self). That entity gains %temp_hp% temp HP and when hit by another creature (and still has at least 1 temp HP) it does damge to the attacker equal to the current (pre-hit) temp hp. {Aga_effect} Enemies that take damage by this effect gain the frostbite effect (lose 1 movement) {/aga_effect}",
-      "tags": [
-        "abjuration",
-        "spell",
-        "defense"
-      ],
+      "tags": ["abjuration", "spell", "defense"],
       "type": "action",
       "params": {
         "temp_hp": 2,
@@ -807,11 +648,7 @@
       "name": "Mage Armor",
       "id": "Mage-armor-id-92",
       "description": "As an action, cast Mage armor on self. Gains %m_armor% armor for %m-armor-turns% turns.",
-      "tags": [
-        "abjuration",
-        "spell",
-        "defense"
-      ],
+      "tags": ["abjuration", "spell", "defense"],
       "type": "action",
       "params": {
         "m_armor": 1,
@@ -822,11 +659,7 @@
       "name": "Magical Deflection",
       "id": "Magical-Deflection-id-57",
       "description": "As a reaction in response to projectiles or spells targeting you. You create a magical shield that deflects projectiles.  This causes %mdef_count% ranged attack(s) made against you to miss.\n{redirect} Any deflected attack can be redirected, use the original attack's stats {/redirect}",
-      "tags": [
-        "abjuration",
-        "spell",
-        "defense"
-      ],
+      "tags": ["abjuration", "spell", "defense"],
       "type": "reaction",
       "params": {
         "mdef_count": 1,
@@ -837,9 +670,7 @@
       "name": "Divination Casting",
       "id": "divination-casting",
       "description": "You can cast `divination` spells.\n\n_Spell Slots: **%div_slots%**_\n_Spells Per action: **%div_spells%**_",
-      "tags": [
-        "divination"
-      ],
+      "tags": ["divination"],
       "type": "school",
       "params": {
         "div_slots": 2,
@@ -850,11 +681,7 @@
       "name": "Gift of Foresight",
       "id": "Gift-fore-id-135",
       "description": "Choose __%gof_num%__ ally within spell range and grant them __%gof_ac%__ `AC`. {gof_atk} Also give them __+1__ on their dice rolls. {/gof_atk} {gof_react} A unit with the `Gift of Forsight` on them can, as a _reaction_ to another unit becoming adjacent, move __%gof_react%__ hex(es) away. They can only do this once. This movement would never provoke an _attack of oppourtunity_. {/gof_react}",
-      "tags": [
-        "divination",
-        "concentration",
-        "spell"
-      ],
+      "tags": ["divination", "concentration", "spell"],
       "type": "action",
       "params": {
         "gof_ac": 1,
@@ -867,10 +694,7 @@
       "name": "Portent",
       "id": "Portent-id-145",
       "description": "Before a battle, roll __%Port_num%x1d6__ and save that roll. You can replace any attack roll within spell range by yourself, an ally, or enemy with this number. Uses a _reaction_ if used to replace an enemy roll. Within magical range.",
-      "tags": [
-        "divination",
-        "spell"
-      ],
+      "tags": ["divination", "spell"],
       "type": "action",
       "params": {
         "Port_num": 1
@@ -880,10 +704,7 @@
       "name": "Phantom Sight",
       "id": "Phan-sight-id-124",
       "description": "Choose __%ps-num%__  enemy unit(s). {base1}The DM will tell you what _action_ they will use on their next turn. {/base1} {ps-adv} The DM will tell you what _movement_ and _action_ they will use on their next turn. {/ps-adv} {base2} Only effective on `non-command` units {/base2} {ps-comm} Effective on `all` unit types. {/ps-comm}",
-      "tags": [
-        "divination",
-        "spell"
-      ],
+      "tags": ["divination", "spell"],
       "type": "bonus action",
       "params": {
         "base1": 1,
@@ -897,9 +718,7 @@
       "name": "Enchantment Casting",
       "id": "Enchan-casting-id-26",
       "description": "You can cast `enchantment` spells.\n\n_Spell slots: **%enc-slots%**_\n_Spells per action: **%enc-spells%**_",
-      "tags": [
-        "enchantment"
-      ],
+      "tags": ["enchantment"],
       "type": "school",
       "params": {
         "enc-slots": 2,
@@ -910,10 +729,7 @@
       "name": "Portal",
       "id": "Por-id-110",
       "description": "As an action, choose a hex within range. You create a portal there. Choose where the portal connects to. \nThis portal lasts for your next %port-dur% turns.  Only %port-use% unit can enter/exit the portal per turn. {dev-por} Low mass units adjacent to the portal can on their movement phase choose, lose %dev-por% hp or enter the portal. {/dev-por}\n\n{por1} %por1% reinforcements come out of the portal, %por1-num% unit(s) per turn. They exit during allied movement. {/por1}\n{hell-por} You can unlock a portal to hell, causing %hell-por% devils to pour out, 2 per turn. {/hell-por}\n{hev-por}You can unlock a portal to a friendly place, causing %hev-por% allies to pour out, 2 per turn. {/hev-por} ",
-      "tags": [
-        "conjuration",
-        "spell"
-      ],
+      "tags": ["conjuration", "spell"],
       "type": "action",
       "params": {
         "port-use": 1,
@@ -929,11 +745,7 @@
       "name": "Entangling Ground",
       "id": "entangling-ground",
       "description": "As an action, you can choose %eg-hex% hexes of ground and {base} make it difficult terrain.{/base}  {eg-imm} impassible terrain, units can move it it but to move out requires them to spend %eg-imm% actions to free themselves.{/eg-imm}. {eg-dmg}Units that end their turn within this area take %eg-dmg%.{/eg-dmg}Hex must be within casting range.{eg-cree}Now requires concentration. Entangling ground grows by %eg-cree% hex(s) per turn.{/eg-cree}\n",
-      "tags": [
-        "conjuration",
-        "spell",
-        "movement"
-      ],
+      "tags": ["conjuration", "spell", "movement"],
       "type": "action",
       "params": {
         "eg-hex": 1,
@@ -948,10 +760,7 @@
       "name": "Storm",
       "id": "storm",
       "description": "As an action, you unleash a magical storm. This storm occupies %storm-size% hex and travels %storm-mve% hex per turn around the map.{sto-high}The storm hits %sto-high% hex(s) above the ground hex. {/sto-high} It moves after your team's action phase is over. It moves again at the end of the other team's action phase. {sto-base} For each movement, roll 1d6, it moves to that adjacent hex. {/sto-base} {sto-ride} You can now control the storm. The storm moves %storm-mve% hex(s). The storm now moves during your movement phase. {/sto-ride}The storm does %storm-dmg% nonabsorbable damage to any unit it passes over / that moves through it. It only does 1 damage to units at the start of their turn. {sto-mas} You gain %sto-mas% armor while in the storm, and your regular attacks do +%sto-mas% damage. {/sto-mas} {sto-wall}The storm now cannot be moved through, and any unit that starts their turn in the storm cannot move this turn. {/sto-wall} ",
-      "tags": [
-        "conjuration",
-        "spell"
-      ],
+      "tags": ["conjuration", "spell"],
       "type": "action",
       "params": {
         "storm-dmg": 1,
@@ -968,9 +777,7 @@
       "name": "Conjure Entites",
       "id": "conjure-entities",
       "description": "As an action you summon %sum-num% unit of wild beasts. Summon these entities within spell range.\n\n{sum1} You can now summon %sum-num% unit of x {/sum1}\n\n{sum2} You can now summon %sum-num% unit of x {/sum2}\n\n{sum3} You can now summon %sum-num% unit of x {/sum3}\n\n{sum4} You can now summon %sum-num% unit of x {/sum4}\n\n{sum5} You can now summon %sum-num% unit of x {/sum5}",
-      "tags": [
-        "conjuration"
-      ],
+      "tags": ["conjuration"],
       "type": "action",
       "params": {
         "sum-num": 1,
@@ -985,9 +792,7 @@
       "name": "Conjuration Casting",
       "id": "conjuration-casting",
       "description": "You can now cast conjuration spells. \nYou can cast %con-num% spells per day.",
-      "tags": [
-        "conjuration"
-      ],
+      "tags": ["conjuration"],
       "type": "action",
       "params": {
         "con-num": 2
@@ -997,9 +802,7 @@
       "name": "Dragon Breath",
       "id": "Drag-breath-001",
       "description": "Your dragon unleashes its breath attack on a unit within %bw-rng% hexes. That unit takes %bw-dmg% points of absorbable damage. {bw-eff} It takes two actions to remove this lasting effect.{/bw-eff} \n\n{bw-burn} Target units begin burning for %bw-burn% hp (not absorbable) per turn.{/bw-burn}\n\n{bw-bite} Target units lose  %bw-bite% speed.{/bw-bite}\n\n{bw-weak} Target units do %bw-weak% less damage per attack.{/bw-weak}\n\n{bw-sund} Target units lose %bw-sund% armor.{/bw-sund}",
-      "tags": [
-        "Dragon Breath"
-      ],
+      "tags": ["Dragon Breath"],
       "type": "action",
       "params": {
         "bw-rng": 1,
@@ -1015,9 +818,7 @@
       "name": "Breath Attacks",
       "id": "breath-attacks",
       "description": "Can use Dragon Breath %bw-use% times per day.{bw-rchrg} Can spend 1 action to recharge %bw-rchrg% breath attack use. {/bw-rchrg}{bw-cat} Bonus action: Can spend 3 hp to regain %bw-cat% breath attack uses.{/bw-cat}{bw-ann} Bonus action: Can spend 1  breath attack uses to regain  %bw-ann% hp.{/bw-cat}\n",
-      "tags": [
-        "Dragon Breath"
-      ],
+      "tags": ["Dragon Breath"],
       "type": "passive",
       "params": {
         "bw-use": 1,
@@ -1031,9 +832,7 @@
       "name": "Draconic Bombardment",
       "id": "draconic-bombardment",
       "description": "You can now target an unoccupied hex with your breath weapon attack. Deal %bw2-dmg% damage (absorbable) to that hex or a unit on that hex.{bw-block}The hex targeted by your draconic attack becomes impassible. It can however be destroyed. It has %bw-block% hp. If used on a unit, the blocker is not created.{/bw-block}",
-      "tags": [
-        "Dragon Breath"
-      ],
+      "tags": ["Dragon Breath"],
       "type": "action",
       "replaces": "Drag-breath-001",
       "params": {
@@ -1585,15 +1384,7 @@
       "name": "Armor",
       "description": "Adds 1 Armor",
       "levels": 7,
-      "levelCost": [
-        1,
-        1,
-        2,
-        2,
-        3,
-        4,
-        4
-      ],
+      "levelCost": [1, 1, 2, 2, 3, 4, 4],
       "providedStats": [
         {
           "id": "armor",
@@ -1712,12 +1503,7 @@
         "selected": "#cd8150"
       },
       "levels": 4,
-      "levelCost": [
-        1,
-        2,
-        3,
-        4
-      ],
+      "levelCost": [1, 2, 3, 4],
       "providedAbilities": [
         {
           "id": "defend",
@@ -2329,11 +2115,7 @@
       ],
       "name": "Command+",
       "levels": 3,
-      "levelCost": [
-        1,
-        1,
-        1
-      ],
+      "levelCost": [1, 1, 1],
       "providedAbilities": [
         {
           "id": "command",
@@ -2707,10 +2489,7 @@
       "name": "Necromantic Profiency",
       "description": "Increases the number of necromancy spells you can cast",
       "levels": 2,
-      "levelCost": [
-        1,
-        1
-      ],
+      "levelCost": [1, 1],
       "providedAbilities": [
         {
           "id": "necromancy",
@@ -2887,10 +2666,7 @@
         "selected": "#948540"
       },
       "levels": 2,
-      "levelCost": [
-        1,
-        1
-      ],
+      "levelCost": [1, 1],
       "providedAbilities": [
         {
           "id": "turn-undead",
@@ -2960,11 +2736,7 @@
         "selected": "#e2c846"
       },
       "levels": 3,
-      "levelCost": [
-        2,
-        2,
-        2
-      ],
+      "levelCost": [2, 2, 2],
       "providedAbilities": [
         {
           "id": "holy-casting",
@@ -2997,9 +2769,7 @@
           "set": false
         }
       ],
-      "exclusiveWith": [
-        "paladin"
-      ],
+      "exclusiveWith": ["paladin"],
       "colors": {
         "unavailable": "#C5B986",
         "selected": "#e2c846"
@@ -3042,9 +2812,7 @@
       "requirementType": "and",
       "description": "Holy spells deal +1 damage",
       "globalParams": [],
-      "exclusiveWith": [
-        "cleric"
-      ],
+      "exclusiveWith": ["cleric"],
       "colors": {
         "unavailable": "#C5B986",
         "selected": "#e2c846"
@@ -3113,12 +2881,7 @@
         "selected": "#EF3D3D"
       },
       "levels": 4,
-      "levelCost": [
-        1,
-        3,
-        4,
-        5
-      ],
+      "levelCost": [1, 3, 4, 5],
       "providedAbilities": [
         {
           "id": "Attack_norm",
@@ -3159,10 +2922,7 @@
         "selected": "#EF3D3D"
       },
       "levels": 2,
-      "levelCost": [
-        3,
-        4
-      ],
+      "levelCost": [3, 4],
       "providedAbilities": [
         {
           "id": "multi-attack",
@@ -3192,10 +2952,7 @@
         "selected": "#EF3D3D"
       },
       "levels": 2,
-      "levelCost": [
-        1,
-        3
-      ],
+      "levelCost": [1, 3],
       "providedAbilities": [
         {
           "id": "Attack_norm",
@@ -3235,12 +2992,7 @@
         "selected": "#831256"
       },
       "levels": 4,
-      "levelCost": [
-        1,
-        3,
-        4,
-        5
-      ],
+      "levelCost": [1, 3, 4, 5],
       "providedAbilities": [
         {
           "id": "ranged-attack",
@@ -3270,13 +3022,7 @@
         "selected": "#831256"
       },
       "levels": 5,
-      "levelCost": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
+      "levelCost": [1, 2, 3, 4, 5],
       "providedAbilities": [
         {
           "id": "ranged-attack",
@@ -3335,15 +3081,7 @@
         "selected": "#EF3D3D"
       },
       "levels": 7,
-      "levelCost": [
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1
-      ],
+      "levelCost": [1, 1, 1, 1, 1, 1, 1],
       "providedAbilities": [
         {
           "id": "tie_down_001",
@@ -3375,11 +3113,7 @@
         "selected": "#EF3D3D"
       },
       "levels": 3,
-      "levelCost": [
-        1,
-        1,
-        1
-      ],
+      "levelCost": [1, 1, 1],
       "providedAbilities": [
         {
           "id": "seige-id-8",
@@ -3436,11 +3170,7 @@
         "selected": "#EF3D3D"
       },
       "levels": 3,
-      "levelCost": [
-        1,
-        2,
-        3
-      ],
+      "levelCost": [1, 2, 3],
       "providedAbilities": [
         {
           "id": "hurl",
@@ -3477,10 +3207,7 @@
         "selected": "#cd8150"
       },
       "levels": 2,
-      "levelCost": [
-        1,
-        1
-      ],
+      "levelCost": [1, 1],
       "providedAbilities": [
         {
           "id": "deflect",
@@ -3604,10 +3331,7 @@
         "selected": "#ff0004"
       },
       "levels": 2,
-      "levelCost": [
-        1,
-        1
-      ],
+      "levelCost": [1, 1],
       "providedAbilities": [
         {
           "id": "magic-barrageid-22",
@@ -3644,10 +3368,7 @@
         "selected": "#ff0004"
       },
       "levels": 2,
-      "levelCost": [
-        1,
-        1
-      ],
+      "levelCost": [1, 1],
       "providedAbilities": [
         {
           "id": "magic-barrageid-22",
@@ -3679,11 +3400,7 @@
         "selected": "#ff0004"
       },
       "levels": 3,
-      "levelCost": [
-        1,
-        2,
-        3
-      ],
+      "levelCost": [1, 2, 3],
       "providedAbilities": [
         {
           "id": "magic-barrageid-22",
@@ -3715,12 +3432,7 @@
         "selected": "#ff0004"
       },
       "levels": 4,
-      "levelCost": [
-        1,
-        1,
-        1,
-        1
-      ],
+      "levelCost": [1, 1, 1, 1],
       "providedAbilities": [
         {
           "id": "evocation-casting",
@@ -3819,11 +3531,7 @@
         "selected": "#ff0004"
       },
       "levels": 3,
-      "levelCost": [
-        1,
-        1,
-        1
-      ],
+      "levelCost": [1, 1, 1],
       "providedAbilities": [
         {
           "id": "cantrip-barrage",
@@ -3948,12 +3656,7 @@
         "selected": "#5082EF"
       },
       "levels": 4,
-      "levelCost": [
-        1,
-        1,
-        1,
-        1
-      ],
+      "levelCost": [1, 1, 1, 1],
       "providedAbilities": [
         {
           "id": "abjuration-id-11",
@@ -3985,10 +3688,7 @@
         "selected": "#5082EF"
       },
       "levels": 2,
-      "levelCost": [
-        2,
-        3
-      ],
+      "levelCost": [2, 3],
       "providedAbilities": [
         {
           "id": "shield-id-152",
@@ -4098,10 +3798,7 @@
         "selected": "#5082EF"
       },
       "levels": 2,
-      "levelCost": [
-        2,
-        2
-      ],
+      "levelCost": [2, 2],
       "providedAbilities": [
         {
           "id": "armor-of-agathys",
@@ -4144,11 +3841,7 @@
         "selected": "#5082EF"
       },
       "levels": 3,
-      "levelCost": [
-        1,
-        1,
-        1
-      ],
+      "levelCost": [1, 1, 1],
       "providedAbilities": [
         {
           "id": "Mage-armor-id-92",
@@ -4180,10 +3873,7 @@
         "selected": "#5082EF"
       },
       "levels": 2,
-      "levelCost": [
-        1,
-        2
-      ],
+      "levelCost": [1, 2],
       "providedAbilities": [
         {
           "id": "armor-of-agathys",
@@ -4215,9 +3905,7 @@
       "requirementType": "and",
       "description": "Makes shield and magical deflection at the cost of mage armor and armor of agathys.",
       "globalParams": [],
-      "exclusiveWith": [
-        "basic-magic-1-by-1-ex-1-ey"
-      ],
+      "exclusiveWith": ["basic-magic-1-by-1-ex-1-ey"],
       "colors": {
         "unavailable": "#5F5F90",
         "selected": "#5082EF"
@@ -4282,9 +3970,7 @@
       "requirementType": "and",
       "description": "Improve Mage armor and armor of agathys at the cost of reactive shielding.",
       "globalParams": [],
-      "exclusiveWith": [
-        "basic-magic-1-by-1-ex-1-dy"
-      ],
+      "exclusiveWith": ["basic-magic-1-by-1-ex-1-dy"],
       "colors": {
         "unavailable": "#5F5F90",
         "selected": "#5082EF"
@@ -4404,12 +4090,7 @@
         "selected": "#96b7bd"
       },
       "levels": 4,
-      "levelCost": [
-        1,
-        1,
-        1,
-        1
-      ],
+      "levelCost": [1, 1, 1, 1],
       "providedAbilities": [
         {
           "id": "divination-casting",
@@ -4573,10 +4254,7 @@
         "selected": "#96b7bd"
       },
       "levels": 2,
-      "levelCost": [
-        1,
-        1
-      ],
+      "levelCost": [1, 1],
       "providedAbilities": [
         {
           "id": "Portent-id-145",
@@ -4689,9 +4367,7 @@
       "requirementType": "and",
       "description": "Improves gift of foresight and phantom sight at the cost of portent.",
       "globalParams": [],
-      "exclusiveWith": [
-        "basic-magic-1-av-1-dd-1-av"
-      ],
+      "exclusiveWith": ["basic-magic-1-av-1-dd-1-av"],
       "colors": {
         "unavailable": "#878787",
         "selected": "#96b7bd"
@@ -4755,9 +4431,7 @@
       "requirementType": "and",
       "description": "Greatly improves portent at the cost of gift of foresight and spectre sight.",
       "globalParams": [],
-      "exclusiveWith": [
-        "basic-magic-1-av-1-dd-1-bx"
-      ],
+      "exclusiveWith": ["basic-magic-1-av-1-dd-1-bx"],
       "colors": {
         "unavailable": "#878787",
         "selected": "#96b7bd"
@@ -4822,12 +4496,7 @@
         "selected": "#ab38d9"
       },
       "levels": 4,
-      "levelCost": [
-        1,
-        1,
-        1,
-        1
-      ],
+      "levelCost": [1, 1, 1, 1],
       "providedAbilities": [
         {
           "id": "Enchan-casting-id-26",
@@ -4928,11 +4597,7 @@
         "selected": "#ab38d9"
       },
       "levels": 3,
-      "levelCost": [
-        1,
-        1,
-        1
-      ],
+      "levelCost": [1, 1, 1],
       "providedAbilities": [
         {
           "id": "alter-emotions",
@@ -5001,10 +4666,7 @@
         "selected": "#ab38d9"
       },
       "levels": 2,
-      "levelCost": [
-        1,
-        1
-      ],
+      "levelCost": [1, 1],
       "providedAbilities": [
         {
           "id": "dominate",
@@ -5068,9 +4730,7 @@
       "requirementType": "and",
       "description": "You are even better at manipulation.",
       "globalParams": [],
-      "exclusiveWith": [
-        "enc-prof-191-1-az-1-ex"
-      ],
+      "exclusiveWith": ["enc-prof-191-1-az-1-ex"],
       "colors": {
         "unavailable": "#7b5290",
         "selected": "#ab38d9"
@@ -5113,9 +4773,7 @@
       "requirementType": "and",
       "description": "Greatly increases domination.",
       "globalParams": [],
-      "exclusiveWith": [
-        "enc-prof-191-1-az-1-dy"
-      ],
+      "exclusiveWith": ["enc-prof-191-1-az-1-dy"],
       "colors": {
         "unavailable": "#7b5290",
         "selected": "#ab38d9"
@@ -5198,12 +4856,7 @@
         "selected": "#f97100"
       },
       "levels": 4,
-      "levelCost": [
-        1,
-        1,
-        1,
-        1
-      ],
+      "levelCost": [1, 1, 1, 1],
       "providedAbilities": [
         {
           "id": "conjuration-casting",
@@ -5273,10 +4926,7 @@
         "selected": "#f97100"
       },
       "levels": 2,
-      "levelCost": [
-        1,
-        1
-      ],
+      "levelCost": [1, 1],
       "providedAbilities": [
         {
           "id": "Por-id-110",
@@ -5351,10 +5001,7 @@
         "selected": "#f97100"
       },
       "levels": 2,
-      "levelCost": [
-        2,
-        2
-      ],
+      "levelCost": [2, 2],
       "providedAbilities": [
         {
           "id": "storm",
@@ -5381,9 +5028,7 @@
       "requirementType": "and",
       "description": "Move with the storm.",
       "globalParams": [],
-      "exclusiveWith": [
-        "Conjuration-magic-1-cd-1-dd-1-dz"
-      ],
+      "exclusiveWith": ["Conjuration-magic-1-cd-1-dd-1-dz"],
       "colors": {
         "unavailable": "#874203",
         "selected": "#f97100"
@@ -5436,11 +5081,7 @@
         "selected": "#f97100"
       },
       "levels": 3,
-      "levelCost": [
-        1,
-        2,
-        2
-      ],
+      "levelCost": [1, 2, 2],
       "providedAbilities": [
         {
           "id": "storm",
@@ -5473,11 +5114,7 @@
         "selected": "#f97100"
       },
       "levels": 3,
-      "levelCost": [
-        1,
-        1,
-        1
-      ],
+      "levelCost": [1, 1, 1],
       "providedAbilities": [
         {
           "id": "storm",
@@ -5567,13 +5204,7 @@
         "selected": "#f97100"
       },
       "levels": 5,
-      "levelCost": [
-        1,
-        1,
-        1,
-        1,
-        1
-      ],
+      "levelCost": [1, 1, 1, 1, 1],
       "providedAbilities": [
         {
           "id": "conjure-entities",
@@ -5626,10 +5257,7 @@
         "selected": "#f97100"
       },
       "levels": 2,
-      "levelCost": [
-        1,
-        1
-      ],
+      "levelCost": [1, 1],
       "providedAbilities": [
         {
           "id": "conjure-entities",
@@ -5687,9 +5315,7 @@
       ],
       "requirementType": "and",
       "globalParams": [],
-      "exclusiveWith": [
-        "Conjuration-magic-1-cd-1-dd-1-by"
-      ],
+      "exclusiveWith": ["Conjuration-magic-1-cd-1-dd-1-by"],
       "colors": {
         "unavailable": "#874203",
         "selected": "#f97100"
@@ -5767,10 +5393,7 @@
         "selected": "#f97100"
       },
       "levels": 2,
-      "levelCost": [
-        1,
-        1
-      ],
+      "levelCost": [1, 1],
       "providedAbilities": [
         {
           "id": "storm",
@@ -5839,10 +5462,7 @@
         "selected": "#f97100"
       },
       "levels": 2,
-      "levelCost": [
-        2,
-        2
-      ],
+      "levelCost": [2, 2],
       "providedAbilities": [
         {
           "id": "Por-id-110",
@@ -5875,10 +5495,7 @@
         "selected": "#f97100"
       },
       "levels": 2,
-      "levelCost": [
-        2,
-        2
-      ],
+      "levelCost": [2, 2],
       "providedAbilities": [
         {
           "id": "Por-id-110",
@@ -5911,11 +5528,7 @@
         "selected": "#f97100"
       },
       "levels": 3,
-      "levelCost": [
-        1,
-        1,
-        1
-      ],
+      "levelCost": [1, 1, 1],
       "providedAbilities": [
         {
           "id": "Por-id-110",
@@ -5948,12 +5561,7 @@
         "selected": "#f97100"
       },
       "levels": 4,
-      "levelCost": [
-        1,
-        1,
-        1,
-        1
-      ],
+      "levelCost": [1, 1, 1, 1],
       "providedAbilities": [
         {
           "id": "entangling-ground",
@@ -6022,10 +5630,7 @@
         "selected": "#f97100"
       },
       "levels": 2,
-      "levelCost": [
-        1,
-        1
-      ],
+      "levelCost": [1, 1],
       "providedAbilities": [
         {
           "id": "entangling-ground",
@@ -6061,10 +5666,7 @@
         "selected": "#f97100"
       },
       "levels": 2,
-      "levelCost": [
-        2,
-        2
-      ],
+      "levelCost": [2, 2],
       "providedAbilities": [
         {
           "id": "entangling-ground",
@@ -6097,10 +5699,7 @@
         "selected": "#ec2c2c"
       },
       "levels": 2,
-      "levelCost": [
-        1,
-        2
-      ],
+      "levelCost": [1, 2],
       "providedAbilities": [
         {
           "id": "Drag-breath-001",
@@ -6140,12 +5739,7 @@
         "selected": "#ec2c2c"
       },
       "levels": 4,
-      "levelCost": [
-        1,
-        1,
-        1,
-        1
-      ],
+      "levelCost": [1, 1, 1, 1],
       "providedAbilities": [
         {
           "id": "breath-attacks",
@@ -6204,9 +5798,7 @@
       "requirementType": "and",
       "description": "Can spend health to get breath weapon charges back.",
       "globalParams": [],
-      "exclusiveWith": [
-        "Dragon-bw--1-ad-1-dy-1-dx-1-az"
-      ],
+      "exclusiveWith": ["Dragon-bw--1-ad-1-dy-1-dx-1-az"],
       "colors": {
         "unavailable": "#752223",
         "selected": "#ec2c2c"
@@ -6238,9 +5830,7 @@
       "requirementType": "and",
       "description": "Can spend breath attacks to regain health.",
       "globalParams": [],
-      "exclusiveWith": [
-        "Dragon-bw--1-ad-1-dy-1-dx-1-ez"
-      ],
+      "exclusiveWith": ["Dragon-bw--1-ad-1-dy-1-dx-1-ez"],
       "colors": {
         "unavailable": "#752223",
         "selected": "#ec2c2c"
@@ -6278,10 +5868,7 @@
         "selected": "#ec2c2c"
       },
       "levels": 2,
-      "levelCost": [
-        1,
-        2
-      ],
+      "levelCost": [1, 2],
       "providedAbilities": [
         {
           "id": "Drag-breath-001",
@@ -6314,11 +5901,7 @@
         "selected": "#ec2c2c"
       },
       "levels": 3,
-      "levelCost": [
-        1,
-        1,
-        1
-      ],
+      "levelCost": [1, 1, 1],
       "providedAbilities": [
         {
           "id": "Drag-breath-001",
@@ -6351,11 +5934,7 @@
         "selected": "#ec2c2c"
       },
       "levels": 3,
-      "levelCost": [
-        1,
-        1,
-        1
-      ],
+      "levelCost": [1, 1, 1],
       "providedAbilities": [
         {
           "id": "Drag-breath-001",
@@ -6388,11 +5967,7 @@
         "selected": "#ec2c2c"
       },
       "levels": 3,
-      "levelCost": [
-        1,
-        1,
-        1
-      ],
+      "levelCost": [1, 1, 1],
       "providedAbilities": [
         {
           "id": "Drag-breath-001",
@@ -6533,12 +6108,7 @@
         "selected": "#ec2c2c"
       },
       "levels": 4,
-      "levelCost": [
-        1,
-        1,
-        1,
-        1
-      ],
+      "levelCost": [1, 1, 1, 1],
       "providedAbilities": [
         {
           "id": "draconic-bombardment",
@@ -6590,6 +6160,16 @@
     {
       "id": "movement",
       "name": "Movement"
+    }
+  ],
+  "defaultUnits": [
+    {
+      "id": "base-dragon",
+      "name": "Base Dragon",
+      "build": {
+        "basic": true,
+        "Dragon-bw--1-ad": 1
+      }
     }
   ]
 }

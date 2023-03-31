@@ -8,7 +8,7 @@ import { FancyTextInput } from "../../../common/tag-input/fancyTextInput";
 import "./unitCard.scss";
 
 export function UnitCard({ unit, isEditing = false }) {
-  const { setCustomUnits, selectedUnitId, setSelectedUnitId } =
+  const { setCustomUnits, selectedUnitId, setSelectedUnitId, setSavedBuild } =
     useContext(BuildContext);
   const [name, setName] = useState(unit.name);
   const [unsavedData, setUnsavedData] = useState(false);
@@ -27,7 +27,16 @@ export function UnitCard({ unit, isEditing = false }) {
     setUnsavedData(true);
   };
 
-  const cardClicked = () => {};
+  const cardClicked = () => {
+    setSelectedUnitId(unit.id);
+
+    if (unit.build) {
+      setSavedBuild({ type: "imported", build: unit.build });
+    } else {
+      setSavedBuild({ type: "imported", build: {} });
+    }
+  };
+
   if (isEditing) {
     return (
       <div className="unit-card">
@@ -54,7 +63,7 @@ export function UnitCard({ unit, isEditing = false }) {
   } else {
     return (
       <div
-        onClick={() => setSelectedUnitId(unit.id)}
+        onClick={cardClicked}
         className={classNames({
           "unit-card": true,
           selectable: true,
