@@ -1013,7 +1013,7 @@
     },
     {
       "name": "Breath Attacks",
-      "id": "bw-prof-id-58",
+      "id": "breath-attacks",
       "description": "Can use Dragon Breath %bw-use% times per day.{bw-rchrg} Can spend 1 action to recharge %bw-rchrg% breath attack use. {/bw-rchrg}{bw-cat} Bonus action: Can spend 3 hp to regain %bw-cat% breath attack uses.{/bw-cat}{bw-ann} Bonus action: Can spend 1  breath attack uses to regain  %bw-ann% hp.{/bw-cat}\n",
       "tags": [
         "Dragon Breath"
@@ -1029,7 +1029,7 @@
     },
     {
       "name": "Draconic Bombardment",
-      "id": "breath-environmental-id-36",
+      "id": "draconic-bombardment",
       "description": "You can now target an unoccupied hex with your breath weapon attack. Deal %bw2-dmg% damage (absorbable) to that hex or a unit on that hex.{bw-block}The hex targeted by your draconic attack becomes impassible. It can however be destroyed. It has %bw-block% hp. If used on a unit, the blocker is not created.{/bw-block}",
       "tags": [
         "Dragon Breath"
@@ -6115,7 +6115,7 @@
           "gain": true
         },
         {
-          "id": "breath-environmental-id-36",
+          "id": "draconic-bombardment",
           "modifier": 1,
           "modifiers": [],
           "gain": false
@@ -6148,7 +6148,7 @@
       ],
       "providedAbilities": [
         {
-          "id": "id-58",
+          "id": "breath-attacks",
           "modifier": 1,
           "modifiers": [
             {
@@ -6180,7 +6180,7 @@
       "cost": 1,
       "providedAbilities": [
         {
-          "id": "id-58",
+          "id": "breath-attacks",
           "modifier": 1,
           "modifiers": [
             {
@@ -6214,7 +6214,7 @@
       "cost": 1,
       "providedAbilities": [
         {
-          "id": "bw-prof-id-58",
+          "id": "breath-attacks",
           "modifier": 1,
           "modifiers": [
             {
@@ -6248,7 +6248,7 @@
       "cost": 1,
       "providedAbilities": [
         {
-          "id": "bw-prof-id-58",
+          "id": "breath-attacks",
           "modifier": 1,
           "modifiers": [
             {
@@ -6541,7 +6541,7 @@
       ],
       "providedAbilities": [
         {
-          "id": "breath-environmental-id-36",
+          "id": "draconic-bombardment",
           "modifier": 1,
           "modifiers": [
             {
