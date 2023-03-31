@@ -9,13 +9,16 @@ export function SmolButton({
   disabled = false,
 }) {
   const style = noPadding ? { padding: 0 } : {};
-
+  const onClick = (e) => {
+    e.stopPropagation();
+    clicked();
+  };
   return (
     <button
       className={
         "smol-button " + type + " " + color + " " + (disabled ? "disabled" : "")
       }
-      onClick={disabled ? () => {} : clicked}
+      onClick={onClick}
       style={style}
     >
       {children}

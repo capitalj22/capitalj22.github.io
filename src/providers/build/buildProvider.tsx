@@ -150,7 +150,7 @@ const customUnitsReducer = (state, action) => {
 
     window.localStorage.setItem(
       "dragon-custom-units",
-      JSON.stringify(newState)
+      JSON.stringify(stateUpdate)
     );
 
     return stateUpdate;
