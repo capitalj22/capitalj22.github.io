@@ -1,0 +1,36 @@
+.unit-card {
+  min-width: 6rem;
+  min-height: 4rem;
+
+  text-align: left;
+  padding: 0.5rem;
+
+  background: var(--cardBg);
+  border: var(--cardBorder);
+  box-shadow: var(--cardShadow);
+  border-radius: 7px;
+  &.selectable {
+    cursor: pointer;
+  }
+
+  &:hover,
+  &.selected {
+    border-color: var(--themeColor);
+  }
+
+  &.selected {
+    outline: 2px solid var(--themeColor);
+  }
+
+  transition: border-color 0.25s ease-in-out;
+
+  .unit-card-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .form-control {
+    box-shadow: var(--boxShadowInsetBlackSmall);
+  }
+}

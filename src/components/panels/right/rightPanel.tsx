@@ -9,6 +9,7 @@ import { AbilityTypeEditor } from "./abilityTypeEditor/abilityTypeEditor";
 import { GlobalParamsEditor } from "./globalParamsEditor/globalParamsEditor";
 import { HelpPanel } from "./helpPanel/helpPanel";
 import { StatEditor } from "./statEditor/statEditor";
+import { UnitsPanel } from "./unitsPanel/unitsPanel";
 
 export function RightPanel() {
   const [selectedItem, setSelectedItem] = useState("info");
@@ -21,6 +22,9 @@ export function RightPanel() {
     switch (item) {
       case "sheet":
         setMenuTitle("Character Sheet");
+        break;
+      case "units":
+        setMenuTitle("Units");
         break;
       case "code":
         setMenuTitle("Import/Export");
@@ -62,9 +66,8 @@ export function RightPanel() {
           )}
         </div>
       )}
-
+      {selectedItem === "units" && <UnitsPanel />}
       {selectedItem === "code" ? <CodePanel></CodePanel> : ""}
-
       {selectedItem === "help" ? <HelpPanel /> : ""}
       {selectedItem === "stats" ? <StatEditor /> : ""}
     </SidebarRight>

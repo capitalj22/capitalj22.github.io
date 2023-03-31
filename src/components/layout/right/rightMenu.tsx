@@ -8,6 +8,7 @@ import {
   Edit,
   Book,
   Zap,
+  Users,
 } from "react-feather";
 import { stateContext } from "../../../providers/state/stateProvider";
 import { ThemeContext } from "../../../providers/theme.provider";
@@ -48,6 +49,13 @@ export function RightMenu({ itemSelected, selectedItem }) {
           <Book />
         </button>
       )}
+      <button
+        type="button"
+        className={selectedItem === "units" ? "selected" : ""}
+        onClick={(e) => itemSelected("units")}
+      >
+        <Users />
+      </button>
       <button
         type="button"
         className={selectedItem === "code" ? "selected" : ""}
