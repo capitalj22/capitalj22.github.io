@@ -1,5 +1,5 @@
 {
-  "version": "0.0.17",
+  "version": "0.0.18",
   "abilities": [
     {
       "id": "advanced-flying",
@@ -991,6 +991,54 @@
       "type": "action",
       "params": {
         "con-num": 2
+      }
+    },
+    {
+      "name": "Dragon Breath",
+      "id": "Drag-breath-001",
+      "description": "Your dragon unleashes its breath attack on a unit within %bw-rng% hexes. That unit takes %bw-dmg% points of absorbable damage. {bw-eff} It takes two actions to remove this lasting effect.{/bw-eff} \n\n{bw-burn} Target units begin burning for %bw-burn% hp (not absorbable) per turn.{/bw-burn}\n\n{bw-bite} Target units lose  %bw-bite% speed.{/bw-bite}\n\n{bw-weak} Target units do %bw-weak% less damage per attack.{/bw-weak}\n\n{bw-sund} Target units lose %bw-sund% armor.{/bw-sund}",
+      "tags": [
+        "Dragon Breath"
+      ],
+      "type": "action",
+      "params": {
+        "bw-rng": 1,
+        "bw-dmg": 3,
+        "bw-eff": 0,
+        "bw-burn": 0,
+        "bw-bite": 0,
+        "bw-weak": 0,
+        "bw-sund": 0
+      }
+    },
+    {
+      "name": "Breath Attacks",
+      "id": "bw-prof-id-58",
+      "description": "Can use Dragon Breath %bw-use% times per day.{bw-rchrg} Can spend 1 action to recharge %bw-rchrg% breath attack use. {/bw-rchrg}{bw-cat} Bonus action: Can spend 3 hp to regain %bw-cat% breath attack uses.{/bw-cat}{bw-ann} Bonus action: Can spend 1  breath attack uses to regain  %bw-ann% hp.{/bw-cat}\n",
+      "tags": [
+        "Dragon Breath"
+      ],
+      "type": "passive",
+      "params": {
+        "bw-use": 1,
+        "bw-rchrg": 0,
+        "bw-cat": 0,
+        "bw-ann": 0,
+        "bw-resist": 0
+      }
+    },
+    {
+      "name": "Draconic Bombardment",
+      "id": "breath-environmental-id-36",
+      "description": "You can now target an unoccupied hex with your breath weapon attack. Deal %bw2-dmg% damage (absorbable) to that hex or a unit on that hex.{bw-block}The hex targeted by your draconic attack becomes impassible. It can however be destroyed. It has %bw-block% hp. If used on a unit, the blocker is not created.{/bw-block}",
+      "tags": [
+        "Dragon Breath"
+      ],
+      "type": "action",
+      "replaces": "Drag-breath-001",
+      "params": {
+        "bw2-dmg": 3,
+        "bw-block": 0
       }
     }
   ],
@@ -6030,6 +6078,480 @@
           ]
         }
       ]
+    },
+    {
+      "id": "Dragon-bw--1-ad",
+      "name": "Dragon Breath",
+      "requires": [
+        {
+          "id": "basic",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "You have a dragon!",
+      "globalParams": [],
+      "exclusiveWith": [],
+      "colors": {
+        "unavailable": "#752223",
+        "selected": "#ec2c2c"
+      },
+      "levels": 2,
+      "levelCost": [
+        1,
+        2
+      ],
+      "providedAbilities": [
+        {
+          "id": "Drag-breath-001",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "bw-dmg",
+              "modifier": 1,
+              "set": false
+            }
+          ],
+          "gain": true
+        },
+        {
+          "id": "breath-environmental-id-36",
+          "modifier": 1,
+          "modifiers": [],
+          "gain": false
+        }
+      ]
+    },
+    {
+      "id": "Dragon-bw--1-ad-1-dy",
+      "name": "Enlarged Glands",
+      "requires": [
+        {
+          "id": "Dragon-bw--1-ad",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Your dragon can use its breath attack more often.",
+      "globalParams": [],
+      "exclusiveWith": [],
+      "colors": {
+        "unavailable": "#752223",
+        "selected": "#ec2c2c"
+      },
+      "levels": 4,
+      "levelCost": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "providedAbilities": [
+        {
+          "id": "id-58",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "bw-use",
+              "modifier": 1,
+              "set": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Dragon-bw--1-ad-1-dy-1-dx",
+      "name": "Fast Metabolism",
+      "requires": [
+        {
+          "id": "Dragon-bw--1-ad-1-dy",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Your dragon can recharges its breath weapon.",
+      "globalParams": [],
+      "exclusiveWith": [],
+      "colors": {
+        "unavailable": "#752223",
+        "selected": "#ec2c2c"
+      },
+      "cost": 1,
+      "providedAbilities": [
+        {
+          "id": "id-58",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "bw-rchrg",
+              "modifier": 1,
+              "set": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Dragon-bw--1-ad-1-dy-1-dx-1-ez",
+      "name": "Draconic Catabolism",
+      "requires": [
+        {
+          "id": "Dragon-bw--1-ad-1-dy-1-dx",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Can spend health to get breath weapon charges back.",
+      "globalParams": [],
+      "exclusiveWith": [
+        "Dragon-bw--1-ad-1-dy-1-dx-1-az"
+      ],
+      "colors": {
+        "unavailable": "#752223",
+        "selected": "#ec2c2c"
+      },
+      "cost": 1,
+      "providedAbilities": [
+        {
+          "id": "bw-prof-id-58",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "bw-cat",
+              "modifier": 1,
+              "set": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Dragon-bw--1-ad-1-dy-1-dx-1-az",
+      "name": "Draconic Annabolism",
+      "requires": [
+        {
+          "id": "Dragon-bw--1-ad-1-dy-1-dx",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Can spend breath attacks to regain health.",
+      "globalParams": [],
+      "exclusiveWith": [
+        "Dragon-bw--1-ad-1-dy-1-dx-1-ez"
+      ],
+      "colors": {
+        "unavailable": "#752223",
+        "selected": "#ec2c2c"
+      },
+      "cost": 1,
+      "providedAbilities": [
+        {
+          "id": "bw-prof-id-58",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "bw-ann",
+              "modifier": 1,
+              "set": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Dragon-bw--1-ad-1-dx",
+      "name": "Burning Breath",
+      "requires": [
+        {
+          "id": "lasting-effect-001",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Breath weapons cause a lasting negative effect on enemies.",
+      "globalParams": [],
+      "exclusiveWith": [],
+      "colors": {
+        "unavailable": "#752223",
+        "selected": "#ec2c2c"
+      },
+      "levels": 2,
+      "levelCost": [
+        1,
+        2
+      ],
+      "providedAbilities": [
+        {
+          "id": "Drag-breath-001",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "bw-burn",
+              "modifier": 1,
+              "set": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Dragon-bw--1-ad-1-az",
+      "name": "Weakening Breath",
+      "requires": [
+        {
+          "id": "lasting-effect-001",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Dragon fire weakens units.",
+      "globalParams": [],
+      "exclusiveWith": [],
+      "colors": {
+        "unavailable": "#752223",
+        "selected": "#ec2c2c"
+      },
+      "levels": 3,
+      "levelCost": [
+        1,
+        1,
+        1
+      ],
+      "providedAbilities": [
+        {
+          "id": "Drag-breath-001",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "bw-weak",
+              "modifier": 1,
+              "set": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Dragon-bw--1-ad-1-bd",
+      "name": "Slowing Breath",
+      "requires": [
+        {
+          "id": "lasting-effect-001",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Dragon fire slows enemy units.",
+      "globalParams": [],
+      "exclusiveWith": [],
+      "colors": {
+        "unavailable": "#752223",
+        "selected": "#ec2c2c"
+      },
+      "levels": 3,
+      "levelCost": [
+        1,
+        1,
+        1
+      ],
+      "providedAbilities": [
+        {
+          "id": "Drag-breath-001",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "bw-bite",
+              "modifier": 1,
+              "set": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Dragon-bw--1-ad-1-dv",
+      "name": "Sundering Breath",
+      "requires": [
+        {
+          "id": "lasting-effect-001",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Dragonfire reduces enemy armor.",
+      "globalParams": [],
+      "exclusiveWith": [],
+      "colors": {
+        "unavailable": "#752223",
+        "selected": "#ec2c2c"
+      },
+      "levels": 3,
+      "levelCost": [
+        1,
+        1,
+        1
+      ],
+      "providedAbilities": [
+        {
+          "id": "Drag-breath-001",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "bw-sund",
+              "modifier": 1,
+              "set": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Dragon-bw--1-ad-1-dv-1-by",
+      "name": "Resistant Effect",
+      "requires": [
+        {
+          "id": "Dragon-bw--1-ad-1-dv",
+          "levels": 1
+        },
+        {
+          "levels": "1",
+          "id": "Dragon-bw--1-ad-1-bd"
+        },
+        {
+          "levels": "1",
+          "id": "Dragon-bw--1-ad-1-az"
+        },
+        {
+          "levels": "1",
+          "id": "Dragon-bw--1-ad-1-dx"
+        }
+      ],
+      "requirementType": "or",
+      "description": "Breath weapon effects are harder to remove.",
+      "globalParams": [],
+      "exclusiveWith": [],
+      "colors": {
+        "unavailable": "#752223",
+        "selected": "#ec2c2c"
+      },
+      "cost": 2,
+      "providedAbilities": [
+        {
+          "id": "Drag-breath-001",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "bw-eff",
+              "modifier": 1,
+              "set": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lasting-effect-001",
+      "name": "Lasting Effect",
+      "requires": [
+        {
+          "id": "Dragon-bw--1-ad",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Dragonfire does more damage.",
+      "globalParams": [],
+      "exclusiveWith": [],
+      "colors": {
+        "unavailable": "#752223",
+        "selected": "#ec2c2c"
+      },
+      "cost": 1,
+      "providedAbilities": [
+        {
+          "id": "Drag-breath-001",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "bw-dmg",
+              "modifier": 1,
+              "set": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Dragon-bw-environ-1-ad-1-cx",
+      "name": "Environmental Devestation",
+      "requires": [
+        {
+          "id": "Dragon-bw--1-ad",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Dragonfire does more damage.",
+      "globalParams": [],
+      "exclusiveWith": [],
+      "colors": {
+        "unavailable": "#752223",
+        "selected": "#ec2c2c"
+      },
+      "cost": 1,
+      "providedAbilities": [
+        {
+          "id": "Drag-breath-001",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "bw-dmg",
+              "modifier": 1,
+              "set": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Dragon-bw-environ-1-ad-1-cx-1-ad",
+      "name": "Field of Fire",
+      "requires": [
+        {
+          "id": "Dragon-bw-environ-1-ad-1-cx",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Units cannot walk through a hex hit by your draconic attack.",
+      "globalParams": [],
+      "exclusiveWith": [],
+      "colors": {
+        "unavailable": "#752223",
+        "selected": "#ec2c2c"
+      },
+      "levels": 4,
+      "levelCost": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "providedAbilities": [
+        {
+          "id": "breath-environmental-id-36",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "bw-block",
+              "modifier": 1,
+              "set": false
+            }
+          ]
+        }
+      ]
     }
   ],
   "tagColors": {
@@ -6053,7 +6575,8 @@
     "evocation": "#ff0000",
     "abjuration": "#08084c",
     "divination": "#05def7",
-    "conjuration": "#f06602"
+    "conjuration": "#f06602",
+    "Dragon Breath": "#fb0000"
   },
   "stats": [
     {
