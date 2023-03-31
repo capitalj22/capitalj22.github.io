@@ -87,13 +87,7 @@ export function EditPanel({ graphEvents }: Props) {
     let newNode = {
       name: "NEW NODE",
       requires: [{ id: idRef.current, levels: 1 }],
-      id: `${idRef.current}-${numChildren + 1}-${sample([
-        "a",
-        "b",
-        "c",
-        "d",
-        "e",
-      ])}${sample(["x", "z", "y", "v", "d"])}`,
+      id: `node-${Math.floor(Math.random() * 600000)}`,
 
       colors: colors,
     };

@@ -58,6 +58,11 @@ export function EditableAbilityCard({
 
   useEffect(() => {
     nameInputRef.current?.focus();
+    setTimeout(() => {
+      nameInputRef.current?.scrollIntoView({
+        block: "start",
+      });
+    });
   }, []);
 
   useEffect(() => {
@@ -150,13 +155,13 @@ export function EditableAbilityCard({
         </div>
       </div>
 
-      <div className="form-control id">
+      {/* <div className="form-control id">
         <input
           type="text"
           value={_ability.id}
           onChange={(e) => updateAbility("id", e.target.value)}
         ></input>
-      </div>
+      </div> */}
 
       <div className="replaces">
         <div className="replaces-name">Replaces</div>
@@ -188,7 +193,7 @@ export function EditableAbilityCard({
             />
           </div>
         </Accordion>
-        <Accordion name="Params" startOpen={false}>
+        <Accordion name="Params" startOpen={true}>
           <div className="params">
             <AbilityParamEditor params={params} paramsChanged={paramsChanged} />
           </div>

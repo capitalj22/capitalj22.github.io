@@ -90,8 +90,9 @@ export function AbilityEditor() {
   const filtersUpdated = (event) => {
     setFilters(event);
   };
+
   const addButtonPressed = () => {
-    const newId = `id-${Math.floor(Math.random() * 200)}`;
+    const newId = `abl-${Math.floor(Math.random() * 700000)}`;
     setAbilities({
       type: "add",
       ability: {
@@ -117,7 +118,6 @@ export function AbilityEditor() {
           expanded={true}
           tags={getTags(abilities)}
           filtersUpdated={filtersUpdated}
-          // filtersUpdated={(filters) => {}}
         />
       </AbilityFiltersProvider>
 
