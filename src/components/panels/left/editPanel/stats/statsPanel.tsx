@@ -34,7 +34,7 @@ export function StatsPanel({
 
   const statModifierChanged = (event, index) => {
     const newStats = clone(providedStats);
-    newStats[index].modifier = parseInt(event.target.value, 10);
+    newStats[index].modifier = event;
 
     providedStatsChanged(newStats);
   };
