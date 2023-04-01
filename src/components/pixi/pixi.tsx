@@ -47,7 +47,7 @@ export function PixiGraph({ infoUpdated, graphEvents }) {
   }, [theme]);
 
   useEffect(() => {
-    graphEvents.next({ event: "buildChanged", data: { mode: savedBuild } });
+    graphEvents.next({ event: "buildChanged", data: { build: savedBuild } });
   }, [savedBuild]);
 
   useEffect(() => {
