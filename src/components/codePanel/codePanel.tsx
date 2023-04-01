@@ -34,7 +34,7 @@ export function CodePanel({ graphEvents$ }) {
     globalParams,
     setGlobalParams,
   } = useContext(AbilitiesContext);
-  const { nodes, setNodes } = useContext(NodesContext);
+  const { nodes, setNodes, setSavedNodes } = useContext(NodesContext);
   const { version, setVersion } = useContext(stateContext);
 
   const [buildFile, setBuildFile] = useState("");
@@ -147,6 +147,7 @@ export function CodePanel({ graphEvents$ }) {
         }
       }
     }
+    setSavedNodes({ type: "imported", nodes: Math.random() });
   };
 
   const resetClicked = (event) => {
@@ -161,6 +162,7 @@ export function CodePanel({ graphEvents$ }) {
     setGlobalParams({ type: "set", params: [] });
 
     setSavedBuild({ type: "imported", build: {} });
+    setSavedNodes({ type: "imported", nodes: Math.random() });
   };
 
   const defaultClicked = (event) => {
@@ -175,6 +177,7 @@ export function CodePanel({ graphEvents$ }) {
     setAbilities({ type: "set", abilities: defaults.abilities });
     setTagColors({ type: "set", colors: defaults.tagColors });
     setGlobalParams({ type: "set", params: defaults.globalParams });
+    setSavedNodes({ type: "imported", nodes: Math.random() });
   };
 
   return (

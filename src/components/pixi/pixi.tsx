@@ -13,7 +13,7 @@ import { stateContext } from "../../providers/state/stateProvider";
 export function PixiGraph({ infoUpdated, graphEvents }) {
   const containerRef = useRef(null);
   const { abilities, globalParams } = useContext(AbilitiesContext);
-  const { nodes, setNodeMeta } = useContext(NodesContext);
+  const { nodes, setNodeMeta, savedNodes } = useContext(NodesContext);
   const nodesUpdated$ = new Subject();
   const infoUpdated$ = new Subject();
   const {
@@ -133,7 +133,7 @@ export function PixiGraph({ infoUpdated, graphEvents }) {
 
     infoUpdated({});
     return destroyFn;
-  }, [version]);
+  }, [savedNodes, version]);
 
   return <div ref={containerRef} className={styles.container} />;
 }

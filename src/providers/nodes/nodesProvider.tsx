@@ -22,7 +22,8 @@ function getStarterNodes() {
     {
       id: "initial-node",
       name: "Example Node",
-      description: "Press the Edit button on the left to edit this node. Press the edit button on the right to add stats and abilities.",
+      description:
+        "Press the Edit button on the left to edit this node. Press the edit button on the right to add stats and abilities.",
       colors: { selected: "#eee", unavailable: "aaa" },
     },
   ];
@@ -113,6 +114,7 @@ const nodesReducer = (state, action) => {
 
 export const NodesProvider = ({ children }) => {
   const [nodes, setNodes] = useReducer(nodesReducer, getNodes());
+  const [savedNodes, setSavedNodes] = useReducer(savedNodesReducer, {});
   const [selectedNodeId, setSelectedNodeId] = useState(null);
   const [nodeMeta, setNodeMeta] = useState({
     acquired: {},
@@ -129,6 +131,8 @@ export const NodesProvider = ({ children }) => {
         setSelectedNodeId,
         nodeMeta,
         setNodeMeta,
+        savedNodes,
+        setSavedNodes,
       }}
     >
       {children}
