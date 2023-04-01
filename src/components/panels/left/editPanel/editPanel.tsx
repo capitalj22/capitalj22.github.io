@@ -16,7 +16,7 @@ import { AbilitiesContext } from "../../../../providers/abilities/abilitiesProvi
 import { ExclusiveEdit } from "./exclusiveEdit/exclusiveEdit";
 
 interface Props {
-  graphEvents?: any;
+  graphEvents$?: any;
 }
 
 function getStatOptions(stats) {
@@ -27,7 +27,7 @@ function getGlobalParamOptions(globalParams) {
   return map(globalParams, (param) => ({ value: param.id, label: param.id }));
 }
 
-export function EditPanel({ graphEvents }: Props) {
+export function EditPanel({ graphEvents$ }: Props) {
   const { selectedNodeId, nodes, setNodes } = useContext(NodesContext);
   const { stats } = useContext(StatsContext);
   const [node, setNode] = useState(find(nodes, { id: selectedNodeId }) || {});
@@ -94,7 +94,7 @@ export function EditPanel({ graphEvents }: Props) {
 
     setNodes({ type: "add", node: newNode });
 
-    graphEvents.next({
+    graphEvents$.next({
       event: "nodeAdded",
       data: {
         node: newNode,
@@ -104,7 +104,7 @@ export function EditPanel({ graphEvents }: Props) {
   };
 
   const deletePressed = (event) => {
-    graphEvents.next({ event: "nodeDeleted", data: { id: id } });
+    graphEvents$.next({ event: "nodeDeleted", data: { id: id } });
     setNodes({ type: "remove", node });
   };
 
@@ -139,7 +139,7 @@ export function EditPanel({ graphEvents }: Props) {
       newNode.providedAbilities = providedAbilities;
     }
 
-    graphEvents.next({
+    graphEvents$.next({
       event: "nodeEdited",
       data: {
         id: oldId,

@@ -46,12 +46,14 @@ export function AppPanel({ graphEvents$, side = "left" }) {
         </div>
       )}
       {selectedMenus[side] === "units" && <UnitsPanel />}
-      {selectedMenus[side] === "code" && <CodePanel />}
+      {selectedMenus[side] === "code" && (
+        <CodePanel graphEvents$={graphEvents$} />
+      )}
       {selectedMenus[side] === "help" && <HelpPanel />}
       {selectedMenus[side] === "stats" && <StatEditor />}
       {selectedMenus[side] === "info" &&
         (appMode === "edit" ? (
-          <EditPanel />
+          <EditPanel graphEvents$={graphEvents$} />
         ) : (
           <InfoPanel graphEvents$={graphEvents$} />
         ))}

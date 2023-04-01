@@ -147,6 +147,7 @@ export function runGraphPixi(
         acquired: nodeMeta.acquired[n.id],
       })),
       nodeMeta: nodeMeta,
+      ignoreSave: true
     });
   }
 
@@ -783,6 +784,7 @@ export function runGraphPixi(
         acquired: nodeMeta.acquired[n.id],
       })),
       nodeMeta,
+      ignoreSave: true
     });
 
     setTheme(theme);

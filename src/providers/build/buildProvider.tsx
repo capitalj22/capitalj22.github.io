@@ -95,7 +95,9 @@ const defaultUnitsReducer = (state, action) => {
   }
   return state;
 };
+
 const customUnitsReducer = (state, action) => {
+  // console.log(action);
   const { index, unit, units, type } = action;
   let newState = clone(state);
 
@@ -201,7 +203,7 @@ export const BuildProvider = ({ children }) => {
 
   const [selectedUnit, setSelectedUnit] = useState({
     type: "custom",
-    unit: customUnits?.length > 1 ? customUnits[0]?.id : null,
+    unit: customUnits?.length > 0 ? customUnits[0] : null,
   });
 
   return (

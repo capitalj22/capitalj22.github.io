@@ -26,9 +26,10 @@ export function PixiGraph({ infoUpdated, graphEvents }) {
     setCustomUnits,
   } = useContext(BuildContext);
   const { theme } = useContext(ThemeContext);
-  const { appMode } = useContext(stateContext);
+  const { appMode, version } = useContext(stateContext);
   const abilitiesRef = useRef(abilities);
   const globalParamsref = useRef(globalParams);
+  const selectedUnitRef = useRef(selectedUnit);
 
   useEffect(() => {
     graphEvents.next({ event: "modeChanged", data: { mode: appMode } });
@@ -41,6 +42,10 @@ export function PixiGraph({ infoUpdated, graphEvents }) {
   useEffect(() => {
     globalParamsref.current = globalParams;
   }, [globalParams]);
+
+  useEffect(() => {
+    selectedUnitRef.current = selectedUnit;
+  }, [selectedUnit]);
 
   useEffect(() => {
     graphEvents.next({ event: "themeChanged", data: theme });
@@ -72,28 +77,34 @@ export function PixiGraph({ infoUpdated, graphEvents }) {
           globalParamsref.current
         );
 
+        if (!data.ignoreSave) {
+          if (selectedUnitRef.current) {
+            if (selectedUnitRef.current.type === "custom") {
+              const unit = find(customUnits, {
+                id: selectedUnitRef.current.unit.id,
+              });
+
+              setCustomUnits({
+                type: "update",
+                unit: { ...unit, build: build.exportableBuild },
+              });
+            } else {
+              const unit = find(defaultUnits, {
+                id: selectedUnitRef.current.unit.id,
+              });
+
+              setDefaultUnits({
+                type: "update",
+                unit: { ...unit, build: build.exportableBuild },
+              });
+            }
+          }
+        }
+
         setBuild({
           type: "set",
           build,
         });
-
-        if (selectedUnit) {
-          if (selectedUnit.type === "custom") {
-            const unit = find(customUnits, { id: selectedUnit.unit.id });
-
-            setCustomUnits({
-              type: "update",
-              unit: { ...unit, build: build.exportableBuild },
-            });
-          } else {
-            const unit = find(defaultUnits, { id: selectedUnit.unit.id });
-
-            setDefaultUnits({
-              type: "update",
-              unit: { ...unit, build: build.exportableBuild },
-            });
-          }
-        }
 
         if (data.nodeMeta) {
           setNodeMeta(data.nodeMeta);
@@ -122,7 +133,7 @@ export function PixiGraph({ infoUpdated, graphEvents }) {
 
     infoUpdated({});
     return destroyFn;
-  }, []);
+  }, [version]);
 
   return <div ref={containerRef} className={styles.container} />;
 }

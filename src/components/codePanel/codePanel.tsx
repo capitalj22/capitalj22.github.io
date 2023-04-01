@@ -15,9 +15,15 @@ import { FancyTextInput } from "../common/tag-input/fancyTextInput";
 import { stateContext } from "../../providers/state/stateProvider";
 import classNames from "classnames";
 
-export function CodePanel() {
-  const { build, setSavedBuild, defaultUnits, setDefaultUnits } =
-    useContext(BuildContext);
+export function CodePanel({ graphEvents$ }) {
+  const {
+    build,
+    setSavedBuild,
+    defaultUnits,
+    setDefaultUnits,
+    setSelectedUnit,
+    selectedUnit,
+  } = useContext(BuildContext);
   const { tagColors, setTagColors } = useContext(TagsContext);
   const { stats, setStats } = useContext(StatsContext);
   const {
@@ -159,6 +165,8 @@ export function CodePanel() {
 
   const defaultClicked = (event) => {
     const defaults = exampleJson;
+    setSelectedUnit({});
+    setSavedBuild({ type: "imported", build: {} });
     setVersion({ type: "set", version: defaults.version });
     setDefaultUnits({ type: "set", units: defaults.defaultUnits });
     setNodes({ type: "set", nodes: defaults.nodes });
@@ -167,7 +175,6 @@ export function CodePanel() {
     setAbilities({ type: "set", abilities: defaults.abilities });
     setTagColors({ type: "set", colors: defaults.tagColors });
     setGlobalParams({ type: "set", params: defaults.globalParams });
-    setSavedBuild({ type: "imported", build: {} });
   };
 
   return (

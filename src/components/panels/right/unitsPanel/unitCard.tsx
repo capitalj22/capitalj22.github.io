@@ -62,13 +62,23 @@ export function UnitCard({ unit, startEditable = false, unitType = "custom" }) {
   };
 
   const cardClicked = () => {
-    setSelectedUnit({ type: unitType, unit });
+    
+    let savedUnit;
+    
+    if (unitType === "custom") {
+      savedUnit = find(customUnits, { id: unit.id });
+    } else {
+      savedUnit = find(defaultUnits, { id: unit.id });
+    }
 
-    if (unit.build) {
-      setSavedBuild({ type: "imported", build: unit.build });
+    
+    if (savedUnit.build) {
+      setSavedBuild({ type: "imported", build: savedUnit.build });
     } else {
       setSavedBuild({ type: "imported", build: {} });
     }
+
+    setSelectedUnit({ type: unitType, unit });
   };
 
   const unitCopySelected = (e) => {
