@@ -1,17 +1,45 @@
 import classNames from "classnames";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ChevronsLeft, ChevronsRight } from "react-feather";
 import { stateContext } from "../../../providers/state/stateProvider";
 import { AppMenu } from "../menu/appMenu";
 
+const PAGE_TITLES_BUILD = {
+  sheet: "Character Sheet",
+  code: "Save/Import",
+  help: "Reference",
+  units: "Units",
+};
+
+const PAGE_TITLES_EDIT = {
+  sheet: "Edit Items",
+  code: "Save/Import",
+  help: "Reference",
+  units: "Units",
+};
+
 import "./sidebarRight.scss";
 
-export function SidebarRight({ children, title }) {
-  const { leftExpanded, setLeftExpanded, rightExpanded, setRightExpanded } =
-    useContext(stateContext);
+export function SidebarRight({ children }) {
+  const {
+    leftExpanded,
+    rightExpanded,
+    setRightExpanded,
+    selectedMenus,
+    appMode,
+  } = useContext(stateContext);
   const [panelExpanded, setPanelExpanded] = useState(false);
+  const [title, setTitle] = useState("Character Sheet");
 
   let icon;
+
+  useEffect(() => {
+    if (appMode === "edit") {
+      setTitle(PAGE_TITLES_EDIT[selectedMenus.right]);
+    } else {
+      setTitle(PAGE_TITLES_BUILD[selectedMenus.right]);
+    }
+  }, [selectedMenus, appMode]);
 
   const handleItemSelected = (event) => {
     if (event.newItem) {
@@ -26,6 +54,7 @@ export function SidebarRight({ children, title }) {
   };
 
   icon = !panelExpanded ? <ChevronsLeft /> : <ChevronsRight />;
+
   if (!rightExpanded) {
     return (
       <div className="sidebar-right">

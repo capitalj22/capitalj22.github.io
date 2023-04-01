@@ -1,12 +1,10 @@
-import { useContext, useState } from "react";
-import { stateContext } from "../../../providers/state/stateProvider";
+import { useState } from "react";
+
 import { AppPanel } from "../../layout/appPanel/appPanel";
 import { SidebarRight } from "../../layout/right/sidebarRight";
 
 export function RightPanel({ graphEvents$ }) {
-  const [selectedItem, setSelectedItem] = useState("info");
   const [menuTitle, setMenuTitle] = useState("info");
-  const { appMode } = useContext(stateContext);
 
   return (
     <SidebarRight title={menuTitle}>

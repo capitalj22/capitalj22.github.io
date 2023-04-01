@@ -42,7 +42,7 @@ export function UnitsPanel() {
           </div>
         </div>
       </Accordion>
-      <Accordion name="Default Units" startOpen={true}>
+      <Accordion name="Standard Units" startOpen={true}>
         <div className="padding-md">
           <div className="unit-cards">
             {defaultUnits.map((unit) => (

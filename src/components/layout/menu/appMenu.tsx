@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   BookOpen,
   HelpCircle,
@@ -28,7 +28,20 @@ export function AppMenu({ side = "left", changed }) {
     setAppMenuConfig,
     selectedMenus,
     setSelectedMenus,
+    rightExpanded,
+    leftExpanded,
   } = useContext(stateContext);
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    if (side === "left") {
+      setIsOpen(!!leftExpanded);
+    } else {
+      setIsOpen(!!rightExpanded);
+    }
+  }, [rightExpanded, leftExpanded]);
+
   const switchItem = (item) => {
     setAppMenuConfig({
       type: "setItem",
@@ -70,7 +83,7 @@ export function AppMenu({ side = "left", changed }) {
       {appMenuConfig.info === side && (
         <button
           type="button"
-          className={selectedMenus[side] === "info" ? "selected" : ""}
+          className={isOpen && selectedMenus[side] === "info" ? "selected" : ""}
           onClick={(e) => itemClicked(e, "info")}
         >
           <Disc />
@@ -80,7 +93,9 @@ export function AppMenu({ side = "left", changed }) {
         (appMode === "build-slow" || appMode === "build-fast" ? (
           <button
             type="button"
-            className={selectedMenus[side] === "sheet" ? "selected" : ""}
+            className={
+              isOpen && selectedMenus[side] === "sheet" ? "selected" : ""
+            }
             onClick={(e) => itemClicked(e, "sheet")}
           >
             <BookOpen />
@@ -88,7 +103,9 @@ export function AppMenu({ side = "left", changed }) {
         ) : (
           <button
             type="button"
-            className={selectedMenus[side] === "sheet" ? "selected" : ""}
+            className={
+              isOpen && selectedMenus[side] === "sheet" ? "selected" : ""
+            }
             onClick={(e) => itemClicked(e, "sheet")}
           >
             <Book />
@@ -97,7 +114,9 @@ export function AppMenu({ side = "left", changed }) {
       {appMenuConfig.units === side && (
         <button
           type="button"
-          className={selectedMenus[side] === "units" ? "selected" : ""}
+          className={
+            isOpen && selectedMenus[side] === "units" ? "selected" : ""
+          }
           onClick={(e) => itemClicked(e, "units")}
         >
           <Users />
@@ -106,7 +125,9 @@ export function AppMenu({ side = "left", changed }) {
       {appMenuConfig.settings === side && (
         <button
           type="button"
-          className={selectedMenus[side] === "settings" ? "selected" : ""}
+          className={
+            isOpen && selectedMenus[side] === "settings" ? "selected" : ""
+          }
           onClick={(e) => itemClicked(e, "settings")}
         >
           <Sliders />
@@ -115,7 +136,7 @@ export function AppMenu({ side = "left", changed }) {
       {appMenuConfig.code === side && (
         <button
           type="button"
-          className={selectedMenus[side] === "code" ? "selected" : ""}
+          className={isOpen && selectedMenus[side] === "code" ? "selected" : ""}
           onClick={(e) => itemClicked(e, "code")}
         >
           <Download />
@@ -124,7 +145,7 @@ export function AppMenu({ side = "left", changed }) {
       {appMenuConfig.help === side && (
         <button
           type="button"
-          className={selectedMenus[side] === "help" ? "selected" : ""}
+          className={isOpen && selectedMenus[side] === "help" ? "selected" : ""}
           onClick={(e) => itemClicked(e, "help")}
         >
           <HelpCircle />

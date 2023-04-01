@@ -203,7 +203,7 @@ export const BuildProvider = ({ children }) => {
 
   const [selectedUnit, setSelectedUnit] = useState({
     type: "custom",
-    unit: customUnits?.length > 0 ? customUnits[0] : null,
+    unit: null,
   });
 
   return (
