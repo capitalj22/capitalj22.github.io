@@ -1,37 +1,31 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { stateContext } from "../../../providers/state/stateProvider";
-import { LeftMenu } from "./leftMenu";
+import { AppMenu } from "../menu/appMenu";
 
 import "./sidebarLeft.scss";
 
-export function SidebarLeft({ children, itemSelected, expanded }) {
-  const [selectedPage, setSelectedPage] = useState(null);
-  const { leftExpanded, setLeftExpanded, rightExpanded, setRightExpanded } =
+export function SidebarLeft({ children }) {
+  const { leftExpanded, setLeftExpanded } =
     useContext(stateContext);
 
-  const handleItemSelected = (event, page) => {
-    if (page === selectedPage || !leftExpanded) {
+  const handleItemSelected = (event) => {
+    if (event.newItem) {
+      setLeftExpanded(true);
+    } else {
       setLeftExpanded(!leftExpanded);
     }
-
-    setSelectedPage(page);
-
-    itemSelected(page);
   };
 
   if (!leftExpanded) {
     return (
       <div className="sidebar-left">
-        <LeftMenu
-          itemSelected={handleItemSelected}
-          selectedItem={null}
-        ></LeftMenu>
+        <AppMenu changed={handleItemSelected} side="left"></AppMenu>
       </div>
     );
   } else
     return (
       <div className="sidebar-left">
-        <LeftMenu itemSelected={handleItemSelected} selectedItem={selectedPage}></LeftMenu>
+        <AppMenu changed={handleItemSelected} side="left"></AppMenu>
         <div className="sidebar-left-panel">{children}</div>
       </div>
     );

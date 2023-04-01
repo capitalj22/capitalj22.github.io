@@ -6168,7 +6168,30 @@
       "name": "Base Dragon",
       "build": {
         "basic": true,
+        "speed": 2,
+        "armor": 3,
+        "professionals": true,
         "Dragon-bw--1-ad": 1
+      }
+    },
+    {
+      "id": "unit-6185",
+      "name": "Skellington",
+      "build": {
+        "basic": true,
+        "speed": 1,
+        "armor": 1,
+        "attack-node": 1,
+        "attack-node-1-dv": 1
+      }
+    },
+    {
+      "id": "unit-11232",
+      "name": "Archers",
+      "build": {
+        "basic": true,
+        "basic-1-ay": 1,
+        "basic-1-ay-1-ed": 1
       }
     }
   ]

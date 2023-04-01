@@ -5,6 +5,7 @@ import { SettingsPanel } from "./settingsPanel/settingsPanel";
 import { EditPanel } from "./editPanel/editPanel";
 import { NodesContext } from "../../../providers/nodes/nodesProvider";
 import { stateContext } from "../../../providers/state/stateProvider";
+import { AppPanel } from "../../layout/appPanel/appPanel";
 
 export function LeftPanel({ graphEvents$ }) {
   const { node, selectedNodeId } = useContext(NodesContext);
@@ -15,28 +16,9 @@ export function LeftPanel({ graphEvents$ }) {
     setSelectedItem(item);
   };
 
-  useEffect(() => {
-    setShowInfoPanel(!!selectedNodeId);
-  }, [selectedNodeId]);
-
   return (
-    <SidebarLeft itemSelected={handleItemSelected} expanded={undefined}>
-      {selectedItem === "info" ? (
-        <div>
-          {appMode === "edit" ? (
-            <EditPanel graphEvents={graphEvents$} />
-          ) : (
-            <InfoPanel graphEvents={graphEvents$} />
-          )}
-        </div>
-      ) : (
-        ""
-      )}
-      {selectedItem === "settings" ? (
-        <SettingsPanel graphEvents$={graphEvents$} />
-      ) : (
-        ""
-      )}
+    <SidebarLeft>
+      <AppPanel graphEvents$={graphEvents$} side="left" />
     </SidebarLeft>
   );
 }

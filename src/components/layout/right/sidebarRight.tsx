@@ -2,25 +2,24 @@ import classNames from "classnames";
 import { useContext, useState } from "react";
 import { ChevronsLeft, ChevronsRight } from "react-feather";
 import { stateContext } from "../../../providers/state/stateProvider";
+import { AppMenu } from "../menu/appMenu";
 import { RightMenu } from "./rightMenu";
 
 import "./sidebarRight.scss";
 
-export function SidebarRight({ children, itemSelected, title }) {
-  const [selectedPage, setSelectedPage] = useState(null);
+export function SidebarRight({ children, title }) {
   const { leftExpanded, setLeftExpanded, rightExpanded, setRightExpanded } =
     useContext(stateContext);
   const [panelExpanded, setPanelExpanded] = useState(false);
 
   let icon;
 
-  const handleItemSelected = (page) => {
-    if (page === selectedPage || !rightExpanded) {
+  const handleItemSelected = (event) => {
+    if (event.newItem) {
+      setRightExpanded(true);
+    } else {
       setRightExpanded(!rightExpanded);
     }
-    setSelectedPage(page);
-
-    itemSelected(page);
   };
 
   const handleExpandPressed = (event) => {
@@ -31,10 +30,7 @@ export function SidebarRight({ children, itemSelected, title }) {
   if (!rightExpanded) {
     return (
       <div className="sidebar-right">
-        <RightMenu
-          itemSelected={handleItemSelected}
-          selectedItem={undefined}
-        ></RightMenu>
+        <AppMenu changed={handleItemSelected} side="right"></AppMenu>
       </div>
     );
   } else
@@ -57,10 +53,7 @@ export function SidebarRight({ children, itemSelected, title }) {
           </div>
           <div className="sidebar-right-panel-content">{children}</div>
         </div>
-        <RightMenu
-          itemSelected={handleItemSelected}
-          selectedItem={selectedPage}
-        ></RightMenu>
+        <AppMenu changed={handleItemSelected} side="right"></AppMenu>
       </div>
     );
 }

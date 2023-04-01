@@ -1,3 +1,4 @@
+import { clone } from "lodash-es";
 import { createContext, useReducer, useState } from "react";
 
 export const stateContext = createContext({} as any);
@@ -16,6 +17,31 @@ function getVersion() {
   }
 }
 
+function getAppMenuConfig() {
+  const defaultConfig = {
+    code: "right",
+    edit: "right",
+    help: "right",
+    info: "left",
+    sheet: "right",
+    settings: "left",
+    theme: "right",
+    units: "left",
+    zap: "right",
+  };
+
+  const config = window.localStorage.getItem("dragon-app-menu-config");
+  if (config) {
+    try {
+      return JSON.parse(config);
+    } catch (e) {
+      return defaultConfig;
+    }
+  } else {
+    return defaultConfig;
+  }
+}
+
 function versionReducer(state, action) {
   const { type, version } = action;
 
@@ -28,12 +54,36 @@ function versionReducer(state, action) {
   }
 }
 
+function appMenuConfigReducer(state, action) {
+  const { type, config, item } = action;
+  let newState = clone(state);
+
+  if (type === "setItem") {
+    newState = { ...newState, ...item };
+    window.localStorage.setItem(
+      "dragon-app-menu-config",
+      JSON.stringify(newState)
+    );
+    console.log(newState);
+    
+    return newState;
+  }
+}
+
 export const StateProvider = ({ children }) => {
   const [appMode, setAppMode] = useState("build-slow");
   const [buildMode, setBuildMode] = useState("build-slow");
   const [rightExpanded, setRightExpanded] = useState(false);
   const [leftExpanded, setLeftExpanded] = useState(true);
   const [version, setVersion] = useReducer(versionReducer, getVersion());
+  const [appMenuConfig, setAppMenuConfig] = useReducer(
+    appMenuConfigReducer,
+    getAppMenuConfig()
+  );
+  const [selectedMenus, setSelectedMenus] = useState({
+    left: "info",
+    right: "sheet",
+  });
 
   return (
     <stateContext.Provider
@@ -48,6 +98,10 @@ export const StateProvider = ({ children }) => {
         setVersion,
         buildMode,
         setBuildMode,
+        appMenuConfig,
+        setAppMenuConfig,
+        selectedMenus,
+        setSelectedMenus,
       }}
     >
       {children}

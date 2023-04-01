@@ -84,7 +84,7 @@ function getRequiredText(node, nodes) {
   return `${requiredText}`;
 }
 
-export function InfoPanel({ graphEvents }) {
+export function InfoPanel({ graphEvents$ }) {
   const { selectedNodeId, nodes, nodeMeta } = useContext(NodesContext);
   const { build } = useContext(BuildContext);
   const { abilities } = useContext(AbilitiesContext);
@@ -109,7 +109,7 @@ export function InfoPanel({ graphEvents }) {
   const nodeRef = useRef(node);
 
   useEffect(() => {
-    graphEvents.subscribe({
+    graphEvents$.subscribe({
       next: (event) => {
         if (event.event === "nodeMetaUpdated") {
           setAcquired(getAcquired(nodeRef.current, event.data.nodeMeta));
@@ -168,7 +168,7 @@ export function InfoPanel({ graphEvents }) {
 
       setAcquired(newAcquired);
 
-      graphEvents.next({
+      graphEvents$.next({
         event: "nodeAcquisitionChanged",
         data: {
           id: selectedNodeId,
