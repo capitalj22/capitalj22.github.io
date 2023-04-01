@@ -88,7 +88,7 @@ const defaultUnitsReducer = (state, action) => {
 
     window.localStorage.setItem(
       "dragon-default-units",
-      JSON.stringify(newState)
+      JSON.stringify(stateUpdate)
     );
 
     return stateUpdate;

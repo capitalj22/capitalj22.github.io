@@ -6193,6 +6193,65 @@
         "basic-1-ay": 1,
         "basic-1-ay-1-ed": 1
       }
+    },
+    {
+      "id": "unit-1709",
+      "name": "Sea Snake",
+      "build": {
+        "basic": true,
+        "speed": 3,
+        "dash": true,
+        "charge": true,
+        "swimming": true,
+        "advanced-swimming": true,
+        "ferry": true,
+        "diving": true,
+        "attack-from-the-deep": true
+      }
+    },
+    {
+      "id": "unit-12053",
+      "name": "Paladin",
+      "build": {
+        "basic": true,
+        "basic-magic": true,
+        "speed": 2,
+        "dash": true,
+        "charge": true,
+        "armor": 4,
+        "defend-1": 1,
+        "guardian-1": true,
+        "guardian-2": true,
+        "holy-casting": true,
+        "holy-power": true,
+        "holy-avenger": true,
+        "undead-scourge": 2,
+        "paragon-of-divintiy": true,
+        "divine-prof": 2,
+        "paladin": true,
+        "attack-node": 2,
+        "Multi_attack-1-dz": 1
+      }
+    },
+    {
+      "id": "unit-7407",
+      "name": "Cleric",
+      "build": {
+        "basic": true,
+        "basic-magic": true,
+        "speed": 2,
+        "dash": true,
+        "armor": 1,
+        "holy-casting": true,
+        "holy-power": true,
+        "advanced-guiding-bolt": true,
+        "greater-restoration": true,
+        "divine-restoration": true,
+        "paragon-of-divintiy": true,
+        "divine-prof": 3,
+        "cleric": true,
+        "basic-1-ay": 1
+      }
     }
   ]
 }

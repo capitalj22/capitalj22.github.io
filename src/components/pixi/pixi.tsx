@@ -30,6 +30,8 @@ export function PixiGraph({ infoUpdated, graphEvents }) {
   const abilitiesRef = useRef(abilities);
   const globalParamsref = useRef(globalParams);
   const selectedUnitRef = useRef(selectedUnit);
+  const customUnitsRef = useRef(customUnits);
+  const defaultUnitsRef = useRef(defaultUnits);
 
   useEffect(() => {
     graphEvents.next({ event: "modeChanged", data: { mode: appMode } });
@@ -45,7 +47,9 @@ export function PixiGraph({ infoUpdated, graphEvents }) {
 
   useEffect(() => {
     selectedUnitRef.current = selectedUnit;
-  }, [selectedUnit]);
+    customUnitsRef.current = customUnits;
+    defaultUnitsRef.current = defaultUnits;
+  }, [selectedUnit, customUnits, defaultUnits]);
 
   useEffect(() => {
     graphEvents.next({ event: "themeChanged", data: theme });
@@ -80,7 +84,7 @@ export function PixiGraph({ infoUpdated, graphEvents }) {
         if (!data.ignoreSave) {
           if (selectedUnitRef.current) {
             if (selectedUnitRef.current.type === "custom") {
-              const unit = find(customUnits, {
+              const unit = find(customUnitsRef.current, {
                 id: selectedUnitRef.current.unit.id,
               });
 
@@ -89,7 +93,7 @@ export function PixiGraph({ infoUpdated, graphEvents }) {
                 unit: { ...unit, build: build.exportableBuild },
               });
             } else {
-              const unit = find(defaultUnits, {
+              const unit = find(defaultUnitsRef.current, {
                 id: selectedUnitRef.current.unit.id,
               });
 
