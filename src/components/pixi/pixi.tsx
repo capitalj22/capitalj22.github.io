@@ -16,8 +16,15 @@ export function PixiGraph({ infoUpdated, graphEvents }) {
   const { nodes, setNodeMeta } = useContext(NodesContext);
   const nodesUpdated$ = new Subject();
   const infoUpdated$ = new Subject();
-  const { savedBuild, setBuild, selectedUnitId, customUnits, setCustomUnits } =
-    useContext(BuildContext);
+  const {
+    savedBuild,
+    setBuild,
+    selectedUnit,
+    defaultUnits,
+    setDefaultUnits,
+    customUnits,
+    setCustomUnits,
+  } = useContext(BuildContext);
   const { theme } = useContext(ThemeContext);
   const { appMode } = useContext(stateContext);
   const abilitiesRef = useRef(abilities);
@@ -66,13 +73,22 @@ export function PixiGraph({ infoUpdated, graphEvents }) {
           build,
         });
 
-        if (selectedUnitId && find(customUnits, { id: selectedUnitId })) {
-          const unit = find(customUnits, { id: selectedUnitId });
+        if (selectedUnit) {
+          if (selectedUnit.type === "custom") {
+            const unit = find(customUnits, { id: selectedUnit.unit.id });
 
-          setCustomUnits({
-            type: "update",
-            unit: { ...unit, build: build.exportableBuild },
-          });
+            setCustomUnits({
+              type: "update",
+              unit: { ...unit, build: build.exportableBuild },
+            });
+          } else {
+            const unit = find(defaultUnits, { id: selectedUnit.unit.id });
+
+            setDefaultUnits({
+              type: "update",
+              unit: { ...unit, build: build.exportableBuild },
+            });
+          }
         }
 
         if (data.nodeMeta) {

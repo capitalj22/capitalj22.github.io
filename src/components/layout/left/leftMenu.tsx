@@ -1,4 +1,4 @@
-import { Disc, Sliders } from "react-feather";
+import { Disc, Sliders, Users } from "react-feather";
 
 import "./leftMenu.scss";
 
@@ -21,6 +21,13 @@ export function LeftMenu({ itemSelected, selectedItem }) {
         onClick={handleSettingsSelected}
       >
         <Sliders />
+      </button>
+      <button
+        type="button"
+        className={selectedItem === "units" ? "selected" : ""}
+        onClick={handleSettingsSelected}
+      >
+        <Users />
       </button>
     </div>
   );

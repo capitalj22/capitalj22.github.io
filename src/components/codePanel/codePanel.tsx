@@ -75,6 +75,7 @@ export function CodePanel() {
         nodes,
         tagColors,
         stats,
+        defaultUnits,
       };
       filename = `${name}.json`;
     }

@@ -199,9 +199,10 @@ export const BuildProvider = ({ children }) => {
     getDefaultUnits()
   );
 
-  const [selectedUnitId, setSelectedUnitId] = useState(
-    customUnits?.length > 1 ? customUnits[0]?.id : null
-  );
+  const [selectedUnit, setSelectedUnit] = useState({
+    type: "custom",
+    unit: customUnits?.length > 1 ? customUnits[0]?.id : null,
+  });
 
   return (
     <BuildContext.Provider
@@ -214,8 +215,8 @@ export const BuildProvider = ({ children }) => {
         setCustomUnits,
         defaultUnits,
         setDefaultUnits,
-        selectedUnitId,
-        setSelectedUnitId,
+        selectedUnit,
+        setSelectedUnit,
       }}
     >
       {children}

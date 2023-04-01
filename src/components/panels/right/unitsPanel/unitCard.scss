@@ -19,11 +19,11 @@
 
   &:hover,
   &.selected {
-    border-color: var(--themeColor);
+    border-color: var(--themeAccentColor);
   }
 
   &.selected {
-    outline: 2px solid var(--themeColor);
+    outline: 2px solid var(--themeAccentColor);
   }
 
   transition: border-color 0.25s ease-in-out;
@@ -41,6 +41,7 @@
   }
 
   .form-control {
+    font-size: 1.2em;
     flex: 2;
     border-bottom: 1px solid var(--mutedText);
   }
@@ -50,6 +51,6 @@
   }
 
   &.selected .unit-card-name {
-    color: var(--themeColorText);
+    color: var(--themeAccentColor);
   }
 }

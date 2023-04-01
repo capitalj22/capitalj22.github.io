@@ -30,7 +30,7 @@ interface Props {
   showEmptyOption?: boolean;
 }
 export function UnitSelect({ valueChanged, defaultValue }: Props) {
-  const { customUnits, defaultUnits, selectedUnitId } =
+  const { customUnits, defaultUnits } =
     useContext(BuildContext);
   const [options, setOptions] = useState(
     getAvailableOptions(customUnits, defaultUnits)

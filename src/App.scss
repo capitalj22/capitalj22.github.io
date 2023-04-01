@@ -3,6 +3,7 @@
   --themeColor: #3bac99;
   --themeColorMod: #2f808f;
   --themeColorText: #a4dbe2;
+  --themeAccentColor: #e49a68;
   --panelColor: #1b1b1d;
   --panelColor2: #2e2e34;
   --panelColor3: #25262c;
@@ -142,6 +143,10 @@
 
 .padding-sm {
   padding: 0.5rem;
+}
+
+.padding-sm-vertical {
+  padding: 0.5rem 0;
 }
 
 .padding-md {
