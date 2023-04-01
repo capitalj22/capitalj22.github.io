@@ -3,7 +3,6 @@ import { useContext, useState } from "react";
 import { ChevronsLeft, ChevronsRight } from "react-feather";
 import { stateContext } from "../../../providers/state/stateProvider";
 import { AppMenu } from "../menu/appMenu";
-import { RightMenu } from "./rightMenu";
 
 import "./sidebarRight.scss";
 

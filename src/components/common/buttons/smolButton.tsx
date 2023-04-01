@@ -11,7 +11,7 @@ export function SmolButton({
   const style = noPadding ? { padding: 0 } : {};
   const onClick = (e) => {
     e.stopPropagation();
-    clicked();
+    clicked(e);
   };
   return (
     <button

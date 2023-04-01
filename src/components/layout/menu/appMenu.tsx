@@ -29,14 +29,11 @@ export function AppMenu({ side = "left", changed }) {
     selectedMenus,
     setSelectedMenus,
   } = useContext(stateContext);
-  const zapClicked = () => {
-    if (buildMode === "build-fast") {
-      setBuildMode("build-slow");
-      setAppMode("build-slow");
-    } else {
-      setAppMode("build-fast");
-      setBuildMode("build-fast");
-    }
+  const switchItem = (item) => {
+    setAppMenuConfig({
+      type: "setItem",
+      item: { [item]: side === "left" ? "right" : "left" },
+    });
   };
 
   const itemClicked = (e, item) => {
@@ -44,15 +41,28 @@ export function AppMenu({ side = "left", changed }) {
     newMenus[side] = item;
 
     if (e.shiftKey) {
-      console.log("setItem");
-      setAppMenuConfig({
-        type: "setItem",
-        item: { [item]: side === "left" ? "right" : "left" },
-      });
+      switchItem(item);
+    } else {
+      if (item === "zap") {
+        if (buildMode === "build-fast") {
+          setBuildMode("build-slow");
+          setAppMode("build-slow");
+        } else {
+          setAppMode("build-fast");
+          setBuildMode("build-fast");
+        }
+      } else if (item === "theme") {
+        setTheme({
+          type: "set",
+          theme: theme === "light" ? "dark" : "light",
+        });
+      } else if (item === "edit") {
+        setAppMode(appMode === "edit" ? buildMode : "edit");
+      } else {
+        changed({ newItem: item !== selectedMenus[side] });
+        setSelectedMenus(newMenus);
+      }
     }
-
-    changed({ newItem: item !== selectedMenus[side] });
-    setSelectedMenus(newMenus);
   };
 
   return (
@@ -123,22 +133,14 @@ export function AppMenu({ side = "left", changed }) {
 
       <hr />
       {appMenuConfig.theme === side && (
-        <SmolButton
-          color="info"
-          clicked={() =>
-            setTheme({
-              type: "set",
-              theme: theme === "light" ? "dark" : "light",
-            })
-          }
-        >
+        <SmolButton color="info" clicked={(e) => itemClicked(e, "theme")}>
           {theme === "light" ? <Moon /> : <Sun />}
         </SmolButton>
       )}
       {appMenuConfig.zap === side && (
         <SmolButton
           color={buildMode === "build-fast" ? "success" : "mutedText"}
-          clicked={zapClicked}
+          clicked={(e) => itemClicked(e, "zap")}
         >
           <Zap />
         </SmolButton>
@@ -146,7 +148,7 @@ export function AppMenu({ side = "left", changed }) {
       {appMenuConfig.edit === side && (
         <SmolButton
           color={appMode === "edit" ? "success" : "mutedText"}
-          clicked={() => setAppMode(appMode === "edit" ? buildMode : "edit")}
+          clicked={(e) => itemClicked(e, "edit")}
         >
           <Edit />
         </SmolButton>

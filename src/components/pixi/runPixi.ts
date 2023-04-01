@@ -725,30 +725,30 @@ export function runGraphPixi(
 
     simulation = d3
       .forceSimulation(nodes as SimulationNodeDatum[])
-      .force(
-        "link",
-        d3
-          .forceLink(links)
-          .strength((d) =>
-            isNodeSelected(d.target as INode, nodeMeta) ? 0.8 : 0.7
-          )
-          .id((d) => {
-            return (d as any).id;
-          })
-          .distance((d) =>
-            isNodeSelected(d.source as INode, nodeMeta) ? 20 : 30
-          )
-      )
-      .force("charge", d3.forceManyBody().strength(-200)) // This adds repulsion (if it's negative) between nodes.
-      .force("center", d3.forceCenter(width / 4, height / 2))
-      .force(
-        "collision",
-        d3
-          .forceCollide()
-          .radius((d) => (d as any).radius)
-          .iterations(2)
-      )
-      .velocityDecay(0.8);
+      // .force(
+      //   "link",
+      //   d3
+      //     .forceLink(links)
+      //     .strength((d) =>
+      //       isNodeSelected(d.target as INode, nodeMeta) ? 0.8 : 0.7
+      //     )
+      //     .id((d) => {
+      //       return (d as any).id;
+      //     })
+      //     .distance((d) =>
+      //       isNodeSelected(d.source as INode, nodeMeta) ? 20 : 30
+      //     )
+      // )
+      // .force("charge", d3.forceManyBody().strength(-200)) // This adds repulsion (if it's negative) between nodes.
+      // .force("center", d3.forceCenter(width / 4, height / 2))
+      // .force(
+      //   "collision",
+      //   d3
+      //     .forceCollide()
+      //     .radius((d) => (d as any).radius)
+      //     .iterations(2)
+      // )
+      // .velocityDecay(0.8);
 
     visualLinks = new PIXI.Graphics();
 
@@ -781,6 +781,15 @@ export function runGraphPixi(
     });
 
     setTheme(theme);
+
+    setTimeout(() => {
+      viewport.follow(nodes[0] as any, { acceleration: 0.4 });
+      // viewport.setZoom(1);
+
+      setTimeout(() => {
+        viewport.plugins.remove("follow");
+      }, 1000);
+    }, 10);
   }
 
   function addNodeGfx(node) {

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { runGraphPixi } from "./runPixi";
 import styles from "./pixi.module.css";
 import { Subject } from "rxjs";
@@ -45,6 +45,10 @@ export function PixiGraph({ infoUpdated, graphEvents }) {
   useEffect(() => {
     graphEvents.next({ event: "themeChanged", data: theme });
   }, [theme]);
+
+  useEffect(() => {
+    graphEvents.next({ event: "buildChanged", data: { mode: savedBuild } });
+  }, [savedBuild]);
 
   useEffect(() => {
     let destroyFn;
@@ -118,7 +122,7 @@ export function PixiGraph({ infoUpdated, graphEvents }) {
 
     infoUpdated({});
     return destroyFn;
-  }, [savedBuild]);
+  }, []);
 
   return <div ref={containerRef} className={styles.container} />;
 }

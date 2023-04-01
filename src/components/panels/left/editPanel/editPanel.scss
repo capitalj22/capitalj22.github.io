@@ -1,9 +1,9 @@
 .edit-panel {
   text-align: left;
-
+  padding: 1rem;
   .edit-panel-accordions {
-    margin: 0 -2rem;
-    margin-left: -4rem;
+    margin: 0 -1rem;
+    // margin-left: -4rem;
 
     .edit-panel-accordion-container {
       background: var(--panelColor3);

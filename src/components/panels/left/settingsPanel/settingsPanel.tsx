@@ -58,7 +58,7 @@ export function SettingsPanel({ graphEvents$ }) {
   };
 
   return (
-    <div>
+    <div className="settings-panel">
       <div className="sliders">
         <div className="padding-sm">
           Force Graph Settings

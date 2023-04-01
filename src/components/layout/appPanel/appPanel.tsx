@@ -4,6 +4,7 @@ import CharacterSheet from "../../characterSheet/characterSheet";
 import { CodePanel } from "../../codePanel/codePanel";
 import { Accordion } from "../../layout/accordion/accordion";
 import { SidebarRight } from "../../layout/right/sidebarRight";
+import { EditPanel } from "../../panels/left/editPanel/editPanel";
 import { InfoPanel } from "../../panels/left/infoPanel/infoPanel";
 import { SettingsPanel } from "../../panels/left/settingsPanel/settingsPanel";
 import { AbilityEditor } from "../../panels/right/abilityEditor/abilityEditor";
@@ -48,7 +49,12 @@ export function AppPanel({ graphEvents$, side = "left" }) {
       {selectedMenus[side] === "code" && <CodePanel />}
       {selectedMenus[side] === "help" && <HelpPanel />}
       {selectedMenus[side] === "stats" && <StatEditor />}
-      {selectedMenus[side] === "info" && <InfoPanel graphEvents$={graphEvents$} />}
+      {selectedMenus[side] === "info" &&
+        (appMode === "edit" ? (
+          <EditPanel />
+        ) : (
+          <InfoPanel graphEvents$={graphEvents$} />
+        ))}
       {selectedMenus[side] === "settings" && (
         <SettingsPanel graphEvents$={graphEvents$} />
       )}

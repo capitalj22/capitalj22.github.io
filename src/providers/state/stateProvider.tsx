@@ -25,7 +25,7 @@ function getAppMenuConfig() {
     info: "left",
     sheet: "right",
     settings: "left",
-    theme: "right",
+    theme: "left",
     units: "left",
     zap: "right",
   };
@@ -64,8 +64,7 @@ function appMenuConfigReducer(state, action) {
       "dragon-app-menu-config",
       JSON.stringify(newState)
     );
-    console.log(newState);
-    
+
     return newState;
   }
 }
