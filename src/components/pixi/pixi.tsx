@@ -82,7 +82,7 @@ export function PixiGraph({ infoUpdated, graphEvents }) {
         );
 
         if (!data.ignoreSave) {
-          if (selectedUnitRef.current) {
+          if (selectedUnitRef.current?.unit) {
             if (selectedUnitRef.current.type === "custom") {
               const unit = find(customUnitsRef.current, {
                 id: selectedUnitRef.current.unit.id,
