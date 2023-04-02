@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { find } from "lodash-es";
+import { find, sortBy, uniq } from "lodash-es";
 import { useContext, useEffect, useState } from "react";
 import { Edit, RotateCcw, Save, Trash2 } from "react-feather";
 import { BuildContext } from "../../../../providers/build/buildProvider";
@@ -10,6 +10,7 @@ import { UnitSelect } from "../../../common/selects/unitSelect";
 import { FancyTextInput } from "../../../common/tag-input/fancyTextInput";
 import "./unitCard.scss";
 import { TagSelect } from "../../../characterSheet/abilityCard/tagSelect";
+import { StatTag } from "../../../characterSheet/statTag/statTag";
 
 export function UnitCard({ unit, startEditable = false, unitType = "custom" }) {
   const {
@@ -26,6 +27,7 @@ export function UnitCard({ unit, startEditable = false, unitType = "custom" }) {
   const [name, setName] = useState(unit.name);
   const [unsavedData, setUnsavedData] = useState(false);
   const [unitBuild, setUnitBuild] = useState(unit.build || {});
+  const [tags, setTags] = useState(unit.tags || []);
 
   useEffect(() => {
     if (!unit.name) {
@@ -37,12 +39,12 @@ export function UnitCard({ unit, startEditable = false, unitType = "custom" }) {
     if (unitType === "custom") {
       setCustomUnits({
         type: "update",
-        unit: { ...unit, name, build: unitBuild },
+        unit: { ...unit, name, build: unitBuild, tags: sortBy(tags) },
       });
     } else {
       setDefaultUnits({
         type: "update",
-        unit: { ...unit, name, build: unitBuild },
+        unit: { ...unit, name, build: unitBuild, tags: sortBy(tags) },
       });
     }
     setUnsavedData(false);
@@ -87,6 +89,11 @@ export function UnitCard({ unit, startEditable = false, unitType = "custom" }) {
     setUnsavedData(true);
   };
 
+  const tagsChanged = (e) => {
+    setTags(e);
+    setUnsavedData(true);
+  };
+
   const undoClicked = () => {
     if (!unit.name) {
       deleteUnit();
@@ -122,7 +129,7 @@ export function UnitCard({ unit, startEditable = false, unitType = "custom" }) {
           />
         </div>
         <div className="unit-card-row">
-          <TagSelect tagsChanged={undefined} tags={unit.tags} />
+          <TagSelect tagsChanged={tagsChanged} tags={unit.tags} />
         </div>
         <div className="padding-sm-vertical">
           <BigButton
@@ -153,6 +160,11 @@ export function UnitCard({ unit, startEditable = false, unitType = "custom" }) {
             </SmolButton>
           )}
           <div className="unit-card-name">{unit.name}</div>
+        </div>
+        <div className="tags">
+          {sortBy(uniq([...(unit.tags || []), ...(tags || [])]))?.map((tag) => (
+            <StatTag key={tag} label={tag}></StatTag>
+          ))}
         </div>
       </div>
     );

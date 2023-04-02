@@ -40,17 +40,25 @@
     }
   }
 
-  .form-control {
-    font-size: 1.2em;
-    flex: 2;
-    border-bottom: 1px solid var(--mutedText);
-  }
+ 
 
   .unit-card-name {
+    .form-control {
+      font-size: 1.2em;
+      flex: 2;
+      border-bottom: 1px solid var(--mutedText);
+    }
     font-size: 1.2em;
   }
 
   &.selected .unit-card-name {
     color: var(--themeAccentColor);
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    // justify-content: flex-end;
   }
 }
