@@ -1,4 +1,4 @@
-import { each, find } from "lodash-es";
+import { each, find, isFunction } from "lodash-es";
 import { useContext, useEffect, useState } from "react";
 import { Plus, Tag } from "react-feather";
 import Select from "react-select";
@@ -28,7 +28,13 @@ function getColors(tags, tagColors): any {
   }
 }
 
-export function TagSelect({ tags, type, tagsChanged, typeChanged }) {
+export function TagSelect({
+  tags,
+  tagsChanged,
+  showTypeSelect = false,
+  type = undefined,
+  typeChanged = undefined,
+}) {
   const { tagColors, setTagColors } = useContext(TagsContext);
   const [_tags, setTags] = useState(tags || []);
   const [_type, setType] = useState(type);
@@ -61,7 +67,9 @@ export function TagSelect({ tags, type, tagsChanged, typeChanged }) {
 
   const typeSelected = (e) => {
     setType(e);
-    typeChanged(e);
+    if (isFunction(typeChanged)) {
+      (typeChanged as any)(e);
+    }
   };
 
   const colorChanged = (color, tag) => {
@@ -70,10 +78,11 @@ export function TagSelect({ tags, type, tagsChanged, typeChanged }) {
 
   return (
     <div className="tag-select">
-      <AbilityTypeSelect defaultValue={type} valueChanged={typeSelected} />
+      {showTypeSelect && (
+        <AbilityTypeSelect defaultValue={type} valueChanged={typeSelected} />
+      )}
       {_tags?.map((tag, index) => (
         <span
-        
           key={index}
           className="stat-tag form-control"
           style={{ borderColor: tagColors[tag] }}

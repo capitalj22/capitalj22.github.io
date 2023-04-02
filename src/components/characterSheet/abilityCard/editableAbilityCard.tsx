@@ -2,7 +2,6 @@ import { compact, each, isFunction, map } from "lodash-es";
 import { useContext, useEffect, useRef, useState } from "react";
 import { Copy, RotateCcw, Save, Trash2 } from "react-feather";
 import { Ability } from "../../../entities/abilities/abilities";
-import "./abilityCard.scss";
 import { AbilityParamEditor } from "./abilityParamEditor";
 import { TagSelect } from "./tagSelect";
 import TextareaAutosize from "react-textarea-autosize";
@@ -12,6 +11,7 @@ import { BigButton } from "../../common/buttons/bigButton";
 import "./editableAbilityCard.scss";
 import { Accordion } from "../../layout/accordion/accordion";
 import { SmolButton } from "../../common/buttons/smolButton";
+import { AbilityTypeSelect } from "../../common/selects/abilityTypeSelect";
 
 function formatParams(params = {}) {
   if (params) {
@@ -26,7 +26,7 @@ function formatParams(params = {}) {
   }
 }
 
-function convertParams(params) {
+function convertParams(params): any {
   let newParams = {};
   each(params, (param) => {
     newParams[param.name] = param.value;
@@ -37,10 +37,10 @@ function convertParams(params) {
 
 type Props = {
   ability: Ability;
-  abilityChanged?: (ability: Ability) => void;
+  abilityChanged?: (event: { ability: Ability; id: string }) => void;
   editingCanceled?: () => void;
-  abilityRemoved?: (ability: Ability) => void;
-  abilityCopied: (ability: Ability) => void;
+  abilityRemoved?: (id: string) => void;
+  abilityCopied: (event: { id: string; ability?: Ability }) => void;
 };
 export function EditableAbilityCard({
   ability,
@@ -182,15 +182,19 @@ export function EditableAbilityCard({
           onChange={(e) => updateAbility("description", e.target.value)}
         />
       </p>
+
+      <div className="ability-type">
+        <div>Type</div>
+        <AbilityTypeSelect
+          defaultValue={_ability.type}
+          valueChanged={handleTypeChanged}
+        />
+      </div>
+
       <div className="accordions">
         <Accordion name="Tags" startOpen={true}>
           <div className="tags">
-            <TagSelect
-              tags={_ability.tags}
-              type={_ability.type}
-              tagsChanged={handleTagsChanged}
-              typeChanged={handleTypeChanged}
-            />
+            <TagSelect tags={_ability.tags} tagsChanged={handleTagsChanged} />
           </div>
         </Accordion>
         <Accordion name="Params" startOpen={true}>

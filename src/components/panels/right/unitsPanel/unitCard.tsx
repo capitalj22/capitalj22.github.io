@@ -9,6 +9,7 @@ import { SmolButton } from "../../../common/buttons/smolButton";
 import { UnitSelect } from "../../../common/selects/unitSelect";
 import { FancyTextInput } from "../../../common/tag-input/fancyTextInput";
 import "./unitCard.scss";
+import { TagSelect } from "../../../characterSheet/abilityCard/tagSelect";
 
 export function UnitCard({ unit, startEditable = false, unitType = "custom" }) {
   const {
@@ -62,16 +63,14 @@ export function UnitCard({ unit, startEditable = false, unitType = "custom" }) {
   };
 
   const cardClicked = () => {
-    
     let savedUnit;
-    
+
     if (unitType === "custom") {
       savedUnit = find(customUnits, { id: unit.id });
     } else {
       savedUnit = find(defaultUnits, { id: unit.id });
     }
 
-    
     if (savedUnit.build) {
       setSavedBuild({ type: "imported", build: savedUnit.build });
     } else {
@@ -121,6 +120,9 @@ export function UnitCard({ unit, startEditable = false, unitType = "custom" }) {
             defaultValue={undefined}
             valueChanged={unitCopySelected}
           />
+        </div>
+        <div className="unit-card-row">
+          <TagSelect tagsChanged={undefined} tags={unit.tags} />
         </div>
         <div className="padding-sm-vertical">
           <BigButton
