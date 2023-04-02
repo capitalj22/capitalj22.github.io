@@ -15,8 +15,8 @@
   box-shadow: var(--cardShadow);
   border-radius: 7px;
 
-  > * {
-    z-index: 2;
+  &:not(.editing) > * {
+    z-index: 1;
   }
 
   &.selectable {
@@ -82,7 +82,6 @@
       color: var(--themeColorText);
       font-weight: 600;
     }
-
   }
   .unit-overlay {
     width: 100%;

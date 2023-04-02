@@ -1,5 +1,5 @@
 {
-  "version": "0.0.22",
+  "version": "0.0.23",
   "abilities": [
     {
       "id": "advanced-flying",
@@ -7813,7 +7813,10 @@
     "divination": "#05def7",
     "conjuration": "#f06602",
     "Dragon Breath": "#fb0000",
-    "heal": "#1dc92b"
+    "heal": "#1dc92b",
+    "ranged": "#0f8175",
+    "humanoid": "#74767b",
+    "dragon": "#b03a0b"
   },
   "stats": [
     {
@@ -7843,7 +7846,11 @@
         "attack-node": 1,
         "Dragon-bw--1-ad": 1,
         "Dragon-bw--1-ad-1-dy": 4
-      }
+      },
+      "lvl": 26,
+      "tags": [
+        "dragon"
+      ]
     },
     {
       "id": "unit-6185",
@@ -7855,75 +7862,11 @@
         "attack-node": 1,
         "attack-node-1-dv": 1,
         "node-598526": true
-      }
-    },
-    {
-      "id": "unit-11232",
-      "name": "Archers",
-      "build": {
-        "basic": true,
-        "basic-1-ay": 1,
-        "basic-1-ay-1-ed": 1
-      }
-    },
-    {
-      "id": "unit-1709",
-      "name": "Sea Snake",
-      "build": {
-        "basic": true,
-        "speed": 3,
-        "dash": true,
-        "charge": true,
-        "swimming": true,
-        "advanced-swimming": true,
-        "ferry": true,
-        "diving": true,
-        "attack-from-the-deep": true
-      }
-    },
-    {
-      "id": "unit-12053",
-      "name": "Paladin",
-      "build": {
-        "basic": true,
-        "basic-magic": true,
-        "speed": 2,
-        "dash": true,
-        "charge": true,
-        "armor": 4,
-        "defend-1": 1,
-        "guardian-1": true,
-        "guardian-2": true,
-        "holy-casting": true,
-        "holy-power": true,
-        "holy-avenger": true,
-        "undead-scourge": 2,
-        "paragon-of-divintiy": true,
-        "divine-prof": 2,
-        "paladin": true,
-        "attack-node": 2,
-        "Multi_attack-1-dz": 1
-      }
-    },
-    {
-      "id": "unit-7407",
-      "name": "Cleric",
-      "build": {
-        "basic": true,
-        "basic-magic": true,
-        "speed": 2,
-        "dash": true,
-        "armor": 1,
-        "holy-casting": true,
-        "holy-power": true,
-        "advanced-guiding-bolt": true,
-        "greater-restoration": true,
-        "divine-restoration": true,
-        "paragon-of-divintiy": true,
-        "divine-prof": 3,
-        "cleric": true,
-        "basic-1-ay": 1
-      }
+      },
+      "lvl": 8,
+      "tags": [
+        "undead"
+      ]
     },
     {
       "id": "unit-12702",
@@ -7945,7 +7888,12 @@
         "node-165480": 4,
         "node-453866": 3,
         "node-102568": true
-      }
+      },
+      "lvl": 60,
+      "tags": [
+        "dragon",
+        "undead"
+      ]
     },
     {
       "id": "unit-10444",
@@ -7959,7 +7907,11 @@
         "attack-node": 2,
         "Multi_attack-1-dz": 1,
         "node-598526": true
-      }
+      },
+      "lvl": 17,
+      "tags": [
+        "undead"
+      ]
     },
     {
       "id": "unit-9781",
@@ -7971,7 +7923,11 @@
         "basic-1-ay": 1,
         "basic-1-ay-1-ed": 1,
         "node-598526": true
-      }
+      },
+      "lvl": 7,
+      "tags": [
+        "undead"
+      ]
     },
     {
       "id": "unit-18477",
@@ -7986,7 +7942,11 @@
         "node-598526": true,
         "node-165480": 4,
         "node-453866": 3
-      }
+      },
+      "lvl": 38,
+      "tags": [
+        "undead"
+      ]
     },
     {
       "id": "unit-5590",
@@ -8001,7 +7961,11 @@
         "attack-node": 2,
         "Multi_attack-1-dz": 2,
         "attack-node-1-dv": 1
-      }
+      },
+      "lvl": 34,
+      "tags": [
+        "undead"
+      ]
     },
     {
       "id": "unit-4793",
@@ -8030,7 +7994,11 @@
         "node-276288": 3,
         "node-165949": true,
         "node-511624": true
-      }
+      },
+      "lvl": 66,
+      "tags": [
+        "undead"
+      ]
     },
     {
       "id": "unit-6368",
@@ -8043,7 +8011,11 @@
         "node-433117": true,
         "node-25339": true,
         "node-472314": true
-      }
+      },
+      "lvl": 8,
+      "tags": [
+        "undead"
+      ]
     },
     {
       "id": "unit-14783",
@@ -8056,7 +8028,11 @@
         "swarm": true,
         "attack-node": 1,
         "node-472314": true
-      }
+      },
+      "lvl": 11,
+      "tags": [
+        "undead"
+      ]
     },
     {
       "id": "unit-8087",
@@ -8075,7 +8051,11 @@
         "node-25339": true,
         "node-165480": 4,
         "node-91805": true
-      }
+      },
+      "lvl": 41,
+      "tags": [
+        "undead"
+      ]
     },
     {
       "id": "unit-5486",
@@ -8089,7 +8069,11 @@
         "node-433117": true,
         "node-25339": true,
         "node-549667": 1
-      }
+      },
+      "lvl": 10,
+      "tags": [
+        "undead"
+      ]
     },
     {
       "id": "unit-19934",
@@ -8107,7 +8091,11 @@
         "node-25339": true,
         "node-165480": 2,
         "node-472314": true
-      }
+      },
+      "lvl": 25,
+      "tags": [
+        "undead"
+      ]
     },
     {
       "id": "unit-18019",
@@ -8123,7 +8111,11 @@
         "node-598526": true,
         "node-433117": true,
         "node-232632": 1
-      }
+      },
+      "lvl": 17,
+      "tags": [
+        "humanoid"
+      ]
     },
     {
       "id": "unit-6730",
@@ -8138,12 +8130,20 @@
         "node-433117": true,
         "node-232632": 1,
         "node-20599": 1
-      }
+      },
+      "lvl": 13,
+      "tags": [
+        "humanoid",
+        "ranged"
+      ]
     },
     {
       "id": "unit-16093",
       "name": "Mounted Knights",
-      "build": {}
+      "build": {},
+      "tags": [
+        "humanoid"
+      ]
     }
   ]
 }

@@ -15,6 +15,7 @@ import { StatTag } from "../../../characterSheet/statTag/statTag";
 const LOGOS = {
   dragon: "dragon.jpg",
   undead: "skull.jpg",
+  humanoid: "knight.jpg"
 };
 function getLogo(tags): string {
   let logos = filter(Object.keys(LOGOS), (key) => includes(tags, key));
@@ -118,7 +119,7 @@ export function UnitCard({ unit, startEditable = false, unitType = "custom" }) {
 
   if (isEditing) {
     return (
-      <div className="unit-card">
+      <div className="unit-card editing">
         <div className="unit-card-row"></div>
         <div className="unit-card-row">
           <SmolButton color="info" clicked={undoClicked}>
