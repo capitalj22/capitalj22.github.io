@@ -1,5 +1,5 @@
 {
-  "version": "0.0.19",
+  "version": "0.0.20",
   "abilities": [
     {
       "id": "advanced-flying",
@@ -649,11 +649,13 @@
     {
       "id": "Attack_norm",
       "name": "Melee Attack",
-      "description": "You make 1 melee attack against an adjacent enemy. Roll 1d6{dmg}+%dmg%{/dmg} and do that much damage.\n\n{dmg2} This attack always does at least %dmg2% damage {/dmg2}",
+      "description": "You make 1 melee attack against an adjacent enemy. {base}Roll 1d6{dmg}+%dmg%{/dmg} and do that much damage.{/base}{strong}Roll 1d6{dmg}+%dmg%{/dmg} and do that much damage.{/strong} \n\n{dmg2} This attack always does at least %dmg2% damage {/dmg2}",
       "type": "action",
       "params": {
         "dmg2": 0,
-        "dmg": -1
+        "dmg": -1,
+        "base": 1,
+        "strong": 0
       },
       "tags": [
         "attack"
@@ -663,13 +665,18 @@
     {
       "name": "Ranged Attack",
       "id": "ranged-attack",
-      "description": "You make 1 ranged attack against an enemy. First roll 1d6{range}+%range%{/range} against the number of hexes between you and the target. Must beat this distance. For each success now roll 1d6{dmg}+%dmg%{/dmg} and do that much damage.\n\n{dmg2} This attack always does at least %dmg2% damage {/dmg2}",
-      "tags": [],
+      "description": "You make 1 ranged attack against an enemy. First roll 1d6{range}+%range%{/range} against the number of hexes between you and the target. Must beat this distance. For each success now roll 1d6{dmg}+%dmg%{/dmg} and do that much damage. If target is adjacent to you, do not add any modifier to the roll.\n\n{dmg2} This attack always does at least %dmg2% damage.If target is adjacent to you, has no effect {/dmg2}\n\n{sund} Attacks that hit (can be absorbed) reduce target armor by %sund%, does not stack.{/sund}\n{poi}Attacks that do damage apply a poison debuff, dealing %poi% damage to an enemy at the start of their turn.{/poi}{whis} Attacks made at an enemy cancel the effect of a friendly command aura for the next turn.{/whis}",
+      "tags": [
+        "ranged"
+      ],
       "type": "action",
       "params": {
         "dmg2": 0,
         "dmg": 0,
-        "range": 0
+        "range": 0,
+        "sund": 0,
+        "poi": 0,
+        "whis": 0
       }
     },
     {
@@ -1098,6 +1105,80 @@
       "params": {
         "br-heal": 4
       }
+    },
+    {
+      "name": "Harpoon",
+      "id": "abl-56276",
+      "description": "Any attack that hits and would deal damage can be turned into a harpoon attack instead. The attack now deals no damage but tethers the attacked unit to this one. The attacked unit cannot move farther away then it currently is. The harpooned unit can use %harp% action(s) to dispel the tether.",
+      "tags": [
+        "ranged"
+      ],
+      "type": "action",
+      "params": {
+        "harp": 1
+      }
+    },
+    {
+      "name": "Bone Growth",
+      "id": "abl-116216",
+      "description": "Gain %bne-gro% hp if on top of a deceased skeletal unit.",
+      "tags": [
+        "undead",
+        "healing"
+      ],
+      "type": "action",
+      "params": {
+        "%bne-gro%": 1
+      }
+    },
+    {
+      "name": "Cursed Strikes",
+      "id": "abl-20374",
+      "description": "Attacks now only damage a unit's maximum health.",
+      "tags": [
+        "attack"
+      ],
+      "type": "passive",
+      "params": {}
+    },
+    {
+      "name": "Vampiric Strikes",
+      "id": "abl-166965",
+      "description": "Attacks that do damage to an enemy unit heal you for %vs-heal% hp per hit. {base} Regeneration limited by **Recovery** limit. {/base}{adv} No limit.{/adv}",
+      "tags": [
+        "attack",
+        "healing"
+      ],
+      "type": "passive",
+      "params": {
+        "vs-heal": 1,
+        "base": 1,
+        "adv": 0
+      }
+    },
+    {
+      "name": "Hamstringing Stirkes",
+      "id": "abl-208561",
+      "description": "Each attack that does damage reduces targets movement next turn by %ham% hex(es).",
+      "tags": [
+        "attack",
+        "movement"
+      ],
+      "type": "passive",
+      "params": {
+        "ham": 1
+      }
+    },
+    {
+      "name": "Rampaging Strike",
+      "id": "abl-333881",
+      "description": "Can move 1 hex after each strike.",
+      "tags": [
+        "attack",
+        "movement"
+      ],
+      "type": "passive",
+      "params": {}
     }
   ],
   "abilityTypes": [
@@ -3154,6 +3235,7 @@
       ],
       "requirementType": "and",
       "globalParams": [],
+      "exclusiveWith": [],
       "colors": {
         "unavailable": "#DE7171",
         "selected": "#EF3D3D"
@@ -3226,12 +3308,23 @@
     },
     {
       "id": "attack-node-1-dv",
-      "name": "Piercing attack",
+      "name": "Piercing Strikes",
       "requires": [
         {
           "id": "attack-node",
           "levels": 1
         }
+      ],
+      "requirementType": "and",
+      "description": "Attacks always do some damage.",
+      "globalParams": [],
+      "exclusiveWith": [
+        "attack-node-1-cy",
+        "node-325881",
+        "node-165949",
+        "node-465098",
+        "node-91805",
+        "node-354778"
       ],
       "colors": {
         "unavailable": "#DE7171",
@@ -3276,6 +3369,9 @@
           "levels": 1
         }
       ],
+      "requirementType": "and",
+      "globalParams": [],
+      "exclusiveWith": [],
       "colors": {
         "unavailable": "#9A5C82",
         "selected": "#831256"
@@ -3339,12 +3435,20 @@
     },
     {
       "id": "ranged-piercing-001",
-      "name": "Advanced Arrowheads",
+      "name": "Piercing Arrowheads",
       "requires": [
         {
           "id": "basic-1-ay",
           "levels": 1
         }
+      ],
+      "requirementType": "and",
+      "description": "Ranged attacks pierce armor.",
+      "globalParams": [],
+      "exclusiveWith": [
+        "node-159861",
+        "node-549667",
+        "node-25059"
       ],
       "colors": {
         "unavailable": "#9A5C82",
@@ -3552,6 +3656,14 @@
       ],
       "requirementType": "and",
       "globalParams": [],
+      "exclusiveWith": [
+        "node-465098",
+        "node-165949",
+        "attack-node-1-dv",
+        "node-91805",
+        "node-325881",
+        "node-354778"
+      ],
       "colors": {
         "unavailable": "#DE7171",
         "selected": "#EF3D3D"
@@ -6646,7 +6758,7 @@
       "providedStats": [
         {
           "id": "hp",
-          "modifier": 1,
+          "modifier": 2,
           "set": false
         }
       ]
@@ -6821,7 +6933,9 @@
       "requirementType": "and",
       "description": "You can heal adjacent units.",
       "globalParams": [],
-      "exclusiveWith": [],
+      "exclusiveWith": [
+        "node-279882"
+      ],
       "colors": {
         "unavailable": "#1d4125",
         "selected": "#4ec76f"
@@ -6944,6 +7058,455 @@
             }
           ],
           "gain": true
+        }
+      ]
+    },
+    {
+      "id": "node-279882",
+      "name": "Potion Hoarder",
+      "requires": [
+        {
+          "id": "node-232632",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Heal even better.",
+      "globalParams": [],
+      "exclusiveWith": [
+        "node-394800"
+      ],
+      "colors": {
+        "unavailable": "#1d4125",
+        "selected": "#4ec76f"
+      },
+      "cost": 1,
+      "providedAbilities": [
+        {
+          "id": "abl-52949",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "heal",
+              "modifier": 2,
+              "set": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "node-372669",
+      "name": "Harpoon",
+      "requires": [
+        {
+          "id": "basic-1-ay",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Tether a unit to yourself.",
+      "globalParams": [],
+      "exclusiveWith": [],
+      "colors": {
+        "unavailable": "#9A5C82",
+        "selected": "#831256"
+      },
+      "levels": 3,
+      "levelCost": [
+        2,
+        3,
+        4
+      ],
+      "providedAbilities": [
+        {
+          "id": "abl-56276",
+          "modifier": 1,
+          "modifiers": []
+        }
+      ]
+    },
+    {
+      "id": "node-276288",
+      "name": "Bone Accumulation",
+      "requires": [
+        {
+          "id": "node-598526",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Gain hp by bones.",
+      "globalParams": [],
+      "exclusiveWith": [
+        "node-433117"
+      ],
+      "colors": {
+        "unavailable": "#1d4125",
+        "selected": "#4ec76f"
+      },
+      "levels": 3,
+      "levelCost": [
+        1,
+        1,
+        1
+      ],
+      "providedAbilities": [
+        {
+          "id": "abl-116216",
+          "modifier": 1,
+          "modifiers": []
+        }
+      ]
+    },
+    {
+      "id": "node-165949",
+      "name": "Cursed Strikes",
+      "requires": [
+        {
+          "id": "attack-node",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Attacks damage HP max.",
+      "globalParams": [],
+      "exclusiveWith": [
+        "node-465098",
+        "attack-node-1-dv",
+        "node-91805",
+        "attack-node-1-cy",
+        "node-325881",
+        "node-354778"
+      ],
+      "colors": {
+        "unavailable": "#DE7171",
+        "selected": "#EF3D3D"
+      },
+      "cost": 1,
+      "providedAbilities": [
+        {
+          "id": "abl-20374",
+          "modifier": 1,
+          "modifiers": [],
+          "gain": true
+        }
+      ]
+    },
+    {
+      "id": "node-465098",
+      "name": "Vampiric Strikes",
+      "requires": [
+        {
+          "id": "attack-node",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Attacks heal you.",
+      "globalParams": [],
+      "exclusiveWith": [
+        "attack-node-1-dv",
+        "node-165949",
+        "attack-node-1-cy",
+        "node-325881",
+        "node-354778",
+        "node-91805"
+      ],
+      "colors": {
+        "unavailable": "#DE7171",
+        "selected": "#EF3D3D"
+      },
+      "levels": 2,
+      "levelCost": [
+        3,
+        2
+      ],
+      "providedAbilities": [
+        {
+          "id": "abl-166965",
+          "modifier": 1,
+          "modifiers": []
+        }
+      ]
+    },
+    {
+      "id": "node-91805",
+      "name": "Strengthened Strikes",
+      "requires": [
+        {
+          "id": "attack-node",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Increase base damage.",
+      "globalParams": [],
+      "exclusiveWith": [
+        "attack-node-1-dv",
+        "node-165949",
+        "attack-node-1-cy",
+        "node-465098",
+        "node-325881",
+        "node-354778"
+      ],
+      "colors": {
+        "unavailable": "#DE7171",
+        "selected": "#EF3D3D"
+      },
+      "cost": 1,
+      "providedAbilities": [
+        {
+          "id": "Attack_norm",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "strong",
+              "modifier": 1,
+              "set": false
+            },
+            {
+              "id": "base",
+              "modifier": -1,
+              "set": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "node-471878",
+      "name": "Vampiric Regeneration",
+      "requires": [
+        {
+          "id": "node-465098",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "No limit to regeneration.",
+      "globalParams": [],
+      "exclusiveWith": [],
+      "colors": {
+        "unavailable": "#DE7171",
+        "selected": "#EF3D3D"
+      },
+      "cost": 5,
+      "providedStats": [
+        {
+          "id": "",
+          "modifier": 1,
+          "set": false
+        }
+      ],
+      "providedAbilities": [
+        {
+          "id": "abl-166965",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "base",
+              "modifier": -1,
+              "set": false
+            },
+            {
+              "id": "adv",
+              "modifier": 1,
+              "set": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "node-325881",
+      "name": "Hamstringing Strike",
+      "requires": [
+        {
+          "id": "attack-node",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Slow down opponents.",
+      "globalParams": [],
+      "exclusiveWith": [
+        "attack-node-1-cy",
+        "node-165949",
+        "attack-node-1-dv",
+        "node-465098",
+        "node-91805"
+      ],
+      "colors": {
+        "unavailable": "#DE7171",
+        "selected": "#EF3D3D"
+      },
+      "levels": 3,
+      "levelCost": [
+        2,
+        1,
+        1
+      ],
+      "providedAbilities": [
+        {
+          "id": "abl-208561",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "ham",
+              "modifier": 1,
+              "set": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "node-354778",
+      "name": "Rampaging Strikes",
+      "requires": [
+        {
+          "id": "attack-node",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Can move 1 hex after each strike.",
+      "globalParams": [],
+      "exclusiveWith": [
+        "attack-node-1-cy",
+        "node-165949",
+        "node-325881",
+        "attack-node-1-dv",
+        "node-465098",
+        "node-91805"
+      ],
+      "colors": {
+        "unavailable": "#DE7171",
+        "selected": "#EF3D3D"
+      },
+      "cost": 2,
+      "providedAbilities": [
+        {
+          "id": "abl-333881",
+          "modifier": 1,
+          "modifiers": []
+        }
+      ]
+    },
+    {
+      "id": "node-549667",
+      "name": "Sundering Arrowheads",
+      "requires": [
+        {
+          "id": "basic-1-ay",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Ranged attacks reduce enemy armor.",
+      "globalParams": [],
+      "exclusiveWith": [
+        "ranged-piercing-001",
+        "node-159861",
+        "node-25059"
+      ],
+      "colors": {
+        "unavailable": "#9A5C82",
+        "selected": "#831256"
+      },
+      "levels": 2,
+      "levelCost": [
+        2,
+        2
+      ],
+      "providedAbilities": [
+        {
+          "id": "ranged-attack",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "sund",
+              "modifier": 1,
+              "set": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "node-159861",
+      "name": "Poisoned Arrowheads",
+      "requires": [
+        {
+          "id": "basic-1-ay",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Ranged attacks do damage over time.",
+      "globalParams": [],
+      "exclusiveWith": [
+        "ranged-piercing-001",
+        "node-549667",
+        "node-25059"
+      ],
+      "colors": {
+        "unavailable": "#9A5C82",
+        "selected": "#831256"
+      },
+      "levels": 2,
+      "levelCost": [
+        2,
+        2
+      ],
+      "providedAbilities": [
+        {
+          "id": "ranged-attack",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "poi",
+              "modifier": 1,
+              "set": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "node-25059",
+      "name": "Whistling Arrowheads",
+      "requires": [
+        {
+          "id": "basic-1-ay",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Your arrows cause a high pitched whistling, both scaring and distracting units.",
+      "globalParams": [],
+      "exclusiveWith": [
+        "ranged-piercing-001",
+        "node-159861",
+        "node-549667"
+      ],
+      "colors": {
+        "unavailable": "#9A5C82",
+        "selected": "#831256"
+      },
+      "cost": 1,
+      "providedAbilities": [
+        {
+          "id": "ranged-attack",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "whis",
+              "modifier": 1,
+              "set": false
+            }
+          ]
         }
       ]
     }

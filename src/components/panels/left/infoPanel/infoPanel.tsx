@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { each, find, isUndefined, map, reduce, times } from "lodash-es";
+import { divide, each, find, isUndefined, map, reduce, times } from "lodash-es";
 import { useContext, useEffect, useRef, useState } from "react";
 import { AbilitiesContext } from "../../../../providers/abilities/abilitiesProvider";
 import { BuildContext } from "../../../../providers/build/buildProvider";
@@ -27,6 +27,10 @@ function getAcquired(node, nodeMeta) {
     }
   }
   return [];
+}
+
+function nameFromId(id, nodes) {
+  return find(nodes, { id })?.name;
 }
 
 function getRelatedAbilities(node, abilities) {
@@ -223,9 +227,20 @@ export function InfoPanel({ graphEvents$ }) {
         <div className="divider" style={{ backgroundColor: nodeColor }}></div>
         {!nodeMeta?.available[node?.id] ? (
           <div className="requires">
-            Requires <span className="skill">{requiredTextRef.current}</span>
+            <span>Requires</span>{" "}
+            <span className="skill">{requiredTextRef.current}</span>
           </div>
         ) : null}
+        {!!node?.exclusiveWith?.length && (
+          <div className="exclusions">
+            Exclusive With
+            <div className="skills">
+              {node?.exclusiveWith?.map((exclusion) => (
+                <div className="skill">{nameFromId(exclusion, nodes)}</div>
+              ))}
+            </div>
+          </div>
+        )}
         <div className="info-description">{node?.description}</div>
         {relatedAbilities.length > 0 && (
           <div className="abilities">

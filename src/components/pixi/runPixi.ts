@@ -46,7 +46,7 @@ export function runGraphPixi(
           newBuild(e.data.build);
           redrawNodes();
           redrawLinks();
-          
+
           break;
         case "forcesUpdated":
           forces = e.data.forces;
@@ -147,7 +147,7 @@ export function runGraphPixi(
         acquired: nodeMeta.acquired[n.id],
       })),
       nodeMeta: nodeMeta,
-      ignoreSave: true
+      ignoreSave: true,
     });
   }
 
@@ -525,32 +525,7 @@ export function runGraphPixi(
         node.gfx.cursor = "pointer";
       }
 
-      if (node.exclusiveWith?.length > 0) {
-        if (isEditing && mode === "edit") {
-          node.gfx.beginFill(getNodeColor(node, nodeMeta, "selected"));
-          drawTriangle(node.gfx, 8);
-          node.gfx.endFill();
-        } else if (selected) {
-          node.gfx.beginFill(getNodeColor(node, nodeMeta));
-          drawTriangle(node.gfx, 8);
-          node.gfx.endFill();
-        } else if (available) {
-          node.gfx.lineStyle(1, getNodeColor(node, nodeMeta), 1);
-          drawTriangle(node.gfx, 8);
-          node.gfx.endFill();
-
-          node.gfx.beginFill(0xffffff);
-          node.gfx.lineStyle();
-          drawTriangle(node.gfx, 4);
-          node.gfx.endFill();
-        } else {
-          node.gfx.beginFill(getNodeColor(node, nodeMeta));
-          drawTriangle(node.gfx, 6);
-
-          node.gfx.endFill();
-        }
-        node.gfx.hitArea = new PIXI.Circle(0, 0, 12 + 10);
-      } else if (
+      if (
         !targetNodeId ||
         node.id !== targetNodeId ||
         node.levels ||
@@ -559,7 +534,7 @@ export function runGraphPixi(
         if (node.levels && node.levels > 1) {
           const width = 4 + node.levels * 15;
           const levelsAcquired = nodeMeta.acquired[node.id];
-
+          const borderRadius = node.exclusiveWith?.length ? 2: 8;
           let lowerBound = -(width / 2);
 
           node.gfx.lineStyle(
@@ -570,7 +545,7 @@ export function runGraphPixi(
           );
           node.gfx.beginFill(toPixiColor(bgColor));
           node.gfx.drawShape(
-            new PIXI.RoundedRectangle(lowerBound, -6, width, 16, 4)
+            new PIXI.RoundedRectangle(lowerBound, -6, width, 16, borderRadius)
           );
           node.gfx.endFill();
 
@@ -632,6 +607,31 @@ export function runGraphPixi(
           }
           node.gfx.hitArea = new PIXI.Circle(0, 0, size + 10);
         }
+      } else if (node.exclusiveWith?.length > 0) {
+        if (isEditing && mode === "edit") {
+          node.gfx.beginFill(getNodeColor(node, nodeMeta, "selected"));
+          drawTriangle(node.gfx, 8);
+          node.gfx.endFill();
+        } else if (selected) {
+          node.gfx.beginFill(getNodeColor(node, nodeMeta));
+          drawTriangle(node.gfx, 8);
+          node.gfx.endFill();
+        } else if (available) {
+          node.gfx.lineStyle(1, getNodeColor(node, nodeMeta), 1);
+          drawTriangle(node.gfx, 8);
+          node.gfx.endFill();
+
+          node.gfx.beginFill(0xffffff);
+          node.gfx.lineStyle();
+          drawTriangle(node.gfx, 4);
+          node.gfx.endFill();
+        } else {
+          node.gfx.beginFill(getNodeColor(node, nodeMeta));
+          drawTriangle(node.gfx, 6);
+
+          node.gfx.endFill();
+        }
+        node.gfx.hitArea = new PIXI.Circle(0, 0, 12 + 10);
       } else if (node.id === targetNodeId && selected) {
         const node = find(nodes, { id: targetNodeId });
         let targetSize = selected ? cost * 2 + 6 : cost * 2 + 2;
@@ -784,7 +784,7 @@ export function runGraphPixi(
         acquired: nodeMeta.acquired[n.id],
       })),
       nodeMeta,
-      ignoreSave: true
+      ignoreSave: true,
     });
 
     setTheme(theme);
