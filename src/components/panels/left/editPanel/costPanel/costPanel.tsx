@@ -62,7 +62,7 @@ export function CostPanel({ levels, levelCost, cost, color, levelsChanged }) {
     let newCost = clone(_levelCost);
     if (!event.shiftKey) {
       newCost[index] += 1;
-    } else if (newCost[index] > 1) {
+    } else {
       newCost[index] -= 1;
     }
     update(_levels, newCost, levelsChanged);
@@ -75,7 +75,11 @@ export function CostPanel({ levels, levelCost, cost, color, levelsChanged }) {
       </button>
       <div className="levels">
         {times(_levels, (index) => (
-          <span key={index} onClick={(e) => costClicked(e, index)} className="level-points">
+          <span
+            key={index}
+            onClick={(e) => costClicked(e, index)}
+            className="level-points"
+          >
             <span
               className="level-dot"
               style={{

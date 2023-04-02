@@ -216,7 +216,7 @@ export function InfoPanel({ graphEvents$ }) {
                 })}
                 style={acquired ? { background: nodeColor } : {}}
               >
-                {node?.cost > 1 ? node?.cost : ""}
+                {node?.cost !== 1 && node.cost !== undefined ? node?.cost : ""}
               </span>
             </span>
           )}
