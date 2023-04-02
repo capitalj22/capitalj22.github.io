@@ -169,10 +169,10 @@ export function UnitCard({ unit, startEditable = false, unitType = "custom" }) {
         })}
       >
         {!!logo && (
-          <div
+          <img
             className="unit-overlay"
-            style={{ backgroundImage: `url("cardbacks/${logo}")` }}
-          ></div>
+            src={`cardbacks/${logo}`}
+          ></img>
         )}
         <div className="unit-card-row">
           <div className="left">

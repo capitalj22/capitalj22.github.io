@@ -32,6 +32,26 @@
     outline: 2px solid var(--themeAccentColor);
   }
 
+  .unit-overlay {
+    width: 65%;
+    height: 100%;
+    z-index: 1;
+    position: absolute;
+    bottom: 0;
+    mix-blend-mode: darken;
+    opacity: 0.18;
+    pointer-events: none;
+    top: 0;
+    right: 0;
+    object-fit: cover;
+  }
+
+  &.selected .unit-overlay {
+    opacity: 0.1;
+    filter: invert(1);
+    mix-blend-mode: lighten;
+  }
+
   transition: border-color 0.25s ease-in-out;
 
   .unit-card-row {
@@ -82,21 +102,5 @@
       color: var(--themeColorText);
       font-weight: 600;
     }
-  }
-  .unit-overlay {
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    position: absolute;
-    bottom: 0;
-    mix-blend-mode: darken;
-    opacity: 0.14;
-    background-size: 16rem;
-    background-repeat: no-repeat;
-    background-position-y: 45%;
-    pointer-events: none;
-    top: 0;
-    left: 0;
-    background-position-x: right;
   }
 }
