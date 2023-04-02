@@ -27,25 +27,44 @@ function mapGlobalParams(params) {
   });
 }
 
-function processTags(str, params) {
-  const regex = /{([^}]*)}([^]*?){\/\1}/g;
+function processTags(str, params, isGlobal) {
+  const globalRegex = /{@([^}]*)}([^]*?){\/\1}/g;
+  const localRegex = /{([^}]*)}([^]*?){\/\1}/g;
 
-  return str.replace(regex, (match, tag, text) => {
-    if (params[tag] > 0) {
-      return text;
+  const regex = isGlobal ? globalRegex : localRegex;
+
+  const replace = (textToReplace) => {
+    let hasMatch = false;
+    const fixedString = textToReplace.replace(regex, (match, tag, text) => {
+      hasMatch = !!match;
+      if (params[tag] > 0) {
+        return text;
+      } else {
+        return "";
+      }
+    });
+
+    return { fixedString, hasMatch };
+  };
+
+  const recursiveReplace = (textToReplace) => {
+    let { fixedString, hasMatch } = replace(textToReplace);
+    if (hasMatch) {
+      return recursiveReplace(fixedString);
     } else {
-      return "";
+      return fixedString;
     }
-  });
+  };
+
+  return recursiveReplace(str);
 }
 
 function applyParamsToDescription(description, params, globalParams) {
   let editedDescription = description;
 
+  editedDescription = processTags(editedDescription, params, false);
   each(Object.keys(params), (key) => {
     let value = params[key];
-
-    editedDescription = processTags(editedDescription, params);
 
     editedDescription = editedDescription.replace(
       new RegExp("%" + key + "%", "g"),
@@ -54,20 +73,11 @@ function applyParamsToDescription(description, params, globalParams) {
   });
 
   if (globalParams) {
+    editedDescription = processTags(editedDescription, globalParams, true);
+
     each(Object.keys(globalParams), (key) => {
       let value = globalParams[key];
 
-      if (globalParams[key] && globalParams[key] > 0) {
-        editedDescription = editedDescription.replace(
-          new RegExp(`\{\@\\b${key}\\b\}([^*]+)\\\{\/\\b${key}\\b\}`),
-          "$1"
-        );
-      } else {
-        editedDescription = editedDescription.replace(
-          new RegExp(`\{\@\\b${key}\\b\}([^*]+)\\\{\/\\b${key}\\b\}`),
-          ""
-        );
-      }
       editedDescription = editedDescription.replace(
         new RegExp(`%@${key}%`, "g"),
         value
