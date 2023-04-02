@@ -4,6 +4,7 @@ import { Check } from "react-feather";
 import { TagsContext } from "../../../providers/tags/tagsProvider";
 import { ThemeContext } from "../../../providers/theme.provider";
 import "./statTag.scss";
+import chroma from "chroma-js";
 
 interface Props {
   label: string;
@@ -25,19 +26,23 @@ function getStyle(
   let style: React.CSSProperties = {};
   const tagColor = colorOverride || color;
   style.borderColor = tagColor;
+  const selectedTextColor =
+    chroma.contrast(tagColor, "white") > 3 ? "#eee" : "#313232";
 
   if (selected) {
     style.backgroundColor = tagColor;
     style.fontWeight = 500;
+    style.color = selectedTextColor;
   }
+
   if (emphasize) {
     style.borderColor = "transparent";
     style.backgroundColor = tagColor;
-    style.color = "#222";
+    style.color = selectedTextColor;
     style.fontWeight = 600;
     style.borderRadius = 12;
-  } else {
   }
+
   if (isFunction(clicked)) {
     style.cursor = "pointer";
     style.paddingRight = "32px";
@@ -46,7 +51,7 @@ function getStyle(
   if (theme === "light") {
     // style.backgroundColor = tagColor;
     style.borderWidth = 2;
-    style.color = "#333";
+    // style.color = "#333";
   }
 
   return style;
