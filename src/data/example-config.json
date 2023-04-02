@@ -1,5 +1,5 @@
 {
-  "version": "0.0.21",
+  "version": "0.0.22",
   "abilities": [
     {
       "id": "advanced-flying",
@@ -575,37 +575,47 @@
     {
       "name": "Raise Dead",
       "id": "raise-dead",
-      "description": "Raise a deceased unit as a zombie horde with %raiseHp%% health.",
+      "description": "{base}Raise a deceased unit as a zombie horde with %raiseHp%% health.{/base}{num}Raise 2 deceased unit as a zombie horde with %raiseHp%% health.{/num}",
       "tags": [
         "necromancy",
         "spell"
       ],
       "type": "action",
       "params": {
-        "raiseHp": 25
+        "raiseHp": 25,
+        "num": 0,
+        "base": 1
       }
     },
     {
       "name": "Life Drain",
       "id": "raise-dead-copy",
-      "description": "Create a link between you and a target within range. Each turn as a bonus action you can tap that link (including turn 1) . Tapping the link deals 1 damage to the target's HP and gives that HP to you. \n\n This spell lasts as long as the target remains within 6 hexes of the caster.",
+      "description": "Create a link between you and a target within range. Each turn as a bonus action you can tap that link (including turn 1) . Tapping the link deals %dmg% damage to the target's HP and gives that HP to you. \n\n This spell lasts as long as the target remains within 6 hexes of the caster.",
       "tags": [
         "necromancy",
         "spell",
         "healing",
         "concentration"
       ],
-      "type": "action"
+      "type": "action",
+      "params": {
+        "dmg": 1
+      }
     },
     {
       "name": "Wither",
       "id": "wither",
-      "description": "curse a target within range with:\n   \n-1 armor\n   -1 attack \n   -1 movement\n\nLasts 2 turns. This spell lasts as long as the target remains within 6 hexes of the caster.",
+      "description": "curse a target within range with:\n   \n-%arm% armor\n   -%atk% attack \n   -%mve% movement\n\nLasts 2 turns. This spell lasts as long as the target remains within 6 hexes of the caster.",
       "tags": [
         "spell",
         "necromancy"
       ],
-      "type": "action"
+      "type": "action",
+      "params": {
+        "atk": 1,
+        "mve": 1,
+        "arm": 1
+      }
     },
     {
       "name": "Unrelenting Horde",
@@ -665,7 +675,7 @@
     {
       "name": "Ranged Attack",
       "id": "ranged-attack",
-      "description": "You make 1 ranged attack against an enemy. First roll 1d6{range}+%range%{/range} against the number of hexes between you and the target. Must beat this distance. For each success now roll 1d6{dmg}+%dmg%{/dmg} and do that much damage. If target is adjacent to you, do not add any modifier to the roll.\n\n{dmg2} This attack always does at least %dmg2% damage.If target is adjacent to you, has no effect {/dmg2}\n\n{sund} Attacks that hit (can be absorbed) reduce target armor by %sund%, does not stack.{/sund}\n{poi}Attacks that do damage apply a poison debuff, dealing %poi% damage to an enemy at the start of their turn.{/poi}{whis} Attacks made at an enemy cancel the effect of a friendly command aura for the next turn.{/whis}",
+      "description": "You make %multi% ranged attack(s) against an enemy. First roll 1d6{range}+%range%{/range} against the number of hexes between you and the target. Must beat this distance. For each success now roll 1d6{dmg}+%dmg%{/dmg} and do that much damage. If target is adjacent to you, do not add any modifier to the roll.\n\n{dmg2} This attack always does at least %dmg2% damage.If target is adjacent to you, has no effect {/dmg2}\n\n{sund} Attacks that hit (can be absorbed) reduce target armor by %sund%, does not stack.{/sund}\n{poi}Attacks that do damage apply a poison debuff, dealing %poi% damage to an enemy at the start of their turn.{/poi}{whis} Attacks made at an enemy cancel the effect of a friendly command aura for the next turn.{/whis}",
       "tags": [
         "ranged"
       ],
@@ -676,7 +686,8 @@
         "range": 0,
         "sund": 0,
         "poi": 0,
-        "whis": 0
+        "whis": 0,
+        "multi": 1
       }
     },
     {
@@ -1022,7 +1033,7 @@
     {
       "name": "Breath Attacks",
       "id": "breath-attacks",
-      "description": "Can use Dragon Breath %bw-use% times per day.{bw-rchrg} Can spend 1 action to recharge %bw-rchrg% breath attack use. {/bw-rchrg}{bw-cat} Bonus action: Can spend 3 hp to regain %bw-cat% breath attack uses.{/bw-cat}{bw-ann} Bonus action: Can spend 1  breath attack uses to regain  %bw-ann% hp.{/bw-cat}\n",
+      "description": "Can use Dragon Breath %bw-use% times per day.\n\n{bw-rchrg} Can spend 1 action to recharge %bw-rchrg% breath attack use. {/bw-rchrg}\n\n{bw-cat} Bonus action: Can spend 3 hp to regain %bw-cat% breath attack uses.{/bw-cat}\n\n{bw-ann} Bonus action: Can spend 1  breath attack uses to regain  %bw-ann% hp.{/bw-ann}\n",
       "tags": [
         "Dragon Breath"
       ],
@@ -1184,6 +1195,17 @@
         "movement"
       ],
       "type": "passive",
+      "params": {}
+    },
+    {
+      "name": "Infecting Strikes",
+      "id": "abl-615608",
+      "description": "Units killed by you rise again as undead loyal to you.",
+      "tags": [
+        "attack",
+        "undead"
+      ],
+      "type": "action",
       "params": {}
     }
   ],
@@ -1875,7 +1897,7 @@
           "gain": true,
           "modifiers": [
             {
-              "id": "hp",
+              "id": "armor",
               "modifier": 1,
               "set": false
             }
@@ -2826,21 +2848,25 @@
       ]
     },
     {
-      "colors": {
-        "unavailable": "#8eaf60",
-        "selected": "#b7ff2c"
-      },
       "id": "necro-prof",
+      "name": "Necromantic Profiency",
       "requires": [
         {
           "id": "basic-magic-5",
           "levels": 1
         }
       ],
-      "name": "Necromantic Profiency",
+      "requirementType": "and",
       "description": "Increases the number of necromancy spells you can cast",
-      "levels": 2,
+      "globalParams": [],
+      "exclusiveWith": [],
+      "colors": {
+        "unavailable": "#8eaf60",
+        "selected": "#b7ff2c"
+      },
+      "levels": 3,
       "levelCost": [
+        1,
         1,
         1
       ],
@@ -2888,27 +2914,35 @@
       ]
     },
     {
-      "colors": {
-        "unavailable": "#8eaf60",
-        "selected": "#b7ff2c"
-      },
       "id": "necro-prof-2",
+      "name": "Life Giver",
       "requires": [
         {
           "id": "necro-prof",
           "levels": 1
         }
       ],
-      "name": "Necromancer",
-      "description": "You can now cast 2 necromancy spells per action.",
+      "requirementType": "and",
+      "description": "Stronger minion management.",
+      "globalParams": [],
+      "exclusiveWith": [],
+      "colors": {
+        "unavailable": "#8eaf60",
+        "selected": "#b7ff2c"
+      },
       "cost": 1,
       "providedAbilities": [
         {
-          "id": "necromancy",
+          "id": "raise-dead",
           "modifier": 1,
           "modifiers": [
             {
-              "id": "spellsPerAction",
+              "id": "base",
+              "modifier": -1,
+              "set": false
+            },
+            {
+              "id": "num",
               "modifier": 1,
               "set": false
             }
@@ -6800,7 +6834,7 @@
       "providedStats": [
         {
           "id": "hp",
-          "modifier": 1,
+          "modifier": 6,
           "set": false
         }
       ],
@@ -7657,6 +7691,103 @@
           ]
         }
       ]
+    },
+    {
+      "id": "node-472314",
+      "name": "Infecting Strikes",
+      "requires": [
+        {
+          "id": "attack-node",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Units that you kill rise again as undead.",
+      "globalParams": [],
+      "exclusiveWith": [
+        "attack-node-1-cy",
+        "node-165949",
+        "node-325881",
+        "attack-node-1-dv",
+        "node-465098",
+        "node-354778",
+        "node-91805"
+      ],
+      "colors": {
+        "unavailable": "#DE7171",
+        "selected": "#EF3D3D"
+      },
+      "cost": 1,
+      "providedAbilities": [
+        {
+          "id": "abl-615608",
+          "modifier": 1,
+          "modifiers": [],
+          "gain": true
+        }
+      ]
+    },
+    {
+      "id": "node-511624",
+      "name": "Lich",
+      "requires": [
+        {
+          "id": "node-598526",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "You are very hard to kill.",
+      "globalParams": [],
+      "exclusiveWith": [],
+      "colors": {
+        "unavailable": "#1d4125",
+        "selected": "#4ec76f"
+      },
+      "cost": 5,
+      "providedStats": [
+        {
+          "id": "hp",
+          "modifier": 10,
+          "set": false
+        }
+      ]
+    },
+    {
+      "id": "node-20599",
+      "name": "Multishot",
+      "requires": [
+        {
+          "id": "basic-1-ay",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Can shoot more.",
+      "globalParams": [],
+      "exclusiveWith": [],
+      "colors": {
+        "unavailable": "#9A5C82",
+        "selected": "#831256"
+      },
+      "levels": 2,
+      "levelCost": [
+        1,
+        1
+      ],
+      "providedAbilities": [
+        {
+          "id": "ranged-attack",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "multi",
+              "modifier": 1,
+              "set": false
+            }
+          ]
+        }
+      ]
     }
   ],
   "tagColors": {
@@ -7815,6 +7946,204 @@
         "node-453866": 3,
         "node-102568": true
       }
+    },
+    {
+      "id": "unit-10444",
+      "name": "Skeletal Spear Troop",
+      "build": {
+        "basic": true,
+        "speed": 2,
+        "armor": 2,
+        "defend-1": 2,
+        "brace": true,
+        "attack-node": 2,
+        "Multi_attack-1-dz": 1,
+        "node-598526": true
+      }
+    },
+    {
+      "id": "unit-9781",
+      "name": "Skeletal Archer Troop",
+      "build": {
+        "basic": true,
+        "speed": 2,
+        "armor": 1,
+        "basic-1-ay": 1,
+        "basic-1-ay-1-ed": 1,
+        "node-598526": true
+      }
+    },
+    {
+      "id": "unit-18477",
+      "name": "Skeletal Hound",
+      "build": {
+        "basic": true,
+        "speed": 7,
+        "dash": true,
+        "armor": 3,
+        "attack-node": 2,
+        "Multi_attack-1-dz": 2,
+        "node-598526": true,
+        "node-165480": 4,
+        "node-453866": 3
+      }
+    },
+    {
+      "id": "unit-5590",
+      "name": "Skeletal Champion",
+      "build": {
+        "basic": true,
+        "speed": 2,
+        "armor": 6,
+        "command": true,
+        "command-plus": 3,
+        "aggro-command": true,
+        "attack-node": 2,
+        "Multi_attack-1-dz": 2,
+        "attack-node-1-dv": 1
+      }
+    },
+    {
+      "id": "unit-4793",
+      "name": "Skeletal Lich",
+      "build": {
+        "basic": true,
+        "basic-magic": true,
+        "speed": 3,
+        "armor": 5,
+        "magic-range-1": 2,
+        "command": true,
+        "command-plus": 3,
+        "command-2": true,
+        "basic-magic-5": true,
+        "necromancy-raise-dead": true,
+        "necromancy-raise-dead-1": true,
+        "necro-prof": 2,
+        "necro-prof-1": true,
+        "necro-prof-2": true,
+        "attack-node": 4,
+        "basic-magic-1-by": true,
+        "basic-magic-1-by-1-ex": 1,
+        "node-598526": true,
+        "node-165480": 4,
+        "node-453866": 3,
+        "node-276288": 3,
+        "node-165949": true,
+        "node-511624": true
+      }
+    },
+    {
+      "id": "unit-6368",
+      "name": "Zombie Horde",
+      "build": {
+        "basic": true,
+        "speed": 2,
+        "attack-node": 1,
+        "node-598526": true,
+        "node-433117": true,
+        "node-25339": true,
+        "node-472314": true
+      }
+    },
+    {
+      "id": "unit-14783",
+      "name": "Zombie Bat",
+      "build": {
+        "basic": true,
+        "speed": 5,
+        "flying": true,
+        "death-bomb": true,
+        "swarm": true,
+        "attack-node": 1,
+        "node-472314": true
+      }
+    },
+    {
+      "id": "unit-8087",
+      "name": "Zombie Flesh Titan",
+      "build": {
+        "basic": true,
+        "speed": 4,
+        "armor": 2,
+        "attack-node": 3,
+        "Multi_attack-1-dz": 2,
+        "Seige-attacker": 3,
+        "Massive-1-dx": true,
+        "Hurler-1-dx-1-bv": 1,
+        "node-598526": true,
+        "node-433117": true,
+        "node-25339": true,
+        "node-165480": 4,
+        "node-91805": true
+      }
+    },
+    {
+      "id": "unit-5486",
+      "name": "Zombie Goo Bomber",
+      "build": {
+        "basic": true,
+        "speed": 2,
+        "attack-node": 1,
+        "basic-1-ay": 1,
+        "node-598526": true,
+        "node-433117": true,
+        "node-25339": true,
+        "node-549667": 1
+      }
+    },
+    {
+      "id": "unit-19934",
+      "name": "Zombie Elite",
+      "build": {
+        "basic": true,
+        "speed": 2,
+        "armor": 2,
+        "command": true,
+        "command-plus": 1,
+        "attack-node": 2,
+        "Multi_attack-1-dz": 2,
+        "node-598526": true,
+        "node-433117": true,
+        "node-25339": true,
+        "node-165480": 2,
+        "node-472314": true
+      }
+    },
+    {
+      "id": "unit-18019",
+      "name": "Footman Company",
+      "build": {
+        "basic": true,
+        "speed": 2,
+        "armor": 3,
+        "defend-1": 1,
+        "attack-node": 1,
+        "Multi_attack-1-dz": 1,
+        "attack-node-1-bv": 2,
+        "node-598526": true,
+        "node-433117": true,
+        "node-232632": 1
+      }
+    },
+    {
+      "id": "unit-6730",
+      "name": "Archer Company",
+      "build": {
+        "basic": true,
+        "speed": 2,
+        "armor": 2,
+        "basic-1-ay": 1,
+        "basic-1-ay-1-ed": 2,
+        "node-598526": true,
+        "node-433117": true,
+        "node-232632": 1,
+        "node-20599": 1
+      }
+    },
+    {
+      "id": "unit-16093",
+      "name": "Mounted Knights",
+      "build": {}
     }
   ]
 }

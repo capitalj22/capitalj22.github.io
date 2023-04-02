@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { find, sortBy, uniq } from "lodash-es";
+import { each, filter, find, includes, sortBy, uniq } from "lodash-es";
 import { useContext, useEffect, useState } from "react";
 import { Edit, RotateCcw, Save, Trash2 } from "react-feather";
 import { BuildContext } from "../../../../providers/build/buildProvider";
@@ -11,6 +11,19 @@ import { FancyTextInput } from "../../../common/tag-input/fancyTextInput";
 import "./unitCard.scss";
 import { TagSelect } from "../../../characterSheet/abilityCard/tagSelect";
 import { StatTag } from "../../../characterSheet/statTag/statTag";
+
+const LOGOS = {
+  dragon: "dragon.jpg",
+  undead: "skull.jpg",
+};
+function getLogo(tags): string {
+  let logos = filter(Object.keys(LOGOS), (key) => includes(tags, key));
+  if (logos.length) {
+    return LOGOS[logos[0]];
+  } else {
+    return "";
+  }
+}
 
 export function UnitCard({ unit, startEditable = false, unitType = "custom" }) {
   const {
@@ -28,6 +41,7 @@ export function UnitCard({ unit, startEditable = false, unitType = "custom" }) {
   const [unsavedData, setUnsavedData] = useState(false);
   const [unitBuild, setUnitBuild] = useState(unit.build || {});
   const [tags, setTags] = useState(unit.tags || []);
+  const [logo, setLogo] = useState(getLogo(tags));
 
   useEffect(() => {
     if (!unit.name) {
@@ -153,6 +167,12 @@ export function UnitCard({ unit, startEditable = false, unitType = "custom" }) {
           selected: selectedUnit?.unit?.id === unit.id,
         })}
       >
+        {!!logo && (
+          <div
+            className="unit-overlay"
+            style={{ backgroundImage: `url("cardbacks/${logo}")` }}
+          ></div>
+        )}
         <div className="unit-card-row">
           <div className="left">
             {(unitType === "custom" || appMode === "edit") && (

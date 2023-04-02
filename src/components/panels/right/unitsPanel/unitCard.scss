@@ -1,4 +1,5 @@
 .unit-card {
+  position: relative;
   min-width: 6rem;
   min-height: 4rem;
 
@@ -13,6 +14,10 @@
   border: var(--cardBorder);
   box-shadow: var(--cardShadow);
   border-radius: 7px;
+
+  > * {
+    z-index: 2;
+  }
 
   &.selectable {
     cursor: pointer;
@@ -47,8 +52,6 @@
     }
   }
 
- 
-
   .unit-card-name {
     font-weight: 300;
     .form-control {
@@ -74,10 +77,27 @@
   .level {
     font-weight: 300;
     color: var(--mutedText);
-    
+
     .value {
       color: var(--themeColorText);
       font-weight: 600;
     }
+
+  }
+  .unit-overlay {
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    position: absolute;
+    bottom: 0;
+    mix-blend-mode: darken;
+    opacity: 0.14;
+    background-size: 16rem;
+    background-repeat: no-repeat;
+    background-position-y: 45%;
+    pointer-events: none;
+    top: 0;
+    left: 0;
+    background-position-x: right;
   }
 }
