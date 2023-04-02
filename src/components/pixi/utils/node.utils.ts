@@ -26,10 +26,7 @@ export const acquiredselectNodeAndReturnNewMeta = (
         newMeta.acquired[selectedNode.id] = 0;
       }
 
-      if (
-        acquired >= 0 &&
-        acquired <= selectedNode.levels
-      ) {
+      if (acquired >= 0 && acquired <= selectedNode.levels) {
         newMeta.acquired[selectedNode.id] = acquired;
       }
     } else {
@@ -97,16 +94,20 @@ export const updateAvailability = (nodes, nodeMeta) => {
 
       nodeMeta.available[node.id] = available;
     }
+  });
 
+  each(nodes, (node) => {
     if (node.exclusiveWith?.length) {
       let passes = true;
-      each(node.exclusiveWith, (id) => {
-        passes = !nodeMeta.selected[id] && !nodeMeta.acquired[id];
+      each(node.exclusiveWith, (exclusion) => {
+        passes =
+          passes &&
+          !(nodeMeta.selected[exclusion] || nodeMeta.acquired[exclusion]);
       });
+
       nodeMeta.available[node.id] = passes && nodeMeta.available[node.id];
     }
   });
-
   return nodeMeta;
 };
 

@@ -639,30 +639,36 @@ export function runGraphPixi(
         let size = !selected ? cost * 2 + 6 : cost * 2 + 2;
         let iteration = 0;
 
-        const animation = setInterval(() => {
-          iteration++;
-          if (!selected) {
-            size -= iteration * 0.4;
-          } else {
-            size += iteration * 0.4;
-          }
+        if (node?.exclusiveWith?.length) {
+          node.gfx.beginFill(getNodeColor(node, nodeMeta));
+          drawTriangle(node.gfx, 8);
+          node.gfx.endFill();
+        } else {
+          const animation = setInterval(() => {
+            iteration++;
+            if (!selected) {
+              size -= iteration * 0.4;
+            } else {
+              size += iteration * 0.4;
+            }
 
-          node?.gfx.clear();
+            node?.gfx.clear();
 
-          node?.gfx.beginFill(getNodeColor(node, nodeMeta));
+            node?.gfx.beginFill(getNodeColor(node, nodeMeta));
 
-          node?.gfx.drawCircle(0, 0, size);
+            node?.gfx.drawCircle(0, 0, size);
 
-          node?.gfx.endFill();
+            node?.gfx.endFill();
 
-          if (selected) {
-            if (size >= targetSize) {
+            if (selected) {
+              if (size >= targetSize) {
+                clearInterval(animation);
+              }
+            } else if (size <= targetSize) {
               clearInterval(animation);
             }
-          } else if (size <= targetSize) {
-            clearInterval(animation);
-          }
-        }, 5);
+          }, 5);
+        }
       }
 
       addNodeLabel(node.gfx, node.name);
