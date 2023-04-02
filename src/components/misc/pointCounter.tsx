@@ -18,8 +18,11 @@ export function PointCounter({ pointsSpent }) {
 
   return (
     <div className="point-counter">
-      {unit && <div>Unit: {unit?.name}</div>}
-      <div>Spent: {pointsSpent}</div>
+      {unit && <div>{unit?.name}</div>}
+      <div className="level">
+        <span className="label">lvl</span>{" "}
+        <span className="value">{pointsSpent}</span>
+      </div>
     </div>
   );
 }

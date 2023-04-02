@@ -1,5 +1,6 @@
 .point-counter {
-  color: var(--themeColorText);
+  color: var(--themeAccentColor);
+  font-weight: 500;
   z-index: 2;
   font-size: 1em;
   padding: 0.5rem 1rem;
@@ -14,5 +15,16 @@
   @media only screen and (max-width: 800px) {
     position: absolute;
     bottom: 0;
+  }
+
+  .level {
+    color: var(--themeColorText);
+    .label {
+      font-weight: 300;
+    }
+
+    .value {
+      font-weight: 500;
+    }
   }
 }

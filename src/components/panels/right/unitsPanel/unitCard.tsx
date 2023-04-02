@@ -154,12 +154,17 @@ export function UnitCard({ unit, startEditable = false, unitType = "custom" }) {
         })}
       >
         <div className="unit-card-row">
-          {(unitType === "custom" || appMode === "edit") && (
-            <SmolButton color="info" clicked={(e) => setIsEditing(true)}>
-              <Edit />
-            </SmolButton>
-          )}
-          <div className="unit-card-name">{unit.name}</div>
+          <div className="left">
+            {(unitType === "custom" || appMode === "edit") && (
+              <SmolButton color="info" clicked={(e) => setIsEditing(true)}>
+                <Edit />
+              </SmolButton>
+            )}
+            <div className="unit-card-name">{unit.name}</div>
+          </div>
+          <div className="level">
+            level <span className="value">{unit.lvl || "?"}</span>
+          </div>
         </div>
         <div className="tags">
           {sortBy(uniq([...(unit.tags || []), ...(tags || [])]))?.map((tag) => (

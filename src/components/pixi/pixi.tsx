@@ -90,7 +90,7 @@ export function PixiGraph({ infoUpdated, graphEvents }) {
 
               setCustomUnits({
                 type: "update",
-                unit: { ...unit, build: build.exportableBuild },
+                unit: { ...unit, build: build.exportableBuild, lvl: build.pointsInvested },
               });
             } else {
               const unit = find(defaultUnitsRef.current, {
@@ -99,7 +99,7 @@ export function PixiGraph({ infoUpdated, graphEvents }) {
 
               setDefaultUnits({
                 type: "update",
-                unit: { ...unit, build: build.exportableBuild },
+                unit: { ...unit, build: build.exportableBuild, lvl: build.pointsInvested },
               });
             }
           }
