@@ -26,23 +26,26 @@ function mapGlobalParams(params) {
     globalParams[param.id] = param.modifier;
   });
 }
+
+function processTags(str, params) {
+  const regex = /{([^}]*)}([^]*?){\/\1}/g;
+
+  return str.replace(regex, (match, tag, text) => {
+    if (params[tag] > 0) {
+      return text;
+    } else {
+      return "";
+    }
+  });
+}
+
 function applyParamsToDescription(description, params, globalParams) {
   let editedDescription = description;
 
   each(Object.keys(params), (key) => {
     let value = params[key];
 
-    if (params[key] && params[key] > 0) {
-      editedDescription = editedDescription.replace(
-        new RegExp(`\{\\b${key}\\b\}([^*]+)\\\{\/\\b${key}\\b\}`),
-        "$1"
-      );
-    } else {
-      editedDescription = editedDescription.replace(
-        new RegExp(`\{\\b${key}\\b\}([^*]+)\\\{\/\\b${key}\\b\}`),
-        ""
-      );
-    }
+    editedDescription = processTags(editedDescription, params);
 
     editedDescription = editedDescription.replace(
       new RegExp("%" + key + "%", "g"),
@@ -71,7 +74,6 @@ function applyParamsToDescription(description, params, globalParams) {
       );
     });
   }
-
   return editedDescription;
 }
 
@@ -235,7 +237,13 @@ export function AbilityCard({
                 className="description"
                 components={{
                   code: ({ node, ...props }) => (
-                    <span style={{ color: "var(--themeColorText)", fontWeight: 500 }} {...props} />
+                    <span
+                      style={{
+                        color: "var(--themeColorText)",
+                        fontWeight: 500,
+                      }}
+                      {...props}
+                    />
                   ),
                   ol: ({ node, ...props }) => (
                     <ol style={{ margin: "0" }} {...props} />
