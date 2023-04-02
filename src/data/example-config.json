@@ -1,5 +1,5 @@
 {
-  "version": "0.0.20",
+  "version": "0.0.21",
   "abilities": [
     {
       "id": "advanced-flying",
@@ -649,7 +649,7 @@
     {
       "id": "Attack_norm",
       "name": "Melee Attack",
-      "description": "You make 1 melee attack against an adjacent enemy. {base}Roll 1d6{dmg}+%dmg%{/dmg} and do that much damage.{/base}{strong}Roll 1d6{dmg}+%dmg%{/dmg} and do that much damage.{/strong} \n\n{dmg2} This attack always does at least %dmg2% damage {/dmg2}",
+      "description": "You make 1 melee attack against an adjacent enemy. {base}Roll 1d6{dmg}+%dmg%{/dmg} and do that much damage.{/base}\n\n{strong}Roll 1d8{dmg}+%dmg%{/dmg} and do that much damage.{/strong} \n\n{dmg2} This attack always does at least %dmg2% damage {/dmg2}",
       "type": "action",
       "params": {
         "dmg2": 0,
@@ -1002,19 +1002,21 @@
     {
       "name": "Dragon Breath",
       "id": "Drag-breath-001",
-      "description": "Your dragon unleashes its breath attack on a unit within %bw-rng% hexes. That unit takes %bw-dmg% points of absorbable damage. {bw-eff} It takes two actions to remove this lasting effect.{/bw-eff} \n\n{bw-burn} Target units begin burning for %bw-burn% hp (not absorbable) per turn.{/bw-burn}\n\n{bw-bite} Target units lose  %bw-bite% speed.{/bw-bite}\n\n{bw-weak} Target units do %bw-weak% less damage per attack.{/bw-weak}\n\n{bw-sund} Target units lose %bw-sund% armor.{/bw-sund}",
+      "description": "{base}Your dragon unleashes its breath attack on an adjacent unit.{/base}{area}Your dragon unleashes its breath attack on an adjacent unit and a line-area of 2 hexes with your breath weapon attack.{/area}  That unit takes %bw-dmg% points of absorbable damage. {bw-eff} It takes two actions to remove this lasting effect.{/bw-eff} \n\n{bw-burn} Target units begin burning for %bw-burn% hp (not absorbable) per turn.{/bw-burn}\n\n{bw-bite} Target units lose  %bw-bite% speed.{/bw-bite}\n\n{bw-weak} Target units do %bw-weak% less damage per attack.{/bw-weak}\n\n{bw-sund} Target units lose %bw-sund% armor.{/bw-sund}\n\n{bw-pierce} Breath weapon attacks always do at least 1 damage to hp.{/bw-pierce}",
       "tags": [
         "Dragon Breath"
       ],
       "type": "action",
       "params": {
-        "bw-rng": 1,
         "bw-dmg": 3,
         "bw-eff": 0,
         "bw-burn": 0,
         "bw-bite": 0,
         "bw-weak": 0,
-        "bw-sund": 0
+        "bw-sund": 0,
+        "base": 1,
+        "area": 0,
+        "bw-pierce": 0
       }
     },
     {
@@ -1036,7 +1038,7 @@
     {
       "name": "Draconic Bombardment",
       "id": "draconic-bombardment",
-      "description": "You can now target an unoccupied hex with your breath weapon attack. Deal %bw2-dmg% damage (absorbable) to that hex or a unit on that hex.{bw-block}The hex targeted by your draconic attack becomes impassible. It can however be destroyed. It has %bw-block% hp. If used on a unit, the blocker is not created.{/bw-block}",
+      "description": "{base}You can now target a  hex with your breath weapon attack.{/base}{area}You can now target a line-area of 2 hexes with your breath weapon attack.{/area} Deal %bw2-dmg% damage (absorbable) to that hex or a unit on that hex.{bw-block}The hex targeted by your draconic attack becomes impassible. It can however be destroyed. It has %bw-block% hp. If used on a unit, the blocker is still created, and the unit can use half its movement to move out of it.{/bw-block}{bw-quag}The hex targeted by your draconic attack becomes a quagmire. It lasts for %bw-quag% turns.{/bw-quag}{bw-pierce} Breath weapon attacks always do at least 1 damage to hp.{/bw-pierce}",
       "tags": [
         "Dragon Breath"
       ],
@@ -1044,7 +1046,11 @@
       "replaces": "Drag-breath-001",
       "params": {
         "bw2-dmg": 3,
-        "bw-block": 0
+        "bw-block": 0,
+        "bw-quag": 0,
+        "base": 1,
+        "area": 0,
+        "bw-pierce": 0
       }
     },
     {
@@ -1240,11 +1246,11 @@
       "providedStats": [
         {
           "id": "hp",
-          "modifier": 5
+          "modifier": 3
         },
         {
           "id": "armor",
-          "modifier": 2
+          "modifier": 0
         },
         {
           "id": "movement",
@@ -3332,8 +3338,8 @@
       },
       "levels": 2,
       "levelCost": [
-        1,
-        3
+        2,
+        5
       ],
       "providedAbilities": [
         {
@@ -6277,6 +6283,12 @@
           "modifier": 1,
           "modifiers": [],
           "gain": false
+        },
+        {
+          "id": "breath-attacks",
+          "modifier": 1,
+          "modifiers": [],
+          "gain": true
         }
       ]
     },
@@ -6611,7 +6623,7 @@
     },
     {
       "id": "lasting-effect-001",
-      "name": "Lasting Effect",
+      "name": "Potent Dragonfire",
       "requires": [
         {
           "id": "Dragon-bw--1-ad",
@@ -6643,7 +6655,7 @@
     },
     {
       "id": "Dragon-bw-environ-1-ad-1-cx",
-      "name": "Environmental Devestation",
+      "name": "Powerful Dragonfire",
       "requires": [
         {
           "id": "Dragon-bw--1-ad",
@@ -6675,7 +6687,7 @@
     },
     {
       "id": "Dragon-bw-environ-1-ad-1-cx-1-ad",
-      "name": "Field of Fire",
+      "name": "Impassible Dragonfire",
       "requires": [
         {
           "id": "Dragon-bw-environ-1-ad-1-cx",
@@ -6685,7 +6697,9 @@
       "requirementType": "and",
       "description": "Units cannot walk through a hex hit by your draconic attack.",
       "globalParams": [],
-      "exclusiveWith": [],
+      "exclusiveWith": [
+        "node-459869"
+      ],
       "colors": {
         "unavailable": "#752223",
         "selected": "#ec2c2c"
@@ -6732,7 +6746,7 @@
       "providedStats": [
         {
           "id": "hp",
-          "modifier": 1,
+          "modifier": 3,
           "set": false
         }
       ]
@@ -6816,11 +6830,11 @@
         "unavailable": "#1d4125",
         "selected": "#4ec76f"
       },
-      "cost": 4,
+      "cost": 1,
       "providedStats": [
         {
           "id": "hp",
-          "modifier": 1,
+          "modifier": 8,
           "set": false
         }
       ]
@@ -6842,11 +6856,11 @@
         "unavailable": "#1d4125",
         "selected": "#4ec76f"
       },
-      "cost": 3,
+      "cost": 1,
       "providedStats": [
         {
           "id": "hp",
-          "modifier": 1,
+          "modifier": 4,
           "set": false
         }
       ]
@@ -7509,6 +7523,140 @@
           ]
         }
       ]
+    },
+    {
+      "id": "node-459869",
+      "name": "Draconic Quagmire",
+      "requires": [
+        {
+          "id": "Dragon-bw-environ-1-ad-1-cx",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Your dragonfire creates a quagmire, nearly impossible to cross.",
+      "globalParams": [],
+      "exclusiveWith": [
+        "Dragon-bw-environ-1-ad-1-cx-1-ad"
+      ],
+      "colors": {
+        "unavailable": "#752223",
+        "selected": "#ec2c2c"
+      },
+      "levels": 2,
+      "levelCost": [
+        1,
+        1
+      ],
+      "providedAbilities": [
+        {
+          "id": "draconic-bombardment",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "bw-quag",
+              "modifier": 5,
+              "set": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "node-531160",
+      "name": "Powerful Explusion",
+      "requires": [
+        {
+          "id": "Dragon-bw--1-ad",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Draconic breath attack now hits multiple hexes.",
+      "globalParams": [],
+      "exclusiveWith": [],
+      "colors": {
+        "unavailable": "#752223",
+        "selected": "#ec2c2c"
+      },
+      "cost": 1,
+      "providedAbilities": [
+        {
+          "id": "Drag-breath-001",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "base",
+              "modifier": -1,
+              "set": false
+            },
+            {
+              "id": "area",
+              "modifier": 1,
+              "set": false
+            }
+          ]
+        },
+        {
+          "id": "draconic-bombardment",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "base",
+              "modifier": -1,
+              "set": false
+            },
+            {
+              "id": "area",
+              "modifier": 1,
+              "set": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "node-102568",
+      "name": "Blasting Breathweapon",
+      "requires": [
+        {
+          "id": "Dragon-bw--1-ad",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Breath attacks always do at least 1 damage.",
+      "globalParams": [],
+      "exclusiveWith": [],
+      "colors": {
+        "unavailable": "#752223",
+        "selected": "#ec2c2c"
+      },
+      "cost": 3,
+      "providedAbilities": [
+        {
+          "id": "Drag-breath-001",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "bw-pierce",
+              "modifier": 1,
+              "set": false
+            }
+          ]
+        },
+        {
+          "id": "draconic-bombardment",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "bw-pierce",
+              "modifier": 1,
+              "set": false
+            }
+          ]
+        }
+      ]
     }
   ],
   "tagColors": {
@@ -7556,21 +7704,26 @@
       "name": "Base Dragon",
       "build": {
         "basic": true,
-        "speed": 2,
-        "armor": 3,
+        "speed": 7,
+        "flying": true,
+        "strafing-run": true,
+        "armor": 5,
         "professionals": true,
-        "Dragon-bw--1-ad": 1
+        "attack-node": 1,
+        "Dragon-bw--1-ad": 1,
+        "Dragon-bw--1-ad-1-dy": 4
       }
     },
     {
       "id": "unit-6185",
-      "name": "Skellington",
+      "name": "Skeleton-base",
       "build": {
         "basic": true,
         "speed": 1,
-        "armor": 1,
+        "armor": 2,
         "attack-node": 1,
-        "attack-node-1-dv": 1
+        "attack-node-1-dv": 1,
+        "node-598526": true
       }
     },
     {
@@ -7639,6 +7792,28 @@
         "divine-prof": 3,
         "cleric": true,
         "basic-1-ay": 1
+      }
+    },
+    {
+      "id": "unit-12702",
+      "name": "Bone Dragon",
+      "build": {
+        "basic": true,
+        "speed": 7,
+        "flying": true,
+        "armor": 5,
+        "defend-1": 1,
+        "attack-node": 3,
+        "Multi_attack-1-dz": 2,
+        "attack-node-1-dv": 1,
+        "Dragon-bw--1-ad": 1,
+        "Dragon-bw--1-ad-1-dy": 4,
+        "Dragon-bw--1-ad-1-az": 1,
+        "lasting-effect-001": true,
+        "node-598526": true,
+        "node-165480": 4,
+        "node-453866": 3,
+        "node-102568": true
       }
     }
   ]
