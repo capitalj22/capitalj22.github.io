@@ -106,7 +106,7 @@ function formatKnownAbilitiesAndTags(build, abilities) {
 }
 
 function CharacterSheet() {
-  const { build } = useContext(BuildContext);
+  const { build, selectedUnit } = useContext(BuildContext);
   const { abilityTypes, abilities } = useContext(AbilitiesContext);
   const [knownAbilities, setKnownAbilities] = useState({});
   const [knownAbilitiesByType, setKnownAbilitiesByType] = useState({});
@@ -144,9 +144,9 @@ function CharacterSheet() {
   return (
     <div className="character-sheet">
       <div className="stats">
-        <div className="title">Stats</div>
+        <div className="title">{selectedUnit?.unit?.name}</div>
         <StatLine
-          label=" Skill Points Spent"
+          label="Level"
           value={build.pointsInvested}
         ></StatLine>
         {map(stats, (stat, key) => (

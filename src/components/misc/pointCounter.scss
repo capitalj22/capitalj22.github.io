@@ -1,20 +1,27 @@
 .point-counter {
   color: var(--themeAccentColor);
   font-weight: 500;
-  z-index: 2;
+  z-index: 1;
   font-size: 1em;
   padding: 0.5rem 1rem;
   display: flex;
-  flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-
   align-self: flex-end;
   user-select: none;
+  position: fixed;
+  left: 45%;
+  gap: 0.5rem;
+  border-radius: 0 0 8px 8px;
+  background: var(--cardBg);
+  border: var(--cardBorder);
+  border-top: none;
+  box-shadow: var(--cardShadow);
 
   @media only screen and (max-width: 800px) {
     position: absolute;
     bottom: 0;
+    left: 0;
   }
 
   .level {

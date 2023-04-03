@@ -16,6 +16,7 @@
 
   .abilities {
     padding-bottom: 5rem;
+
     .title {
       padding-left: 2rem;
       padding-bottom: 1rem;
@@ -38,7 +39,7 @@
   }
 
   .title {
-    color: var(--infoColor);
+    color: var(--themeAccentColor);
     font-size: 2em;
     font-weight: 300;
   }

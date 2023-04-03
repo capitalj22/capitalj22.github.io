@@ -91,12 +91,12 @@ export function Main() {
     >
       <div className="appLeft">
         <LeftPanel graphEvents$={graphEvents$}></LeftPanel>
-        <PointCounter pointsSpent={build.pointsInvested}></PointCounter>
       </div>
       <div className="appRight">
         <RightPanel graphEvents$={graphEvents$}></RightPanel>
       </div>
       <div className="skill-panel">
+        <PointCounter pointsSpent={build.pointsInvested}></PointCounter>
         <PixiGraph
           infoUpdated={infoUpdated}
           graphEvents={graphEvents$}
