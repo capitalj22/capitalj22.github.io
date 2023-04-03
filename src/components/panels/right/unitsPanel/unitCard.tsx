@@ -13,9 +13,9 @@ import { TagSelect } from "../../../characterSheet/abilityCard/tagSelect";
 import { StatTag } from "../../../characterSheet/statTag/statTag";
 
 const LOGOS = {
-  dragon: "dragon.jpg",
-  undead: "skull.jpg",
-  humanoid: "knight.jpg"
+  dragon: "dragon.png ",
+  undead: "skull.png",
+  humanoid: "knight.png"
 };
 function getLogo(tags): string {
   let logos = filter(Object.keys(LOGOS), (key) => includes(tags, key));
