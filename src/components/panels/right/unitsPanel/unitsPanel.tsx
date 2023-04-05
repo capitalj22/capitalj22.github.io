@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Plus } from "react-feather";
+import { ArrowDown, ArrowUp, Plus } from "react-feather";
 import { BuildContext } from "../../../../providers/build/buildProvider";
 import { stateContext } from "../../../../providers/state/stateProvider";
 import { BigButton } from "../../../common/buttons/bigButton";
@@ -8,7 +8,8 @@ import { UnitCard } from "./unitCard";
 import "./unitsPanel.scss";
 import { AbilityFiltersProvider } from "../../../common/filters/abilityFilterProvider";
 import { AbilityFilterPanel } from "../../../common/filters/abilityFilterPanel";
-import { difference, filter, reduce, sortBy, uniq } from "lodash-es";
+import { difference, filter, orderBy, reduce, sortBy, uniq } from "lodash-es";
+import { SmolButton } from "../../../common/buttons/smolButton";
 
 function getDefaultUnitTags(defaultUnits) {
   return reduce(
@@ -49,6 +50,8 @@ export function UnitsPanel() {
     getDefaultUnitTags(defaultUnits)
   );
   const [filters, setFilters] = useState({ tags: null, textFilter: null });
+  const [sortProp, setSortProp] = useState("name");
+  const [sortDirection, setSortDirection] = useState("asc" as "desc" | "asc");
 
   useEffect(() => {
     setDefaultUnitTags(getDefaultUnitTags(defaultUnits));
@@ -93,8 +96,41 @@ export function UnitsPanel() {
             filtersUpdated={setFilters}
           />
           <div className="padding-md">
+            <div className="sort-panel">
+              sort by:
+              <div>
+                <SmolButton
+                  color={sortProp === "name" ? "theme" : "mutedText"}
+                  clicked={() => setSortProp("name")}
+                >
+                  name
+                </SmolButton>
+                <SmolButton
+                  color={sortProp === "lvl" ? "theme" : "mutedText"}
+                  clicked={() => setSortProp("lvl")}
+                >
+                  level
+                </SmolButton>
+                <SmolButton
+                  color="info"
+                  clicked={() =>
+                    setSortDirection(sortDirection === "asc" ? "desc" : "asc")
+                  }
+                >
+                  {sortDirection === "desc" ? (
+                    <ArrowUp size={16} />
+                  ) : (
+                    <ArrowDown size={16} />
+                  )}{" "}
+                </SmolButton>
+              </div>
+            </div>
             <div className="unit-cards">
-              {filterUnits(defaultUnits, filters).map((unit) => (
+              {orderBy(
+                filterUnits(defaultUnits, filters),
+                sortProp,
+                sortDirection
+              ).map((unit) => (
                 <UnitCard key={unit.id} unit={unit} unitType="default" />
               ))}
             </div>
