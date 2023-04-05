@@ -1,5 +1,5 @@
 {
-  "version": "0.0.23",
+  "version": "0.0.24",
   "abilities": [
     {
       "id": "advanced-flying",
@@ -477,8 +477,12 @@
       "description": "If this unit can move up to %movement% hexes in the water. If the unit's speed is less than %movement% it can move up to its speed.",
       "type": "movement",
       "tags": [
-        "aquatic"
-      ]
+        "aquatic",
+        "movement"
+      ],
+      "params": {
+        "movement": 0
+      }
     },
     {
       "id": "turn-undead",
@@ -1207,6 +1211,21 @@
       ],
       "type": "action",
       "params": {}
+    },
+    {
+      "name": "Flaming Strikes",
+      "id": "abl-43627",
+      "description": "{base} Units that you deal damage to via attacks are set on fire. They take %dmg% hp damage at the start of their turn.{/base}{adv}Units that you attack are set on fire. They take %dmg% hp damage at the start of their turn.{/adv}",
+      "tags": [
+        "attack",
+        "debuff"
+      ],
+      "type": "passive",
+      "params": {
+        "base": 1,
+        "dmg": 1,
+        "adv": 0
+      }
     }
   ],
   "abilityTypes": [
@@ -1333,7 +1352,10 @@
           "levels": 1
         }
       ],
+      "requirementType": "and",
       "description": "Allows you to move one additional hex per turn",
+      "globalParams": [],
+      "exclusiveWith": [],
       "colors": {
         "unavailable": "#648264",
         "selected": "#51db53"
@@ -1344,22 +1366,38 @@
           "id": "movement",
           "modifier": 1
         }
+      ],
+      "providedAbilities": [
+        {
+          "id": "swimming",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "movement",
+              "modifier": 1,
+              "set": false
+            }
+          ]
+        }
       ]
     },
     {
+      "id": "versatile",
+      "name": "Versatile",
+      "requires": [
+        {
+          "id": "speed",
+          "levels": 3
+        }
+      ],
+      "requirementType": "and",
+      "description": "Grants the Versatile ability",
+      "globalParams": [],
+      "exclusiveWith": [],
       "colors": {
         "unavailable": "#648264",
         "selected": "#51db53"
       },
-      "id": "versatile",
-      "requires": [
-        {
-          "id": "speed",
-          "levels": 4
-        }
-      ],
-      "name": "Versatile",
-      "description": "Grants the Versatile ability",
       "cost": 1,
       "providedAbilities": [
         {
@@ -2158,48 +2196,77 @@
       ]
     },
     {
-      "colors": {
-        "unavailable": "#3f5576",
-        "selected": "#1a72f5"
-      },
       "id": "swimming",
+      "name": "Swimming",
       "requires": [
         {
           "id": "speed",
           "levels": 1
         }
       ],
-      "name": "Swimming",
-      "description": "Congrats! You are a unit.",
-      "cost": 1,
-      "providedAbilities": [
-        {
-          "id": "swimming",
-          "gain": true
-        }
-      ]
-    },
-    {
+      "requirementType": "and",
+      "description": "Congrats! You can swim!",
+      "globalParams": [],
+      "exclusiveWith": [],
       "colors": {
         "unavailable": "#3f5576",
         "selected": "#1a72f5"
       },
+      "levels": 2,
+      "levelCost": [
+        1,
+        1
+      ],
+      "providedAbilities": [
+        {
+          "id": "swimming",
+          "gain": true,
+          "modifiers": [
+            {
+              "id": "",
+              "modifier": 2,
+              "set": false
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "advanced-swimming",
+      "name": "Advanded Swimming",
       "requires": [
         {
           "id": "swimming",
           "levels": 1
         }
       ],
-      "name": "Advanded Swimming",
-      "description": "Increases potential water speed by 3.",
+      "requirementType": "and",
+      "description": "Your swim speed is faster.",
+      "globalParams": [],
+      "exclusiveWith": [],
+      "colors": {
+        "unavailable": "#3f5576",
+        "selected": "#1a72f5"
+      },
       "cost": 1,
+      "providedStats": [
+        {
+          "id": "",
+          "modifier": 1,
+          "set": false
+        }
+      ],
       "providedAbilities": [
         {
           "id": "swimming",
-          "modifiers": {
-            "movement": 3
-          }
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "movement",
+              "modifier": 3,
+              "set": false
+            }
+          ]
         }
       ]
     },
@@ -7772,8 +7839,8 @@
       },
       "levels": 2,
       "levelCost": [
-        1,
-        1
+        2,
+        3
       ],
       "providedAbilities": [
         {
@@ -7782,6 +7849,128 @@
           "modifiers": [
             {
               "id": "multi",
+              "modifier": 1,
+              "set": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "node-198555",
+      "name": "Wooden",
+      "requires": [
+        {
+          "id": "node-598526",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Congratulations! You are a ship.",
+      "globalParams": [],
+      "exclusiveWith": [],
+      "colors": {
+        "unavailable": "#1d4125",
+        "selected": "#4ec76f"
+      },
+      "cost": 5,
+      "providedStats": [
+        {
+          "id": "hp",
+          "modifier": 12,
+          "set": false
+        }
+      ]
+    },
+    {
+      "id": "node-467568",
+      "name": "Flaming Strikes",
+      "requires": [
+        {
+          "id": "attack-node",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Attacks set enemies on fire.",
+      "globalParams": [],
+      "exclusiveWith": [],
+      "colors": {
+        "unavailable": "#DE7171",
+        "selected": "#EF3D3D"
+      },
+      "cost": 2,
+      "providedAbilities": [
+        {
+          "id": "abl-43627",
+          "modifier": 1,
+          "modifiers": [],
+          "gain": true
+        }
+      ]
+    },
+    {
+      "id": "node-112458",
+      "name": "Spreading Flame",
+      "requires": [
+        {
+          "id": "node-467568",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Flame spreads more easily.",
+      "globalParams": [],
+      "exclusiveWith": [],
+      "colors": {
+        "unavailable": "#DE7171",
+        "selected": "#EF3D3D"
+      },
+      "cost": 3,
+      "providedAbilities": [
+        {
+          "id": "abl-43627",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "adv",
+              "modifier": 1,
+              "set": false
+            },
+            {
+              "id": "base",
+              "modifier": -1,
+              "set": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "node-60905",
+      "name": "Stronger Flame",
+      "requires": [
+        {
+          "id": "node-467568",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Flame debuff does more damage.",
+      "globalParams": [],
+      "exclusiveWith": [],
+      "colors": {
+        "unavailable": "#DE7171",
+        "selected": "#EF3D3D"
+      },
+      "cost": 4,
+      "providedAbilities": [
+        {
+          "id": "abl-43627",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "dmg",
               "modifier": 1,
               "set": false
             }
@@ -7816,7 +8005,8 @@
     "heal": "#1dc92b",
     "ranged": "#0f8175",
     "humanoid": "#74767b",
-    "dragon": "#b03a0b"
+    "dragon": "#b03a0b",
+    "debuff": "#1a1818"
   },
   "stats": [
     {
@@ -8144,6 +8334,46 @@
       "tags": [
         "humanoid"
       ]
+    },
+    {
+      "id": "unit-464",
+      "name": "Corsair",
+      "build": {
+        "basic": true,
+        "speed": 2,
+        "versatile": true,
+        "armor": 2,
+        "attack-node": 1,
+        "Multi_attack-1-dz": 1,
+        "node-598526": true,
+        "node-433117": true
+      },
+      "tags": [
+        "humanoid"
+      ],
+      "lvl": 12
+    },
+    {
+      "id": "unit-3606",
+      "name": "Corsair Ship",
+      "build": {
+        "basic": true,
+        "speed": 3,
+        "armor": 3,
+        "advanced-swimming": true,
+        "ferry": true,
+        "basic-1-ay": 2,
+        "basic-1-ay-1-ed": 3,
+        "ranged-piercing-001": true,
+        "node-598526": true,
+        "node-372669": 2,
+        "node-20599": 2,
+        "node-198555": true
+      },
+      "tags": [
+        "ship"
+      ],
+      "lvl": 37
     }
   ]
 }
