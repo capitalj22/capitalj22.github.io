@@ -1,5 +1,5 @@
 {
-  "version": "0.0.24",
+  "version": "0.0.25",
   "abilities": [
     {
       "id": "advanced-flying",
@@ -1053,7 +1053,7 @@
     {
       "name": "Draconic Bombardment",
       "id": "draconic-bombardment",
-      "description": "{base}You can now target a  hex with your breath weapon attack.{/base}{area}You can now target a line-area of 2 hexes with your breath weapon attack.{/area} Deal %bw2-dmg% damage (absorbable) to that hex or a unit on that hex.{bw-block}The hex targeted by your draconic attack becomes impassible. It can however be destroyed. It has %bw-block% hp. If used on a unit, the blocker is still created, and the unit can use half its movement to move out of it.{/bw-block}{bw-quag}The hex targeted by your draconic attack becomes a quagmire. It lasts for %bw-quag% turns.{/bw-quag}{bw-pierce} Breath weapon attacks always do at least 1 damage to hp.{/bw-pierce}",
+      "description": "{base}You can now target a  hex with your breath weapon attack.{/base}{area}You can now target a line-area of 2 hexes with your breath weapon attack.{/area} Deal %bw2-dmg% damage (absorbable) to that hex or a unit on that hex.{bw-block}The hex targeted by your draconic attack becomes impassible. It can however be destroyed. It has %bw-block% hp. If used on a unit, the blocker is still created, and the unit can use half its movement to move out of it.{/bw-block}{bw-quag}The hex targeted by your draconic attack becomes difficult terrain, units can enter the hex as normal but leaving the hex costs %bw-quag-str% movement to exit from. It lasts for %bw-quag% turns.{/bw-quag}{bw-pierce} Breath weapon attacks always do at least 1 damage to hp.{/bw-pierce}",
       "tags": [
         "Dragon Breath"
       ],
@@ -1065,7 +1065,8 @@
         "bw-quag": 0,
         "base": 1,
         "area": 0,
-        "bw-pierce": 0
+        "bw-pierce": 0,
+        "bw-quag-str": 0
       }
     },
     {
@@ -1092,7 +1093,7 @@
     {
       "name": "Recovery",
       "id": "abl-525999",
-      "description": "You can regain %recov% hp in a single day.",
+      "description": "You can regain %recov% hp in a single day. Magical healing can override this limitation.",
       "tags": [
         "healing"
       ],
@@ -1331,7 +1332,7 @@
         "unavailable": "#878787",
         "selected": "#96b7bd"
       },
-      "cost": 1,
+      "cost": 2,
       "providedAbilities": [
         {
           "id": "cantrip-barrage",
@@ -1578,20 +1579,23 @@
       ]
     },
     {
-      "colors": {
-        "unavailable": "#506b73",
-        "selected": "#4dd2f7"
-      },
       "id": "flying",
+      "name": "Flying",
       "requires": [
         {
           "id": "speed",
           "levels": 4
         }
       ],
-      "name": "Flying",
+      "requirementType": "and",
       "description": "Grants you the ability to fly",
-      "cost": 1,
+      "globalParams": [],
+      "exclusiveWith": [],
+      "colors": {
+        "unavailable": "#506b73",
+        "selected": "#4dd2f7"
+      },
+      "cost": 2,
       "providedAbilities": [
         {
           "id": "flying",
@@ -2093,11 +2097,12 @@
       "requirementType": "and",
       "description": "Grants you the ability to cast Holy/Divine Spells.",
       "globalParams": [],
+      "exclusiveWith": [],
       "colors": {
         "unavailable": "#C5B986",
         "selected": "#e2c846"
       },
-      "cost": 1,
+      "cost": 2,
       "providedAbilities": [
         {
           "id": "smite",
@@ -2515,19 +2520,22 @@
       ]
     },
     {
-      "colors": {
-        "unavailable": "#7fbfba",
-        "selected": "#3ceac8"
-      },
       "id": "command",
+      "name": "Command",
       "requires": [
         {
           "id": "basic",
           "levels": 1
         }
       ],
-      "name": "Command",
-      "cost": 1,
+      "requirementType": "and",
+      "globalParams": [],
+      "exclusiveWith": [],
+      "colors": {
+        "unavailable": "#7fbfba",
+        "selected": "#3ceac8"
+      },
+      "cost": 2,
       "providedAbilities": [
         {
           "id": "command",
@@ -2809,20 +2817,23 @@
       ]
     },
     {
-      "colors": {
-        "unavailable": "#8eaf60",
-        "selected": "#b7ff2c"
-      },
       "id": "basic-magic-5",
+      "name": "Necromancy",
       "requires": [
         {
           "id": "basic-magic",
           "levels": 1
         }
       ],
-      "name": "Necromancy",
+      "requirementType": "and",
       "description": "Cast Necromancer spells.",
-      "cost": 1,
+      "globalParams": [],
+      "exclusiveWith": [],
+      "colors": {
+        "unavailable": "#8eaf60",
+        "selected": "#b7ff2c"
+      },
+      "cost": 2,
       "providedAbilities": [
         {
           "id": "necromancy",
@@ -3485,10 +3496,10 @@
       },
       "levels": 4,
       "levelCost": [
+        3,
         1,
         3,
-        4,
-        5
+        4
       ],
       "providedAbilities": [
         {
@@ -3832,11 +3843,12 @@
       "requirementType": "and",
       "description": "Grants you the ability to cast Evocation spells.",
       "globalParams": [],
+      "exclusiveWith": [],
       "colors": {
         "unavailable": "#850202",
         "selected": "#ff0004"
       },
-      "cost": 1,
+      "cost": 2,
       "providedAbilities": [
         {
           "id": "evocation-casting",
@@ -4120,7 +4132,12 @@
         "unavailable": "#850202",
         "selected": "#ff0004"
       },
-      "cost": 1,
+      "levels": 3,
+      "levelCost": [
+        1,
+        2,
+        3
+      ],
       "providedAbilities": [
         {
           "id": "cantrip-barrage",
@@ -4152,11 +4169,12 @@
       "requirementType": "and",
       "description": "You can now cast abjuration spells.",
       "globalParams": [],
+      "exclusiveWith": [],
       "colors": {
         "unavailable": "#5F5F90",
         "selected": "#5082EF"
       },
-      "cost": 1,
+      "cost": 2,
       "providedAbilities": [
         {
           "id": "abjuration-id-11",
@@ -4623,7 +4641,7 @@
         "unavailable": "#878787",
         "selected": "#96b7bd"
       },
-      "cost": 1,
+      "cost": 2,
       "providedAbilities": [
         {
           "id": "divination-casting",
@@ -6363,7 +6381,7 @@
       },
       "levels": 2,
       "levelCost": [
-        1,
+        3,
         2
       ],
       "providedAbilities": [
@@ -6734,7 +6752,9 @@
       "requirementType": "and",
       "description": "Dragonfire does more damage.",
       "globalParams": [],
-      "exclusiveWith": [],
+      "exclusiveWith": [
+        "Dragon-bw-environ-1-ad-1-cx"
+      ],
       "colors": {
         "unavailable": "#752223",
         "selected": "#ec2c2c"
@@ -6756,7 +6776,7 @@
     },
     {
       "id": "Dragon-bw-environ-1-ad-1-cx",
-      "name": "Powerful Dragonfire",
+      "name": "Draconic Bombardment",
       "requires": [
         {
           "id": "Dragon-bw--1-ad",
@@ -6766,7 +6786,9 @@
       "requirementType": "and",
       "description": "Dragonfire does more damage.",
       "globalParams": [],
-      "exclusiveWith": [],
+      "exclusiveWith": [
+        "lasting-effect-001"
+      ],
       "colors": {
         "unavailable": "#752223",
         "selected": "#ec2c2c"
@@ -6774,15 +6796,16 @@
       "cost": 1,
       "providedAbilities": [
         {
-          "id": "Drag-breath-001",
+          "id": "draconic-bombardment",
           "modifier": 1,
           "modifiers": [
             {
-              "id": "bw-dmg",
-              "modifier": 1,
+              "id": "bw2-dmg",
+              "modifier": 2,
               "set": false
             }
-          ]
+          ],
+          "gain": true
         }
       ]
     },
@@ -6819,10 +6842,11 @@
           "modifiers": [
             {
               "id": "bw-block",
-              "modifier": 1,
+              "modifier": 5,
               "set": false
             }
-          ]
+          ],
+          "gain": true
         }
       ]
     },
@@ -7015,23 +7039,12 @@
         "unavailable": "#1d4125",
         "selected": "#4ec76f"
       },
-      "levels": 3,
-      "levelCost": [
-        1,
-        1,
-        1
-      ],
+      "cost": 1,
       "providedAbilities": [
         {
           "id": "abl-52949",
           "modifier": 1,
-          "modifiers": [
-            {
-              "id": "heal",
-              "modifier": 1,
-              "set": false
-            }
-          ],
+          "modifiers": [],
           "gain": true
         }
       ]
@@ -7644,11 +7657,7 @@
         "unavailable": "#752223",
         "selected": "#ec2c2c"
       },
-      "levels": 2,
-      "levelCost": [
-        1,
-        1
-      ],
+      "cost": 1,
       "providedAbilities": [
         {
           "id": "draconic-bombardment",
@@ -7659,13 +7668,14 @@
               "modifier": 5,
               "set": false
             }
-          ]
+          ],
+          "gain": true
         }
       ]
     },
     {
       "id": "node-531160",
-      "name": "Powerful Explusion",
+      "name": "Increased flow rate",
       "requires": [
         {
           "id": "Dragon-bw--1-ad",
@@ -7868,12 +7878,14 @@
       "requirementType": "and",
       "description": "Congratulations! You are a ship.",
       "globalParams": [],
-      "exclusiveWith": [],
+      "exclusiveWith": [
+        "node-433117"
+      ],
       "colors": {
         "unavailable": "#1d4125",
         "selected": "#4ec76f"
       },
-      "cost": 5,
+      "cost": 1,
       "providedStats": [
         {
           "id": "hp",
@@ -7977,6 +7989,75 @@
           ]
         }
       ]
+    },
+    {
+      "id": "node-510499",
+      "name": "Sticky Quagmire",
+      "requires": [
+        {
+          "id": "node-459869",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Quagmire slows units more.",
+      "globalParams": [],
+      "exclusiveWith": [],
+      "colors": {
+        "unavailable": "#752223",
+        "selected": "#ec2c2c"
+      },
+      "levels": 3,
+      "levelCost": [
+        1,
+        1,
+        1
+      ],
+      "providedAbilities": [
+        {
+          "id": "draconic-bombardment",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "bw-quag-str",
+              "modifier": 1,
+              "set": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "node-555545",
+      "name": "Lingering Quagmire",
+      "requires": [
+        {
+          "id": "node-459869",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "Quagmire lasts longer.",
+      "globalParams": [],
+      "exclusiveWith": [],
+      "colors": {
+        "unavailable": "#752223",
+        "selected": "#ec2c2c"
+      },
+      "cost": 1,
+      "providedAbilities": [
+        {
+          "id": "draconic-bombardment",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "bw-quag",
+              "modifier": 2,
+              "set": false
+            }
+          ]
+        }
+      ]
     }
   ],
   "tagColors": {
@@ -8033,11 +8114,16 @@
         "strafing-run": true,
         "armor": 5,
         "professionals": true,
-        "attack-node": 1,
+        "attack-node": 3,
+        "Multi_attack-1-dz": 2,
         "Dragon-bw--1-ad": 1,
-        "Dragon-bw--1-ad-1-dy": 4
+        "Dragon-bw--1-ad-1-dy": 4,
+        "node-598526": true,
+        "node-433117": true,
+        "node-334068": true,
+        "node-413125": true
       },
-      "lvl": 26,
+      "lvl": 47,
       "tags": [
         "dragon"
       ]
