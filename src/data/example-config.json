@@ -1,5 +1,5 @@
 {
-  "version": "0.0.25",
+  "version": "0.0.26",
   "abilities": [
     {
       "id": "advanced-flying",
@@ -1226,6 +1226,18 @@
         "base": 1,
         "dmg": 1,
         "adv": 0
+      }
+    },
+    {
+      "name": "Death Throes",
+      "id": "abl-456746",
+      "description": "When you die you cause %dmg% unabsorbable damage to all adjacent units.",
+      "tags": [
+        "defense"
+      ],
+      "type": "action",
+      "params": {
+        "dmg": 2
       }
     }
   ],
@@ -8058,6 +8070,43 @@
           ]
         }
       ]
+    },
+    {
+      "id": "node-480444",
+      "name": "Death Throes",
+      "requires": [
+        {
+          "id": "node-598526",
+          "levels": 1
+        }
+      ],
+      "requirementType": "and",
+      "description": "When you die, you damage units around you.",
+      "globalParams": [],
+      "exclusiveWith": [],
+      "colors": {
+        "unavailable": "#1d4125",
+        "selected": "#4ec76f"
+      },
+      "levels": 2,
+      "levelCost": [
+        3,
+        5
+      ],
+      "providedAbilities": [
+        {
+          "id": "abl-456746",
+          "modifier": 1,
+          "modifiers": [
+            {
+              "id": "dmg",
+              "modifier": 3,
+              "set": false
+            }
+          ],
+          "gain": true
+        }
+      ]
     }
   ],
   "tagColors": {
@@ -8087,7 +8136,8 @@
     "ranged": "#0f8175",
     "humanoid": "#74767b",
     "dragon": "#b03a0b",
-    "debuff": "#1a1818"
+    "debuff": "#1a1818",
+    "demon": "#100101"
   },
   "stats": [
     {
@@ -8460,6 +8510,73 @@
         "ship"
       ],
       "lvl": 37
+    },
+    {
+      "id": "unit-12050",
+      "name": "Dwarven Ironbreakers",
+      "build": {
+        "basic": true,
+        "armor": 6,
+        "defend-1": 2,
+        "deflect-1": true,
+        "guardian-1": 2,
+        "brace": true,
+        "defend-2-3": true,
+        "professionals": true,
+        "attack-node": 1,
+        "Multi_attack-1-dz": 1,
+        "attack-node-1-bv": 1,
+        "node-598526": true,
+        "node-433117": true,
+        "node-165480": 2,
+        "node-232632": true,
+        "node-174838": 1
+      },
+      "tags": [
+        "dwarf"
+      ],
+      "lvl": 35
+    },
+    {
+      "id": "unit-6063",
+      "name": "Dwarven Warriors",
+      "build": {
+        "basic": true,
+        "armor": 5,
+        "defend-1": 2,
+        "deflect-1": true,
+        "guardian-1": 1,
+        "brace": true,
+        "attack-node": 1,
+        "Multi_attack-1-dz": 1,
+        "attack-node-1-bv": 1,
+        "node-598526": true,
+        "node-433117": true,
+        "node-165480": 1
+      },
+      "tags": [
+        "dwarf"
+      ],
+      "lvl": 24
+    },
+    {
+      "id": "unit-14822",
+      "name": "Dwarven Quarrelers",
+      "build": {
+        "basic": true,
+        "armor": 4,
+        "defend-1": 1,
+        "basic-1-ay": 3,
+        "basic-1-ay-1-ed": 1,
+        "ranged-piercing-001": true,
+        "node-598526": true,
+        "node-433117": true,
+        "node-20599": 1
+      },
+      "tags": [
+        "dwarf"
+      ],
+      "lvl": 21
     }
   ]
 }
