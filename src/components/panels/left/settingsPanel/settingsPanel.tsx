@@ -67,7 +67,7 @@ export function SettingsPanel({ graphEvents$ }) {
           <ReactSlider
             min={0}
             max={100}
-            defaultValue={[25] as any}
+            value={[25] as any}
             className="horizontal-slider"
             thumbClassName="thumb"
             trackClassName="track"
@@ -87,7 +87,7 @@ export function SettingsPanel({ graphEvents$ }) {
           <ReactSlider
             min={0}
             max={50}
-            defaultValue={[25] as any}
+            value={[25] as any}
             className="horizontal-slider"
             thumbClassName="thumb"
             trackClassName="track"
@@ -99,7 +99,7 @@ export function SettingsPanel({ graphEvents$ }) {
         </div>
         <div className="slider">
           <ReactSlider
-            defaultValue={[70] as any}
+            value={[70] as any}
             className="horizontal-slider"
             thumbClassName="thumb"
             trackClassName="track"
