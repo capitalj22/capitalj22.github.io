@@ -5,6 +5,7 @@
   "type": "module",
   "homepage": "https://capitalj22.github.io/dragon-skills",
   "scripts": {
+    "start": "vite",
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
@@ -33,10 +34,13 @@
     "react-dom": "^18.2.0",
     "react-feather": "^2.0.10",
     "react-markdown": "^8.0.6",
+    "react-router-dom": "^6.23.1",
     "react-select": "^5.7.0",
     "react-slider": "^2.0.4",
     "react-textarea-autosize": "^8.4.0",
-    "use-container-queries": "^1.0.0"
+    "reimg": "^1.0.0",
+    "use-container-queries": "^1.0.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@types/react": "^18.0.27",

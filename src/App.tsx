@@ -8,6 +8,7 @@ import { NodesProvider } from "./providers/nodes/nodesProvider";
 import { ThemeProvider } from "./providers/theme.provider";
 import { StateProvider } from "./providers/state/stateProvider";
 
+
 export function App() {
   return (
     <StateProvider>
