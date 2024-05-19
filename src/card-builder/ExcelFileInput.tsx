@@ -1,5 +1,6 @@
 import { each } from "lodash-es";
 import * as XLSX from "xlsx";
+import './inputs.scss';
 
 function ExcelFileInput({ label, fileChanged }) {
   const sheets = [];
@@ -21,8 +22,8 @@ function ExcelFileInput({ label, fileChanged }) {
   };
 
   return (
-    <div>
-      <span>{label}</span>
+    <div className="file-input">
+      <div>{label}</div>
       <input type="file" onChange={handleFileUpload} />
     </div>
   );

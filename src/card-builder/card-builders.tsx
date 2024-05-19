@@ -9,13 +9,7 @@ const addBattleBadges = async (card, ctx, imgs) => {
   }
 };
 
-export const drawBattleCard = async (
-  card,
-  ctx,
-  canvas,
-  imageData,
-  download
-) => {
+export const drawBattleCard = async (card, ctx, canvas, imageData) => {
   const imgs = await preloadImages([
     find(imageData, { cardNumber: card["S#"] }).url,
     "./cards/battle/card.png",
@@ -77,19 +71,9 @@ export const drawBattleCard = async (
   ctx.font = "300 26px Bahnschrift";
 
   ctx.fillText(`#${card["S#"]}`, 650, 1065);
-
-  if (download) {
-    downloadImage(canvas, card);
-  }
 };
 
-export const drawSorceryCard = async (
-  card,
-  ctx,
-  canvas,
-  imageData,
-  download
-) => {
+export const drawSorceryCard = async (card, ctx, canvas, imageData) => {
   const cardImage = find(imageData, { cardNumber: card["S#"] });
 
   const imgs = await preloadImages([
@@ -131,7 +115,7 @@ export const drawSorceryCard = async (
 
     let line1Height = 0;
     let line1Gap = 0;
-    
+
     ctx.fillStyle = "#ccc";
     ctx.font = "Italic 300 34px Bahnschrift";
     if (card["When to Play"]) {
@@ -149,25 +133,12 @@ export const drawSorceryCard = async (
     ctx.font = "300 26px Bahnschrift";
 
     wrapText(ctx, `#${card["S#"]}`, 650, 1065, 570, 40);
-
-    if (download) {
-      downloadImage(canvas, card);
-    }
   }
 };
 
-export const drawSeasonCard = async (
-  card,
-  ctx,
-  canvas,
-  imageData,
-  download
-) => {
+export const drawSeasonCard = async (card, ctx, canvas, imageData) => {
   const cardImage = find(imageData, { cardNumber: card["S#"] });
-  const imgs = await preloadImages([
-    cardImage?.url,
-    "./cards/season/card.png",
-  ]);
+  const imgs = await preloadImages([cardImage?.url, "./cards/season/card.png"]);
 
   if (imgs[1]) {
     ctx.drawImage(imgs[0], 0, 30, canvas.width, 600);
@@ -223,14 +194,10 @@ export const drawSeasonCard = async (
     ctx.font = "300 26px Bahnschrift";
 
     ctx.fillText(`#${card["S#"]}`, 650, 1065);
-
-    if (download) {
-      downloadImage(canvas, card);
-    }
   }
 };
 
-export const drawHordeCard = async (card, ctx, canvas, imageData, download) => {
+export const drawHordeCard = async (card, ctx, canvas, imageData) => {
   const imgs = await preloadImages([
     find(imageData, { cardNumber: card["S#"] }).url,
     "./cards/horde/card.png",
@@ -258,20 +225,4 @@ export const drawHordeCard = async (card, ctx, canvas, imageData, download) => {
   ctx.fillStyle = "#fff";
   ctx.font = "300 26px Bahnschrift";
   wrapText(ctx, `#${card["S#"]}`, 650, 1065, 570, 40);
-
-  if (download) {
-    downloadImage(canvas, card);
-  }
-};
-
-export const downloadImage = (canvas, card) => {
-  var image = canvas.toDataURL();
-  // Create a link
-  var aDownloadLink = document.createElement("a");
-  // Add the name of the file to the link
-  aDownloadLink.download = `${card["S#"]}`;
-  // Attach the data to the link
-  aDownloadLink.href = image;
-  // Get the code to click the download link
-  aDownloadLink.click();
 };

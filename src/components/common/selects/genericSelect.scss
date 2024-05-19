@@ -1,0 +1,13 @@
+.generic-select {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+  width: 100%;
+  .label {
+    font-size: 14px;
+  }
+  .select {
+    width: 100%;
+  }
+}

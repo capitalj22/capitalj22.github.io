@@ -1,0 +1,14 @@
+.file-input {
+  padding: 0.5rem;
+  padding-top: 0.25rem;
+  border-radius: 3px;
+  background-color: var(--panelColor2);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  align-items: flex-start;
+
+  .label {
+    font-size: 14px;
+  }
+}

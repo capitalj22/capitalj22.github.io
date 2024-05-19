@@ -1,4 +1,5 @@
 import { each, map } from "lodash-es";
+import './inputs.scss';
 
 function ImageFileInput({ label, uploaded }) {
   const handleFileUpload = (e) => {
@@ -13,7 +14,7 @@ function ImageFileInput({ label, uploaded }) {
   };
 
   return (
-    <div>
+    <div className="file-input">
       <span>{label}</span>
       <input
         type="file"
