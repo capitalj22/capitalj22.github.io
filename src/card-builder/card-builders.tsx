@@ -1,3 +1,4 @@
+import { find } from "lodash-es";
 import { preloadImages, scaleText, wrapText } from "./utils";
 
 const addBattleBadges = async (card, ctx, imgs) => {
@@ -8,9 +9,15 @@ const addBattleBadges = async (card, ctx, imgs) => {
   }
 };
 
-export const drawBattleCard = async (card, ctx, canvas, download) => {
+export const drawBattleCard = async (
+  card,
+  ctx,
+  canvas,
+  imageData,
+  download
+) => {
   const imgs = await preloadImages([
-    `./cards/battle/${card["S#"]}.png`,
+    find(imageData, { cardNumber: card["S#"] }).url,
     "./cards/battle/card.png",
     "./cards/battle/weapon_badge.png",
     "./cards/battle/tactic_badge.png",
@@ -76,9 +83,17 @@ export const drawBattleCard = async (card, ctx, canvas, download) => {
   }
 };
 
-export const drawSorceryCard = async (card, ctx, canvas, download) => {
+export const drawSorceryCard = async (
+  card,
+  ctx,
+  canvas,
+  imageData,
+  download
+) => {
+  const cardImage = find(imageData, { cardNumber: card["S#"] });
+
   const imgs = await preloadImages([
-    `./cards/sorcery/${card["S#"]}.png`,
+    cardImage.url,
     "./cards/sorcery/card.png",
     "./cards/battle/weapon_badge.png",
     "./cards/battle/tactic_badge.png",
@@ -116,12 +131,16 @@ export const drawSorceryCard = async (card, ctx, canvas, download) => {
 
     let line1Height = 0;
     let line1Gap = 0;
-
-    ctx.font = "300 36px Bahnschrift";
+    
+    ctx.fillStyle = "#ccc";
+    ctx.font = "Italic 300 34px Bahnschrift";
     if (card["When to Play"]) {
       line1Gap = 30;
       line1Height = wrapText(ctx, card["When to Play"], 80, 610, 570, 40);
     }
+
+    ctx.fillStyle = "#fff";
+    ctx.font = "Italic 300 36px Bahnschrift";
 
     ctx.fillStyle = "#fff";
     wrapText(ctx, card.Effect, 80, 610 + line1Height + line1Gap, 570, 40);
@@ -137,9 +156,16 @@ export const drawSorceryCard = async (card, ctx, canvas, download) => {
   }
 };
 
-export const drawSeasonCard = async (card, ctx, canvas, download) => {
+export const drawSeasonCard = async (
+  card,
+  ctx,
+  canvas,
+  imageData,
+  download
+) => {
+  const cardImage = find(imageData, { cardNumber: card["S#"] });
   const imgs = await preloadImages([
-    `./cards/season/${card["S#"]}.png`,
+    cardImage?.url,
     "./cards/season/card.png",
   ]);
 
@@ -204,9 +230,9 @@ export const drawSeasonCard = async (card, ctx, canvas, download) => {
   }
 };
 
-export const drawHordeCard = async (card, ctx, canvas, download) => {
+export const drawHordeCard = async (card, ctx, canvas, imageData, download) => {
   const imgs = await preloadImages([
-    `./cards/horde/${card.Distance}.png`,
+    find(imageData, { cardNumber: card["S#"] }).url,
     "./cards/horde/card.png",
   ]);
 

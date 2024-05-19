@@ -1,7 +1,7 @@
 import { each } from "lodash-es";
 import * as XLSX from "xlsx";
 
-function FileInput({ fileChanged }) {
+function ExcelFileInput({ label, fileChanged }) {
   const sheets = [];
 
   const handleFileUpload = (e) => {
@@ -22,9 +22,10 @@ function FileInput({ fileChanged }) {
 
   return (
     <div>
+      <span>{label}</span>
       <input type="file" onChange={handleFileUpload} />
     </div>
   );
 }
 
-export default FileInput;
+export default ExcelFileInput;

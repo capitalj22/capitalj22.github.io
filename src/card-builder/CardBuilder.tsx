@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import FileInput from "./FileInput";
+import ExcelFileInput from "./ExcelFileInput";
 import { each } from "lodash-es";
-import { scaleText, wrapText } from "./utils";
 import "./cardBuilder.scss";
 import {
   drawBattleCard,
@@ -9,9 +8,23 @@ import {
   drawSeasonCard,
   drawSorceryCard,
 } from "./card-builders";
+import ImageFileInput from "./imgFileInput";
+import { GenericSelect } from "../components/common/selects/genericSelect";
 
 export function CardBuilder() {
   const [fileData, setFileData] = useState(null);
+  const [imageData, setImageData] = useState(null);
+  const [cardType, setCardType] = useState(
+    "all" as "all" | "H" | "S" | "SC" | "B"
+  );
+
+  const options = [
+    { value: "all", label: "All" },
+    { value: "H", label: "Horde" },
+    { value: "S", label: "Season" },
+    { value: "SC", label: "Sorcery" },
+    { value: "B", label: "Battle" },
+  ];
 
   const DOWNLOAD = true;
 
@@ -30,34 +43,34 @@ export function CardBuilder() {
     setFileData(contents);
   };
 
-  const drawBattleCards = async (cards) => {
+  const drawBattleCards = async (cards, imageData) => {
     each(cards, async (card) => {
       setupCanvas();
-      drawBattleCard(card, ctx, canvas, DOWNLOAD);
+      drawBattleCard(card, ctx, canvas, imageData, DOWNLOAD);
     });
   };
 
-  const drawSorceryCards = async (cards) => {
+  const drawSorceryCards = async (cards, imageData) => {
     setupCanvas();
 
     each(cards, async (card) => {
-      drawSorceryCard(card, ctx, canvas, DOWNLOAD);
+      drawSorceryCard(card, ctx, canvas, imageData, DOWNLOAD);
     });
   };
 
-  const drawSeasonCards = async (cards) => {
+  const drawSeasonCards = async (cards, imageData) => {
     setupCanvas();
 
     each(cards, async (card) => {
-      drawSeasonCard(card, ctx, canvas, DOWNLOAD);
+      drawSeasonCard(card, ctx, canvas, imageData, DOWNLOAD);
     });
   };
 
-  const drawHordeCards = async (cards) => {
+  const drawHordeCards = async (cards, imageData) => {
     setupCanvas();
 
     each(cards, async (card) => {
-      drawHordeCard(card, ctx, canvas, DOWNLOAD);
+      drawHordeCard(card, ctx, canvas, imageData, DOWNLOAD);
     });
   };
 
@@ -68,32 +81,57 @@ export function CardBuilder() {
     ctx = canvas.getContext("2d");
   }, [canvasRef]);
 
-  useEffect(() => {
-    if (fileData?.length) {
+  const doTheThing = () => {
+    if (imageData?.length && fileData?.length) {
       each(fileData, (sheet) => {
         if (sheet.length) {
           switch (sheet[0].Type) {
             case "Horde":
-              // drawHordeCards(sheet);
+              if (cardType == "H" || cardType == "all" || !cardType) {
+                drawHordeCards(sheet, imageData);
+              }
               break;
             case "Sorcery":
-              // drawSorceryCards(sheet);
+              if (cardType == "SC" || cardType == "all" || !cardType) {
+                drawSorceryCards(sheet, imageData);
+              }
               break;
             case "Season":
-              drawSeasonCards(sheet);
+              if (cardType == "S" || cardType == "all" || !cardType) {
+                drawSeasonCards(sheet, imageData);
+              }
+              drawSeasonCards(sheet, imageData);
               break;
             case "Battle":
-              // drawBattleCards(sheet);
+              if (cardType == "B" || cardType == "all" || !cardType) {
+                drawBattleCards(sheet, imageData);
+              }
               break;
           }
         }
       });
     }
-  }, [fileData]);
+  };
+
+  const handleImgsChanged = (images) => {
+    setImageData(images);
+  };
+
+  const typeUpdated = (val) => {
+    setCardType(val);
+  };
 
   return (
     <div>
-      <FileInput fileChanged={handleFileChanged} />
+      <GenericSelect
+        // styles={selectStyles()}
+        options={options}
+        valueChanged={typeUpdated}
+      ></GenericSelect>
+
+      <ExcelFileInput label="sheets" fileChanged={handleFileChanged} />
+      <ImageFileInput label="imgs" uploaded={handleImgsChanged} />
+      <button onClick={doTheThing}>Do the Thing</button>
       <canvas id="card-canvas" ref={canvasRef} />
     </div>
   );
