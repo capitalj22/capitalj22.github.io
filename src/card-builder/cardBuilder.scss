@@ -5,6 +5,7 @@
   max-height: 100vh;
   padding: 1rem;
   gap: 1rem;
+  font-family: "Bahnschrift";
 }
 
 body {
@@ -12,18 +13,14 @@ body {
 }
 
 .options {
-  padding: 1rem;
+  font-family: "NotoSerif";
+  background-color: var(--panelColor2);
+  padding: 1rem 2rem;
   display: flex;
-  gap: 1rem;
-  max-width: 50rem;
-
-  > div {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
+  gap: 1.5rem;
 }
 
 .card-type-select {
   width: 10rem;
+  font-family: "Garamond";
 }

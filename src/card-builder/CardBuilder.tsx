@@ -10,6 +10,9 @@ import {
 } from "./card-builders";
 import ImageFileInput from "./imgFileInput";
 import { GenericSelect } from "../components/common/selects/genericSelect";
+import { BigButton } from "../components/common/buttons/bigButton";
+import { SmolButton } from "../components/common/buttons/smolButton";
+import { Download, Edit, Play } from "react-feather";
 
 export function CardBuilder() {
   const CARD_WIDTH = 750,
@@ -91,8 +94,6 @@ export function CardBuilder() {
   };
 
   const doTheThing = () => {
-    setCanvases([]);
-
     if (imageData?.length && fileData?.length) {
       each(fileData, (sheet) => {
         if (sheet.length) {
@@ -154,23 +155,28 @@ export function CardBuilder() {
   return (
     <div>
       <div className="options">
-        <div className="left">
-          <div className="card-type-select">
-            <GenericSelect
-              // styles={selectStyles()}
-              label={"Card Type"}
-              options={options}
-              valueChanged={typeUpdated}
-            ></GenericSelect>
-          </div>
-
-          <ExcelFileInput label="Sheet" fileChanged={handleFileChanged} />
-          <ImageFileInput label="Images" uploaded={handleImgsChanged} />
+        <div className="card-type-select">
+          <GenericSelect
+            // styles={selectStyles()}
+            label={"Card Type"}
+            options={options}
+            valueChanged={typeUpdated}
+          ></GenericSelect>
         </div>
-        <div className="right">
-          <button onClick={doTheThing}>Generate Cards</button>
-          <button onClick={downloadImages}>Download</button>
-        </div>
+        <ExcelFileInput label="Sheet" fileChanged={handleFileChanged} />
+        <ImageFileInput label="Images" uploaded={handleImgsChanged} />
+        {!!fileData && !!imageData && (
+          <SmolButton type="info" clicked={doTheThing}>
+            <Play />
+            Generate Cards
+          </SmolButton>
+        )}
+        {!!cards.length && (
+          <SmolButton clicked={downloadImages} type="success">
+            <Download />
+            Download
+          </SmolButton>
+        )}
       </div>
       <div className="canvases">
         {canvases.map((el, i) => (

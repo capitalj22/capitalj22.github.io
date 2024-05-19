@@ -6,14 +6,19 @@ export const preloadImages = async (urls) => {
       image.src = url;
 
       image.onload = () => resolve(image);
-      // image.onerror = () => reject(`Image failed to load: ${url}`);
+      image.onerror = () => resolve(null);
     });
   });
 
   return Promise.all(promises);
 };
 
-export const wrapText = function (ctx, text, x, y, maxWidth, lineHeight) {
+export const centerText = (ctx, text, targetWidth) => {
+  const measuredText = ctx.measureText(text).width;
+  return targetWidth / 2 - measuredText / 2;
+};
+
+export const tryWrapText = (ctx, text, x, y, maxWidth, lineHeight) => {
   let words = text.split(" ");
   let line = "";
   let testLine = "";
@@ -37,6 +42,13 @@ export const wrapText = function (ctx, text, x, y, maxWidth, lineHeight) {
       lineArray.push([line, x, y]);
     }
   }
+
+  return lineArray;
+};
+
+export const wrapText = function (ctx, text, x, y, maxWidth, lineHeight) {
+  let lineArray = tryWrapText(ctx, text, x, y, maxWidth, lineHeight);
+
   lineArray.forEach(function (item) {
     ctx.fillText(item[0], item[1], item[2]);
   });
