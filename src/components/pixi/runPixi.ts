@@ -77,7 +77,7 @@ export function runGraphPixi(
   let bgColor = "#1d1b21";
   let textColor = "#ddd";
   let app: PIXI.Application;
-  let nodes: INode[];
+  let nodes: INode[] = [];
   let nodeMeta = {
     selected: {},
     acquired: {},
@@ -85,7 +85,7 @@ export function runGraphPixi(
   };
   let simulation = d3.forceSimulation();
   let visualLinks;
-  let links;
+  let links = [];
   let width, height;
   let viewport: Viewport;
   let mode = "build-slow";
@@ -106,7 +106,9 @@ export function runGraphPixi(
       bgColor = "#1d1b21";
       textColor = "#dddddd";
     }
-    (app.renderer as any).backgroundColor = toPixiColor(bgColor);
+    if (app) {
+      (app.renderer as any).backgroundColor = toPixiColor(bgColor);
+    }
     redrawNodes();
   }
   function addNodeLabel(gfx, name) {
@@ -864,12 +866,12 @@ export function runGraphPixi(
           node.gfx.destroy();
         }
       });
-      if (visualLinks) {
+      if (app && visualLinks) {
+        visualLinks.clear();
+        visualLinks.clear();
+        graphSub.unsubscribe();
+        app.destroy();
       }
-      visualLinks.clear();
-      visualLinks.clear();
-      graphSub.unsubscribe();
-      app.destroy();
     },
   };
 }
