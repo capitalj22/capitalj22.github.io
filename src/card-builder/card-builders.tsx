@@ -99,7 +99,9 @@ export const drawSorceryCard = async (card, ctx, canvas, imageData) => {
   ]);
 
   if (imgs[0]) {
-    ctx.drawImage(imgs[0], 0, 0, imgs[0].width, imgs[0].height);
+    let aspectRatio = imgs[0].width / imgs[0].height;
+
+    ctx.drawImage(imgs[0], 0, 0, canvas.width, canvas.width / aspectRatio);
   } else {
     ctx.drawImage(imgs[2], 0, 0, imgs[2].width, imgs[2].width);
   }
@@ -157,7 +159,7 @@ export const drawSorceryCard = async (card, ctx, canvas, imageData) => {
     lineHeight = 35;
   }
 
-  wrapText(ctx, card.Effect, 80, 610 + line1Height + line1Gap, 570, lineHeight);
+  wrapText(ctx, card.Effect, 80, 610 + line1Height + line1Gap, 600, lineHeight);
   ctx.fillStyle = "#fff";
   ctx.font = "300 26px Bahnschrift";
 

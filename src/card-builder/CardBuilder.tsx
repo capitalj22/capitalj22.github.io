@@ -60,8 +60,10 @@ export function CardBuilder() {
   };
 
   useEffect(() => {
-    if (canvasRefs.current?.length) {
+    if (canvases.length) {
       drawCards();
+    } else {
+      canvasRefs.current = [];
     }
   }, [canvases]);
 
