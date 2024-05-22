@@ -1,18 +1,20 @@
 import { useEffect, useRef, useState } from "react";
 import ExcelFileInput from "./ExcelFileInput";
-import { each, times } from "lodash-es";
+import { each, omit, reject } from "lodash-es";
 import "./cardBuilder.scss";
 import {
   drawBattleCard,
+  drawFortressCard,
   drawHordeCard,
+  drawManastormCard,
   drawSeasonCard,
   drawSorceryCard,
+  drawTraitorCard,
 } from "./card-builders";
 import ImageFileInput from "./imgFileInput";
 import { GenericSelect } from "../components/common/selects/genericSelect";
-import { BigButton } from "../components/common/buttons/bigButton";
 import { SmolButton } from "../components/common/buttons/smolButton";
-import { Download, Edit, Play } from "react-feather";
+import { Download, Play } from "react-feather";
 
 export function CardBuilder() {
   const CARD_WIDTH = 750,
@@ -22,12 +24,11 @@ export function CardBuilder() {
   const [fileData, setFileData] = useState(null);
   const [imageData, setImageData] = useState(null);
   const [cardType, setCardType] = useState(
-    "all" as "all" | "H" | "S" | "SC" | "B"
+    "all" as "all" | "H" | "S" | "SC" | "B" | "T" | "F" | "MS"
   );
   const [canvases, setCanvases] = useState([]);
   const [cards, setCards] = useState([]);
   const [cardTypeToDraw, setCardTypeToDraw] = useState("all");
-  const [cardsLoading, setCardsLoading] = useState(false);
 
   const options = [
     { value: "all", label: "All" },
@@ -35,6 +36,9 @@ export function CardBuilder() {
     { value: "S", label: "Season" },
     { value: "SC", label: "Sorcery" },
     { value: "B", label: "Battle" },
+    { value: "T", label: "Traitor" },
+    { value: "F", label: "Fortress" },
+    { value: "MS", label: "ManaStorm" },
   ];
 
   let canvas: HTMLCanvasElement;
@@ -87,6 +91,18 @@ export function CardBuilder() {
           await drawSeasonCard(card, ctx, canvas, imageData);
 
           break;
+        case "T":
+          await drawTraitorCard(card, ctx, canvas, imageData);
+
+          break;
+        case "F":
+          await drawFortressCard(card, ctx, canvas, imageData);
+
+          break;
+        case "MS":
+          await drawManastormCard(card, ctx, canvas);
+
+          break;
       }
     });
   };
@@ -96,7 +112,7 @@ export function CardBuilder() {
   };
 
   const doTheThing = () => {
-    if (imageData?.length && fileData?.length) {
+    if ((imageData?.length || cardType === "MS") && fileData?.length) {
       each(fileData, (sheet) => {
         if (sheet.length) {
           switch (sheet[0].Type) {
@@ -124,6 +140,42 @@ export function CardBuilder() {
                 setCards(sheet);
               }
               break;
+            case "Traitor":
+              if (cardType == "T" || cardType == "all" || !cardType) {
+                setCardTypeToDraw("T");
+                setCards(sheet);
+              }
+              break;
+            case "Fortress":
+              if (cardType == "F" || cardType == "all" || !cardType) {
+                setCardTypeToDraw("F");
+                setCards(sheet);
+              }
+              break;
+            case "Mana Storm":
+              if (cardType == "MS" || cardType == "all" || !cardType) {
+                setCardTypeToDraw("MS");
+                setCards(
+                  reject(sheet, (card) => {
+                    return [
+                      "Howling Lowlands",
+                      "Cape Hope",
+                      "Paths to the East",
+                      "Ildra",
+                      "Bay of Ytha",
+                      "Khazad Ril",
+                      "Sirion Ria",
+                      "Karaz Zharr",
+                      "Athel Keldri",
+                      "Karaz Okrik",
+                      "Loren Lauroi",
+                      "Athel Tirior",
+                      "Tresamina Playa",
+                    ].includes(card.Title);
+                  })
+                );
+              }
+              break;
           }
         }
       });
@@ -143,15 +195,10 @@ export function CardBuilder() {
     each(canvasRefs.current, (canvas, i) => {
       var img = canvas.toDataURL();
       var aDownloadLink = document.createElement("a");
-      // Add the name of the file to the link
       aDownloadLink.download = cards[i]["S#"];
-      // Attach the data to the link
       aDownloadLink.href = img;
-      // Get the code to click the download link
       aDownloadLink.click();
     });
-
-    // Create a link
   };
 
   return (
@@ -167,7 +214,7 @@ export function CardBuilder() {
         </div>
         <ExcelFileInput label="Sheet" fileChanged={handleFileChanged} />
         <ImageFileInput label="Images" uploaded={handleImgsChanged} />
-        {!!fileData && !!imageData && (
+        {!!fileData && (!!imageData || cardType === "MS") && (
           <SmolButton type="info" clicked={doTheThing}>
             <Play />
             Generate Cards
