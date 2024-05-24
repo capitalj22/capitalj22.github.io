@@ -10,6 +10,7 @@ import {
   drawSeasonCard,
   drawSorceryCard,
   drawTraitorCard,
+  drawWorldCard,
 } from "./card-builders";
 import ImageFileInput from "./imgFileInput";
 import { GenericSelect } from "../components/common/selects/genericSelect";
@@ -24,14 +25,14 @@ export function CardBuilder() {
   const [fileData, setFileData] = useState(null);
   const [imageData, setImageData] = useState(null);
   const [cardType, setCardType] = useState(
-    "all" as "all" | "H" | "S" | "SC" | "B" | "T" | "F" | "MS"
+    "all" as "all" | "H" | "S" | "SC" | "B" | "T" | "F" | "MS" | "W"
   );
   const [canvases, setCanvases] = useState([]);
   const [cards, setCards] = useState([]);
   const [cardTypeToDraw, setCardTypeToDraw] = useState("all");
 
   const options = [
-    { value: "all", label: "All" },
+    // { value: "all", label: "All" },
     { value: "H", label: "Horde" },
     { value: "S", label: "Season" },
     { value: "SC", label: "Sorcery" },
@@ -39,6 +40,7 @@ export function CardBuilder() {
     { value: "T", label: "Traitor" },
     { value: "F", label: "Fortress" },
     { value: "MS", label: "ManaStorm" },
+    { value: "W", label: "World" },
   ];
 
   let canvas: HTMLCanvasElement;
@@ -103,6 +105,10 @@ export function CardBuilder() {
           await drawManastormCard(card, ctx, canvas);
 
           break;
+        case "W":
+          await drawWorldCard(card, ctx, canvas, imageData);
+
+          break;
       }
     });
   };
@@ -149,6 +155,12 @@ export function CardBuilder() {
             case "Fortress":
               if (cardType == "F" || cardType == "all" || !cardType) {
                 setCardTypeToDraw("F");
+                setCards(sheet);
+              }
+              break;
+            case "World":
+              if (cardType == "W" || cardType == "all" || !cardType) {
+                setCardTypeToDraw("W");
                 setCards(sheet);
               }
               break;

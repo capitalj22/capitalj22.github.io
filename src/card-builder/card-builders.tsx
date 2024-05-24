@@ -245,6 +245,39 @@ export const drawSeasonCard = async (card, ctx, canvas, imageData) => {
   drawCardNumber(ctx, card);
 };
 
+export const drawWorldCard = async (card, ctx, canvas, imageData) => {
+  const cardImage = find(imageData, { cardNumber: card["S#"] });
+  const imgs = await preloadImages([
+    cardImage?.url,
+    "./cards/world/card.png",
+    ...defaultImages,
+  ]);
+  drawCardAndImage(ctx, canvas, [imgs[0], imgs[1], imgs[2]]);
+
+  ctx.fillStyle = "#fff";
+  ctx.font = "700 55px Bahnschrift";
+  const title = `${card["Title"]}`;
+
+  scaleText(
+    ctx,
+    title,
+    {
+      weight: 700,
+      px: 55,
+      family: "Bahnschrift",
+    },
+    500
+  );
+
+  ctx.fillText(`${title}`, 80, 520);
+
+  ctx.fillStyle = "#fff";
+  ctx.font = `400 36px NotoSerif`;
+  wrapText(ctx, `1: ${card["Effect"]}`, 80, 615, 600, 45);
+
+  drawCardNumber(ctx, card);
+};
+
 export const drawHordeCard = async (card, ctx, canvas, imageData) => {
   const imgs = await preloadImages([
     find(imageData, { cardNumber: card["S#"] }).url,
@@ -404,11 +437,18 @@ export const drawManastormCard = async (
     "./cards/manastorm/card_mtn.png",
     "./cards/manastorm/card_fortress.png",
     "./cards/manastorm/card_ocean.png",
+    "./cards/manastorm/forest.png",
   ]);
 
   if (card.Title !== "Vortex") {
-    fillWorldRegion(ctx, canvas, card.Title, imgs[0]);
-    console.log(card.Type);
+    if (card["World Change"]) {
+      let aspectRatio = imgs[8].width / imgs[8].height;
+
+      ctx.drawImage(imgs[8], 0, 0, canvas.width, canvas.width / aspectRatio);
+    } else {
+      fillWorldRegion(ctx, canvas, card.Title, imgs[0]);
+    }
+
     switch (card["Region Type"]) {
       case "Plains":
         ctx.drawImage(imgs[3], 0, 0, canvas.width, canvas.height);
