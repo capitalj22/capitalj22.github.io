@@ -15,7 +15,7 @@ import {
 import ImageFileInput from "./imgFileInput";
 import { GenericSelect } from "../components/common/selects/genericSelect";
 import { SmolButton } from "../components/common/buttons/smolButton";
-import { Download, Play } from "react-feather";
+import { Download, Play, RefreshCcw } from "react-feather";
 
 export function CardBuilder() {
   const CARD_WIDTH = 750,
@@ -30,6 +30,7 @@ export function CardBuilder() {
   const [canvases, setCanvases] = useState([]);
   const [cards, setCards] = useState([]);
   const [cardTypeToDraw, setCardTypeToDraw] = useState("all");
+  const [cardsDrawn, setCardsDrawn] = useState(false);
 
   const options = [
     // { value: "all", label: "All" },
@@ -110,6 +111,8 @@ export function CardBuilder() {
 
           break;
       }
+
+      setCardsDrawn(true);
     });
   };
 
@@ -117,7 +120,13 @@ export function CardBuilder() {
     setFileData(contents);
   };
 
-  const doTheThing = () => {
+  const generateCards = () => {
+    if (cards.length) {
+      resetCards();
+      setCardTypeToDraw(null);
+      setCardsDrawn(false);
+    }
+
     if ((imageData?.length || cardType === "MS") && fileData?.length) {
       each(fileData, (sheet) => {
         if (sheet.length) {
@@ -199,7 +208,7 @@ export function CardBuilder() {
   };
 
   const typeUpdated = (val) => {
-    setCanvases([]);
+    resetCards();
     setCardType(val);
   };
 
@@ -211,6 +220,13 @@ export function CardBuilder() {
       aDownloadLink.href = img;
       aDownloadLink.click();
     });
+  };
+
+  const resetCards = () => {
+    canvasRefs.current = [];
+    setCanvases([]);
+    setCards([]);
+    setCardsDrawn(false);
   };
 
   return (
@@ -226,12 +242,20 @@ export function CardBuilder() {
         </div>
         <ExcelFileInput label="Sheet" fileChanged={handleFileChanged} />
         <ImageFileInput label="Images" uploaded={handleImgsChanged} />
-        {!!fileData && (!!imageData || cardType === "MS") && (
-          <SmolButton type="info" clicked={doTheThing}>
+        {!!fileData && (!!imageData || cardType === "MS") && !cardsDrawn && (
+          <SmolButton type="info" clicked={generateCards}>
             <Play />
             Generate Cards
           </SmolButton>
         )}
+
+        {!!cardsDrawn && (
+          <SmolButton type="info" clicked={resetCards}>
+            <RefreshCcw />
+            Reset
+          </SmolButton>
+        )}
+
         {!!cards.length && (
           <SmolButton clicked={downloadImages} type="success">
             <Download />
@@ -246,7 +270,6 @@ export function CardBuilder() {
             ref={(ref) => (canvasRefs.current[i] = ref)}
           ></canvas>
         ))}
-        <canvas id="card-canvas" />
       </div>
     </div>
   );
