@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import ExcelFileInput from "./ExcelFileInput";
-import { each, omit, reject } from "lodash-es";
+import { each, find, omit, reject } from "lodash-es";
 import "./cardBuilder.scss";
 import {
   drawBattleCard,
+  drawFactionAbilityCard,
+  drawFactionInfo,
   drawFortressCard,
   drawHordeCard,
   drawManastormCard,
@@ -25,7 +27,18 @@ export function CardBuilder() {
   const [fileData, setFileData] = useState(null);
   const [imageData, setImageData] = useState(null);
   const [cardType, setCardType] = useState(
-    "all" as "all" | "H" | "S" | "SC" | "B" | "T" | "F" | "MS" | "W"
+    "all" as
+      | "all"
+      | "H"
+      | "S"
+      | "SC"
+      | "B"
+      | "T"
+      | "F"
+      | "MS"
+      | "W"
+      | "FA"
+      | "FI"
   );
   const [canvases, setCanvases] = useState([]);
   const [cards, setCards] = useState([]);
@@ -42,6 +55,8 @@ export function CardBuilder() {
     { value: "F", label: "Fortress" },
     { value: "MS", label: "ManaStorm" },
     { value: "W", label: "World" },
+    { value: "FA", label: "Faction Ability" },
+    { value: "FI", label: "Faction Info" },
   ];
 
   let canvas: HTMLCanvasElement;
@@ -110,6 +125,14 @@ export function CardBuilder() {
           await drawWorldCard(card, ctx, canvas, imageData);
 
           break;
+        case "FA":
+          await drawFactionAbilityCard(card, ctx, canvas);
+
+          break;
+        case "FI":
+          await drawFactionInfo(card, ctx, canvas);
+
+          break;
       }
 
       setCardsDrawn(true);
@@ -127,7 +150,13 @@ export function CardBuilder() {
       setCardsDrawn(false);
     }
 
-    if ((imageData?.length || cardType === "MS") && fileData?.length) {
+    if (
+      (imageData?.length ||
+        cardType === "MS" ||
+        cardType === "FA" ||
+        cardType === "FI") &&
+      fileData?.length
+    ) {
       each(fileData, (sheet) => {
         if (sheet.length) {
           switch (sheet[0].Type) {
@@ -173,6 +202,23 @@ export function CardBuilder() {
                 setCards(sheet);
               }
               break;
+            case "Faction Ability":
+              if (cardType == "FA" || cardType == "all" || !cardType) {
+                setCardTypeToDraw("FA");
+                setCards([
+                  ...sheet,
+                  ...find(
+                    fileData,
+                    (tab) => tab[0].Type === "Special Victory Condition"
+                  ),
+                ]);
+              }
+              break;
+            case "Faction Info":
+              if (cardType === "FI") {
+                setCardTypeToDraw("FI");
+                setCards(sheet);
+              }
             case "Mana Storm":
               if (cardType == "MS" || cardType == "all" || !cardType) {
                 setCardTypeToDraw("MS");
@@ -242,12 +288,17 @@ export function CardBuilder() {
         </div>
         <ExcelFileInput label="Sheet" fileChanged={handleFileChanged} />
         <ImageFileInput label="Images" uploaded={handleImgsChanged} />
-        {!!fileData && (!!imageData || cardType === "MS") && !cardsDrawn && (
-          <SmolButton type="info" clicked={generateCards}>
-            <Play />
-            Generate Cards
-          </SmolButton>
-        )}
+        {!!fileData &&
+          (!!imageData ||
+            cardType === "MS" ||
+            cardType === "FA" ||
+            cardType === "FI") &&
+          !cardsDrawn && (
+            <SmolButton type="info" clicked={generateCards}>
+              <Play />
+              Generate Cards
+            </SmolButton>
+          )}
 
         {!!cardsDrawn && (
           <SmolButton type="info" clicked={resetCards}>

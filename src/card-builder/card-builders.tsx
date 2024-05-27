@@ -1,4 +1,4 @@
-import { find } from "lodash-es";
+import { each, find } from "lodash-es";
 import {
   centerText,
   preloadImages,
@@ -350,7 +350,7 @@ export const drawTraitorCard = async (card, ctx, canvas, imageData) => {
   }
 
   ctx.drawImage(imgs[1], 0, 0, canvas.width, canvas.height);
-  ctx.drawImage(getSigil(card.Notes), 540, 60, 160, 160);
+  ctx.drawImage(getSigil(card.Faction), 540, 60, 160, 160);
 
   ctx.fillStyle = "#fff";
   ctx.font = "700 55px Bahnschrift";
@@ -369,10 +369,234 @@ export const drawTraitorCard = async (card, ctx, canvas, imageData) => {
 
   ctx.font = "300 42px NotoSerif";
   ctx.fillStyle = "#16151A";
-  ctx.fillText(card.Notes, 80, 720);
+  ctx.fillText(card.Faction, 80, 720);
 
   ctx.font = "300 58px NotoSerif";
   ctx.fillText(`Strength: ${card.Strength}`, 80, 850);
+
+  drawCardNumber(ctx, card);
+};
+
+export const drawFactionInfo = async (card, ctx, canvas) => {
+  canvas.width = 2250;
+
+  const imgs = await preloadImages([
+    "./cards/faction/info.png",
+    "./cards/shared/battle_back.png",
+    "./cards/shared/sorc_back.png",
+    "./cards/shared/traitor_back.png",
+    ...defaultImages,
+  ]);
+
+  const boardImgs = await preloadImages([
+    "./cards/faction/info_GBC.png",
+    "./cards/faction/info_MG.png",
+    "./cards/faction/info_NL.png",
+    "./cards/faction/info_OC.png",
+    "./cards/faction/info_OOM.png",
+    "./cards/faction/info_TSO.png",
+  ]);
+
+  const sigilImgs = await preloadImages([
+    "./cards/traitor/GB_sigil.png",
+    "./cards/traitor/MG_sigil.png",
+    "./cards/traitor/NL_sigil.png",
+    "./cards/traitor/OC_sigil.png",
+    "./cards/traitor/OOM_sigil.png",
+    "./cards/traitor/TSO_sigil.png",
+  ]);
+
+  const getSigil = (faction) => {
+    switch (faction) {
+      case "GBC":
+        return sigilImgs[0];
+      case "MG":
+        return sigilImgs[1];
+      case "NL":
+        return sigilImgs[2];
+      case "OC":
+        return sigilImgs[3];
+      case "OOM":
+        return sigilImgs[4];
+      case "TSO":
+        return sigilImgs[5];
+    }
+  };
+
+  const getBoardImg = (faction) => {
+    switch (faction) {
+      case "GBC":
+        return boardImgs[0];
+      case "MG":
+        return boardImgs[1];
+      case "NL":
+        return boardImgs[2];
+      case "OC":
+        return boardImgs[3];
+      case "OOM":
+        return boardImgs[4];
+      case "TSO":
+        return boardImgs[5];
+    }
+  };
+
+  ctx.drawImage(
+    getBoardImg(card["Faction"]),
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+  ctx.fillStyle = "#ddd";
+  ctx.font = "300 124px NotoSerif";
+  // scaleText(
+  //   ctx,
+  //   card["Faction Name"],
+  //   {
+  //     weight: 700,
+  //     px: 55,
+  //     family: "Bahnschrift",
+  //   },
+  //   480
+  // );
+  ctx.fillText(card["Faction Name"], 220, 150);
+  ctx.drawImage(getSigil(card.Faction), 40, 40, 130, 130);
+
+  let hsxpos = 60;
+  // hand size
+  ctx.fillStyle = "#ddd";
+  ctx.font = "700 64px Bahnschrift";
+  ctx.fillText("Hand Size", 60, 300);
+
+  ctx.font = "500 140px Bahnschrift";
+  ctx.drawImage(imgs[1], hsxpos, 360, 84, 120);
+  hsxpos += 100;
+  ctx.fillText(card["BCH"], hsxpos, 460);
+  hsxpos += 140;
+
+  ctx.drawImage(imgs[2], hsxpos, 360, 84, 120);
+  hsxpos += 100;
+  ctx.fillText(card["SCH"], hsxpos, 470);
+  hsxpos += 140;
+
+  ctx.drawImage(imgs[3], hsxpos, 360, 84, 120);
+  hsxpos += 100;
+  ctx.fillText(card["TCH"], hsxpos, 470);
+  hsxpos += 140;
+
+  // troops
+  ctx.font = "700 64px Bahnschrift";
+  ctx.fillText("Troops", 1000, 300);
+
+  ctx.font = "300 48px NotoSerif";
+  ctx.fillText(`${card["T1Q"]} ${card["Troop 1"]}`, 1000, 400);
+  ctx.font = "300 36px NotoSerif";
+  ctx.fillText(`Cost: ${card["T1RC"]}g each`, 1000, 440);
+
+  if (card["Troop 2"]) {
+    ctx.font = "300 44px NotoSerif";
+    ctx.fillText(`${card["T2Q"]} ${card["Troop 2"]}`, 1000, 520);
+    ctx.font = "300 32px NotoSerif";
+    ctx.fillText(`Cost: ${card["T2RC"]}g each`, 1000, 560);
+  }
+
+  ctx.font = "700 64px Bahnschrift";
+  ctx.fillText("Recruitment Location", 1000, 720);
+
+  ctx.font = "300 36px NotoSerif";
+  wrapText(ctx, card["Recruit Loc"], 1000, 780, 1020, 40);
+};
+
+export const drawFactionAbilityCard = async (card, ctx, canvas) => {
+  const imgs = await preloadImages([
+    "./cards/faction/ability_card.png",
+    "./cards/faction/svc_card.png",
+    "./cards/faction/card_alliance.png",
+
+    ...defaultImages,
+  ]);
+  const sigilImgs = await preloadImages([
+    "./cards/traitor/GB_sigil.png",
+    "./cards/traitor/MG_sigil.png",
+    "./cards/traitor/NL_sigil.png",
+    "./cards/traitor/OC_sigil.png",
+    "./cards/traitor/OOM_sigil.png",
+    "./cards/traitor/TSO_sigil.png",
+  ]);
+
+  const getSigil = (faction) => {
+    switch (faction) {
+      case "GBC":
+        return sigilImgs[0];
+      case "MG":
+        return sigilImgs[1];
+      case "NL":
+        return sigilImgs[2];
+      case "OC":
+        return sigilImgs[3];
+      case "OOM":
+        return sigilImgs[4];
+      case "TSO":
+        return sigilImgs[5];
+    }
+  };
+
+  if (card.Type === "Special Victory Condition") {
+    ctx.drawImage(imgs[1], 0, 0, canvas.width, canvas.height);
+  } else if (card.Type === "Faction Alliance") {
+    ctx.drawImage(imgs[2], 0, 0, canvas.width, canvas.height);
+  } else {
+    ctx.drawImage(imgs[0], 0, 0, canvas.width, canvas.height);
+  }
+
+  ctx.drawImage(getSigil(card.Faction), 600, 50, 100, 100);
+
+  ctx.fillStyle = "#ddd";
+  ctx.font = "700 55px Bahnschrift";
+  scaleText(
+    ctx,
+    card.Name,
+    {
+      weight: 700,
+      px: 55,
+      family: "Bahnschrift",
+    },
+    500
+  );
+  ctx.fillText(card.Name, 80, 120);
+
+  ctx.fillStyle = "#333";
+  let yPos = 260;
+  let scalingFactor = card.Effect.length / 45;
+  let baseFontSize = 44;
+  let fontSize = Math.floor(baseFontSize - scalingFactor);
+  let lineHeight = fontSize * 1.5;
+
+  ctx.font = `700 48px Bahnschrift`;
+
+  if (card.Type === "Special Victory Condition") {
+    ctx.fillText("Special Victory Condition", 80, yPos, 600);
+    yPos = 360;
+  } if (card.Type === "Faction Alliance") {
+    ctx.fillText("Alliance", 80, yPos, 600);
+    yPos = 360;
+  }
+
+  ctx.fillStyle = "#111";
+  ctx.font = `300 ${fontSize}px NotoSerif`;
+
+  if (card.Type === "Faction Alliance") {
+    let effects = card.Effect.split("/");
+    let startY = 380;
+    each(effects, (effect) => {
+      let num = wrapText(ctx, effect.trim(), 80, startY, 600, lineHeight);
+      startY += num + lineHeight;
+    })
+  } else {
+  
+    wrapText(ctx, `${card.Effect}`, 80, yPos, 600, lineHeight);
+  }
 
   drawCardNumber(ctx, card);
 };
