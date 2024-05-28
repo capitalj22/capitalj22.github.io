@@ -44,12 +44,18 @@ export const drawBattleCard = async (card, ctx, canvas, imageData) => {
   const imgs = await preloadImages([
     find(imageData, { cardNumber: card["S#"] })?.url,
     "./cards/battle/card.png",
+    "./cards/battle/RPS.png",
     ...defaultImages,
   ]);
+  
 
   drawCardAndImage(ctx, canvas, [imgs[0], imgs[1], imgs[2]]);
 
-  await addBattleBadges(card, ctx, [imgs[3], imgs[4]]);
+  await addBattleBadges(card, ctx, [imgs[4], imgs[5]]);
+
+  if (card.Subtype === "Weapon") {
+    ctx.drawImage(imgs[2], 540, 880, 160, 160);
+  }
 
   ctx.fillStyle = "#0C0A07";
   ctx.font = "700 55px Bahnschrift";
@@ -88,7 +94,7 @@ export const drawBattleCard = async (card, ctx, canvas, imageData) => {
   if (card["Effect 3"]) {
     wrapText(
       ctx,
-      `${card["Effect 2"]}`,
+      `${card["Effect 3"]}`,
       80,
       660 + line1Height + line2Height + 60,
       600,
@@ -509,6 +515,12 @@ export const drawFactionInfo = async (card, ctx, canvas) => {
 };
 
 export const drawFactionAbilityCard = async (card, ctx, canvas) => {
+  const isFactionAlliance = card.Type === "Faction Alliance";
+
+  if (card.Type === "Faction Ability") {
+    canvas.height = 1330;
+  }
+
   const imgs = await preloadImages([
     "./cards/faction/ability_card.png",
     "./cards/faction/svc_card.png",
@@ -523,6 +535,15 @@ export const drawFactionAbilityCard = async (card, ctx, canvas) => {
     "./cards/traitor/OC_sigil.png",
     "./cards/traitor/OOM_sigil.png",
     "./cards/traitor/TSO_sigil.png",
+  ]);
+
+  const factionCardImgs = await preloadImages([
+    "./cards/faction/card_alliance_GBC.png",
+    "./cards/faction/card_alliance_MG.png",
+    "./cards/faction/card_alliance_NL.png",
+    "./cards/faction/card_alliance_OC.png",
+    "./cards/faction/card_alliance_OOM.png",
+    "./cards/faction/card_alliance_TSO.png",
   ]);
 
   const getSigil = (faction) => {
@@ -542,10 +563,27 @@ export const drawFactionAbilityCard = async (card, ctx, canvas) => {
     }
   };
 
+  const getFACard = (faction) => {
+    switch (faction) {
+      case "GBC":
+        return factionCardImgs[0];
+      case "MG":
+        return factionCardImgs[1];
+      case "NL":
+        return factionCardImgs[2];
+      case "OC":
+        return factionCardImgs[3];
+      case "OOM":
+        return factionCardImgs[4];
+      case "TSO":
+        return factionCardImgs[5];
+    }
+  };
+
   if (card.Type === "Special Victory Condition") {
     ctx.drawImage(imgs[1], 0, 0, canvas.width, canvas.height);
-  } else if (card.Type === "Faction Alliance") {
-    ctx.drawImage(imgs[2], 0, 0, canvas.width, canvas.height);
+  } else if (isFactionAlliance) {
+    ctx.drawImage(getFACard(card.Faction), 0, 0, canvas.width, canvas.height);
   } else {
     ctx.drawImage(imgs[0], 0, 0, canvas.width, canvas.height);
   }
@@ -566,9 +604,12 @@ export const drawFactionAbilityCard = async (card, ctx, canvas) => {
   );
   ctx.fillText(card.Name, 80, 120);
 
-  ctx.fillStyle = "#333";
+  ctx.fillStyle = isFactionAlliance ? "#ddd" : "#333";
   let yPos = 260;
   let scalingFactor = card.Effect.length / 45;
+  if (card.Type === "Faction Ability") {
+    scalingFactor = card.Effect.length / 55;
+  }
   let baseFontSize = 44;
   let fontSize = Math.floor(baseFontSize - scalingFactor);
   let lineHeight = fontSize * 1.5;
@@ -578,27 +619,44 @@ export const drawFactionAbilityCard = async (card, ctx, canvas) => {
   if (card.Type === "Special Victory Condition") {
     ctx.fillText("Special Victory Condition", 80, yPos, 600);
     yPos = 360;
-  } if (card.Type === "Faction Alliance") {
+  }
+  if (card.Type === "Faction Alliance") {
     ctx.fillText("Alliance", 80, yPos, 600);
     yPos = 360;
   }
 
-  ctx.fillStyle = "#111";
+  ctx.fillStyle = isFactionAlliance ? "#fff" : "#111";
   ctx.font = `300 ${fontSize}px NotoSerif`;
 
-  if (card.Type === "Faction Alliance") {
-    let effects = card.Effect.split("/");
-    let startY = 380;
-    each(effects, (effect) => {
-      let num = wrapText(ctx, effect.trim(), 80, startY, 600, lineHeight);
-      startY += num + lineHeight;
-    })
+  let effects = card.Effect.split("//");
+  let startY = 380;
+
+  if (
+    card.Type === "Faction Alliance" ||
+    card.Type === "Special Victory Condition"
+  ) {
+    startY = 380;
   } else {
-  
-    wrapText(ctx, `${card.Effect}`, 80, yPos, 600, lineHeight);
+    startY = 270;
   }
 
-  drawCardNumber(ctx, card);
+  each(effects, (effect) => {
+    let addLine = true;
+    if (effect[0] === "-") {
+      addLine = false;
+    }
+    let num = wrapText(
+      ctx,
+      effect.trim(),
+      60,
+      addLine ? startY : startY - Math.floor(lineHeight / 2),
+      640,
+      lineHeight
+    );
+    startY += num + (addLine ? Math.floor(lineHeight / 2) : 0);
+  });
+
+  // drawCardNumber(ctx, card);
 };
 
 export const drawFortressCard = async (card, ctx, canvas, imageData) => {
@@ -664,12 +722,14 @@ export const drawManastormCard = async (
     "./cards/manastorm/forest.png",
   ]);
 
+  const sharedImgs = await preloadImages(["./cards/shared/mana.png"]);
+
   if (card.Title !== "Vortex") {
     if (card["World Change"]) {
       let aspectRatio = imgs[8].width / imgs[8].height;
 
       ctx.drawImage(imgs[8], 0, 0, canvas.width, canvas.width / aspectRatio);
-    } else {
+    } else if (regionCoords[card.Title]) {
       fillWorldRegion(ctx, canvas, card.Title, imgs[0]);
     }
 
@@ -713,7 +773,8 @@ export const drawManastormCard = async (
     ctx.font = "300 150px NotoSerif";
 
     let manaxpos = centerText(ctx, card["Effect/Mana"], 725);
-    ctx.fillText(card["Effect/Mana"], manaxpos, 910);
+    ctx.drawImage(sharedImgs[0], manaxpos - 80, 800, 125, 125);
+    ctx.fillText(card["Effect/Mana"], manaxpos + 80, 915);
   } else {
     drawCardAndImage(ctx, canvas, [imgs[1], imgs[2]]);
 

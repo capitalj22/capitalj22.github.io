@@ -219,6 +219,7 @@ export function CardBuilder() {
                 setCardTypeToDraw("FI");
                 setCards(sheet);
               }
+              break;
             case "Mana Storm":
               if (cardType == "MS" || cardType == "all" || !cardType) {
                 setCardTypeToDraw("MS");
