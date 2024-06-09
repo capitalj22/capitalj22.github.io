@@ -317,10 +317,7 @@ export function CardBuilder() {
       </div>
       <div className="canvases">
         {canvases.map((el, i) => (
-          <canvas
-            key={el.key}
-            ref={(ref) => (canvasRefs.current[i] = ref)}
-          ></canvas>
+          <canvas key={i} ref={(ref) => (canvasRefs.current[i] = ref)}></canvas>
         ))}
       </div>
     </div>

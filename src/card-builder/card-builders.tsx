@@ -47,7 +47,6 @@ export const drawBattleCard = async (card, ctx, canvas, imageData) => {
     "./cards/battle/RPS.png",
     ...defaultImages,
   ]);
-  
 
   drawCardAndImage(ctx, canvas, [imgs[0], imgs[1], imgs[2]]);
 
@@ -525,7 +524,6 @@ export const drawFactionAbilityCard = async (card, ctx, canvas) => {
     "./cards/faction/ability_card.png",
     "./cards/faction/svc_card.png",
     "./cards/faction/card_alliance.png",
-
     ...defaultImages,
   ]);
   const sigilImgs = await preloadImages([
@@ -544,6 +542,11 @@ export const drawFactionAbilityCard = async (card, ctx, canvas) => {
     "./cards/faction/card_alliance_OC.png",
     "./cards/faction/card_alliance_OOM.png",
     "./cards/faction/card_alliance_TSO.png",
+  ]);
+
+  const resourceImgs = await preloadImages([
+    "./cards/shared/empower.png",
+    "./cards/shared/threshold.png",
   ]);
 
   const getSigil = (faction) => {
@@ -589,6 +592,31 @@ export const drawFactionAbilityCard = async (card, ctx, canvas) => {
   }
 
   ctx.drawImage(getSigil(card.Faction), 600, 50, 100, 100);
+  let textPosY = 260;
+
+  if (card.Empower || card.Threshold) {
+    const img = card.Empower ? resourceImgs[0] : resourceImgs[1];
+    const text = card.Empower || card.Threshold;
+    ctx.drawImage(img, 250, 240, 240, 240);
+    ctx.fillStyle = "#fff";
+    ctx.strokeStyle = "#222";
+    ctx.lineWidth = 10;
+    ctx.font = "700 155px Bahnschrift";
+    const manaPosX = 250 + centerText(ctx, text, 240);
+    ctx.strokeText(`${text}`, manaPosX, 415);
+    ctx.fillText(`${text}`, manaPosX, 415);
+    ctx.font = `700 48px Bahnschrift`;
+    ctx.fillStyle = "#333";
+    const empowerText = `${card.Empower ? "Empower" : "Threshold"}: ${text}`
+    ctx.fillText(
+      empowerText,
+      centerText(ctx, empowerText, 750),
+      textPosY + 300,
+      600
+    );
+
+    textPosY += 420;
+  }
 
   ctx.fillStyle = "#ddd";
   ctx.font = "700 55px Bahnschrift";
@@ -605,7 +633,7 @@ export const drawFactionAbilityCard = async (card, ctx, canvas) => {
   ctx.fillText(card.Name, 80, 120);
 
   ctx.fillStyle = isFactionAlliance ? "#ddd" : "#333";
-  let yPos = 260;
+  let yPos = textPosY;
   let scalingFactor = card.Effect.length / 45;
   if (card.Type === "Faction Ability") {
     scalingFactor = card.Effect.length / 55;
@@ -618,26 +646,26 @@ export const drawFactionAbilityCard = async (card, ctx, canvas) => {
 
   if (card.Type === "Special Victory Condition") {
     ctx.fillText("Special Victory Condition", 80, yPos, 600);
-    yPos = 360;
+    yPos += 100;
   }
   if (card.Type === "Faction Alliance") {
     ctx.fillText("Alliance", 80, yPos, 600);
-    yPos = 360;
+    yPos += 100;
   }
 
   ctx.fillStyle = isFactionAlliance ? "#fff" : "#111";
   ctx.font = `300 ${fontSize}px NotoSerif`;
 
   let effects = card.Effect.split("//");
-  let startY = 380;
+  let startY = yPos + 20;
 
   if (
     card.Type === "Faction Alliance" ||
     card.Type === "Special Victory Condition"
   ) {
-    startY = 380;
+    startY = yPos + 20;
   } else {
-    startY = 270;
+    startY = yPos;
   }
 
   each(effects, (effect) => {

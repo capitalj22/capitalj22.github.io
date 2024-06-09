@@ -1,36 +1,36 @@
 @font-face {
   font-family: "Bahnschrift";
-  src: url("fonts/Bahnschrift.ttf");
+  src: url("assets/fonts/Bahnschrift.ttf");
 }
 
 @font-face {
   font-family: "Garamond";
-  src: url("fonts/Garamond.ttf");
+  src: url("assets/fonts/Garamond.ttf");
 }
 
 @font-face {
   font-family: "NotoSerif";
-  src: url("fonts/NotoSerif-Regular.ttf");
+  src: url("assets/fonts/NotoSerif-Regular.ttf");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: "NotoSerif";
-  src: url("fonts/NotoSerif-Bold.ttf");
+  src: url("assets/fonts/NotoSerif-Bold.ttf");
   font-weight: bold;
   font-style: normal;
 }
 
 @font-face {
   font-family: "NotoSerif";
-  src: url("fonts/NotoSerif-BoldItalic.ttf");
+  src: url("assets/fonts/NotoSerif-BoldItalic.ttf");
   font-style: italic;
   font-weight: bold;
 }
 @font-face {
   font-family: "NotoSerif";
-  src: url("fonts/NotoSerif-Italic.ttf");
+  src: url("assets/fonts/NotoSerif-Italic.ttf");
   font-style: italic;
   font-weight: normal;
 }

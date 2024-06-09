@@ -1,6 +1,7 @@
 import ReactDOM from "react-dom/client";
 import { App } from "./App";
 import "./index.css";
+import "./local-fonts.css";
 import { CardBuilder } from "./card-builder/CardBuilder";
 import { createHashRouter, RouterProvider } from "react-router-dom";
 
