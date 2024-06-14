@@ -1,3 +1,5 @@
+import { each } from "lodash-es";
+
 export const preloadImages = async (urls) => {
   const promises = urls.map((url) => {
     return new Promise((resolve, reject) => {
@@ -12,6 +14,31 @@ export const preloadImages = async (urls) => {
 
   return Promise.all(promises);
 };
+
+export async function preloadImagesNamed<T>(imgs: T): Promise<T> {
+  const imgsMapped = {};
+  const promise = await Promise.all(
+    Object.keys(imgs).map(async (key) => {
+      return {
+        name: key,
+        url: await new Promise((resolve, reject) => {
+          const image = new Image();
+
+          image.src = imgs[key];
+
+          image.onload = () => resolve(image);
+          image.onerror = () => resolve(null);
+        }),
+      };
+    })
+  );
+
+  each(promise, (img) => {
+    imgsMapped[img.name] = img.url;
+  });
+
+  return imgsMapped as T;
+}
 
 export const centerText = (ctx, text, targetWidth) => {
   const measuredText = ctx.measureText(text).width;
