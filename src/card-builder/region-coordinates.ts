@@ -2,7 +2,7 @@ export const regionCoords = {
   "Lake Tresamina": { x: 340, y: 90 },
   "Shadow Dale": { x: 200, y: 166 },
   "Upper Sirion": { x: 276, y: 192 },
-  "Lower Sirion": { x: 270, y: 204 },
+  "Lower Sirion": { x: 260, y: 290 },
   "Broken Lands": { x: 240, y: 462 },
   "Valley of the Crown": { x: 360, y: 260 },
   "Valan Conflux": { x: 320, y: 440 },

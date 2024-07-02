@@ -15,6 +15,15 @@ const defaultImages = [
   "./cards/battle/weapon_badge.png",
   "./cards/battle/tactic_badge.png",
 ];
+type FactionName =
+  | "Goldbeard Clan"
+  | "Orcish Confederation"
+  | "Order of Moonlight"
+  | "Necromantic League"
+  | "Mercenary Guild"
+  | "The Silent Ones";
+
+type FactionNickname = "GBC" | "OC" | "OOM" | "NL" | "MG" | "TSO";
 
 enum Fonts {
   Bs = "Bahnschrift",
@@ -112,6 +121,28 @@ const drawText = (
     }
   });
 };
+async function getSigil(factionName: FactionName | FactionNickname) {
+  switch (factionName) {
+    case "Goldbeard Clan":
+    case "GBC":
+      return await preloadImage("./cards/traitor/GB_sigil.png");
+    case "Orcish Confederation":
+    case "OC":
+      return await preloadImage("./cards/traitor/OC_sigil.png");
+    case "Order of Moonlight":
+    case "OOM":
+      return await preloadImage("./cards/traitor/OOM_sigil.png");
+    case "Necromantic League":
+    case "NL":
+      return await preloadImage("./cards/traitor/NL_sigil.png");
+    case "Mercenary Guild":
+    case "MG":
+      return await preloadImage("./cards/traitor/MG_sigil.png");
+    case "The Silent Ones":
+    case "TSO":
+      return await preloadImage("./cards/traitor/TSO_sigil.png");
+  }
+}
 
 const addBattleBadges = async (card, ctx) => {
   if (card.Subtype === "Weapon") {
@@ -268,6 +299,7 @@ function drawTitle(
     },
     500
   );
+
   ctx.fillText(`${title}`, 80, yPos);
 }
 
@@ -544,31 +576,8 @@ export const drawTraitorCard = async (card, ctx, canvas, imageData) => {
   const imgs = await preloadImages([
     find(imageData, { cardNumber: card["S#"] }).url,
     "./cards/traitor/card.png",
-    "./cards/traitor/GB_sigil.png",
-    "./cards/traitor/MG_sigil.png",
-    "./cards/traitor/NL_sigil.png",
-    "./cards/traitor/OC_sigil.png",
-    "./cards/traitor/OOM_sigil.png",
-    "./cards/traitor/TSO_sigil.png",
     ...defaultImages,
   ]);
-  const getSigil = (faction) => {
-    switch (faction) {
-      case "Goldbeard Clan":
-        return imgs[2];
-      case "Orcish Confederation":
-        return imgs[5];
-      case "Order of Moonlight":
-        return imgs[6];
-      case "Necromantic League":
-        return imgs[4];
-      case "Mercenary Guild":
-        return imgs[3];
-      case "The Silent Ones":
-        return imgs[7];
-    }
-    return imgs[2];
-  };
 
   if (imgs[0]) {
     let aspectRatio = imgs[0].width / imgs[0].height;
@@ -585,7 +594,7 @@ export const drawTraitorCard = async (card, ctx, canvas, imageData) => {
   }
 
   ctx.drawImage(imgs[1], 0, 0, canvas.width, canvas.height);
-  ctx.drawImage(getSigil(card.Faction), 540, 60, 160, 160);
+  ctx.drawImage(await getSigil(card.Faction), 540, 60, 160, 160);
 
   ctx.fillStyle = "#fff";
   ctx.font = "700 55px Bahnschrift";
@@ -632,32 +641,6 @@ export const drawFactionInfo = async (card, ctx, canvas) => {
     "./cards/faction/info_TSO.png",
   ]);
 
-  const sigilImgs = await preloadImages([
-    "./cards/traitor/GB_sigil.png",
-    "./cards/traitor/MG_sigil.png",
-    "./cards/traitor/NL_sigil.png",
-    "./cards/traitor/OC_sigil.png",
-    "./cards/traitor/OOM_sigil.png",
-    "./cards/traitor/TSO_sigil.png",
-  ]);
-
-  const getSigil = (faction) => {
-    switch (faction) {
-      case "GBC":
-        return sigilImgs[0];
-      case "MG":
-        return sigilImgs[1];
-      case "NL":
-        return sigilImgs[2];
-      case "OC":
-        return sigilImgs[3];
-      case "OOM":
-        return sigilImgs[4];
-      case "TSO":
-        return sigilImgs[5];
-    }
-  };
-
   const getBoardImg = (faction) => {
     switch (faction) {
       case "GBC":
@@ -685,18 +668,9 @@ export const drawFactionInfo = async (card, ctx, canvas) => {
 
   ctx.fillStyle = "#ddd";
   ctx.font = "300 124px NotoSerif";
-  // scaleText(
-  //   ctx,
-  //   card["Faction Name"],
-  //   {
-  //     weight: 700,
-  //     px: 55,
-  //     family: "Bahnschrift",
-  //   },
-  //   480
-  // );
+
   ctx.fillText(card["Faction Name"], 220, 150);
-  ctx.drawImage(getSigil(card.Faction), 40, 40, 130, 130);
+  ctx.drawImage(await getSigil(card.Faction), 40, 40, 130, 130);
 
   let hsxpos = 60;
   // hand size
@@ -756,14 +730,6 @@ export const drawFactionAbilityCard = async (card, ctx, canvas) => {
     "./cards/faction/card_alliance.png",
     ...defaultImages,
   ]);
-  const sigilImgs = await preloadImages([
-    "./cards/traitor/GB_sigil.png",
-    "./cards/traitor/MG_sigil.png",
-    "./cards/traitor/NL_sigil.png",
-    "./cards/traitor/OC_sigil.png",
-    "./cards/traitor/OOM_sigil.png",
-    "./cards/traitor/TSO_sigil.png",
-  ]);
 
   const factionCardImgs = await preloadImages([
     "./cards/faction/card_alliance_GBC.png",
@@ -778,23 +744,6 @@ export const drawFactionAbilityCard = async (card, ctx, canvas) => {
     "./cards/shared/empower.png",
     "./cards/shared/threshold.png",
   ]);
-
-  const getSigil = (faction) => {
-    switch (faction) {
-      case "GBC":
-        return sigilImgs[0];
-      case "MG":
-        return sigilImgs[1];
-      case "NL":
-        return sigilImgs[2];
-      case "OC":
-        return sigilImgs[3];
-      case "OOM":
-        return sigilImgs[4];
-      case "TSO":
-        return sigilImgs[5];
-    }
-  };
 
   const getFACard = (faction) => {
     switch (faction) {
@@ -821,7 +770,7 @@ export const drawFactionAbilityCard = async (card, ctx, canvas) => {
     ctx.drawImage(imgs[0], 0, 0, canvas.width, canvas.height);
   }
 
-  ctx.drawImage(getSigil(card.Faction), 600, 50, 100, 100);
+  ctx.drawImage(await getSigil(card.Faction), 600, 50, 100, 100);
   let textPosY = 260;
 
   if (card.Empower || card.Threshold) {
