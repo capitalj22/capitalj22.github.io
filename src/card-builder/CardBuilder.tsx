@@ -98,7 +98,7 @@ export function CardBuilder() {
 
           break;
         case "H":
-          drawHordeCard(card, ctx, canvas, imageData);
+          drawHordeCard(card, ctx, imageData);
 
           break;
         case "SC":

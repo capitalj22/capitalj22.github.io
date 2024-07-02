@@ -1,6 +1,8 @@
 import { each, find } from "lodash-es";
 import {
   centerText,
+  fillWorldRegion,
+  preloadImage,
   preloadImages,
   preloadImagesNamed,
   scaleText,
@@ -14,18 +16,20 @@ const defaultImages = [
   "./cards/battle/tactic_badge.png",
 ];
 
-const preloadDefaultImages = async () => {
-  return await preloadImagesNamed({
-    wip: "./cards/generic/construction.png",
-    badge_weapon: "./cards/battle/weapon_badge.png",
-    badge_tactic: "./cards/battle/tactic_badge.png",
-  });
-};
-
 enum Fonts {
   Bs = "Bahnschrift",
   Ns = "NotoSerif",
   Ga = "Garamond",
+}
+
+enum Weight {
+  light = 300,
+  med = 500,
+  bold = 700,
+}
+
+enum FontSize {
+  title = 55,
 }
 
 enum Fill {
@@ -35,22 +39,38 @@ enum Fill {
   playWhen = "#f6d2a7",
   choose = "#f9ebda",
   whiteish = "#eee",
+  hordeDark = "#1D0808",
 }
 
 export interface CardFont {
   font: Fonts;
-  size: number;
+  size: FontSize | number;
   lineHeight?: "big" | "small";
   fill: Fill;
   italic?: boolean;
-  weight: 300 | 500 | 700;
+  weight: Weight;
   strokeColor?: Fill;
   strokeSize?: number;
 }
 
+const setFont = (ctx, font: CardFont) => {
+  ctx.fillStyle = font.fill;
+
+  ctx.font = `${font.italic ? "Italic" : "Normal"} ${font.weight} ${
+    font.size
+  }px ${font.font}`;
+
+  if (font.strokeColor) {
+    ctx.strokeStyle = font.strokeColor;
+  }
+
+  if (font.strokeSize) {
+    ctx.lineWidth = font.strokeSize;
+  }
+};
+
 const drawText = (
   ctx: CanvasRenderingContext2D,
-  canvas: HTMLCanvasElement,
   items: Array<{
     text: string;
     font: CardFont;
@@ -74,14 +94,12 @@ const drawText = (
       } else if (item.font.lineHeight === "big") {
         lineheight = item.font.size * 1.8;
       } else {
-        lineheight = item.font.size * 1.5;
+        lineheight = Math.ceil(item.font.size * 1.35);
       }
 
       ctx.fillStyle = item.font.fill;
-      ctx.font = `${item.font.italic ? "Italic" : "Normal"} ${
-        item.font.weight
-      } ${item.font.size}px ${item.font.font}`;
 
+      setFont(ctx, item.font);
       let linesAdded = wrapText(ctx, item.text, pos.x, y, maxWidth, lineheight);
 
       if (item.spacingAfter === "small") {
@@ -95,11 +113,13 @@ const drawText = (
   });
 };
 
-const addBattleBadges = async (card, ctx, imgs) => {
+const addBattleBadges = async (card, ctx) => {
   if (card.Subtype === "Weapon") {
-    ctx.drawImage(imgs[0], 12, 12, imgs[0].width, imgs[0].height);
+    const img = await preloadImage("./cards/battle/weapon_badge.png");
+    ctx.drawImage(img, 12, 12, img.width, img.height);
   } else if (card.Subtype === "Tactic") {
-    ctx.drawImage(imgs[1], 12, 12, imgs[1].width, imgs[1].height);
+    const img = await preloadImage("./cards/battle/tactic_badge.png");
+    ctx.drawImage(img, 12, 12, img.width, img.height);
   }
 };
 
@@ -115,34 +135,70 @@ const drawCardAndImage = async (ctx, canvas, imgs) => {
   ctx.drawImage(imgs[1], 0, 0, canvas.width, canvas.height);
 };
 
-const drawCardNumber = (ctx, card) => {
-  ctx.fillStyle = "#fff";
-  ctx.font = "300 26px Bahnschrift";
-  wrapText(ctx, `#${card["S#"]}`, 650, 1065, 570, 40);
+const drawCardAndImageNamed = async (
+  ctx: CanvasRenderingContext2D,
+  imgs: { art?: ImageBitmap; card: ImageBitmap }
+) => {
+  if (imgs.art) {
+    let aspectRatio = imgs.art.width / imgs.art.height;
+
+    ctx.drawImage(
+      imgs.art,
+      0,
+      0,
+      ctx.canvas.width,
+      ctx.canvas.width / aspectRatio
+    );
+  } else {
+    const placeholderImgs = await preloadImagesNamed({
+      art: "./cards/generic/construction.png",
+    });
+
+    ctx.drawImage(
+      placeholderImgs.art,
+      0,
+      0,
+      placeholderImgs.art.width,
+      placeholderImgs.art.height
+    );
+  }
+
+  ctx.drawImage(imgs.card, 0, 0, ctx.canvas.width, ctx.canvas.height);
+};
+
+const drawCardNumber = (ctx: CanvasRenderingContext2D, card) => {
+  setFont(ctx, { weight: 300, size: 26, font: Fonts.Bs, fill: Fill.white });
+
+  if (card["S#"]) {
+    ctx.fillText(
+      `#${card["S#"]}`,
+      ctx.canvas.width - 120,
+      ctx.canvas.height - 15
+    );
+  }
 };
 
 export const drawBattleCard = async (card, ctx, canvas, imageData) => {
   const imgs = await preloadImagesNamed({
     art: find(imageData, { cardNumber: card["S#"] })?.url,
-    back: "./cards/battle/card.png",
+    card: "./cards/battle/card.png",
     RPS: "./cards/battle/RPS.png",
   });
 
-  const defaultImages = await preloadDefaultImages();
-
-  drawCardAndImage(ctx, canvas, [imgs.art, imgs.back, imgs.RPS]);
-
-  await addBattleBadges(card, ctx, [
-    defaultImages.badge_tactic,
-    defaultImages.badge_weapon,
-  ]);
+  await drawCardAndImageNamed(ctx, { art: imgs.art, card: imgs.card });
+  await addBattleBadges(card, ctx);
 
   if (card.Subtype === "Weapon") {
-    ctx.drawImage([2], 540, 880, 160, 160);
+    ctx.drawImage(imgs.RPS, 540, 880, 160, 160);
   }
 
-  ctx.fillStyle = "#0C0A07";
-  ctx.font = "700 55px Bahnschrift";
+  setFont(ctx, {
+    fill: Fill.dark,
+    weight: 700,
+    font: Fonts.Bs,
+    size: 55,
+  });
+
   const diff = scaleText(
     ctx,
     card.Title,
@@ -156,68 +212,55 @@ export const drawBattleCard = async (card, ctx, canvas, imageData) => {
 
   ctx.fillText(`${card.Title}`, 80, 520 + diff);
 
-  ctx.fillStyle = "#10090C";
-  ctx.font = "300 34px NotoSerif";
+  const effectFont: CardFont = {
+    fill: Fill.dark,
+    font: Fonts.Ns,
+    size: 34,
+    weight: 300,
+  };
 
-  let line1Height;
-  let line2Height;
-
-  line1Height = wrapText(ctx, `${card["Effect 1"]}`, 80, 660, 600, 40);
-
-  if (card["Effect 2"]) {
-    line2Height = wrapText(
-      ctx,
-      `${card["Effect 2"]}`,
-      80,
-      660 + line1Height + 30,
-      600,
-      40
-    );
-  }
-
-  if (card["Effect 3"]) {
-    wrapText(
-      ctx,
-      `${card["Effect 3"]}`,
-      80,
-      660 + line1Height + line2Height + 60,
-      600,
-      40
-    );
-  }
+  drawText(
+    ctx,
+    [
+      {
+        text: card["Effect 1"],
+        font: effectFont,
+      },
+      {
+        text: card["Effect 2"],
+        font: effectFont,
+      },
+      {
+        text: card["Effect 3"],
+        font: effectFont,
+      },
+    ],
+    {
+      x: 80,
+      yStart: 660,
+      maxWidth: 600,
+    }
+  );
 
   drawCardNumber(ctx, card);
 };
 
-export const drawSorceryCard = async (card, ctx, canvas, imageData) => {
-  const cardImage = find(imageData, { cardNumber: card["S#"] });
-
-  const imgs = await preloadImages([
-    cardImage?.url,
-    "./cards/sorcery/card.png",
-    ...defaultImages,
-  ]);
-
-  drawCardAndImage(ctx, canvas, [imgs[0], imgs[1], imgs[2]]);
-
-  await addBattleBadges(card, ctx, [imgs[3], imgs[4]]);
-
-  let manaPosX = 600;
-
-  ctx.fillStyle = "#fff";
-  ctx.strokeStyle = "#22a2f";
-  ctx.lineWidth = 10;
-  ctx.font = "700 95px Bahnschrift";
-  manaPosX = 600 + centerText(ctx, card["Mana Cost"], 135);
-  ctx.strokeText(`${card["Mana Cost"]}`, manaPosX, 114);
-  ctx.fillText(`${card["Mana Cost"]}`, manaPosX, 114);
-
-  ctx.fillStyle = "#fff";
-  ctx.font = "700 55px Bahnschrift";
+function drawTitle(
+  ctx: CanvasRenderingContext2D,
+  title: string,
+  fill: Fill,
+  yPos: number = 520
+) {
+  setFont(ctx, {
+    fill: fill,
+    font: Fonts.Bs,
+    weight: Weight.bold,
+    size: FontSize.title,
+  });
 
   scaleText(
     ctx,
-    card.Title,
+    title,
     {
       weight: 700,
       px: 55,
@@ -225,7 +268,40 @@ export const drawSorceryCard = async (card, ctx, canvas, imageData) => {
     },
     500
   );
-  ctx.fillText(`${card.Title}`, 80, 520);
+  ctx.fillText(`${title}`, 80, yPos);
+}
+
+export const drawSorceryCard = async (
+  card,
+  ctx: CanvasRenderingContext2D,
+  canvas: HTMLCanvasElement,
+  imageData
+) => {
+  const cardImage = find(imageData, { cardNumber: card["S#"] });
+
+  const imgs = await preloadImagesNamed({
+    art: cardImage?.url,
+    card: "./cards/sorcery/card.png",
+  });
+
+  await drawCardAndImageNamed(ctx, { art: imgs.art, card: imgs.card });
+  await addBattleBadges(card, ctx);
+
+  setFont(ctx, {
+    fill: Fill.white,
+    font: Fonts.Bs,
+    weight: 700,
+    size: 95,
+    strokeSize: 10,
+    strokeColor: Fill.darkStroke,
+  });
+
+  let manaPosX = 600;
+  manaPosX = 600 + centerText(ctx, card["Mana Cost"], 135);
+  ctx.strokeText(`${card["Mana Cost"]}`, manaPosX, 114);
+  ctx.fillText(`${card["Mana Cost"]}`, manaPosX, 114);
+
+  drawTitle(ctx, card.Title, Fill.white);
 
   let effectFontSize = 32;
   if (card["Effect 2"]) {
@@ -235,9 +311,15 @@ export const drawSorceryCard = async (card, ctx, canvas, imageData) => {
     effectFontSize -= 2;
   }
 
+  const effectFont: CardFont = {
+    font: Fonts.Ga,
+    fill: Fill.whiteish,
+    weight: 300,
+    lineHeight: "small",
+    size: effectFontSize,
+  };
   drawText(
     ctx,
-    canvas,
     [
       {
         text: `*${card["When to Play"]}`,
@@ -265,36 +347,18 @@ export const drawSorceryCard = async (card, ctx, canvas, imageData) => {
       {
         text: card["Effect"],
         spacingAfter: "big",
-        font: {
-          font: Fonts.Ga,
-          fill: Fill.whiteish,
-          weight: 300,
-          lineHeight: "small",
-          size: effectFontSize,
-        },
+        font: effectFont,
       },
       {
         text: card["Effect 2"],
         spacingAfter: "big",
-        font: {
-          font: Fonts.Ga,
-          fill: Fill.whiteish,
-          weight: 300,
-          lineHeight: "small",
-          size: effectFontSize,
-        },
+        font: effectFont,
       },
       {
         text: card["Effect 3"],
         spacingAfter: "big",
 
-        font: {
-          font: Fonts.Ga,
-          fill: Fill.whiteish,
-          weight: 300,
-          lineHeight: "small",
-          size: effectFontSize,
-        },
+        font: effectFont,
       },
     ],
     {
@@ -304,72 +368,6 @@ export const drawSorceryCard = async (card, ctx, canvas, imageData) => {
     }
   );
 
-  drawCardNumber(ctx, card);
-};
-
-export const drawSorceryCard2 = async (card, ctx, canvas, imageData) => {
-  const cardImage = find(imageData, { cardNumber: card["S#"] });
-
-  const imgs = await preloadImages([
-    cardImage?.url,
-    "./cards/sorcery/card.png",
-    ...defaultImages,
-  ]);
-
-  drawCardAndImage(ctx, canvas, [imgs[0], imgs[1], imgs[2]]);
-
-  await addBattleBadges(card, ctx, [imgs[3], imgs[4]]);
-
-  // const manaPosX = 600
-
-  ctx.fillStyle = "#fff";
-  ctx.strokeStyle = "#22a2f";
-  ctx.lineWidth = 10;
-  ctx.font = "700 95px Bahnschrift";
-  const manaPosX = 600 + centerText(ctx, card["Mana Cost"], 135);
-  ctx.strokeText(`${card["Mana Cost"]}`, manaPosX, 114);
-  ctx.fillText(`${card["Mana Cost"]}`, manaPosX, 114);
-
-  ctx.fillStyle = "#fff";
-  ctx.font = "700 55px Bahnschrift";
-
-  scaleText(
-    ctx,
-    card.Title,
-    {
-      weight: 700,
-      px: 55,
-      family: "Bahnschrift",
-    },
-    500
-  );
-  ctx.fillText(`${card.Title}`, 80, 520);
-
-  let line1Height = 0;
-  let line1Gap = 0;
-
-  ctx.fillStyle = "#f9ebca";
-  ctx.font = "Italic 200 32px NotoSerif";
-
-  if (card["When to Play"]) {
-    line1Gap = 40;
-    line1Height = wrapText(ctx, `* ${card["When to Play"]}`, 80, 610, 570, 40);
-  }
-
-  ctx.fillStyle = "#fff";
-  ctx.font = "500 36px Garamond";
-  let lineHeight = 50;
-
-  if (card.Effect.length > 150) {
-    ctx.font = "500 32px Garamond";
-    lineHeight = 45;
-  }
-  if (card.Effect.length > 300) {
-    ctx.font = "500 30px Garamond";
-    lineHeight = 35;
-  }
-
-  wrapText(ctx, card.Effect, 80, 610 + line1Height + line1Gap, 600, lineHeight);
   drawCardNumber(ctx, card);
 };
 
@@ -486,29 +484,58 @@ export const drawWorldCard = async (card, ctx, canvas, imageData) => {
   drawCardNumber(ctx, card);
 };
 
-export const drawHordeCard = async (card, ctx, canvas, imageData) => {
-  const imgs = await preloadImages([
-    find(imageData, { cardNumber: card["S#"] }).url,
-    "./cards/horde/card.png",
-    ...defaultImages,
-  ]);
-  drawCardAndImage(ctx, canvas, [imgs[0], imgs[1], imgs[2]]);
+export const drawHordeCard = async (
+  card,
+  ctx: CanvasRenderingContext2D,
+  imageData
+) => {
+  const imgs = await preloadImagesNamed({
+    art: find(imageData, { cardNumber: card["S#"] })?.url,
+    card: "./cards/horde/card.png",
+  });
 
-  ctx.fillStyle = "#fff";
-  ctx.font = "700 290px Bahnschrift";
+  await drawCardAndImageNamed(ctx, { art: imgs.art, card: imgs.card });
+
+  setFont(ctx, {
+    fill: Fill.white,
+    font: Fonts.Bs,
+    size: 290,
+    weight: Weight.bold,
+  });
+
   ctx.fillText(`${card.Distance}`, 300, 340);
 
-  ctx.fillStyle = "#1D0808";
-  ctx.font = "700 55px Bahnschrift";
-  ctx.fillText(`Move ${card.Distance}`, 100, 525);
+  drawTitle(ctx, `Move ${card.Distance}`, Fill.hordeDark);
 
-  ctx.fillStyle = "#1D0808";
-  ctx.font = "500 40px Bahnschrift";
-  ctx.fillText("Effect:", 100, 660);
-
-  ctx.fillStyle = "#1D0808";
-  ctx.font = "300 38px Bahnschrift";
-  wrapText(ctx, card.Effect, 100, 720, 570, 40);
+  drawText(
+    ctx,
+    [
+      {
+        text: "In Addition:",
+        font: {
+          fill: Fill.hordeDark,
+          font: Fonts.Bs,
+          weight: 700,
+          size: 50,
+        },
+        spacingAfter: "small",
+      },
+      {
+        text: card.Effect,
+        font: {
+          fill: Fill.hordeDark,
+          font: Fonts.Ns,
+          weight: 300,
+          size: 38,
+        },
+      },
+    ],
+    {
+      x: 80,
+      yStart: 700,
+      maxWidth: 600,
+    }
+  );
 
   drawCardNumber(ctx, card);
 };
@@ -1029,98 +1056,4 @@ export const drawManastormCard = async (
   }
 
   drawCardNumber(ctx, card);
-};
-
-const fillWorldRegion = (ctx, canvas, region, worldImg) => {
-  let offScreenCVS = canvas;
-  let offScreenCTX = ctx;
-  offScreenCTX.drawImage(
-    worldImg,
-    50,
-    50,
-    worldImg.width * 0.8,
-    worldImg.height * 0.8
-  );
-  //Set the dimensions of the drawing canvas
-  let coords = regionCoords[region];
-  let startX = Math.floor(coords.x * 0.8) + 50,
-    startY = Math.floor(coords.y * 0.8) + 50;
-  //Start with click coords
-  let pixelStack = [[startX, startY]];
-  let newPos, x, y, pixelPos, reachLeft, reachRight;
-  let startPos = (startY * offScreenCVS.width + startX) * 4;
-  let colorLayer = offScreenCTX.getImageData(
-    0,
-    0,
-    offScreenCVS.width,
-    offScreenCVS.height
-  );
-  let startR = colorLayer.data[startPos];
-  let startG = colorLayer.data[startPos + 1];
-  let startB = colorLayer.data[startPos + 2];
-
-  floodFill();
-
-  function floodFill() {
-    newPos = pixelStack.pop();
-    x = newPos[0];
-    y = newPos[1]; //get current pixel position
-    pixelPos = (y * offScreenCVS.width + x) * 4;
-    // Go up as long as the color matches and are inside the canvas
-    while (y >= 0 && matchStartColor(pixelPos)) {
-      y--;
-      pixelPos -= offScreenCVS.width * 4;
-    }
-    //Don't overextend
-    pixelPos += offScreenCVS.width * 4;
-    y++;
-    reachLeft = false;
-    reachRight = false; // Go down as long as the color matches and in inside the canvas
-    while (y < offScreenCVS.height && matchStartColor(pixelPos)) {
-      colorPixel(pixelPos);
-      if (x > 0) {
-        if (matchStartColor(pixelPos - 4)) {
-          if (!reachLeft) {
-            //Add pixel to stack
-            pixelStack.push([x - 1, y]);
-            reachLeft = true;
-          }
-        } else if (reachLeft) {
-          reachLeft = false;
-        }
-      }
-      if (x < offScreenCVS.width - 1) {
-        if (matchStartColor(pixelPos + 4)) {
-          if (!reachRight) {
-            //Add pixel to stack
-            pixelStack.push([x + 1, y]);
-            reachRight = true;
-          }
-        } else if (reachRight) {
-          reachRight = false;
-        }
-      }
-      y++;
-      pixelPos += offScreenCVS.width * 4;
-    } //recursive until no more pixels to change
-    if (pixelStack.length) {
-      floodFill();
-    }
-  }
-
-  //render floodFill result
-  offScreenCTX.putImageData(colorLayer, 0, 0); //helpers
-
-  function matchStartColor(pixelPos) {
-    let r = colorLayer.data[pixelPos];
-    let g = colorLayer.data[pixelPos + 1];
-    let b = colorLayer.data[pixelPos + 2];
-    return r === startR && g === startG && b === startB;
-  }
-  function colorPixel(pixelPos) {
-    colorLayer.data[pixelPos] = 200;
-    colorLayer.data[pixelPos + 1] = 1;
-    colorLayer.data[pixelPos + 2] = 12;
-    colorLayer.data[pixelPos + 3] = 255;
-  }
 };
