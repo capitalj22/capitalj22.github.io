@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import ExcelFileInput from "./ExcelFileInput";
-import { each, find, omit, reject } from "lodash-es";
+import { each, find, map, omit, reject, uniq } from "lodash-es";
 import "./cardBuilder.scss";
 import {
   drawBattleCard,
@@ -19,6 +19,20 @@ import { GenericSelect } from "../components/common/selects/genericSelect";
 import { SmolButton } from "../components/common/buttons/smolButton";
 import { Download, Play, RefreshCcw } from "react-feather";
 
+enum CardTypes {
+  Battle = "Battle",
+  Horde = "Horde",
+  Sorcery = "Sorcery",
+  Season = "Season",
+  Traitor = "Traitor",
+  Fortress = "Fortress",
+  World = "World",
+  ManaStorm = "Manastorm",
+  FactionAbility = "Faction Ability",
+  FactionAlliance = "Faction Alliance",
+  SVC = "Special Victory Condition",
+  FactionInfo = "Faction Info",
+}
 export function CardBuilder() {
   const CARD_WIDTH = 750,
     CARD_HEIGHT = 1080;
@@ -46,7 +60,7 @@ export function CardBuilder() {
   const [cardsDrawn, setCardsDrawn] = useState(false);
 
   const options = [
-    // { value: "all", label: "All" },
+    { value: "all", label: "All" },
     { value: "H", label: "Horde" },
     { value: "S", label: "Season" },
     { value: "SC", label: "Sorcery" },
@@ -92,44 +106,46 @@ export function CardBuilder() {
   const drawCards = async () => {
     each(cards, async (card, i) => {
       setupCanvas(i);
-      switch (cardTypeToDraw) {
-        case "B":
+      switch (card["Type"]) {
+        case CardTypes.Battle:
           await drawBattleCard(card, ctx, canvas, imageData);
 
           break;
-        case "H":
-          drawHordeCard(card, ctx, imageData);
+        case CardTypes.Horde:
+          await drawHordeCard(card, ctx, imageData);
 
           break;
-        case "SC":
+        case CardTypes.Sorcery:
           await drawSorceryCard(card, ctx, canvas, imageData);
 
           break;
-        case "S":
+        case CardTypes.Season:
           await drawSeasonCard(card, ctx, canvas, imageData);
 
           break;
-        case "T":
+        case CardTypes.Traitor:
           await drawTraitorCard(card, ctx, canvas, imageData);
 
           break;
-        case "F":
+        case CardTypes.Fortress:
           await drawFortressCard(card, ctx, canvas, imageData);
 
           break;
-        case "MS":
+        case CardTypes.ManaStorm:
           await drawManastormCard(card, ctx, canvas);
 
           break;
-        case "W":
+        case CardTypes.World:
           await drawWorldCard(card, ctx, canvas, imageData);
 
           break;
-        case "FA":
+        case CardTypes.FactionAbility:
+        case CardTypes.FactionAlliance:
+        case CardTypes.SVC:
           await drawFactionAbilityCard(card, ctx, canvas);
 
           break;
-        case "FI":
+        case CardTypes.FactionInfo:
           await drawFactionInfo(card, ctx, canvas);
 
           break;
@@ -150,81 +166,69 @@ export function CardBuilder() {
       setCardsDrawn(false);
     }
 
-    if (
-      (imageData?.length ||
-        cardType === "MS" ||
-        cardType === "FA" ||
-        cardType === "FI") &&
-      fileData?.length
-    ) {
+    if (fileData?.length) {
+      let cardsToDraw = [];
+
       each(fileData, (sheet) => {
         if (sheet.length) {
           switch (sheet[0].Type) {
             case "Horde":
               if (cardType == "H" || cardType == "all" || !cardType) {
-                setCardTypeToDraw("H");
-                setCards(sheet);
+                cardsToDraw = [...cardsToDraw, ...sheet];
               }
               break;
             case "Sorcery":
               if (cardType == "SC" || cardType == "all" || !cardType) {
-                setCardTypeToDraw("SC");
-                setCards(sheet);
+                cardsToDraw = [...cardsToDraw, ...sheet];
               }
               break;
             case "Season":
               if (cardType == "S" || cardType == "all" || !cardType) {
-                setCardTypeToDraw("S");
-                setCards(sheet);
+                cardsToDraw = [...cardsToDraw, ...sheet];
               }
               break;
             case "Battle":
               if (cardType == "B" || cardType == "all" || !cardType) {
-                setCardTypeToDraw("B");
-                setCards(sheet);
+                cardsToDraw = [...cardsToDraw, ...sheet];
               }
               break;
             case "Traitor":
               if (cardType == "T" || cardType == "all" || !cardType) {
-                setCardTypeToDraw("T");
-                setCards(sheet);
+                cardsToDraw = [...cardsToDraw, ...sheet];
               }
               break;
             case "Fortress":
               if (cardType == "F" || cardType == "all" || !cardType) {
-                setCardTypeToDraw("F");
-                setCards(sheet);
+                cardsToDraw = [...cardsToDraw, ...sheet];
               }
               break;
             case "World":
               if (cardType == "W" || cardType == "all" || !cardType) {
-                setCardTypeToDraw("W");
-                setCards(sheet);
+                cardsToDraw = [...cardsToDraw, ...sheet];
               }
               break;
             case "Faction Ability":
               if (cardType == "FA" || cardType == "all" || !cardType) {
-                setCardTypeToDraw("FA");
-                setCards([
+                cardsToDraw = [
+                  ...cardsToDraw,
                   ...sheet,
                   ...find(
                     fileData,
                     (tab) => tab[0].Type === "Special Victory Condition"
                   ),
-                ]);
+                ];
               }
               break;
             case "Faction Info":
-              if (cardType === "FI") {
-                setCardTypeToDraw("FI");
-                setCards(sheet);
+              if (cardType === "FI" || cardType == "all") {
+                cardsToDraw = [...cardsToDraw, ...sheet];
               }
               break;
-            case "Mana Storm":
+            case CardTypes.ManaStorm:
               if (cardType == "MS" || cardType == "all" || !cardType) {
-                setCardTypeToDraw("MS");
-                setCards(
-                  reject(sheet, (card) => {
+                cardsToDraw = [
+                  ...cardsToDraw,
+                  ...reject(sheet, (card) => {
                     return [
                       "Howling Lowlands",
                       "Cape Hope",
@@ -240,11 +244,13 @@ export function CardBuilder() {
                       "Athel Tirior",
                       "Tresamina Playa",
                     ].includes(card.Title);
-                  })
-                );
+                  }),
+                ];
               }
               break;
           }
+
+          setCards(cardsToDraw);
         }
       });
     }

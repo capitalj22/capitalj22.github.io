@@ -48,6 +48,7 @@ enum Fill {
   playWhen = "#f6d2a7",
   choose = "#f9ebda",
   whiteish = "#eee",
+  whiteMuted = "#aaa",
   hordeDark = "#1D0808",
 }
 
@@ -121,6 +122,7 @@ const drawText = (
     }
   });
 };
+
 async function getSigil(factionName: FactionName | FactionNickname) {
   switch (factionName) {
     case "Goldbeard Clan":
@@ -905,9 +907,54 @@ export const drawFortressCard = async (card, ctx, canvas, imageData) => {
   );
   ctx.fillText(card.Title, 80, 430);
 
-  ctx.fillStyle = "#eee";
-  ctx.font = "300 36px NotoSerif";
-  wrapText(ctx, `Reward: ${card.Reward}`, 80, 540, 600, 45);
+  drawText(
+    ctx,
+    [
+      {
+        text: "LAND",
+        font: {
+          fill: Fill.whiteMuted,
+          font: Fonts.Bs,
+          weight: 500,
+          size: 28,
+        },
+        spacingAfter: "small",
+      },
+      {
+        text: `${card.Land}`,
+        font: {
+          fill: Fill.whiteish,
+          font: Fonts.Ns,
+          weight: 300,
+          size: 32,
+        },
+      },
+      {
+        text: "CITY",
+        font: {
+          fill: Fill.whiteMuted,
+          font: Fonts.Bs,
+          weight: 500,
+          size: 28,
+        },
+        spacingAfter: "small",
+      },
+      {
+        text: `${card.City}`,
+        font: {
+          fill: Fill.whiteish,
+          font: Fonts.Ns,
+          weight: 300,
+          size: 32,
+        },
+      },
+    ],
+    {
+      x: 80,
+      yStart: 505,
+      maxWidth: 600,
+    }
+  );
 
   drawCardNumber(ctx, card);
 };
