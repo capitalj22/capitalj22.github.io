@@ -34,12 +34,15 @@ enum CardTypes {
   FactionInfo = "Faction Info",
 }
 export function CardBuilder() {
-  const CARD_WIDTH = 750,
-    CARD_HEIGHT = 1080;
+  const CARD_WIDTH_PRINT = 822,
+    CARD_HEIGHT_PRINT = 1122,
+    CARD_WIDTH_TTS = 750,
+    CARD_HEIGHT_TTS = 1080;
 
   let canvasRefs = useRef([]);
   const [fileData, setFileData] = useState(null);
   const [imageData, setImageData] = useState(null);
+  const [output, setOutput] = useState<"print" | "tts">("tts");
   const [cardType, setCardType] = useState(
     "all" as
       | "all"
@@ -73,6 +76,11 @@ export function CardBuilder() {
     { value: "FI", label: "Faction Info" },
   ];
 
+  const outputOptions = [
+    { value: "print", label: "Print" },
+    { value: "tts", label: "TTS" },
+  ];
+
   let canvas: HTMLCanvasElement;
   let ctx: CanvasRenderingContext2D;
 
@@ -82,8 +90,13 @@ export function CardBuilder() {
 
   const setupCanvas = (i) => {
     canvas = canvasRefs.current[i];
-    canvas.width = CARD_WIDTH;
-    canvas.height = CARD_HEIGHT;
+    if (output === "tts") {
+      canvas.width = CARD_WIDTH_TTS;
+      canvas.height = CARD_HEIGHT_TTS;
+    } else {
+      canvas.width = CARD_WIDTH_PRINT;
+      canvas.height = CARD_HEIGHT_PRINT;
+    }
     ctx = canvas.getContext("2d");
   };
 
@@ -112,19 +125,19 @@ export function CardBuilder() {
 
           break;
         case CardTypes.Horde:
-          await drawHordeCard(card, ctx, imageData);
+          await drawHordeCard(card, ctx, imageData, output);
 
           break;
         case CardTypes.Sorcery:
-          await drawSorceryCard(card, ctx, canvas, imageData);
+          await drawSorceryCard(card, ctx, imageData, output);
 
           break;
         case CardTypes.Season:
-          await drawSeasonCard(card, ctx, canvas, imageData);
+          await drawSeasonCard(card, ctx, imageData, output);
 
           break;
         case CardTypes.Traitor:
-          await drawTraitorCard(card, ctx, canvas, imageData);
+          await drawTraitorCard(card, ctx, imageData, output);
 
           break;
         case CardTypes.Fortress:
@@ -132,7 +145,7 @@ export function CardBuilder() {
 
           break;
         case CardTypes.ManaStorm:
-          await drawManastormCard(card, ctx, canvas);
+          await drawManastormCard(card, ctx, output);
 
           break;
         case CardTypes.World:
@@ -265,6 +278,11 @@ export function CardBuilder() {
     setCardType(val);
   };
 
+  const outputChanged = (val) => {
+    resetCards();
+    setOutput(val);
+  };
+
   const downloadImages = () => {
     each(canvasRefs.current, (canvas, i) => {
       var img = canvas.toDataURL();
@@ -285,6 +303,14 @@ export function CardBuilder() {
   return (
     <div>
       <div className="options">
+        <div className="card-type-select">
+          <GenericSelect
+            // styles={selectStyles()}
+            label={"For:"}
+            options={outputOptions}
+            valueChanged={outputChanged}
+          ></GenericSelect>
+        </div>
         <div className="card-type-select">
           <GenericSelect
             // styles={selectStyles()}

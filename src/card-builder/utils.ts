@@ -126,13 +126,24 @@ export const scaleText = function (ctx, text, font, maxWidth) {
   return font.px - px;
 };
 
-export const fillWorldRegion = (ctx, canvas, region, worldImg) => {
+export const fillWorldRegion = (
+  ctx,
+  canvas,
+  region,
+  worldImg,
+  output: "print" | "tts"
+) => {
+  const printOffset = {
+    x: output === "print" ? 36 : 0,
+    y: output === "print" ? 16 : 0,
+  };
+
   let offScreenCVS = canvas;
   let offScreenCTX = ctx;
   offScreenCTX.drawImage(
     worldImg,
-    50,
-    50,
+    50 + printOffset.x,
+    50 + printOffset.x,
     worldImg.width * 0.8,
     worldImg.height * 0.8
   );
@@ -145,8 +156,8 @@ export const fillWorldRegion = (ctx, canvas, region, worldImg) => {
   let newPos, x, y, pixelPos, reachLeft, reachRight;
   let startPos = (startY * offScreenCVS.width + startX) * 4;
   let colorLayer = offScreenCTX.getImageData(
-    0,
-    0,
+    0 + printOffset.x,
+    0 + printOffset.x,
     offScreenCVS.width,
     offScreenCVS.height
   );
@@ -204,7 +215,7 @@ export const fillWorldRegion = (ctx, canvas, region, worldImg) => {
   }
 
   //render floodFill result
-  offScreenCTX.putImageData(colorLayer, 0, 0); //helpers
+  offScreenCTX.putImageData(colorLayer, 0 + printOffset.x, 0 + printOffset.x); //helpers
 
   function matchStartColor(pixelPos) {
     let r = colorLayer.data[pixelPos];
