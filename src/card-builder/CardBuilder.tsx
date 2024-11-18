@@ -2,22 +2,21 @@ import { useEffect, useRef, useState } from "react";
 import ExcelFileInput from "./ExcelFileInput";
 import { each, find, map, omit, reject, uniq } from "lodash-es";
 import "./cardBuilder.scss";
-import {
-  drawBattleCard,
-  drawFactionAbilityCard,
-  drawFactionInfo,
-  drawFortressCard,
-  drawHordeCard,
-  drawManastormCard,
-  drawSeasonCard,
-  drawSorceryCard,
-  drawTraitorCard,
-  drawWorldCard,
-} from "./card-builders";
+
 import ImageFileInput from "./imgFileInput";
 import { GenericSelect } from "../components/common/selects/genericSelect";
 import { SmolButton } from "../components/common/buttons/smolButton";
 import { Download, Play, RefreshCcw } from "react-feather";
+import { drawHordeCard } from "./card-types/horde";
+import { drawBattleCard } from "./card-types/battle";
+import { drawSorceryCard } from "./card-types/sorcery";
+import { drawSeasonCard } from "./card-types/season";
+import { drawTraitorCard } from "./card-types/traitor";
+import { drawFortressCard } from "./card-types/fortress";
+import { drawManastormCard } from "./card-types/manastorm";
+import { drawWorldCard } from "./card-types/world";
+import { drawFactionAbilityCard } from "./card-types/faction/ability";
+import { drawFactionInfo } from "./card-types/faction/info";
 
 enum CardTypes {
   Battle = "Battle",
@@ -121,7 +120,7 @@ export function CardBuilder() {
       setupCanvas(i);
       switch (card["Type"]) {
         case CardTypes.Battle:
-          await drawBattleCard(card, ctx, canvas, imageData);
+          await drawBattleCard(card, ctx, imageData);
 
           break;
         case CardTypes.Horde:
