@@ -20,22 +20,29 @@ const effectFont: CardFont = {
 export const drawBattleCard = async (
   card,
   ctx: CanvasRenderingContext2D,
-  imageData
+  imageData,
+  output: "tts" | "print"
 ) => {
+  const offset = output === "print" ? 36 : 0;
+
   const imgs = await preloadImagesNamed({
     art: find(imageData, { cardNumber: card["S#"] })?.url,
-    frame:"./cards/battle/card.png",
+    frame: "./cards/battle/card.png",
     RPS: "./cards/battle/RPS.png",
   });
 
-  await drawFrameAndImage(ctx, { art: imgs.art, frame:imgs.frame });
-  await addBattleBadges(card, ctx);
+  await drawFrameAndImage(
+    ctx,
+    { art: imgs.art, frame: imgs.frame },
+    { output }
+  );
+  await addBattleBadges(card, ctx, output);
 
   if (card.Subtype === "Weapon") {
-    ctx.drawImage(imgs.RPS, 540 + 36, 880, 160, 160);
+    ctx.drawImage(imgs.RPS, 540 + offset, 880, 160, 160);
   }
 
-  drawTitle(ctx, card.Title, { fill: Fill.dark });
+  drawTitle(ctx, card.Title, { fill: Fill.dark, output });
 
   drawText(
     ctx,
@@ -60,6 +67,6 @@ export const drawBattleCard = async (
     }
   );
 
-  drawCardNumber(ctx, card);
-  drawCardQuantity(ctx, card);
+  drawCardNumber(ctx, card, output);
+  drawCardQuantity(ctx, card, output);
 };

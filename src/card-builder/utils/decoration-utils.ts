@@ -1,13 +1,15 @@
 import { preloadImage } from "../utils";
 import { FactionName, FactionNickname } from "./card-builder.constants";
 
-export const addBattleBadges = async (card, ctx) => {
+export const addBattleBadges = async (card, ctx, output: "tts" | "print") => {
+  const offset = output === "print" ? 36 : 0;
+
   if (card.Subtype === "Weapon") {
     const img = await preloadImage("./cards/battle/weapon_badge.png");
-    ctx.drawImage(img, 12 + 36, 12 + 36, img.width, img.height);
+    ctx.drawImage(img, 12 + offset, 12 + offset, img.width, img.height);
   } else if (card.Subtype === "Tactic") {
     const img = await preloadImage("./cards/battle/tactic_badge.png");
-    ctx.drawImage(img, 12 + 36, 12 + 36, img.width, img.height);
+    ctx.drawImage(img, 12 + offset, 12 + offset, img.width, img.height);
   }
 };
 

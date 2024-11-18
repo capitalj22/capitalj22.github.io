@@ -1,32 +1,43 @@
 import { find } from "lodash-es";
-import { preloadImages, scaleText } from "../utils";
+import { preloadImages, preloadImagesNamed, scaleText } from "../utils";
 import { defaultImages, Fill, Fonts } from "../utils/card-builder.constants";
 import { drawCardNumber, drawText } from "../utils/text-utils";
 
-export const drawFortressCard = async (card, ctx, canvas, imageData) => {
-  canvas.height = canvas.width;
+export const drawFortressCard = async (
+  card,
+  ctx,
+  imageData,
+  output: "tts" | "print"
+) => {
+  ctx.canvas.height = ctx.canvas.width;
 
-  const imgs = await preloadImages([
-    find(imageData, { cardNumber: card["S#"] })?.url,
-    "./cards/fortress/card.png",
-    ...defaultImages,
-  ]);
+  const imgs = await preloadImagesNamed({
+    art: find(imageData, { cardNumber: card["S#"] })?.url,
+    frame: "./cards/fortress/card.png",
+    placeholder: defaultImages[0],
+  });
 
-  if (imgs[0]) {
-    let aspectRatio = imgs[0].width / imgs[0].height;
+  if (imgs.art) {
+    let aspectRatio = imgs.art.width / imgs.art.height;
 
     ctx.drawImage(
-      imgs[0],
+      imgs.art,
       40,
       40,
-      canvas.width - 80,
-      (canvas.width - 80) / aspectRatio
+      ctx.canvas.width - 80,
+      (ctx.canvas.width - 80) / aspectRatio
     );
   } else {
-    ctx.drawImage(imgs[2], 0, 0, imgs[2].width, imgs[2].width);
+    ctx.drawImage(
+      imgs.placeholder,
+      0,
+      0,
+      imgs.placeholder.width,
+      imgs.placeholder.width
+    );
   }
 
-  ctx.drawImage(imgs[1], 0, 0, canvas.width, canvas.height);
+  ctx.drawImage(imgs.frame, 0, 0, ctx.canvas.width, ctx.canvas.height);
 
   ctx.fillStyle = "#111";
   ctx.font = "700 55px Bahnschrift";
@@ -91,5 +102,5 @@ export const drawFortressCard = async (card, ctx, canvas, imageData) => {
     }
   );
 
-  drawCardNumber(ctx, card);
+  drawCardNumber(ctx, card, output);
 };

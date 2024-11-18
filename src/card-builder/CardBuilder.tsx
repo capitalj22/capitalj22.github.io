@@ -120,7 +120,7 @@ export function CardBuilder() {
       setupCanvas(i);
       switch (card["Type"]) {
         case CardTypes.Battle:
-          await drawBattleCard(card, ctx, imageData);
+          await drawBattleCard(card, ctx, imageData, output);
 
           break;
         case CardTypes.Horde:
@@ -140,7 +140,7 @@ export function CardBuilder() {
 
           break;
         case CardTypes.Fortress:
-          await drawFortressCard(card, ctx, canvas, imageData);
+          await drawFortressCard(card, ctx, imageData, output);
 
           break;
         case CardTypes.ManaStorm:

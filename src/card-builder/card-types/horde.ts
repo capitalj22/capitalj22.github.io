@@ -68,5 +68,5 @@ export const drawHordeCard = async (
     }
   );
 
-  drawCardNumber(ctx, card);
+  drawCardNumber(ctx, card, output);
 };

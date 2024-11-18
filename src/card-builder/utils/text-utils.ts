@@ -68,11 +68,21 @@ export const drawText = (
   });
 };
 
-export const drawCardNumber = (ctx: CanvasRenderingContext2D, card) => {
+export const drawCardNumber = (
+  ctx: CanvasRenderingContext2D,
+  card,
+  output?: "tts" | "print"
+) => {
   setFont(ctx, { weight: 300, size: 26, font: Fonts.Bs, fill: Fill.whiteish });
 
+  const offset = output === "print" ? 36 : 0;
+
   if (card["S#"]) {
-    ctx.fillText(`#${card["S#"]}`, 36 + 36, ctx.canvas.height - 15 - 36);
+    ctx.fillText(
+      `#${card["S#"]}`,
+      36 + offset,
+      ctx.canvas.height - 15 - offset
+    );
   }
 };
 
@@ -113,7 +123,13 @@ export function drawTitle(
   );
 }
 
-export const drawCardQuantity = (ctx: CanvasRenderingContext2D, card) => {
+export const drawCardQuantity = (
+  ctx: CanvasRenderingContext2D,
+  card,
+  output?: "tts" | "print"
+) => {
+  const offset = output === "print" ? 36 : 0;
+
   setFont(ctx, {
     weight: 500,
     size: 28,
@@ -124,8 +140,8 @@ export const drawCardQuantity = (ctx: CanvasRenderingContext2D, card) => {
   if (card["QTY"] && parseInt(card["QTY"], 10) > 1) {
     ctx.fillText(
       `x${card["QTY"]}`,
-      ctx.canvas.width - 75 - 36,
-      ctx.canvas.height - 60 - 36
+      ctx.canvas.width - 75 - offset,
+      ctx.canvas.height - 60 - offset
     );
   }
 };
