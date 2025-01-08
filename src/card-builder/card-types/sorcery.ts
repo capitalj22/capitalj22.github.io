@@ -30,7 +30,7 @@ export const drawSorceryCard = async (
     { art: imgs.art, frame:imgs.frame },
     { output }
   );
-  await addBattleBadges(card, ctx);
+  await addBattleBadges(card, ctx, output);
 
   setFont(ctx, {
     fill: Fill.white,
