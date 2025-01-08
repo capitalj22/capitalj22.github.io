@@ -224,10 +224,10 @@ export function CardBuilder() {
                 cardsToDraw = [
                   ...cardsToDraw,
                   ...sheet,
-                  ...find(
-                    fileData,
-                    (tab) => tab[0].Type === "Special Victory Condition"
-                  ),
+                  // ...find(
+                  //   fileData,
+                  //   // (tab) => tab[0].Type === "Special Victory Condition"
+                  // ),
                 ];
               }
               break;
