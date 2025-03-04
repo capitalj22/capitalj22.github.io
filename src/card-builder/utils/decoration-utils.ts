@@ -1,5 +1,5 @@
 import { preloadImage } from "../utils";
-import { FactionName, FactionNickname } from "./card-builder.constants";
+import { FactionName, FactionNickname, Factions } from "./card-builder.constants";
 
 export const addBattleBadges = async (card, ctx, output: "tts" | "print") => {
   const offset = output === "print" ? 36 : 0;
@@ -34,4 +34,13 @@ export async function getSigil(factionName: FactionName | FactionNickname) {
     case "TSO":
       return await preloadImage("./cards/traitor/TSO_sigil.png");
   }
+}
+
+export const factionColors = {
+  [Factions.OC]: '#d74624',
+  [Factions.GBC]: '#dfae39',
+  [Factions.OOM]: '#926aff',
+  [Factions.MG]: '#46454d',
+  [Factions.TSO]: '#7b5944',
+  [Factions.NL]: '#15b580',
 }

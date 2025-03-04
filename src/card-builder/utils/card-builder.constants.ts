@@ -11,6 +11,15 @@ export type FactionName =
   | "Mercenary Guild"
   | "The Silent Ones";
 
+export enum Factions {
+  GBC = "Goldbeard Clan",
+  OC = "Orcish Confederation",
+  OOM = "Order of Moonlight",
+  NL = "Necromantic League",
+  MG = "Mercenary Guild",
+  TSO = "The Silent Ones",
+}
+
 export type FactionNickname = "GBC" | "OC" | "OOM" | "NL" | "MG" | "TSO";
 
 export enum Fonts {

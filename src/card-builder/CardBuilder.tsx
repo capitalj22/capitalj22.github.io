@@ -17,6 +17,7 @@ import { drawManastormCard } from "./card-types/manastorm";
 import { drawWorldCard } from "./card-types/world";
 import { drawFactionAbilityCard } from "./card-types/faction/ability";
 import { drawFactionInfo } from "./card-types/faction/info";
+import { drawLeaderToken } from "./card-types/leader";
 
 enum CardTypes {
   Battle = "Battle",
@@ -108,7 +109,7 @@ export function CardBuilder() {
       [CardTypes.FactionAlliance]: drawFactionAbilityCard,
       [CardTypes.SVC]: drawFactionAbilityCard,
       [CardTypes.FactionInfo]: drawFactionInfo,
-      [CardTypes.Leader]: drawBattleCard,
+      [CardTypes.Leader]: drawLeaderToken,
     };
     each(cards, async (card, i) => {
       setupCanvas(i);
