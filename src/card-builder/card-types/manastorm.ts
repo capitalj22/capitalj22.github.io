@@ -13,6 +13,7 @@ import { drawCardNumber, drawTitle } from "../utils/text-utils";
 export const drawManastormCard = async (
   card,
   ctx: CanvasRenderingContext2D,
+  imageData = {},
   output
 ) => {
   const imgs = await preloadImages([

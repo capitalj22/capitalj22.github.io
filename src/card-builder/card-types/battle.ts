@@ -8,7 +8,7 @@ import {
   drawTitle,
 } from "../utils/text-utils";
 import { CardFont, Fill, Fonts } from "../utils/card-builder.constants";
-import { addBattleBadges } from "../utils/decoration-utils";
+import { addBattleBadges, getSigil } from "../utils/decoration-utils";
 
 const effectFont: CardFont = {
   fill: Fill.dark,
@@ -24,6 +24,10 @@ export const drawBattleCard = async (
   output: "tts" | "print"
 ) => {
   const offset = output === "print" ? 36 : 0;
+  const printOffset = {
+    x: output === "print" ? 36 : 0,
+    y: output === "print" ? 16 : 0,
+  };
 
   const imgs = await preloadImagesNamed({
     art: find(imageData, { cardNumber: card["S#"] })?.url,
@@ -37,6 +41,24 @@ export const drawBattleCard = async (
     { output }
   );
   await addBattleBadges(card, ctx, output);
+
+  if (card.Faction) {
+    ctx.beginPath();
+    ctx.arc(680, 70, 70, 0, 2 * Math.PI, false);
+    ctx.fillStyle = "black";
+    ctx.fill();
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = "#black";
+    ctx.stroke();
+    
+    ctx.drawImage(
+      await getSigil(card.Faction),
+      620 + printOffset.x,
+      10 + printOffset.y,
+      120,
+      120
+    );
+  }
 
   if (card.Subtype === "Weapon") {
     ctx.drawImage(imgs.RPS, 540 + offset, 880, 160, 160);

@@ -2,8 +2,8 @@ import { preloadImages, wrapText } from "../../utils";
 import { defaultImages } from "../../utils/card-builder.constants";
 import { getSigil } from "../../utils/decoration-utils";
 
-export const drawFactionInfo = async (card, ctx, canvas) => {
-  canvas.width = 2250;
+export const drawFactionInfo = async (card, ctx, imageData = {}, output) => {
+  ctx.canvas.width = 2250;
 
   const imgs = await preloadImages([
     "./cards/faction/info.png",
@@ -43,8 +43,8 @@ export const drawFactionInfo = async (card, ctx, canvas) => {
     getBoardImg(card["Faction"]),
     0,
     0,
-    canvas.width,
-    canvas.height
+    ctx.canvas.width,
+    ctx.canvas.height
   );
 
   ctx.fillStyle = "#ddd";
