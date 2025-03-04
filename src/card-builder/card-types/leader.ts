@@ -1,21 +1,10 @@
 import { find } from "lodash-es";
 import { preloadImagesNamed } from "../utils";
-import { drawText, setFont } from "../utils/text-utils";
-import {
-  CardFont,
-  Fill,
-  Fonts,
-  FontSize,
-} from "../utils/card-builder.constants";
+import { setFont } from "../utils/text-utils";
+import { Fonts } from "../utils/card-builder.constants";
 import { factionColors } from "../utils/decoration-utils";
 
-const effectFont: CardFont = {
-  fill: Fill.dark,
-  font: Fonts.Ns,
-  size: 33,
-  weight: 300,
-};
-
+//TODO - cleanup
 export const drawLeaderToken = async (
   card,
   ctx: CanvasRenderingContext2D,
@@ -75,38 +64,25 @@ export const drawLeaderToken = async (
     );
   }
 
-  // ctx.beginPath();
-  // ctx.arc(
-  //   ctx.canvas.width - 170,
-  //   ctx.canvas.width - 100,
-  //   70,
-  //   0,
-  //   2 * Math.PI,
-  //   false
-  // );
-  // ctx.fillStyle = "#333333a0";
-
-  // ctx.fill();
-
   setFont(ctx, {
     fill: "#f26a06" as any,
     font: Fonts.Bs,
     weight: 700,
-    size: 95,
+    size: 125,
     strokeSize: 8,
     strokeColor: "#222" as any,
   });
 
   ctx.strokeText(
     card["Strength"],
-    ctx.canvas.width - 140,
-    ctx.canvas.width - 100
+    ctx.canvas.width - 110,
+    ctx.canvas.width - 150
   );
 
   ctx.fillText(
     card["Strength"],
-    ctx.canvas.width - 140,
-    ctx.canvas.width - 100
+    ctx.canvas.width - 110,
+    ctx.canvas.width - 150
   );
 
   setFont(ctx, {
@@ -118,9 +94,17 @@ export const drawLeaderToken = async (
     strokeColor: "#222" as any,
   });
 
-  ctx.strokeText(card["Leadership"], 100, ctx.canvas.width - 100);
+  ctx.strokeText(
+    card["Leadership"],
+    ctx.canvas.width - 170,
+    ctx.canvas.width - 100
+  );
 
-  ctx.fillText(card["Leadership"], 100, ctx.canvas.width - 100);
+  ctx.fillText(
+    card["Leadership"],
+    ctx.canvas.width - 170,
+    ctx.canvas.width - 100
+  );
 
   ctx.beginPath();
   ctx.arc(
