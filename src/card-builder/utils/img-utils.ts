@@ -2,8 +2,11 @@ import { preloadImagesNamed } from "../utils";
 
 export const drawFrameAndImage = async (
   ctx: CanvasRenderingContext2D,
-  imgs: { art?: ImageBitmap; frame:ImageBitmap },
-  options?: { output: "tts" | "print" }
+  imgs: { art?: ImageBitmap; frame: ImageBitmap },
+  options?: {
+    output: "tts" | "print";
+    frameBorderColor?: string;
+  }
 ) => {
   const printOffset = options?.output === "print" ? 36 : 0;
   ctx.fillStyle = "#000";
@@ -30,6 +33,13 @@ export const drawFrameAndImage = async (
       placeholderImgs.art.width,
       placeholderImgs.art.height
     );
+  }
+
+  if (options.frameBorderColor) {
+    ctx.strokeStyle = options.frameBorderColor;
+    ctx.lineWidth = 20;
+    ctx.roundRect(65, 65, 620, 410, 20);
+    ctx.stroke();
   }
 
   ctx.drawImage(

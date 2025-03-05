@@ -18,8 +18,10 @@ import { drawWorldCard } from "./card-types/world";
 import { drawFactionAbilityCard } from "./card-types/faction/ability";
 import { drawFactionInfo } from "./card-types/faction/info";
 import { drawLeaderToken } from "./card-types/leader";
+import { drawAspectCard } from "./card-types/aspect";
 
 enum CardTypes {
+  Aspect = "Aspect",
   Battle = "Battle",
   // Horde = "Horde",
   Sorcery = "Sorcery",
@@ -28,7 +30,7 @@ enum CardTypes {
   // Fortress = "Fortress",
   // World = "World",
   // ManaStorm = "Manastorm",
-  FactionAbility = "Faction Ability",
+  // FactionAbility = "Faction Ability",
   // FactionAlliance = "Faction Alliance",
   // SVC = "Special Victory Condition",
   FactionInfo = "Faction Info",
@@ -98,6 +100,7 @@ export function CardBuilder() {
 
   const drawCards = async () => {
     const cardTypeFuncs = {
+      [CardTypes.Aspect]: drawAspectCard,
       [CardTypes.Battle]: drawBattleCard,
       // [CardTypes.Horde]: drawHordeCard,
       [CardTypes.Sorcery]: drawSorceryCard,
@@ -106,7 +109,7 @@ export function CardBuilder() {
       // [CardTypes.Fortress]: drawFortressCard,
       // [CardTypes.World]: drawWorldCard,
       // [CardTypes.ManaStorm]: drawManastormCard,
-      [CardTypes.FactionAbility]: drawFactionAbilityCard,
+      // [CardTypes.FactionAbility]: drawFactionAbilityCard,
       // [CardTypes.FactionAlliance]: drawFactionAbilityCard,
       // [CardTypes.SVC]: drawFactionAbilityCard,
       [CardTypes.FactionInfo]: drawFactionInfo,
@@ -138,6 +141,7 @@ export function CardBuilder() {
   const generateCards = () => {
     const sheetsByCardType = {
       [CardTypes.Battle]: "Battle",
+      [CardTypes.Aspect]: "Aspects",
       // [CardTypes.Horde]: "Horde",
       [CardTypes.Sorcery]: "Sorcery",
       [CardTypes.Season]: "Season",
@@ -145,7 +149,7 @@ export function CardBuilder() {
       // [CardTypes.Fortress]: "Fortress",
       // [CardTypes.World]: "World",
       // [CardTypes.ManaStorm]: "ManaStorm",
-      [CardTypes.FactionAbility]: "Faction Abilities",
+      // [CardTypes.FactionAbility]: "Faction Abilities",
       // [CardTypes.FactionAlliance]: "Faction Info",
       // [CardTypes.SVC]: "Faction Info",
       [CardTypes.FactionInfo]: "Faction Info",
@@ -231,7 +235,7 @@ export function CardBuilder() {
         {!!fileData &&
           (!!imageData ||
             // cardType === CardTypes.ManaStorm ||
-            cardType === CardTypes.FactionAbility ||
+            // cardType === CardTypes.FactionAbility ||
             cardType === CardTypes.FactionInfo) &&
           !cardsDrawn && (
             <SmolButton type="info" clicked={generateCards}>
