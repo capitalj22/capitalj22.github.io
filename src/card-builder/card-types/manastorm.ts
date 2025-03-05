@@ -9,13 +9,11 @@ import {
 import { Fill } from "../utils/card-builder.constants";
 import { drawFrameAndImage } from "../utils/img-utils";
 import { drawCardNumber, drawTitle } from "../utils/text-utils";
+import { CardDrawParams } from "./constants";
 
-export const drawManastormCard = async (
-  card,
-  ctx: CanvasRenderingContext2D,
-  imageData = {},
-  output
-) => {
+export const drawManastormCard = async (params: CardDrawParams) => {
+  let { card, ctx, imageData, output, lookupData } = params;
+  
   const imgs = await preloadImages([
     "./cards/manastorm/map-manastorm-base.png",
     "./cards/manastorm/vortex.png",
@@ -119,7 +117,7 @@ export const drawManastormCard = async (
     ctx.drawImage(sharedImgs[0], manaxpos - 80, 800, 125, 125);
     ctx.fillText(card["Effect/Mana"], manaxpos + 80, 915);
   } else {
-    drawFrameAndImage(ctx, { art: imgs[1], frame:imgs[2] }, { output });
+    drawFrameAndImage(ctx, { art: imgs[1], frame: imgs[2] }, { output });
 
     ctx.fillStyle = "#fff";
     ctx.font = "700 55px Bahnschrift";

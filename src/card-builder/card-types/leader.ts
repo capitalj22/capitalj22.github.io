@@ -1,16 +1,14 @@
-import { find } from "lodash-es";
-import { preloadImagesNamed } from "../utils";
-import { setFont } from "../utils/text-utils";
+import { compact, find, indexOf, map } from "lodash-es";
+import { preloadImagesNamed, wrapText } from "../utils";
+import { drawText, setFont } from "../utils/text-utils";
 import { Fonts } from "../utils/card-builder.constants";
 import { factionColors } from "../utils/decoration-utils";
+import { CardDrawParams } from "./constants";
 
 //TODO - cleanup
-export const drawLeaderToken = async (
-  card,
-  ctx: CanvasRenderingContext2D,
-  imageData,
-  output: "tts" | "print"
-) => {
+export const drawLeaderToken = async (params: CardDrawParams) => {
+  let { card, ctx, imageData, output, lookupData } = params;
+
   const printOffset = {
     x: output === "print" ? 36 : 0,
     y: output === "print" ? 16 : 0,
@@ -64,6 +62,29 @@ export const drawLeaderToken = async (
     );
   }
 
+  drawText(
+    ctx,
+    [
+      {
+        text: card["Title"],
+        font: {
+          fill: "#fafafaee" as any,
+          font: Fonts.Bs,
+          weight: 700,
+          size: 38,
+          strokeSize: 8,
+          strokeColor: "#333333a0" as any,
+        },
+      },
+    ],
+    {
+      x: 80,
+      yStart: 300,
+      maxWidth: 260,
+    },
+    { stroke: true }
+  );
+
   setFont(ctx, {
     fill: "#f26a06" as any,
     font: Fonts.Bs,
@@ -73,14 +94,16 @@ export const drawLeaderToken = async (
     strokeColor: "#222" as any,
   });
 
+  const leaderAttrCols = compact(map(lookupData, "LeaderAttrCols"));
+
   ctx.strokeText(
-    card["Strength"],
+    card[leaderAttrCols[0]],
     ctx.canvas.width - 110,
     ctx.canvas.width - 150
   );
 
   ctx.fillText(
-    card["Strength"],
+    card[leaderAttrCols[0]],
     ctx.canvas.width - 110,
     ctx.canvas.width - 150
   );
@@ -95,13 +118,13 @@ export const drawLeaderToken = async (
   });
 
   ctx.strokeText(
-    card["Leadership"],
+    card[leaderAttrCols[1]],
     ctx.canvas.width - 170,
     ctx.canvas.width - 100
   );
 
   ctx.fillText(
-    card["Leadership"],
+    card[leaderAttrCols[1]],
     ctx.canvas.width - 170,
     ctx.canvas.width - 100
   );
@@ -116,7 +139,9 @@ export const drawLeaderToken = async (
     false
   );
   ctx.lineWidth = 20;
-  ctx.strokeStyle = factionColors[card["Faction"]];
+  const factionData = find(lookupData, { FactionNicknames: card["Faction"] });
+
+  ctx.strokeStyle = `#${factionData.FactionColors}`;
   ctx.stroke();
 
   ctx.beginPath();

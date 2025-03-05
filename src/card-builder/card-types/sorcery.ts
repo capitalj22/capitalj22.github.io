@@ -10,13 +10,10 @@ import {
   setFont,
 } from "../utils/text-utils";
 import { CardFont, Fill, Fonts } from "../utils/card-builder.constants";
+import { CardDrawParams } from "./constants";
 
-export const drawSorceryCard = async (
-  card,
-  ctx: CanvasRenderingContext2D,
-  imageData,
-  output: "tts" | "print"
-) => {
+export const drawSorceryCard = async (params: CardDrawParams) => {
+  let { card, ctx, imageData, output, lookupData } = params;
   const printOffset = output === "print" ? 36 : 0;
   const cardImage = find(imageData, { cardNumber: card["S#"] });
 

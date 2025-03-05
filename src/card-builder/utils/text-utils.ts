@@ -35,7 +35,10 @@ export const drawText = (
     x: number;
     yStart: number;
     maxWidth: number;
-  }
+  },
+  options: {
+    stroke?: boolean;
+  } = {}
 ) => {
   let maxWidth = pos.maxWidth || 600;
   let y = pos.yStart;
@@ -55,7 +58,7 @@ export const drawText = (
       ctx.fillStyle = item.font.fill;
 
       setFont(ctx, item.font);
-      let linesAdded = wrapText(ctx, item.text, pos.x, y, maxWidth, lineheight);
+      let linesAdded = wrapText(ctx, item.text, pos.x, y, maxWidth, lineheight, options.stroke);
 
       if (item.spacingAfter === "small") {
         y += linesAdded;

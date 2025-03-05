@@ -21,16 +21,16 @@ import { drawLeaderToken } from "./card-types/leader";
 
 enum CardTypes {
   Battle = "Battle",
-  Horde = "Horde",
+  // Horde = "Horde",
   Sorcery = "Sorcery",
   Season = "Season",
   Traitor = "Traitor",
-  Fortress = "Fortress",
-  World = "World",
-  ManaStorm = "Manastorm",
+  // Fortress = "Fortress",
+  // World = "World",
+  // ManaStorm = "Manastorm",
   FactionAbility = "Faction Ability",
-  FactionAlliance = "Faction Alliance",
-  SVC = "Special Victory Condition",
+  // FactionAlliance = "Faction Alliance",
+  // SVC = "Special Victory Condition",
   FactionInfo = "Faction Info",
   Leader = "Leader",
 }
@@ -42,6 +42,7 @@ export function CardBuilder() {
 
   let canvasRefs = useRef([]);
   const [fileData, setFileData] = useState(null);
+  const [lookupData, setLookupData] = useState({});
   const [imageData, setImageData] = useState(null);
   const [output, setOutput] = useState<"print" | "tts">("tts");
   const [cardType, setCardType] = useState("all" as CardTypes | "all");
@@ -98,28 +99,32 @@ export function CardBuilder() {
   const drawCards = async () => {
     const cardTypeFuncs = {
       [CardTypes.Battle]: drawBattleCard,
-      [CardTypes.Horde]: drawHordeCard,
+      // [CardTypes.Horde]: drawHordeCard,
       [CardTypes.Sorcery]: drawSorceryCard,
       [CardTypes.Season]: drawSeasonCard,
       [CardTypes.Traitor]: drawTraitorCard,
-      [CardTypes.Fortress]: drawFortressCard,
-      [CardTypes.World]: drawWorldCard,
-      [CardTypes.ManaStorm]: drawManastormCard,
+      // [CardTypes.Fortress]: drawFortressCard,
+      // [CardTypes.World]: drawWorldCard,
+      // [CardTypes.ManaStorm]: drawManastormCard,
       [CardTypes.FactionAbility]: drawFactionAbilityCard,
-      [CardTypes.FactionAlliance]: drawFactionAbilityCard,
-      [CardTypes.SVC]: drawFactionAbilityCard,
+      // [CardTypes.FactionAlliance]: drawFactionAbilityCard,
+      // [CardTypes.SVC]: drawFactionAbilityCard,
       [CardTypes.FactionInfo]: drawFactionInfo,
       [CardTypes.Leader]: drawLeaderToken,
     };
+
     each(cards, async (card, i) => {
       setupCanvas(i);
-      await cardTypeFuncs[card["Type"]].call(
+      await cardTypeFuncs[cardTypeToDraw].call(
         //@ts-ignore
         this,
-        card,
-        ctx,
-        imageData,
-        output
+        {
+          ctx,
+          card,
+          imageData,
+          output,
+          lookupData,
+        }
       );
 
       setCardsDrawn(true);
@@ -131,6 +136,22 @@ export function CardBuilder() {
   };
 
   const generateCards = () => {
+    const sheetsByCardType = {
+      [CardTypes.Battle]: "Battle",
+      // [CardTypes.Horde]: "Horde",
+      [CardTypes.Sorcery]: "Sorcery",
+      [CardTypes.Season]: "Season",
+      [CardTypes.Traitor]: "Leader",
+      // [CardTypes.Fortress]: "Fortress",
+      // [CardTypes.World]: "World",
+      // [CardTypes.ManaStorm]: "ManaStorm",
+      [CardTypes.FactionAbility]: "Faction Abilities",
+      // [CardTypes.FactionAlliance]: "Faction Info",
+      // [CardTypes.SVC]: "Faction Info",
+      [CardTypes.FactionInfo]: "Faction Info",
+      [CardTypes.Leader]: "Leader",
+    };
+
     if (cards.length) {
       resetCards();
       setCardTypeToDraw(null);
@@ -139,39 +160,16 @@ export function CardBuilder() {
 
     if (fileData?.length) {
       let cardsToDraw = [];
+      const lookup = find(fileData, { name: "Lookup" });
 
-      each(fileData, (sheet) => {
-        if (sheet.length) {
-          if (sheet[0].Type === cardType || cardType == "all" || !cardType) {
-            cardsToDraw = [...cardsToDraw, ...sheet];
-          }
+      setLookupData(lookup.data);
 
-          //   case CardTypes.ManaStorm:
-          //     if (cardType == "MS" || cardType == "all" || !cardType) {
-          //       cardsToDraw = [
-          //         ...cardsToDraw,
-          //         ...reject(sheet, (card) => {
-          //           return [
-          //             "Howling Lowlands",
-          //             "Cape Hope",
-          //             "Paths to the East",
-          //             "Ildra",
-          //             "Bay of Ytha",
-          //             "Khazad Ril",
-          //             "Sirion Ria",
-          //             "Karaz Zharr",
-          //             "Athel Keldri",
-          //             "Karaz Okrik",
-          //             "Loren Lauroi",
-          //             "Athel Tirior",
-          //             "Tresamina Playa",
-          //           ].includes(card.Title);
-          //         }),
-          //       ];
-          //     }
-          //     break;
-          // }
+      each(CardTypes, (type) => {
+        if (cardType == "all" || cardType === type || !type) {
+          const sheet = find(fileData, { name: sheetsByCardType[type] });
 
+          cardsToDraw = [...cardsToDraw, ...sheet.data];
+          setCardTypeToDraw(type);
           setCards(cardsToDraw);
         }
       });

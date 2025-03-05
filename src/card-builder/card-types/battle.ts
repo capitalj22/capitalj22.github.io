@@ -9,6 +9,7 @@ import {
 } from "../utils/text-utils";
 import { CardFont, Fill, Fonts } from "../utils/card-builder.constants";
 import { addBattleBadges, getSigil } from "../utils/decoration-utils";
+import { CardDrawParams } from "./constants";
 
 const effectFont: CardFont = {
   fill: Fill.dark,
@@ -17,22 +18,24 @@ const effectFont: CardFont = {
   weight: 300,
 };
 
-export const drawBattleCard = async (
-  card,
-  ctx: CanvasRenderingContext2D,
-  imageData,
-  output: "tts" | "print"
-) => {
+export const drawBattleCard = async (params: CardDrawParams) => {
+  let { card, ctx, imageData, output, lookupData } = params;
+
   const offset = output === "print" ? 36 : 0;
   const printOffset = {
     x: output === "print" ? 36 : 0,
     y: output === "print" ? 16 : 0,
   };
 
+  const factionData = find(lookupData, { FactionNicknames: card["Faction"] });
+
+  console.log(imageData);
   const imgs = await preloadImagesNamed({
     art: find(imageData, { cardNumber: card["S#"] })?.url,
     frame: "./cards/battle/card.png",
     RPS: "./cards/battle/RPS.png",
+    factionSigil: find(imageData, { name: `${card["Faction"]}_sigil.png` })
+      ?.url,
   });
 
   await drawFrameAndImage(
@@ -50,9 +53,9 @@ export const drawBattleCard = async (
     ctx.lineWidth = 5;
     ctx.strokeStyle = "#black";
     ctx.stroke();
-    
+
     ctx.drawImage(
-      await getSigil(card.Faction),
+      imgs.factionSigil,
       620 + printOffset.x,
       10 + printOffset.y,
       120,

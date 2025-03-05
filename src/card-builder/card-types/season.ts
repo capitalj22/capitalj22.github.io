@@ -3,13 +3,10 @@ import { preloadImagesNamed, wrapText } from "../utils";
 import { Fill } from "../utils/card-builder.constants";
 import { drawFrameAndImage } from "../utils/img-utils";
 import { drawCardNumber, drawTitle } from "../utils/text-utils";
+import { CardDrawParams } from "./constants";
 
-export const drawSeasonCard = async (
-  card,
-  ctx: CanvasRenderingContext2D,
-  imageData,
-  output: "print" | "tts"
-) => {
+export const drawSeasonCard = async (params: CardDrawParams) => {
+  let { card, ctx, imageData, output, lookupData } = params;
   const printOffsetX = output === "print" ? 36 : 0;
   const printOffsetY = output === "print" ? 16 : 0;
 

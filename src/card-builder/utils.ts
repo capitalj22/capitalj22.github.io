@@ -89,10 +89,21 @@ export const tryWrapText = (ctx, text, x, y, maxWidth, lineHeight) => {
   return lineArray;
 };
 
-export const wrapText = function (ctx, text, x, y, maxWidth, lineHeight) {
+export const wrapText = function (
+  ctx,
+  text,
+  x,
+  y,
+  maxWidth,
+  lineHeight,
+  stroke = false
+) {
   let lineArray = tryWrapText(ctx, text, x, y, maxWidth, lineHeight);
 
   lineArray.forEach(function (item) {
+    if (stroke) {
+      ctx.strokeText(item[0], item[1], item[2]);
+    }
     ctx.fillText(item[0], item[1], item[2]);
   });
 

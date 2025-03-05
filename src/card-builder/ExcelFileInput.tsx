@@ -1,6 +1,6 @@
 import { each } from "lodash-es";
 import * as XLSX from "xlsx";
-import './inputs.scss';
+import "./inputs.scss";
 
 function ExcelFileInput({ label, fileChanged }) {
   const sheets = [];
@@ -12,7 +12,10 @@ function ExcelFileInput({ label, fileChanged }) {
     reader.onload = (event) => {
       const workbook = XLSX.read(event.target.result, { type: "binary" });
       each(workbook.SheetNames, (name) => {
-        sheets.push(XLSX.utils.sheet_to_json(workbook.Sheets[name]));
+        sheets.push({
+          name: name,
+          data: XLSX.utils.sheet_to_json(workbook.Sheets[name]),
+        });
       });
 
       fileChanged(sheets);

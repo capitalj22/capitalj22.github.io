@@ -2,13 +2,10 @@ import { find } from "lodash-es";
 import { preloadImages, preloadImagesNamed, scaleText } from "../utils";
 import { defaultImages, Fill, Fonts } from "../utils/card-builder.constants";
 import { drawCardNumber, drawText } from "../utils/text-utils";
+import { CardDrawParams } from "./constants";
 
-export const drawFortressCard = async (
-  card,
-  ctx,
-  imageData,
-  output: "tts" | "print"
-) => {
+export const drawFortressCard = async (params: CardDrawParams) => {
+  let { card, ctx, imageData, output, lookupData } = params;
   ctx.canvas.height = ctx.canvas.width;
 
   const imgs = await preloadImagesNamed({

@@ -2,13 +2,10 @@ import { each } from "lodash-es";
 import { centerText, preloadImages, scaleText, wrapText } from "../../utils";
 import { defaultImages } from "../../utils/card-builder.constants";
 import { getSigil } from "../../utils/decoration-utils";
+import { CardDrawParams } from "../constants";
 
-export const drawFactionAbilityCard = async (
-  card,
-  ctx,
-  imageData = {},
-  output
-) => {
+export const drawFactionAbilityCard = async (params: CardDrawParams) => {
+  let { card, ctx, imageData, output, lookupData } = params;
   const isFactionAlliance = card.Type === "Faction Alliance";
 
   if (card.Type === "Faction Ability") {

@@ -3,8 +3,10 @@ import { preloadImages, scaleText, wrapText } from "../utils";
 import { defaultImages } from "../utils/card-builder.constants";
 import { drawCardNumber } from "../utils/text-utils";
 import { drawFrameAndImage } from "../utils/img-utils";
+import { CardDrawParams } from "./constants";
 
-export const drawWorldCard = async (card, ctx, canvas, imageData) => {
+export const drawWorldCard = async (params: CardDrawParams) => {
+  let { card, ctx, imageData, output, lookupData } = params;
   const cardImage = find(imageData, { cardNumber: card["S#"] });
   const imgs = await preloadImages([
     cardImage?.url,

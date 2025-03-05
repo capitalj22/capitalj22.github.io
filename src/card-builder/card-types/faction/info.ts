@@ -1,8 +1,10 @@
 import { preloadImages, wrapText } from "../../utils";
 import { defaultImages } from "../../utils/card-builder.constants";
 import { getSigil } from "../../utils/decoration-utils";
+import { CardDrawParams } from "../constants";
 
-export const drawFactionInfo = async (card, ctx, imageData = {}, output) => {
+export const drawFactionInfo = async (params: CardDrawParams) => {
+  let { card, ctx, imageData, output, lookupData } = params;
   ctx.canvas.width = 2250;
 
   const imgs = await preloadImages([

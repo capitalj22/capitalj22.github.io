@@ -8,22 +8,20 @@ import {
 import { Fill, Fonts, Weight } from "../utils/card-builder.constants";
 import { preloadImagesNamed } from "../utils";
 import { drawFrameAndImage } from "../utils/img-utils";
+import { CardDrawParams } from "./constants";
 
-export const drawHordeCard = async (
-  card,
-  ctx: CanvasRenderingContext2D,
-  imageData,
-  output: "print" | "tts"
-) => {
+export const drawHordeCard = async (params: CardDrawParams) => {
+  let { card, ctx, imageData, output, lookupData } = params;
+
   const printOffsetX = output === "print" ? 36 : 0;
   const imgs = await preloadImagesNamed({
     art: find(imageData, { cardNumber: card["S#"] })?.url,
-    frame:"./cards/horde/card.png",
+    frame: "./cards/horde/card.png",
   });
 
   await drawFrameAndImage(
     ctx,
-    { art: imgs.art, frame:imgs.frame },
+    { art: imgs.art, frame: imgs.frame },
     { output }
   );
 
