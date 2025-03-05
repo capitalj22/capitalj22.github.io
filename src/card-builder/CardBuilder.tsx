@@ -230,7 +230,7 @@ export function CardBuilder() {
         <ImageFileInput label="Images" uploaded={handleImgsChanged} />
         {!!fileData &&
           (!!imageData ||
-            cardType === CardTypes.ManaStorm ||
+            // cardType === CardTypes.ManaStorm ||
             cardType === CardTypes.FactionAbility ||
             cardType === CardTypes.FactionInfo) &&
           !cardsDrawn && (
