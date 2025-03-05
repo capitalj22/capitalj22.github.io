@@ -113,21 +113,21 @@ export const drawLeaderToken = async (params: CardDrawParams) => {
     fill: "#ffcb01" as any,
     font: Fonts.Bs,
     weight: 700,
-    size: 95,
+    size: 70 - Math.ceil(card[leaderAttrCols[1]].length * 4),
     strokeSize: 8,
     strokeColor: "#222" as any,
   });
 
   ctx.strokeText(
     card[leaderAttrCols[1]],
-    ctx.canvas.width - 170,
-    ctx.canvas.width - 100
+    ctx.canvas.width - 180,
+    ctx.canvas.width - 95
   );
 
   ctx.fillText(
     card[leaderAttrCols[1]],
-    ctx.canvas.width - 170,
-    ctx.canvas.width - 100
+    ctx.canvas.width - 180,
+    ctx.canvas.width - 95
   );
 
   ctx.beginPath();

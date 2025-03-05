@@ -1,4 +1,5 @@
-import { preloadImages, wrapText } from "../../utils";
+import { find } from "lodash-es";
+import { preloadImages, preloadImagesNamed, wrapText } from "../../utils";
 import { defaultImages } from "../../utils/card-builder.constants";
 import { getSigil } from "../../utils/decoration-utils";
 import { CardDrawParams } from "../constants";
@@ -6,54 +7,24 @@ import { CardDrawParams } from "../constants";
 export const drawFactionInfo = async (params: CardDrawParams) => {
   let { card, ctx, imageData, output, lookupData } = params;
   ctx.canvas.width = 2250;
+  const factionData = find(lookupData, { FactionNicknames: card["Faction"] });
 
-  const imgs = await preloadImages([
-    "./cards/faction/info.png",
-    "./cards/shared/battle_back.png",
-    "./cards/shared/sorc_back.png",
-    "./cards/shared/traitor_back.png",
-    ...defaultImages,
-  ]);
+  const imgs = await preloadImagesNamed({
+    back: find(imageData, { name: `${card["Faction"]}_info.png` })?.url,
+    bch: "./cards/shared/battle_back.png",
+    sch: "./cards/shared/sorc_back.png",
+    tch: "./cards/shared/traitor_back.png",
+    factionSigil: find(imageData, { name: `${card["Faction"]}_sigil.png` })
+      ?.url,
+  });
 
-  const boardImgs = await preloadImages([
-    "./cards/faction/info_GBC.png",
-    "./cards/faction/info_MG.png",
-    "./cards/faction/info_NL.png",
-    "./cards/faction/info_OC.png",
-    "./cards/faction/info_OOM.png",
-    "./cards/faction/info_TSO.png",
-  ]);
-
-  const getBoardImg = (faction) => {
-    switch (faction) {
-      case "GBC":
-        return boardImgs[0];
-      case "MG":
-        return boardImgs[1];
-      case "NL":
-        return boardImgs[2];
-      case "OC":
-        return boardImgs[3];
-      case "OOM":
-        return boardImgs[4];
-      case "TSO":
-        return boardImgs[5];
-    }
-  };
-
-  ctx.drawImage(
-    getBoardImg(card["Faction"]),
-    0,
-    0,
-    ctx.canvas.width,
-    ctx.canvas.height
-  );
+  ctx.drawImage(imgs.back, 0, 0, ctx.canvas.width, ctx.canvas.height);
 
   ctx.fillStyle = "#ddd";
   ctx.font = "300 124px NotoSerif";
 
-  ctx.fillText(card["Faction Name"], 220, 150);
-  ctx.drawImage(await getSigil(card.Faction), 40, 40, 130, 130);
+  ctx.fillText(factionData.FactionNames, 220, 150);
+  ctx.drawImage(imgs.factionSigil, 40, 40, 130, 130);
 
   let hsxpos = 60;
   // hand size
@@ -62,17 +33,17 @@ export const drawFactionInfo = async (params: CardDrawParams) => {
   ctx.fillText("Hand Size", 60, 300);
 
   ctx.font = "500 140px Bahnschrift";
-  ctx.drawImage(imgs[1], hsxpos, 360, 84, 120);
+  ctx.drawImage(imgs.bch, hsxpos, 360, 84, 120);
   hsxpos += 100;
   ctx.fillText(card["BCH"], hsxpos, 460);
   hsxpos += 140;
 
-  ctx.drawImage(imgs[2], hsxpos, 360, 84, 120);
+  ctx.drawImage(imgs.sch, hsxpos, 360, 84, 120);
   hsxpos += 100;
   ctx.fillText(card["SCH"], hsxpos, 470);
   hsxpos += 140;
 
-  ctx.drawImage(imgs[3], hsxpos, 360, 84, 120);
+  ctx.drawImage(imgs.tch, hsxpos, 360, 84, 120);
   hsxpos += 100;
   ctx.fillText(card["TCH"], hsxpos, 470);
   hsxpos += 140;
