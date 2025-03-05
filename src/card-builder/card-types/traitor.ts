@@ -52,9 +52,9 @@ export const drawTraitorCard = async (params: CardDrawParams) => {
     ctx.drawImage(
       imgs.art,
       printOffset.x,
-      printOffset.x - diff / 2,
+      printOffset.x - diff,
       ctx.canvas.width,
-      imgs.art.height
+      ctx.canvas.width / aspectRatio
     );
   }
 
@@ -100,7 +100,7 @@ export const drawTraitorCard = async (params: CardDrawParams) => {
     size: 44,
     weight: 300,
     strokeSize: 4,
-    strokeColor: 'transparent' as any
+    strokeColor: "transparent" as any,
   };
 
   drawText(
@@ -113,7 +113,7 @@ export const drawTraitorCard = async (params: CardDrawParams) => {
           size: 60,
           font: Fonts.Bs,
           fill: `#${factionData.FactionColors}` as any,
-          strokeColor: "#222222a0" as any
+          strokeColor: "#222222a0" as any,
         },
         // spacingAfter: "big",
       },
@@ -131,7 +131,7 @@ export const drawTraitorCard = async (params: CardDrawParams) => {
       maxWidth: 600,
     },
     {
-      stroke: true
+      stroke: true,
     }
   );
 

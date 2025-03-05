@@ -45,10 +45,10 @@ export const drawLeaderToken = async (params: CardDrawParams) => {
 
     ctx.drawImage(
       imgs.art,
-      printOffset.x - diff,
+      printOffset.x - diff / 2,
       printOffset.x,
-      ctx.canvas.width / aspectRatio + diff * 2,
-      imgs.art.height
+      ctx.canvas.width + diff,
+      ctx.canvas.width / aspectRatio + diff
     );
   } else {
     const diff = imgs.art.height - imgs.art.width;
@@ -58,7 +58,7 @@ export const drawLeaderToken = async (params: CardDrawParams) => {
       printOffset.x,
       printOffset.x - diff / 2,
       ctx.canvas.width,
-      imgs.art.height / (imgs.art.height / imgs.art.width) + diff / 2
+      ctx.canvas.width / aspectRatio
     );
   }
 
@@ -71,16 +71,17 @@ export const drawLeaderToken = async (params: CardDrawParams) => {
           fill: "#fafafaee" as any,
           font: Fonts.Bs,
           weight: 700,
-          size: 38,
+          size: Math.ceil(65 - card["Title"].length * 1),
+          lineHeight: 'small',
           strokeSize: 8,
-          strokeColor: "#333333a0" as any,
+          strokeColor: "#111111d0" as any,
         },
       },
     ],
     {
-      x: 80,
-      yStart: 300,
-      maxWidth: 260,
+      x: 70,
+      yStart: 280,
+      maxWidth: 240,
     },
     { stroke: true }
   );
