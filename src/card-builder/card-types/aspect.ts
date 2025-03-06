@@ -1,4 +1,4 @@
-import { find, map } from "lodash-es";
+import { compact, find, map } from "lodash-es";
 import { preloadImagesNamed } from "../utils";
 import { drawFrameAndImage } from "../utils/img-utils";
 import {
@@ -23,6 +23,7 @@ export const drawAspectCard = async (params: CardDrawParams) => {
   const imgs = await preloadImagesNamed({
     art: cardImage?.url,
     frame: "./cards/aspect/aspect_frame.png",
+    core: "./cards/aspect/core.png",
     factionSigil: find(imageData, { name: `${card["Faction"]}_sigil.png` })
       ?.url,
   });
@@ -36,7 +37,7 @@ export const drawAspectCard = async (params: CardDrawParams) => {
   setFont(ctx, {
     fill: Fill.white,
     font: Fonts.Bs,
-    weight: 700,
+    weight: 500,
     size: 95,
     strokeSize: 10,
     strokeColor: Fill.darkStroke,
@@ -50,11 +51,19 @@ export const drawAspectCard = async (params: CardDrawParams) => {
     140
   );
 
-  drawTitle(ctx, card.Name, { fill: Fill.white, output });
+  if (card.Core === "YES") {
+    ctx.drawImage(imgs.core, -5, 450, 115, 100);
+  }
+
+  drawTitle(ctx, card.Name, {
+    fill: Fill.white,
+    output,
+    xOffset: card.Core === "YES" ? 35 : 0,
+  });
   let effects = card["Effect"].split("//");
 
   const effectFont: CardFont = {
-    font: Fonts.Ga,
+    font: Fonts.Ns,
     fill: Fill.white,
     weight: 300,
     lineHeight: "small",
@@ -62,12 +71,26 @@ export const drawAspectCard = async (params: CardDrawParams) => {
   };
   drawText(
     ctx,
-    [
+    compact([
+      card.Cost
+        ? {
+            text: `Cost: ${card.Cost}`,
+            font: {
+              ...effectFont,
+              fill: Fill.playWhen,
+              size: 36,
+              weight: 500,
+              font: Fonts.Ga,
+              italic: true
+            },
+            spacingAfter: "big",
+          }
+        : null,
       ...map(effects, (effect) => ({
         text: effect.trim(),
         font: effectFont as any,
       })),
-    ],
+    ]),
     {
       x: 65 + printOffset.x,
       yStart: 620 + printOffset.y,

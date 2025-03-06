@@ -58,7 +58,15 @@ export const drawText = (
       ctx.fillStyle = item.font.fill;
 
       setFont(ctx, item.font);
-      let linesAdded = wrapText(ctx, item.text, pos.x, y, maxWidth, lineheight, options.stroke);
+      let linesAdded = wrapText(
+        ctx,
+        item.text,
+        pos.x,
+        y,
+        maxWidth,
+        lineheight,
+        options.stroke
+      );
 
       if (item.spacingAfter === "small") {
         y += linesAdded;
@@ -95,6 +103,7 @@ export function drawTitle(
   options: {
     fill?: Fill;
     yPos?: number;
+    xOffset?: number;
     output?: "print" | "tts";
   } = {} as any
 ) {
@@ -121,7 +130,7 @@ export function drawTitle(
 
   ctx.fillText(
     `${title}`,
-    80 + printOffsetX,
+  (options.xOffset || 0) + 80 + printOffsetX,
     (options.yPos || 505) + printOffsetY
   );
 }
