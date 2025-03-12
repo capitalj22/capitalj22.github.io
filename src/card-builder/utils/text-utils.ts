@@ -125,7 +125,7 @@ export function drawTitle(
       px: 55,
       family: "Bahnschrift",
     },
-    500
+    500 - (options.xOffset || 0)
   );
 
   ctx.fillText(

@@ -3,7 +3,7 @@ import "./pointCounter.scss";
 import { useContext, useEffect, useState } from "react";
 import { find } from "lodash-es";
 
-function getUnitName(defaultUnits, customUnits, id) {
+function getUnitName(defaultUnits = [], customUnits = [], id) {
   return find([...defaultUnits, ...customUnits], { id });
 }
 export function PointCounter({ pointsSpent }) {
