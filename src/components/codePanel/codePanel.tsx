@@ -1,5 +1,13 @@
 import { useContext, useState } from "react";
-import { CloudLightning, Download, RefreshCcw, Save } from "react-feather";
+import {
+  BookOpen,
+  CloudLightning,
+  Download,
+  GitBranch,
+  RefreshCcw,
+  Save,
+  Shield,
+} from "react-feather";
 import { AbilitiesContext } from "../../providers/abilities/abilitiesProvider";
 import { BuildContext } from "../../providers/build/buildProvider";
 import { NodesContext } from "../../providers/nodes/nodesProvider";
@@ -182,9 +190,13 @@ export function CodePanel({ graphEvents$ }) {
 
   return (
     <div className="code-panel">
-      <Accordion name="Character Build" startOpen={false}>
+      <Accordion name="Character Build" startOpen={false} icon={<BookOpen />}>
         <div className="section">
           <div className="uploader">
+            <div className="title">Import Character Build</div>
+            <div className="description">
+              Import a character build. Make sure you have imported the correct skill tree first!
+            </div>
             <input
               type="file"
               id="1"
@@ -198,6 +210,10 @@ export function CodePanel({ graphEvents$ }) {
             </SmolButton>
           </div>
           <div className="downloader">
+            <div className="title">Save Character Build</div>
+            <div className="description">
+              Save your current character build (all of the nodes you've selected for this skill tree).
+            </div>
             <div>
               Save as:
               <FancyTextInput
@@ -215,9 +231,17 @@ export function CodePanel({ graphEvents$ }) {
           </div>
         </div>
       </Accordion>
-      <Accordion name="Trees, Abilities, Etc" startOpen={false}>
+      <Accordion
+        name="Trees, Abilities, Etc"
+        startOpen={false}
+        icon={<GitBranch />}
+      >
         <div className="section">
           <div className="uploader">
+            <div className="title">Import Skill Tree</div>
+            <div className="description">
+              Import a skill tree environment so you can build your character.
+            </div>
             <input
               type="file"
               id="1"
@@ -228,6 +252,10 @@ export function CodePanel({ graphEvents$ }) {
             </SmolButton>
           </div>
           <div className="downloader">
+            <div className="title">Save Skill Tree</div>
+            <div className="description">
+              For DMs: Save the current skill tree, stats, params, etc as a downloadable configuration so others can create builds.
+            </div>
             <div>
               Save as:
               <FancyTextInput

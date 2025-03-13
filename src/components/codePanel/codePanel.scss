@@ -11,12 +11,30 @@
 
   .uploader,
   .downloader {
-    padding-top: 2rem;
+    box-shadow: 1px 2px 2px black;
+    border-radius: 4px;
+    background-color: var(--panelColor);
+    padding: 1rem;
     display: flex;
     gap: 1rem;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
+
+    .title {
+      width: 100%;
+      font-size: 20px;
+      color: var(--textColor);
+      font-weight: 600;
+      // margin-bottom: 1rem;
+    }
+
+    .description {
+      text-align: left;
+      font-size: 12px;
+      margin-bottom: 1rem;
+      color: var(--infoColor);
+    }
 
     > div {
       display: flex;
@@ -29,9 +47,10 @@
       border: 1px solid var(--mutedText);
       background: var(--panelColor2);
     }
-  }
-  .downloader {
-    border-top: 1px solid var(--supermutedText);
+
+    button {
+      margin-left: auto;
+    }
   }
 
   .reset {

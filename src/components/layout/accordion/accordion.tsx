@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { ChevronDown, ChevronUp } from "react-feather";
+import { ChevronDown, ChevronUp, Shield } from "react-feather";
 import "./accordion.scss";
 import classNames from "classnames";
 
-export function Accordion({ children, name, startOpen, disabled = false }) {
+export function Accordion({ children, name, startOpen, disabled = false, icon=null }) {
   const [expanded, setExpanded] = useState(startOpen);
 
   const handleToggled = (event) => {
@@ -22,7 +22,7 @@ export function Accordion({ children, name, startOpen, disabled = false }) {
         })}
       >
         <button className="accordion-button" onClick={handleToggled}>
-          {name}
+        {icon}{name}
           <ChevronUp />
         </button>
         <div className="container">{children}</div>
@@ -38,7 +38,7 @@ export function Accordion({ children, name, startOpen, disabled = false }) {
         })}
       >
         <button className="accordion-button" onClick={handleToggled}>
-          {name}
+        {icon}{name}
           <span className="icon">
             <ChevronDown />
           </span>
