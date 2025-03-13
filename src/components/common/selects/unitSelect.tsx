@@ -4,8 +4,11 @@ import Select, { StylesConfig } from "react-select";
 import { BuildContext } from "../../../providers/build/buildProvider";
 import { selectStyles } from "./select-styles";
 
-function getOption(abilityOptions, id) {
-  return find(abilityOptions, { value: id });
+function getOption(unitOptions, id, isMulti) {
+  if (isMulti) {
+    return [find(unitOptions, { value: id })];
+  }
+  return find(unitOptions, { value: id });
 }
 
 function getUnitOptions(customUnits, defaultUnits) {
@@ -25,15 +28,21 @@ function getAvailableOptions(customUnits, defaultUnits) {
 }
 
 interface Props {
-  valueChanged: (value: string) => void;
-  defaultValue?: string;
+  valueChanged: (value: string | any[]) => void;
+  defaultIds?: string | string[];
   showEmptyOption?: boolean;
+  excludeDefaultUnits?: boolean;
+  isMulti?: boolean;
 }
-export function UnitSelect({ valueChanged, defaultValue }: Props) {
-  const { customUnits, defaultUnits } =
-    useContext(BuildContext);
+export function UnitSelect({
+  valueChanged,
+  defaultIds,
+  excludeDefaultUnits,
+  isMulti,
+}: Props) {
+  const { customUnits, defaultUnits } = useContext(BuildContext);
   const [options, setOptions] = useState(
-    getAvailableOptions(customUnits, defaultUnits)
+    getAvailableOptions(customUnits, excludeDefaultUnits ? [] : defaultUnits)
   );
 
   return (
@@ -41,9 +50,10 @@ export function UnitSelect({ valueChanged, defaultValue }: Props) {
       className="unit-select"
       styles={selectStyles()}
       options={options}
-      onChange={(e) => valueChanged(e?.value)}
-      defaultValue={defaultValue ? getOption(options, defaultValue) : null}
-      value={getOption(options, defaultValue)}
+      isMulti={!!isMulti}
+      closeMenuOnSelect={!isMulti}
+      onChange={(e) => valueChanged(e)}
+      defaultValue={defaultIds}
     ></Select>
   );
 }

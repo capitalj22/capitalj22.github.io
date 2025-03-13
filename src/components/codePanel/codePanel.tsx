@@ -17,20 +17,24 @@ import exampleJson from "../../data/example-config.json";
 
 import "./codePanel.scss";
 import { Accordion } from "../layout/accordion/accordion";
-import { isString } from "lodash-es";
+import { each, filter, isArray, isString, map } from "lodash-es";
 import { SmolButton } from "../common/buttons/smolButton";
 import { FancyTextInput } from "../common/tag-input/fancyTextInput";
 import { stateContext } from "../../providers/state/stateProvider";
 import classNames from "classnames";
+import Select from "react-select";
+import { UnitSelect } from "../common/selects/unitSelect";
 
 export function CodePanel({ graphEvents$ }) {
   const {
     build,
     setSavedBuild,
     defaultUnits,
+    customUnits,
     setDefaultUnits,
     setSelectedUnit,
     selectedUnit,
+    setCustomUnits,
   } = useContext(BuildContext);
   const { tagColors, setTagColors } = useContext(TagsContext);
   const { stats, setStats } = useContext(StatsContext);
@@ -44,6 +48,9 @@ export function CodePanel({ graphEvents$ }) {
   } = useContext(AbilitiesContext);
   const { nodes, setNodes, setSavedNodes } = useContext(NodesContext);
   const { version, setVersion } = useContext(stateContext);
+
+  const [selectedUnitIdsForSave, setSelectedUnitsIdsForSave] = useState([]);
+  const [overwriteExistingUnits, setOverwriteExistingUnits] = useState(false);
 
   const [buildFile, setBuildFile] = useState("");
   const [treeFile, setTreeFile] = useState("");
@@ -69,9 +76,20 @@ export function CodePanel({ graphEvents$ }) {
     reader.readAsText(files[0]);
   };
 
-  const downloadFile = (type) => {
+  const downloadFile = (type: "build" | "units" | "trees") => {
     let data = {};
     let filename = "";
+
+    if (type === "units") {
+      const unitsToSave = filter(customUnits, (unit) =>
+        selectedUnitIdsForSave.includes(unit.id)
+      );
+
+      data = unitsToSave;
+      const name = buildFileName || "units";
+
+      filename = `${name}.json`;
+    }
 
     if (type === "build") {
       data = build?.exportableBuild;
@@ -111,12 +129,25 @@ export function CodePanel({ graphEvents$ }) {
   };
 
   const handleBuildImportClicked = (event) => {
-    if (buildFile.length) {
-    }
-    const build = JSON.parse(buildFile);
+    let data = JSON.parse(buildFile);
 
-    if (build) {
-      setSavedBuild({ type: "imported", build });
+    if (data) {
+      let units = data;
+      
+      // handle old files
+      if (!isArray(data)) {
+        let id = `imported-${Math.floor(Math.random() * 700000)}`;
+
+        units = [{ name: id, id, build: data }];
+      }
+
+      if (overwriteExistingUnits) {
+        setCustomUnits({ type: "set", units: [] });
+      }
+
+      each(units, (unit) => {
+        setCustomUnits({ type: "add", unit });
+      });
     }
   };
 
@@ -190,13 +221,28 @@ export function CodePanel({ graphEvents$ }) {
 
   return (
     <div className="code-panel">
-      <Accordion name="Character Build" startOpen={false} icon={<BookOpen />}>
+      <Accordion name="Units" startOpen={false} icon={<BookOpen />}>
         <div className="section">
           <div className="uploader">
-            <div className="title">Import Character Build</div>
+            <div className="title">Import Units</div>
             <div className="description">
-              Import a character build. Make sure you have imported the correct skill tree first!
+              Import units. Make sure you have imported the correct skill tree
+              first!
             </div>
+            <label className="checkbox">
+              <input
+                type={"checkbox"}
+                checked={overwriteExistingUnits}
+                onChange={(val) => {
+                  setOverwriteExistingUnits(!overwriteExistingUnits);
+                }}
+              />
+              Clean Import
+              <div className="description">
+                (Removes ALL current Custom Units)
+              </div>
+            </label>
+
             <input
               type="file"
               id="1"
@@ -206,13 +252,24 @@ export function CodePanel({ graphEvents$ }) {
               disabled={!buildFile}
               clicked={handleBuildImportClicked}
             >
-              Import Build <Download />
+              Import Units <Download />
             </SmolButton>
           </div>
           <div className="downloader">
-            <div className="title">Save Character Build</div>
-            <div className="description">
-              Save your current character build (all of the nodes you've selected for this skill tree).
+            <div className="title">Save Units</div>
+            <div className="description">Save your custom units</div>
+
+            <div className="units-to-save">
+              <div className="label">Units To Save:</div>
+              <UnitSelect
+                isMulti={true}
+                excludeDefaultUnits={true}
+                valueChanged={function (value: any): void {
+                  console.log(value);
+                  setSelectedUnitsIdsForSave(map(value, "value") as any);
+                  // throw new Error("Function not implemented.");
+                }}
+              />
             </div>
             <div>
               Save as:
@@ -224,9 +281,9 @@ export function CodePanel({ graphEvents$ }) {
             <SmolButton
               type="outline"
               color="success"
-              clicked={() => downloadFile("build")}
+              clicked={() => downloadFile("units")}
             >
-              Save Build <Save />
+              Save Units <Save />
             </SmolButton>
           </div>
         </div>
@@ -254,7 +311,8 @@ export function CodePanel({ graphEvents$ }) {
           <div className="downloader">
             <div className="title">Save Skill Tree</div>
             <div className="description">
-              For DMs: Save the current skill tree, stats, params, etc as a downloadable configuration so others can create builds.
+              For DMs: Save the current skill tree, stats, params, etc as a
+              downloadable configuration so others can create builds.
             </div>
             <div>
               Save as:

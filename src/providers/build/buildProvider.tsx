@@ -1,4 +1,4 @@
-import { clone, map } from "lodash-es";
+import { clone, map, some, uniqueId } from "lodash-es";
 import { createContext, useReducer, useState } from "react";
 export const BuildContext = createContext({} as any);
 
@@ -111,6 +111,10 @@ const customUnitsReducer = (state, action) => {
   }
 
   if (type === "add") {
+    if (some(newState, { id: unit.id })) {
+      unit.id = `copy-${Math.floor(Math.random() * 700000)}`;
+      unit.name = `${unit.name}-${unit.id}`
+    }
     newState = [...newState, unit];
     return newState;
   }

@@ -98,7 +98,7 @@ export function UnitCard({ unit, startEditable = false, unitType = "custom" }) {
   };
 
   const unitCopySelected = (e) => {
-    const unit = find([...customUnits, ...defaultUnits], { id: e });
+    const unit = find([...customUnits, ...defaultUnits], { id: e.value });
 
     setUnitBuild(unit.build || {});
     setUnsavedData(true);
@@ -139,7 +139,6 @@ export function UnitCard({ unit, startEditable = false, unitType = "custom" }) {
         <div className="unit-card-row">
           Copy from:
           <UnitSelect
-            defaultValue={undefined}
             valueChanged={unitCopySelected}
           />
         </div>
