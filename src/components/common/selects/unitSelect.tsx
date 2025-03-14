@@ -12,7 +12,7 @@ function getOption(unitOptions, id, isMulti) {
 }
 
 function getUnitOptions(customUnits, defaultUnits) {
-  const options = map([...customUnits, ...defaultUnits], (unit) => {
+  const options = map([...(customUnits || []), ...(defaultUnits || [])], (unit) => {
     return {
       value: unit.id as string,
       label: unit.name as string,
