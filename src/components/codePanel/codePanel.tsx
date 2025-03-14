@@ -4,9 +4,11 @@ import {
   CloudLightning,
   Download,
   GitBranch,
+  GitPullRequest,
   RefreshCcw,
   Save,
   Shield,
+  Users,
 } from "react-feather";
 import { AbilitiesContext } from "../../providers/abilities/abilitiesProvider";
 import { BuildContext } from "../../providers/build/buildProvider";
@@ -133,7 +135,7 @@ export function CodePanel({ graphEvents$ }) {
 
     if (data) {
       let units = data;
-      
+
       // handle old files
       if (!isArray(data)) {
         let id = `imported-${Math.floor(Math.random() * 700000)}`;
@@ -145,9 +147,7 @@ export function CodePanel({ graphEvents$ }) {
         setCustomUnits({ type: "set", units: [] });
       }
 
-      each(units, (unit) => {
-        setCustomUnits({ type: "add", unit });
-      });
+      setCustomUnits({ type: "addMany", units });
     }
   };
 
@@ -221,109 +221,153 @@ export function CodePanel({ graphEvents$ }) {
 
   return (
     <div className="code-panel">
-      <Accordion name="Units" startOpen={false} icon={<BookOpen />}>
+      <Accordion name="Units" startOpen={false} icon={<Users />}>
         <div className="section">
           <div className="uploader">
-            <div className="title">Import Units</div>
+            <div className="title">
+              Import Units
+              <span className="icon theme">
+                <Download size={14} />
+                <Users size={14} />
+              </span>
+            </div>
             <div className="description">
               Import units. Make sure you have imported the correct skill tree
               first!
             </div>
-            <label className="checkbox">
+            <div className="data-row">
+              <label className="checkbox">
+                <input
+                  type={"checkbox"}
+                  checked={overwriteExistingUnits}
+                  onChange={(val) => {
+                    setOverwriteExistingUnits(!overwriteExistingUnits);
+                  }}
+                />
+                Clean Import
+              </label>
+              <div className="info">(Removes ALL current Custom Units)</div>
+            </div>
+            <div className="data-row">
+              <label>File:</label>
               <input
-                type={"checkbox"}
-                checked={overwriteExistingUnits}
-                onChange={(val) => {
-                  setOverwriteExistingUnits(!overwriteExistingUnits);
-                }}
+                type="file"
+                id="1"
+                onChange={(e) => fileChanged(e, "build")}
               />
-              Clean Import
-              <div className="description">
-                (Removes ALL current Custom Units)
-              </div>
-            </label>
-
-            <input
-              type="file"
-              id="1"
-              onChange={(e) => fileChanged(e, "build")}
-            />
-            <SmolButton
-              disabled={!buildFile}
-              clicked={handleBuildImportClicked}
-            >
-              Import Units <Download />
-            </SmolButton>
+            </div>
+            <div className="card-footer">
+              <SmolButton
+                type="emphasized"
+                color="theme"
+                clicked={handleBuildImportClicked}
+              >
+                Import Units <Download />
+              </SmolButton>
+            </div>
           </div>
           <div className="downloader">
-            <div className="title">Save Units</div>
+            <div className="title">
+              Save Units
+              <span className="icon success">
+                <Save size={14} />
+                <Users size={14} />
+              </span>
+            </div>
             <div className="description">Save your custom units</div>
 
-            <div className="units-to-save">
+            <div className="data-row">
               <div className="label">Units To Save:</div>
               <UnitSelect
                 isMulti={true}
                 excludeDefaultUnits={true}
                 valueChanged={function (value: any): void {
-                  console.log(value);
                   setSelectedUnitsIdsForSave(map(value, "value") as any);
-                  // throw new Error("Function not implemented.");
                 }}
               />
             </div>
-            <div>
+            <div className="data-row">
               Save as:
               <FancyTextInput
                 value={buildFileName}
                 valueChanged={(e) => setBuildFileName(e)}
               />
             </div>
-            <SmolButton
-              type="outline"
-              color="success"
-              clicked={() => downloadFile("units")}
-            >
-              Save Units <Save />
-            </SmolButton>
+            <div className="card-footer">
+              <SmolButton
+                type="emphasized"
+                color="success"
+                clicked={() => downloadFile("units")}
+              >
+                Save Units <Save />
+              </SmolButton>
+            </div>
           </div>
         </div>
       </Accordion>
       <Accordion
         name="Trees, Abilities, Etc"
         startOpen={false}
-        icon={<GitBranch />}
+        icon={<GitPullRequest />}
       >
         <div className="section">
           <div className="uploader">
-            <div className="title">Import Skill Tree</div>
+            <div className="title success">
+              Import Skill Tree{" "}
+              <span className="icon">
+                <Download size={14} />
+                <GitPullRequest size={14} />
+              </span>
+            </div>
             <div className="description">
               Import a skill tree environment so you can build your character.
             </div>
-            <input
-              type="file"
-              id="1"
-              onChange={(e) => fileChanged(e, "tree")}
-            />
-            <SmolButton disabled={!treeFile} clicked={handleTreeImportClicked}>
-              Import Trees/Abilities <Download />
-            </SmolButton>
+            <div className="data-row">
+              <label>File:</label>
+              <input
+                type="file"
+                id="1"
+                onChange={(e) => fileChanged(e, "tree")}
+              />
+            </div>
+            <div className="card-footer">
+              <SmolButton
+                type="emphasized"
+                color="accent"
+                clicked={handleTreeImportClicked}
+              >
+                Import Trees/Abilities <Download />
+              </SmolButton>
+            </div>
           </div>
           <div className="downloader">
-            <div className="title">Save Skill Tree</div>
+            <div className="title">
+              Save Skill Tree{" "}
+              <span className="icon success">
+                <Save size={14} />
+                <GitPullRequest size={14} />
+              </span>
+            </div>
             <div className="description">
               For DMs: Save the current skill tree, stats, params, etc as a
               downloadable configuration so others can create builds.
             </div>
-            <div>
+            <div className="data-row">
               Save as:
               <FancyTextInput
                 value={treeFileName}
                 valueChanged={(e) => setTreeFileName(e)}
               />
             </div>
-            <SmolButton color="success" clicked={() => downloadFile("trees")}>
-              Save Current Trees/Abilities <Save />
-            </SmolButton>
+            <div className="card-footer">
+              <SmolButton
+                type="emphasized"
+                color="success"
+                clicked={() => downloadFile("trees")}
+              >
+                Save Current Trees/Abilities <Save />
+              </SmolButton>
+            </div>
           </div>
         </div>
       </Accordion>

@@ -113,9 +113,30 @@ const customUnitsReducer = (state, action) => {
   if (type === "add") {
     if (some(newState, { id: unit.id })) {
       unit.id = `copy-${Math.floor(Math.random() * 700000)}`;
-      unit.name = `${unit.name}-${unit.id}`
+      unit.name = `${unit.name}-${unit.id}`;
     }
     newState = [...newState, unit];
+    return newState;
+  }
+
+  if (type === "addMany") {
+    const newUnits = map(units, (u) => {
+      const dupe =
+        some(newState, { id: u.id }) || some(newState, { name: u.name });
+      if (dupe) {
+        const id = `copy-${Math.floor(Math.random() * 700000)}`;
+
+        return { ...u, id, name: `${u.name}-${u.id}` };
+      }
+
+      return u;
+    });
+
+    newState = [...newState, ...newUnits];
+    window.localStorage.setItem(
+      "dragon-custom-units",
+      JSON.stringify(newState)
+    );
     return newState;
   }
 
