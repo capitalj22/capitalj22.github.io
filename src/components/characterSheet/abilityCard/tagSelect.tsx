@@ -89,7 +89,7 @@ export function TagSelect({
         >
           <div className="tag-color">
             <ColorPicker
-              color={tagColors[tag]}
+              color={tagColors && tagColors[tag]}
               colorChanged={(e) => colorChanged(e, tag)}
             />
           </div>
