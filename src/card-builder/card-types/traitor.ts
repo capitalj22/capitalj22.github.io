@@ -2,7 +2,12 @@ import { compact, find, map } from "lodash-es";
 import { preloadImagesNamed } from "../utils";
 import { CardFont, Fill, Fonts } from "../utils/card-builder.constants";
 
-import { drawCardNumber, drawText, drawTitle } from "../utils/text-utils";
+import {
+  drawCardNumber,
+  drawText,
+  drawTitle,
+  setFont,
+} from "../utils/text-utils";
 import { CardDrawParams } from "./constants";
 
 export const drawTraitorCard = async (params: CardDrawParams) => {
@@ -14,6 +19,7 @@ export const drawTraitorCard = async (params: CardDrawParams) => {
   const imgs = await preloadImagesNamed({
     art: find(imageData, { cardNumber: `T${card["LeaderID"]}` })?.url,
     frame: "./cards/traitor/card.png",
+    leadershipCostBadge: "./cards/battle/badge_Leadership.png",
     factionSigil: find(imageData, { name: `${card["Faction"]}_sigil.png` })
       ?.url,
   });
@@ -22,7 +28,14 @@ export const drawTraitorCard = async (params: CardDrawParams) => {
   const factionData = find(lookupData, { FactionNicknames: card["Faction"] });
   const leaderAttrCols = compact(map(lookupData, "LeaderAttrCols"));
   const leaderAttrNames = compact(map(lookupData, "LeaderAttrs"));
-
+  const effectFont: CardFont = {
+    fill: Fill.dark,
+    font: Fonts.Ns,
+    size: 44,
+    weight: 300,
+    strokeSize: 4,
+    strokeColor: "transparent" as any,
+  };
   const leaderAttributes = map(leaderAttrCols, (col, index) => ({
     attribute: leaderAttrNames[index],
     value: card[col],
@@ -88,20 +101,25 @@ export const drawTraitorCard = async (params: CardDrawParams) => {
     160
   );
 
+  // cost
+  ctx.drawImage(imgs.leadershipCostBadge, -10, 520, 130, 130);
+  setFont(ctx, {
+    ...effectFont,
+    fill: Fill.white,
+    size: 55,
+    strokeColor: "#000000a0" as any,
+    strokeSize: 6,
+  });
+
+  ctx.strokeText("1", 40, 600);
+  ctx.fillText("1", 40, 600);
+
   drawTitle(ctx, card.Title, {
     fill: Fill.white,
     output,
     yPos: 590,
+    xOffset: 50,
   });
-
-  const effectFont: CardFont = {
-    fill: Fill.dark,
-    font: Fonts.Ns,
-    size: 44,
-    weight: 300,
-    strokeSize: 4,
-    strokeColor: "transparent" as any,
-  };
 
   drawText(
     ctx,
@@ -110,24 +128,33 @@ export const drawTraitorCard = async (params: CardDrawParams) => {
         text: factionData.FactionNames,
         font: {
           ...effectFont,
-          size: 60,
+          size: 40,
           font: Fonts.Bs,
           fill: `#${factionData.FactionColors}` as any,
           strokeColor: "#222222a0" as any,
         },
-        // spacingAfter: "big",
+        spacingAfter: "small",
       },
       ...map(leaderAttributes, (attr) => ({
         text: `${attr.attribute}: ${attr.value}`,
-        font: effectFont,
+        font: { ...effectFont, size: 28 },
         weight: 700,
         spacingAfter: "small" as any,
       })),
+      {
+        text: ' ',
+        font: {...effectFont, size: 20},
+        spacingAfter: 'small'
+      },
+      {
+        text: `Take control of ${card["Title"]}`,
+        font: {...effectFont, size: 36},
+      },
     ],
 
     {
       x: 80 + printOffset.x,
-      yStart: 720 + printOffset.y,
+      yStart: 700 + printOffset.y,
       maxWidth: 600,
     },
     {

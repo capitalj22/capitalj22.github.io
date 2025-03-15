@@ -38,8 +38,17 @@ export const drawBattleCard = async (params: CardDrawParams) => {
     roundBadge: "./cards/battle/badge_R.png",
     battleBadge: "./cards/battle/badge_1.png",
     costbadge: "./cards/battle/badge_Leadership.png",
+    reactionBadgeRound: "./cards/battle/badge_r_reaction.png",
+    reactionBadgeBattle: "./cards/battle/badge_b_reaction.png",
     factionSigil: find(imageData, { name: `${card["Faction"]}_sigil.png` })
       ?.url,
+  });
+
+  const symbolImgs = await preloadImagesNamed({
+    guard: "./cards/battle/guard.png",
+    kill: "./cards/battle/kill.png",
+    push: "./cards/battle/push.png",
+    break: "./cards/battle/break.png",
   });
 
   await drawFrameAndImage(
@@ -73,7 +82,7 @@ export const drawBattleCard = async (params: CardDrawParams) => {
   ctx.drawImage(imgs.costbadge, 65, 440, 130, 130);
 
   if (imgs.diagram) {
-    ctx.drawImage(imgs.diagram, 200, 675, 350 , 360);
+    ctx.drawImage(imgs.diagram, 200, 675, 350, 360);
   }
 
   setFont(ctx, {
@@ -86,13 +95,31 @@ export const drawBattleCard = async (params: CardDrawParams) => {
 
   ctx.strokeText(card["Leadership Cost"], 115, 520);
   ctx.fillText(card["Leadership Cost"], 115, 520);
+
   if (card["Once Per"] === "Round") {
-    ctx.drawImage(imgs.roundBadge, -15, 440, 130, 130);
+    ctx.drawImage(
+      card["Reaction"] === "YES" ? imgs.reactionBadgeRound : imgs.roundBadge,
+      -15,
+      440,
+      130,
+      130
+    );
   }
   if (card["Once Per"] === "Battle") {
-    ctx.drawImage(imgs.battleBadge, -15, 440, 130, 130);
+    ctx.drawImage(
+      card["Reaction"] === "YES" ? imgs.reactionBadgeBattle : imgs.battleBadge,
+      -15,
+      440,
+      130,
+      130
+    );
   }
-  drawTitle(ctx, card.Title, { fill: Fill.dark, output, xOffset: 115 });
+
+  drawTitle(ctx, card.Title, {
+    fill: Fill.dark,
+    output,
+    xOffset: 115,
+  });
 
   drawText(
     ctx,
@@ -122,11 +149,59 @@ export const drawBattleCard = async (params: CardDrawParams) => {
       },
     ],
     {
-      x: 80 + 36,
-      yStart: 650,
+      x: 80,
+      yStart: 630,
       maxWidth: 600,
     }
   );
+
+  let things = 0;
+
+  // if (card["Dice"]) {
+  //   ctx.fillText(card["Dice"], 40, ctx.canvas.height - 60);
+  // }
+  if (card["Guard"] === "YES") {
+    ctx.drawImage(symbolImgs.guard, 40, ctx.canvas.height - 100, 50, 50);
+    things += 1;
+  }
+  if (card["Push"] === "YES") {
+    ctx.drawImage(
+      symbolImgs.push,
+      40 + things * 48,
+      ctx.canvas.height - 100,
+      50,
+      50
+    );
+    things += 1;
+  }
+  if (card["Break"] === "YES") {
+    ctx.drawImage(
+      symbolImgs.break,
+      40 + things * 48,
+      ctx.canvas.height - 100,
+      50,
+      50
+    );
+    things += 1;
+  }
+  if (card["Kill"] === "YES") {
+    ctx.drawImage(
+      symbolImgs.kill,
+      40 + things * 48,
+      ctx.canvas.height - 100,
+      50,
+      50
+    );
+    things += 1;
+  }
+
+  if (card["Dice"]) {
+    ctx.fillText(
+      `(${card["Dice"]})`,
+      50 + things * 48,
+      ctx.canvas.height - 65
+    );
+  }
 
   drawCardNumber(ctx, card, output);
   drawCardQuantity(ctx, card, output);
