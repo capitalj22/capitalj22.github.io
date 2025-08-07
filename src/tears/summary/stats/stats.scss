@@ -1,0 +1,49 @@
+.filters {
+  display: flex;
+  gap: 0.5rem;
+
+  button {
+    font-family: "BahnSchrift";
+    font-size: 14px;
+    padding: 0.25rem 1rem;
+    background-color: transparent;
+    font-weight: 700;
+    border-radius: 4px;
+
+    &.selected {
+      background-color: rgb(87, 85, 85);
+    }
+  }
+}
+
+.blips {
+  display: flex;
+  gap: 0.25rem;
+
+  .blip {
+    font-size: 12px;
+    color: var(--panelColor);
+    font-weight: 700;
+    width: 1.25rem;
+    height: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+    &.i1 {
+      background-color: var(--i1);
+    }
+    &.i2 {
+      background-color: var(--i2);
+    }
+    &.i3 {
+      background-color: var(--i3);
+    }
+    &.i4 {
+      background-color: var(--i4);
+    }
+    &.i5 {
+      background-color: var(--i5);
+    }
+  }
+}
