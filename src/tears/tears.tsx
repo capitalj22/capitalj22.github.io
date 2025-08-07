@@ -94,7 +94,7 @@ export function Tears() {
 
           <div className="stats">
             <div className="label">Stats</div>
-            <div className="statstuff">(Stats Go Here) v1.0.0</div>
+            <div className="statstuff">(Stats Go Here) v1.0.1</div>
           </div>
         </div>
       )}
