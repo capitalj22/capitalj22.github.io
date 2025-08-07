@@ -1,8 +1,73 @@
 .tears {
+  --i1: rgb(193, 212, 175);
+  --i2: rgb(211, 204, 112);
+  --i3: rgb(216, 145, 52);
+  --i4: rgb(214, 78, 25);
+  --i5: rgb(190, 18, 41);
+
   width: 100vw;
+  text-align: left;
   padding: 1rem;
+  .label {
+    font-family: "NotoSerif";
+  }
+}
+
+.entries {
+    display: flex;
+    gap: 0.5rem;
+    flex-direction: column;
+}
+
+.entry {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1.5rem;
+  background: var(--cardBg);
+  border-radius: 12px;
+
+  .int {
+    &.i1 {
+      color: var(--i1);
+    }
+    &.i2 {
+      color: var(--i2);
+    }
+    &.i3 {
+      color: var(--i3);
+    }
+    &.i4 {
+      color: var(--i4);
+    }
+    &.i5 {
+      color: var(--i5);
+    }
+  }
 }
 
 .section {
-    margin-top: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.home {
+  margin-top: 2rem;
+}
+
+.new {
+  width: 100%;
+  text-align: center;
+}
+
+.addButton {
+  background: transparent;
+}
+
+.past {
+  margin-top: 4rem;
+}
+
+.stats {
+    margin-top: 2rem;
 }

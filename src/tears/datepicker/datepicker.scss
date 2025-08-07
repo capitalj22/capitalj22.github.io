@@ -11,22 +11,26 @@
     height: 100px;
     border-radius: 6px;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-content: center;
+    align-items: center;
     gap: 1rem;
 
+    &.fulldate {
+      flex-direction: column;
+    }
+
     &.selected {
-        background: var(--themeColorText);
-        color: var(--panelColor);
+      background: var(--themeColorText);
+      color: var(--panelColor);
     }
 
     .month {
-        font-size: 14px;
+      font-size: 14px;
     }
 
     .date {
-        font-size: 30px;
+      font-size: 30px;
     }
   }
 }

@@ -29,7 +29,7 @@ export function TearDates() {
   return (
     <div className="days">
       <button
-        className={classNames("day", { selected: selectedItem === "yyday" })}
+        className={classNames("day fulldate", { selected: selectedItem === "yyday" })}
         onClick={() => setDay("yyday")}
       >
         <span className="month">{yyday.month}</span>
@@ -39,8 +39,7 @@ export function TearDates() {
         className={classNames("day", { selected: selectedItem === "yday" })}
         onClick={() => setDay("yday")}
       >
-        <span className="month">{yday.month}</span>
-        <span className="date">{yday.day}</span>
+        Yesterday
       </button>
       <button
         className={classNames("day", { selected: selectedItem === "today" })}

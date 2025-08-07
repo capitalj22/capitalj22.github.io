@@ -1,0 +1,47 @@
+@mixin selected($val) {
+  color: $val;
+
+  &.selected {
+    background-color: $val;
+    color: var(--panelColor);
+  }
+}
+
+.intensity-select {
+  text-align: left;
+}
+
+.intensities {
+  display: flex;
+  gap: 0.5rem;
+
+  .intensity {
+    // --i1: rgb(197, 207, 137);
+    // --i2: rgb(211, 204, 112);
+    // --i3: rgb(190, 152, 48);
+    // --i4: rgb(221, 123, 44);
+    // --i5: rgb(190, 18, 41);
+  
+    border-radius: 4px;
+
+    &.i1 {
+      @include selected(var(--i1));
+    }
+
+    &.i2 {
+      @include selected(var(--i2));
+    }
+
+    &.i3 {
+      @include selected(var(--i3));
+    }
+
+    &.i4 {
+      @include selected(var(--i4));
+    }
+    
+    &.i5 {
+      @include selected(var(--i5));
+    }
+  }
+}
