@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { ArrowLeft, CheckSquare, Cloud, CloudDrizzle, PlusCircle } from "react-feather";
+import {
+  ArrowLeft,
+  CheckSquare,
+  Cloud,
+  CloudDrizzle,
+  PlusCircle,
+} from "react-feather";
 import { TearDates } from "./datepicker/datepicker";
 import { SmolButton } from "../components/common/buttons/smolButton";
 import "./tears.scss";
@@ -14,6 +20,9 @@ export function Tears() {
   };
   const back = () => {
     setIsAdding(false);
+  };
+  const save = () => {
+    back();
   };
 
   const whereOptions = [
@@ -123,7 +132,9 @@ export function Tears() {
           </div>
 
           <div className="section done">
-            <CheckSquare size={80} />
+            <button className="lg-button" onClick={save}>
+              <CheckSquare size={80} />
+            </button>
           </div>
         </div>
       )}

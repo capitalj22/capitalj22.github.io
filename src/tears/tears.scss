@@ -8,15 +8,22 @@
   width: 100vw;
   text-align: left;
   padding: 1rem;
+  padding-bottom: 10rem;
+  overflow: auto;
+
   .label {
     font-family: "NotoSerif";
+  }
+
+  .lg-button {
+    background-color: transparent;
   }
 }
 
 .entries {
-    display: flex;
-    gap: 0.5rem;
-    flex-direction: column;
+  display: flex;
+  gap: 0.5rem;
+  flex-direction: column;
 }
 
 .entry {
@@ -69,7 +76,7 @@
 }
 
 .stats {
-    margin-top: 2rem;
+  margin-top: 2rem;
 }
 
 .done {
