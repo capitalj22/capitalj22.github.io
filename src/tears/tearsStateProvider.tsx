@@ -28,7 +28,7 @@ function getCries() {
   if (cries) {
     try {
       console.log(cries)
-      return [];
+      // return [];
       return JSON.parse(cries);
     } catch (e) {
       return [];
