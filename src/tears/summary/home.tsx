@@ -21,11 +21,15 @@ export function TearsHome({ addPressed }: Props) {
           <PlusCircle size={80} />
         </button>
       </div>
-
-      <TearsPast />
-      <div className="section">
-        <TearStats />
-      </div>
+      {!!cries.length && (
+        <div>
+          <TearsPast />
+          <div className="section">
+            <TearStats />
+          </div>
+        </div>
+      )}
+      {!cries.length && <div>Press the button above to add a cry</div>}
 
       <div className="vers"> v1.0.3</div>
     </div>

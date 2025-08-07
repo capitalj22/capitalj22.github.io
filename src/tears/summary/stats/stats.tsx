@@ -44,8 +44,7 @@ export function TearStats() {
         2
       )
     );
-    const locs = map(cries, 'where');
-    
+    const locs = map(cries, "where");
   }, [durationFilter, cries]);
   return (
     <div className="cry-stats">
@@ -80,25 +79,55 @@ export function TearStats() {
           ytd
         </button>
       </div>
-      <div className="section">
-        <div className="stat-label">intensity:</div>
-        <div className="blips">
-          {filteredCries.map((cry) => (
-            <span
-              className={classNames("blip", {
-                i1: cry.intensity === 1,
-                i2: cry.intensity === 2,
-                i3: cry.intensity === 3,
-                i4: cry.intensity === 4,
-                i5: cry.intensity === 5,
-              })}
-            >
-              {cry.intensity}
-            </span>
-          ))}
+      {filteredCries.length && (
+        <div>
+          <div className="section">
+            <div className="stat-panel">
+              <div className="label">intensity</div>
+              <div className="blips">
+                {filteredCries.map((cry) => (
+                  <span
+                    className={classNames("blip", {
+                      i1: cry.intensity === 1,
+                      i2: cry.intensity === 2,
+                      i3: cry.intensity === 3,
+                      i4: cry.intensity === 4,
+                      i5: cry.intensity === 5,
+                    })}
+                  >
+                    {cry.intensity}
+                  </span>
+                ))}
+              </div>
+              <div className="tear-stat-line">Average: {avInt}</div>
+            </div>
+          </div>
+          <div className="section">
+            <div className="stat-panel">
+              <div className="label">locations</div>
+              (placeholder)
+            </div>
+          </div>
+          <div className="section">
+            <div className="stat-panel">
+              <div className="label">triggers</div>
+              (placeholder)
+            </div>
+          </div>
+          <div className="section">
+            <div className="stat-panel">
+              <div className="label">emotions</div>
+              (placeholder)
+            </div>
+          </div>
+          <div className="section">
+            <div className="stat-panel">
+              <div className="label">catharsis</div>
+              (placeholder)
+            </div>
+          </div>
         </div>
-        Average: {avInt}
-      </div>
+      )}
     </div>
   );
 }

@@ -1,31 +1,33 @@
 .entries-container {
   position: relative;
 
-  &:before {
-    content: " ";
-    width: 100%;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    background: linear-gradient(
-      to top,
-      rgba(255, 255, 255, 0),
-      rgba(0, 0, 0, 0.5)
-    );
-    height: 1rem;
-  }
-  &:after {
-    content: " ";
-    width: 100%;
-    position: absolute;
-    bottom: 0px;
-    left: 0px;
-    background: linear-gradient(
-      to bottom,
-      rgba(255, 255, 255, 0),
-      rgba(0, 0, 0, 0.514)
-    );
-    height: 1rem;
+  &.many {
+    &:before {
+      content: " ";
+      width: 100%;
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      background: linear-gradient(
+        to top,
+        rgba(255, 255, 255, 0),
+        rgba(0, 0, 0, 0.5)
+      );
+      height: 1rem;
+    }
+    &:after {
+      content: " ";
+      width: 100%;
+      position: absolute;
+      bottom: 0px;
+      left: 0px;
+      background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0),
+        rgba(0, 0, 0, 0.514)
+      );
+      height: 1rem;
+    }
   }
 }
 .entries {

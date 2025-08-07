@@ -3,6 +3,7 @@ import { tearsStateContext } from "../../tearsStateProvider";
 import { TearsEntry } from "./entry";
 import { take } from "lodash-es";
 import "./past.scss";
+import classNames from "classnames";
 
 export function TearsPast() {
   const { cries } = useContext(tearsStateContext);
@@ -11,8 +12,9 @@ export function TearsPast() {
   return (
     <div>
       <div className="label">my cries</div>
-
-      <div className="entries-container">
+      <div
+        className={classNames("entries-container", { many: cries.length > 5 })}
+      >
         <div className="entries">
           {cries?.map((entry, index) => (
             <TearsEntry cry={entry} />
