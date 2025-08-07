@@ -49,9 +49,9 @@ export function PillSelect({
       const newItem = { value: newText, label: newText };
       setLocalOptions([...options, newItem]);
       setIsAddingNew(false);
+      valueChanged(newText);
       setNewText("");
       setSelectedItem(newItem);
-      valueChanged(newText);
     } else {
       setIsAddingNew(false);
       setNewText("");
