@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowLeft, Cloud, CloudDrizzle, PlusCircle } from "react-feather";
+import { ArrowLeft, CheckSquare, Cloud, CloudDrizzle, PlusCircle } from "react-feather";
 import { TearDates } from "./datepicker/datepicker";
 import { SmolButton } from "../components/common/buttons/smolButton";
 import "./tears.scss";
@@ -17,25 +17,31 @@ export function Tears() {
   };
 
   const whereOptions = [
-    { value: "home", label: "at home" },
-    { value: "work", label: "at work" },
-    { value: "car", label: "in my car" },
-    { value: "friends", label: "with friends" },
-    { value: "family", label: "with family" },
-    { value: "other", label: "other" },
-  ];
-  const bcOptions = [
-    { value: "stress", label: "stress" },
-    { value: "exhaustion", label: "exhaustion" },
-    { value: "other", label: "other" },
-  ];
+      { value: "home", label: "at home" },
+      { value: "work", label: "at work" },
+      { value: "car", label: "in my car" },
+      { value: "friends", label: "with friends" },
+      { value: "family", label: "with family" },
+      { value: "other", label: "other" },
+    ],
+    bcOptions = [
+      { value: "stress", label: "stress" },
+      { value: "exhaustion", label: "exhaustion" },
+      { value: "other", label: "other" },
+    ],
+    cathOptions = [
+      { value: "yes", label: "Cathartic" },
+      { value: "no", label: "Not Cathartic" },
+    ];
+
   const whereChanged = (e) => {
       console.log(e);
     },
     bcChanged = (e) => {
       console.log(e);
     },
-    intensityChanged = () => {};
+    intensityChanged = () => {},
+    cathChanged = () => {};
 
   return (
     <div className="tears">
@@ -107,6 +113,17 @@ export function Tears() {
           </div>
           <div className="section">
             <Intensity valueChanged={intensityChanged} />
+          </div>
+          <div className="section">
+            <PillSelect
+              label="It was"
+              options={cathOptions}
+              valueChanged={cathChanged}
+            />
+          </div>
+
+          <div className="section done">
+            <CheckSquare size={80} />
           </div>
         </div>
       )}
