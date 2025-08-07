@@ -1,7 +1,9 @@
 .days {
   padding: 1rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  justify-content: flex-end;
 
   .day {
     text-align: center;
