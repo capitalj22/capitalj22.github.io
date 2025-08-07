@@ -77,6 +77,7 @@ export function TearsAdd({ backPressed, savePressed }: Props) {
       </div>
       <div className="section">
         <PillSelect
+          canAdd={true}
           label="Due to"
           options={bcOptions}
           valueChanged={bcChanged}
@@ -84,6 +85,7 @@ export function TearsAdd({ backPressed, savePressed }: Props) {
       </div>
       <div className="section">
         <PillSelect
+          canAdd={true}
           label="Centered on"
           options={emoOptions}
           valueChanged={emoChanged}

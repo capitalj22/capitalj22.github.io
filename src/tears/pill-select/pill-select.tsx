@@ -39,6 +39,7 @@ export function PillSelect({
   };
 
   const addNewOption = () => {
+    setSelectedItem(null)
     setIsAddingNew(true);
   };
 
@@ -78,7 +79,7 @@ export function PillSelect({
             </button>
           ))}
           {canAdd && isAddingNew && (
-            <span className="pill">
+            <span className="pill selected">
               <input
                 autoFocus
                 type="text"
@@ -90,7 +91,7 @@ export function PillSelect({
             </span>
           )}
           {canAdd && !isAddingNew && (
-            <button className="pill" type="button" onClick={addNewOption}>
+            <button className="pill " type="button" onClick={addNewOption}>
               <Plus size={20} />
             </button>
           )}

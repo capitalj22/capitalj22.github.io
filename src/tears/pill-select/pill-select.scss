@@ -40,5 +40,13 @@
     border: none;
     background-color: transparent;
     font-size: 16px;
+    color: var(--panelColor);
+    width: unset;
+
+    &:focus {
+      outline: none;
+      border: none;
+      background-color: none;
+    }
   }
 }
