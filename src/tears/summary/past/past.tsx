@@ -1,13 +1,18 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { tearsStateContext } from "../../tearsStateProvider";
 import { TearsEntry } from "./entry";
-import { take } from "lodash-es";
+import { orderBy, sortBy, take } from "lodash-es";
 import "./past.scss";
 import classNames from "classnames";
+import { Cry } from "../../tears";
 
 export function TearsPast() {
   const { cries } = useContext(tearsStateContext);
-  const [localCries, setLocalCries] = useState(take(cries, 5));
+  const [localCries, setLocalCries] = useState<Cry[]>(cries);
+
+  useEffect(() => {
+    setLocalCries(orderBy(cries, (cry) => new Date(cry.date), "desc"));
+  }, [cries]);
 
   return (
     <div>
@@ -16,7 +21,7 @@ export function TearsPast() {
         className={classNames("entries-container", { many: cries.length > 5 })}
       >
         <div className="entries">
-          {cries?.map((entry, index) => (
+          {(localCries)?.map((entry, index) => (
             <TearsEntry cry={entry} />
           ))}
         </div>
