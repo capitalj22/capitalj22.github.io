@@ -4,6 +4,7 @@ import "./index.css";
 import "./local-fonts.css";
 import { CardBuilder } from "./card-builder/CardBuilder";
 import { createHashRouter, RouterProvider } from "react-router-dom";
+import { Tears } from "./tears/tears";
 
 const router = createHashRouter([
   {
@@ -17,6 +18,10 @@ const router = createHashRouter([
         path: "cards",
         element: <CardBuilder />,
       },
+      {
+        path: "tears",
+        element: <Tears />
+      }
     ],
   },
 ]);
