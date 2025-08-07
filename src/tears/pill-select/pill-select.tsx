@@ -31,6 +31,7 @@ export function PillSelect({
   const selected = (e) => {
     setSelectedItem(e);
     setIsSelecting(true);
+    valueChanged(e.value);
   };
 
   const clear = () => {

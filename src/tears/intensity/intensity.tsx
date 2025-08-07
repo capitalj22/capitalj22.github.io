@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Cloud,
   CloudDrizzle,
@@ -14,6 +14,9 @@ interface Props {
 }
 export function Intensity({ valueChanged }: Props) {
   const [intensity, setIntensity] = useState(1);
+  useEffect(() => {
+    valueChanged(intensity);
+  }, [intensity]);
 
   return (
     <div className="intensity-select">

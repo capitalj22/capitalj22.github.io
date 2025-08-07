@@ -28,33 +28,6 @@
   flex-direction: column;
 }
 
-.entry {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.5rem 1.5rem;
-  background: var(--cardBg);
-  border-radius: 12px;
-
-  .int {
-    &.i1 {
-      color: var(--i1);
-    }
-    &.i2 {
-      color: var(--i2);
-    }
-    &.i3 {
-      color: var(--i3);
-    }
-    &.i4 {
-      color: var(--i4);
-    }
-    &.i5 {
-      color: var(--i5);
-    }
-  }
-}
 
 .section {
   margin-top: 2rem;

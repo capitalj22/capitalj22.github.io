@@ -1,0 +1,73 @@
+.entry {
+  width: 100%;
+  padding: 0.5rem 0;
+  background: var(--cardBg);
+  border-radius: 12px;
+
+  .top-row {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+    background-color: transparent;
+    padding: 0 1.5rem;
+    cursor: pointer;
+  }
+
+  .details {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .extras {
+    display: grid;
+    // grid-template-columns: 1fr 1fr;
+    // gap: 1rem;
+    padding: 0 1.5rem;
+
+    div > span {
+    //   font-family: "NotoSerif";
+      font-weight: 700;
+      color: var(--mutedText);
+
+      &.value {
+        color: var(--white);
+      }
+    }
+  }
+  &.i1 {
+    border: 1px solid var(--i1);
+    .int {
+      color: var(--i1);
+    }
+  }
+  &.i2 {
+    border: 1px solid var(--i2);
+
+    .int {
+      color: var(--i2);
+    }
+  }
+  &.i3 {
+    border: 1px solid var(--i3);
+
+    .int {
+      color: var(--i3);
+    }
+  }
+  &.i4 {
+    border: 1px solid var(--i4);
+
+    .int {
+      color: var(--i4);
+    }
+  }
+  &.i5 {
+    border: 1px solid var(--i5);
+
+    .int {
+      color: var(--i5);
+    }
+  }
+}

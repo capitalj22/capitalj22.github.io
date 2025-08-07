@@ -3,21 +3,24 @@ import { SmolButton } from "../../components/common/buttons/smolButton";
 import { TearDates } from "../datepicker/datepicker";
 import { Intensity } from "../intensity/intensity";
 import { PillSelect } from "../pill-select/pill-select";
+import { useContext, useState } from "react";
+import { tearsStateContext } from "../tearsStateProvider";
+import { Cry } from "../tears";
 
 interface Props {
   backPressed: any;
   savePressed: any;
 }
 export function TearsAdd({ backPressed, savePressed }: Props) {
-  const whereChanged = (e) => {
-      console.log(e);
-    },
-    bcChanged = (e) => {
-      console.log(e);
-    },
-    intensityChanged = () => {},
-    cathChanged = () => {},
-    emoChanged = () => {};
+  const { setCries } = useContext(tearsStateContext);
+  const [cry, setCry] = useState<Cry>({
+    date: new Date(),
+    intensity: 1,
+    where: "",
+    trigger: "",
+    emotion: "",
+    wasCathartic: undefined,
+  });
 
   const whereOptions = [
       { value: "home", label: "at home" },
@@ -56,6 +59,8 @@ export function TearsAdd({ backPressed, savePressed }: Props) {
     backPressed(false);
   };
   const save = () => {
+    setCries({ type: "add", val: cry });
+
     savePressed();
   };
 
@@ -65,14 +70,14 @@ export function TearsAdd({ backPressed, savePressed }: Props) {
         <ArrowLeft />
       </SmolButton>
       <div>
-        <TearDates />
+        <TearDates dateSelected={(date) => setCry({ ...cry, date: date })} />
       </div>
       <div className="section">
         <PillSelect
           canAdd={true}
           label="I cried"
           options={whereOptions}
-          valueChanged={whereChanged}
+          valueChanged={(val) => setCry({ ...cry, where: val })}
         />
       </div>
       <div className="section">
@@ -80,7 +85,7 @@ export function TearsAdd({ backPressed, savePressed }: Props) {
           canAdd={true}
           label="Due to"
           options={bcOptions}
-          valueChanged={bcChanged}
+          valueChanged={(val) => setCry({ ...cry, trigger: val })}
         />
       </div>
       <div className="section">
@@ -88,22 +93,24 @@ export function TearsAdd({ backPressed, savePressed }: Props) {
           canAdd={true}
           label="Centered on"
           options={emoOptions}
-          valueChanged={emoChanged}
+          valueChanged={(val) => setCry({ ...cry, emotion: val })}
         />
       </div>
       <div className="section">
-        <Intensity valueChanged={intensityChanged} />
+        <Intensity valueChanged={(val) => setCry({ ...cry, intensity: val })} />
       </div>
       <div className="section">
         <PillSelect
           label="It was"
           options={cathOptions}
-          valueChanged={cathChanged}
+          valueChanged={(val) =>
+            setCry({ ...cry, wasCathartic: val as "yes" | "no" })
+          }
         />
       </div>
 
       <div className="section done">
-        <button className="lg-button" onClick={savePressed}>
+        <button className="lg-button" onClick={save}>
           <CheckSquare size={80} />
         </button>
       </div>

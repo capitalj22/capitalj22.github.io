@@ -2,9 +2,19 @@ import classNames from "classnames";
 import "./datepicker.scss";
 import { useState } from "react";
 
-export function TearDates() {
+export function TearDates({ dateSelected }) {
   const setDay = (day: "today" | "yday" | "yyday") => {
     setSelectedItem(day);
+    
+    const date = new Date();
+
+    if (day === "yday") {
+      date.setDate(date.getDate() - 1);
+    } else if (day === "yyday") {
+      date.setDate(date.getDate() - 2);
+    }
+
+    dateSelected(date);
     return;
   };
   const [selectedItem, setSelectedItem] = useState("today");
@@ -29,7 +39,9 @@ export function TearDates() {
   return (
     <div className="days">
       <button
-        className={classNames("day fulldate", { selected: selectedItem === "yyday" })}
+        className={classNames("day fulldate", {
+          selected: selectedItem === "yyday",
+        })}
         onClick={() => setDay("yyday")}
       >
         <span className="month">{yyday.month}</span>
