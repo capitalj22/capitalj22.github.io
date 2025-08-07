@@ -40,7 +40,7 @@ export function PillSelect({
   };
 
   const addNewOption = () => {
-    setSelectedItem(null)
+    setSelectedItem(null);
     setIsAddingNew(true);
   };
 
@@ -49,11 +49,12 @@ export function PillSelect({
       const newItem = { value: newText, label: newText };
       setLocalOptions([...options, newItem]);
       setIsAddingNew(false);
-      setNewText('');
+      setNewText("");
       setSelectedItem(newItem);
+      valueChanged(newText);
     } else {
       setIsAddingNew(false);
-      setNewText('');
+      setNewText("");
     }
   };
 
